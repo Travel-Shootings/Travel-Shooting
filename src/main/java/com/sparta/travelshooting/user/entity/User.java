@@ -2,11 +2,13 @@ package com.sparta.travelshooting.user.entity;
 
 import com.sparta.travelshooting.user.dto.SignupRequestDto;
 import jakarta.persistence.*;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
 @NoArgsConstructor
 @Table(name = "users")
+@Getter
 public class User {
 
     @Id

@@ -1,10 +1,13 @@
 package com.sparta.travelshooting.user.service;
 
 
+import com.sparta.travelshooting.jwt.JwtUtil;
+import com.sparta.travelshooting.user.dto.LoginRequestDto;
 import com.sparta.travelshooting.user.dto.SignupRequestDto;
 import com.sparta.travelshooting.user.entity.RegionEnum;
 import com.sparta.travelshooting.user.entity.User;
 import com.sparta.travelshooting.user.repository.UserRepository;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -17,6 +20,8 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final JwtUtil jwtUtil;
+
 
     @Override
     public void signup(SignupRequestDto requestDto) {
@@ -40,5 +45,23 @@ public class UserServiceImpl implements UserService {
         // 사용자 정보 DB에 저장
         User user = new User(requestDto, password, region);
         userRepository.save(user);
+    }
+
+    @Override
+    public void login(LoginRequestDto requestDto, HttpServletResponse res) {
+        // 이메일 확인
+        User user = userRepository.findByEmail(requestDto.getEmail()).orElseThrow(
+                () -> new IllegalArgumentException("가입되지 않은 이메일입니다.")
+        );
+
+        // 비밀번호 확인
+        if(!passwordEncoder.matches(requestDto.getPassword(), user.getPassword())) {
+            throw new IllegalArgumentException("비밀번호가 틀렸습니다.");
+        }
+
+        // Jwt 토큰 생성 및 쿠키에 추가하기
+        String token = jwtUtil.createToken(requestDto.getEmail());
+        jwtUtil.addJwtToCookie(token, res);
+
     }
 }
