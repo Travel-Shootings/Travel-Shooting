@@ -1,14 +1,21 @@
 package com.sparta.travelshooting.user.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Getter
+@Setter
+@NoArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class ApiResponseDto {
-    private String msg;
-    private int status;
 
-    public ApiResponseDto(String msg, int status) {
-        this.msg = msg;
-        this.status = status;
+    private String message;
+    private Integer statusCode;
+
+    public ApiResponseDto(String message, Integer statusCode) {
+        this.message = message;
+        this.statusCode = statusCode;
     }
 }

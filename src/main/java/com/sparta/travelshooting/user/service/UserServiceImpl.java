@@ -1,10 +1,10 @@
 package com.sparta.travelshooting.user.service;
 
-
 import com.sparta.travelshooting.jwt.JwtUtil;
 import com.sparta.travelshooting.user.dto.LoginRequestDto;
 import com.sparta.travelshooting.user.dto.SignupRequestDto;
 import com.sparta.travelshooting.user.entity.RegionEnum;
+import com.sparta.travelshooting.user.entity.RoleEnum;
 import com.sparta.travelshooting.user.entity.User;
 import com.sparta.travelshooting.user.repository.UserRepository;
 import jakarta.servlet.http.HttpServletResponse;
@@ -22,7 +22,6 @@ public class UserServiceImpl implements UserService {
     private final PasswordEncoder passwordEncoder;
     private final JwtUtil jwtUtil;
 
-
     @Override
     public void signup(SignupRequestDto requestDto) {
         String email = requestDto.getEmail();
@@ -39,11 +38,16 @@ public class UserServiceImpl implements UserService {
         }
 
         /**
-         * user의 role을 확인하는 방법 회의 필요
+         * role을 USER로 고정
+         * 실제 서비스에서는 회원가입 시 USER or ADMIN을 선택하는 경우가 흔치 않음
+         * 배운 방법은 관리자 암호가 코드에 노출되어 있기 때문에 사용하기 꺼려짐
+         * -> ADMIN계정을 하나만 sql을 활용해서 가입시키고 그 ADMIN계정으로 관리하는 방법을 사용
+         * -> 우선, 모든 계정은 모두 일반 유저로 회원가입
          */
+        RoleEnum role = RoleEnum.USER;
 
         // 사용자 정보 DB에 저장
-        User user = new User(requestDto, password, region);
+        User user = new User(requestDto, password, region, role);
         userRepository.save(user);
     }
 
@@ -62,6 +66,5 @@ public class UserServiceImpl implements UserService {
         // Jwt 토큰 생성 및 쿠키에 추가하기
         String token = jwtUtil.createToken(requestDto.getEmail());
         jwtUtil.addJwtToCookie(token, res);
-
     }
 }

@@ -30,11 +30,15 @@ public class User {
     @Enumerated(value = EnumType.STRING)
     private RegionEnum region;
 
-    public User(SignupRequestDto requestDto, String password, RegionEnum region) {
+    @Enumerated(value = EnumType.STRING)
+    private RoleEnum role;
+
+    public User(SignupRequestDto requestDto, String password, RegionEnum region, RoleEnum role) {
         this.email = requestDto.getEmail();
         this.password = password;
         this.username = requestDto.getUsername();
         this.nickname = requestDto.getNickname();
         this.region = region;
+        this.role = role;
     }
 }

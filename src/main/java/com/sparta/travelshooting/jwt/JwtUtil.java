@@ -132,7 +132,7 @@ public class JwtUtil {
             // Response 객체에 Cookie 추가
             res.addCookie(cookie);
         } catch (UnsupportedEncodingException e) {
-            throw new IllegalArgumentException("에러");
+            throw new IllegalArgumentException("에러가 발생했습니다.");
         }
     }
 }

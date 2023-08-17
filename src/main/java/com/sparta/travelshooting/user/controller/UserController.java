@@ -34,6 +34,7 @@ public class UserController {
         return new ResponseEntity<>(apiResponseDto, HttpStatus.OK);
     }
 
+    // IllegalArgumentException 에 대한 예외처리
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<ApiResponseDto> illegalArgumentException(IllegalArgumentException e) {
         ApiResponseDto apiResponseDto = new ApiResponseDto(e.getMessage(), HttpStatus.BAD_REQUEST.value());
