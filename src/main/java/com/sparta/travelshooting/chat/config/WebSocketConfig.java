@@ -18,6 +18,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
+        // url: ws://localhost:8080/travel-shooting-websocket
         registry.addEndpoint("/travel-shooting-websocket");
     }
 }
