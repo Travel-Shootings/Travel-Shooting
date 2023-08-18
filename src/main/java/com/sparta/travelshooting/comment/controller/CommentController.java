@@ -26,7 +26,6 @@ public class CommentController {
     @PostMapping("")
     public CommentResponseDto createComment(@RequestBody CommentRequestDto commentRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails){
         return commentService.createComment(commentRequestDto, userDetails.getUser());
-
     }
 
 
