@@ -8,6 +8,9 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Getter
 @Setter
 @RequiredArgsConstructor
@@ -25,9 +28,15 @@ public class Post extends Timestamped {
     @Column(nullable = false)
     private String contents;
 
+    @Column
+    private Integer likeCount = 0;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
+
+    @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
+    private List<PostLike> postLikes = new ArrayList<>();
 
     public Post (PostRequestDto postRequestDto, User user) {
         this.title = postRequestDto.getTitle();
