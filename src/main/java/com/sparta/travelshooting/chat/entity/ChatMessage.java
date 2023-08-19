@@ -20,10 +20,10 @@ public class ChatMessage {
     private Long chatMessageId;
 
     @Column(nullable = false)
-    private String context;
+    private String senderName;
 
     @Column(nullable = false)
-    private String senderName;
+    private String content;
 
     @CreatedDate
     @Column(updatable = false)
@@ -34,9 +34,9 @@ public class ChatMessage {
     private ChatRoom chatRoom;
 
     @Builder
-    public ChatMessage(String context, String senderName, ChatRoom chatRoom) {
-        this.context = context;
+    public ChatMessage(String senderName, String content, ChatRoom chatRoom) {
         this.senderName = senderName;
+        this.content = content;
         this.time = LocalDateTime.now();
         this.chatRoom = chatRoom;
     }

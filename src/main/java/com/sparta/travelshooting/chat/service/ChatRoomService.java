@@ -1,8 +1,11 @@
 package com.sparta.travelshooting.chat.service;
 
+import com.sparta.travelshooting.chat.dto.ChatMessageResponseDto;
 import com.sparta.travelshooting.chat.entity.ChatRoom;
 import com.sparta.travelshooting.chat.entity.UserChatRoom;
 import com.sparta.travelshooting.common.entity.ApiResponseDto;
+
+import java.util.List;
 
 public interface ChatRoomService {
 
@@ -15,10 +18,18 @@ public interface ChatRoomService {
     ApiResponseDto createChatRoom(String chatRoomName);
 
     /**
-     * 채팅방 참가
+     * 채팅방 삭제
      *
-     * @param userId     참가를 하려는 유저 ID
-     * @param chatRoomId 참가할 채팅방 ID
+     * @param chatRoomId 삭제할 채팅방 ID
+     * @return 요청 처리 결과
+     */
+    ApiResponseDto deleteChatRoom(Long chatRoomId);
+
+    /**
+     * 채팅방 입장
+     *
+     * @param userId     입장를 하려는 유저 ID
+     * @param chatRoomId 입장할 채팅방 ID
      * @return 요청 처리 결과
      */
     ApiResponseDto joinChatRoom(Long userId, Long chatRoomId);
@@ -33,6 +44,14 @@ public interface ChatRoomService {
     ApiResponseDto leaveChatRoom(Long userId, Long chatRoomId);
 
     /**
+     * 채팅방의 채팅 내역 불러오기
+     *
+     * @param chatRoomId 채팅 내역을 불러올 채팅방 ID
+     * @return 채팅 내역
+     */
+    List<ChatMessageResponseDto> getChatRoomChatMessage(Long chatRoomId);
+
+    /**
      * 채팅방 찾기
      *
      * @param chatRoomId 찾을 채팅방 ID
@@ -41,10 +60,10 @@ public interface ChatRoomService {
     ChatRoom findChatRoom(Long chatRoomId);
 
     /**
-     * 유저가 참가한 채팅방 찾기
+     * 유저가 입장한 채팅방 찾기
      *
-     * @param userId     참가한 유저 ID
-     * @param chatRoomId 참가한 채팅방 ID
+     * @param userId     입장한 유저 ID
+     * @param chatRoomId 입장한 채팅방 ID
      * @return 찾은, 유저의 채팅방 참여 정보
      */
     UserChatRoom findUserChatRoom(Long userId, Long chatRoomId);

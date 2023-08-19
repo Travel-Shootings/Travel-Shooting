@@ -2,12 +2,29 @@ const stompClient = new StompJs.Client({
     brokerURL: 'ws://localhost:8080/travel-shooting-websocket'
 });
 
+let chatRoomId = null;
+
 stompClient.onConnect = (frame) => {
     setConnected(true);
     console.log('Connected: ' + frame);
-    stompClient.subscribe('/topic/greetings', (greeting) => {
-        showGreeting(JSON.parse(greeting.body).content);
+    stompClient.subscribe('/topic/messages/' + chatRoomId, (message) => {
+        showMessage(JSON.parse(message.body));
     });
+    $.ajax({
+        url: "/api/chat-room/" + chatRoomId,
+        type: "GET"
+    })
+        .done(function (response) {
+            console.log(response)
+            response.forEach(function (message) {
+                showMessage(message);
+            })
+        })
+        .fail(function (response, status, xhr) {
+            console.log(response);
+            console.log(status);
+            console.log(xhr);
+        })
 };
 
 stompClient.onWebSocketError = (error) => {
@@ -24,14 +41,14 @@ function setConnected(connected) {
     $("#disconnect").prop("disabled", !connected);
     if (connected) {
         $("#conversation").show();
-    }
-    else {
+    } else {
         $("#conversation").hide();
     }
-    $("#greetings").html("");
+    $("#chat-messages").html("");
 }
 
 function connect() {
+    chatRoomId = $("#room-number").val();
     stompClient.activate();
 }
 
@@ -41,20 +58,25 @@ function disconnect() {
     console.log("Disconnected");
 }
 
-function sendName() {
+function sendMessage() {
     stompClient.publish({
-        destination: "/app/hello",
-        body: JSON.stringify({'name': $("#name").val()})
+        destination: "/app/hello/" + chatRoomId,
+        body: JSON.stringify({
+            'senderName': $("#name").val(),
+            'content': $("#message").val()
+        })
     });
 }
 
-function showGreeting(message) {
-    $("#greetings").append("<tr><td>" + message + "</td></tr>");
+function showMessage(message) {
+    $("#chat-messages").append("<tr><td>"
+        + message.senderName + ": " + message.content + "    " + message.time
+        + "</td></tr>");
 }
 
 $(function () {
     $("form").on('submit', (e) => e.preventDefault());
-    $( "#connect" ).click(() => connect());
-    $( "#disconnect" ).click(() => disconnect());
-    $( "#send" ).click(() => sendName());
+    $("#connect").click(() => connect());
+    $("#disconnect").click(() => disconnect());
+    $("#send").click(() => sendMessage());
 });
