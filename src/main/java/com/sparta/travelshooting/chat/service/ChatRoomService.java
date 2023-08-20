@@ -4,6 +4,7 @@ import com.sparta.travelshooting.chat.dto.ChatMessageResponseDto;
 import com.sparta.travelshooting.chat.entity.ChatRoom;
 import com.sparta.travelshooting.chat.entity.UserChatRoom;
 import com.sparta.travelshooting.common.entity.ApiResponseDto;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -44,12 +45,21 @@ public interface ChatRoomService {
     ApiResponseDto leaveChatRoom(Long userId, Long chatRoomId);
 
     /**
-     * 채팅방의 채팅 내역 불러오기
+     * 채팅방의 채팅 내역 전체 불러오기
      *
      * @param chatRoomId 채팅 내역을 불러올 채팅방 ID
      * @return 채팅 내역
      */
     List<ChatMessageResponseDto> getChatRoomChatMessage(Long chatRoomId);
+
+    /**
+     * 채팅방의 채팅 내역 페이징으로 불러오기
+     *
+     * @param chatRoomId 채팅 내역을 불러올 채팅방 ID
+     * @param pageable   페이징 정보
+     * @return 채팅 내역
+     */
+    List<ChatMessageResponseDto> getChatRoomChatMessagePaging(Long chatRoomId, Pageable pageable);
 
     /**
      * 채팅방 찾기

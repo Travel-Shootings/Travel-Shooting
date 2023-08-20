@@ -4,6 +4,7 @@ import com.sparta.travelshooting.chat.dto.ChatMessageResponseDto;
 import com.sparta.travelshooting.chat.entity.ChatRoom;
 import com.sparta.travelshooting.chat.entity.UserChatRoom;
 import com.sparta.travelshooting.chat.repository.ChatMessageRepository;
+import com.sparta.travelshooting.chat.repository.ChatMessageRepositoryQuery;
 import com.sparta.travelshooting.chat.repository.ChatRoomRepository;
 import com.sparta.travelshooting.chat.repository.UserChatRoomRepository;
 import com.sparta.travelshooting.common.entity.ApiResponseDto;
@@ -11,6 +12,7 @@ import com.sparta.travelshooting.user.entity.User;
 import com.sparta.travelshooting.user.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +24,7 @@ public class ChatRoomServiceImpl implements ChatRoomService {
 
     private final ChatRoomRepository chatRoomRepository;
     private final ChatMessageRepository chatMessageRepository;
+    private final ChatMessageRepositoryQuery chatMessageRepositoryQuery;
     private final UserChatRoomRepository userChatRoomRepository;
     private final UserRepository userRepository;
 
@@ -72,6 +75,14 @@ public class ChatRoomServiceImpl implements ChatRoomService {
     @Override
     public List<ChatMessageResponseDto> getChatRoomChatMessage(Long chatRoomId) {
         return chatMessageRepository.findAllByChatRoomChatRoomId(chatRoomId)
+                .stream()
+                .map(ChatMessageResponseDto::new)
+                .toList();
+    }
+
+    @Override
+    public List<ChatMessageResponseDto> getChatRoomChatMessagePaging(Long chatRoomId, Pageable pageable) {
+        return chatMessageRepositoryQuery.getChatRoomChatMessagePaging(chatRoomId, pageable)
                 .stream()
                 .map(ChatMessageResponseDto::new)
                 .toList();
