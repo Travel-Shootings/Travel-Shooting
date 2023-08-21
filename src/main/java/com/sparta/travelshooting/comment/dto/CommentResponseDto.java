@@ -1,11 +1,10 @@
 package com.sparta.travelshooting.comment.dto;
 
 import com.sparta.travelshooting.comment.entity.Comment;
-import com.sparta.travelshooting.common.Timestamp;
 
 import java.time.LocalDateTime;
 
-public class CommentResponseDto extends Timestamp {
+public class CommentResponseDto {
     private Long id;
     private String nickName;
     private String content;

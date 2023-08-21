@@ -36,10 +36,10 @@ public class CommentServiceImpl implements CommentService {
     //댓글 수정
     public ApiResponseDto updateComment(Long commentId, CommentRequestDto requestDto, User user){
         Comment comment = commentRepository.findById(commentId).orElseThrow();
-        if (!comment.getUser.getId().equals(user.getId())){
+        if (!comment.getUser().getId().equals(user.getId())){
             throw new RejectedExecutionException("작성자만 수정 가능합니다");
         }
-        comment.setContents(requestDto.getContents());
+        comment.setContent(requestDto.getContent());
         commentRepository.save(comment);
         return new ApiResponseDto("댓글 수정 완료", HttpStatus.OK.value());
     }

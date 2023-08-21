@@ -30,6 +30,10 @@ public class Comment extends Timestamp {
     @JoinColumn(name= "postId")
     private Post post;
 
+    @ManyToOne
+    @JoinColumn(name = "userId")
+    private User user;
+
 
     public Comment(CommentRequestDto commentRequestDto, Post post, User user){
         this.nickName = user.getNickname();

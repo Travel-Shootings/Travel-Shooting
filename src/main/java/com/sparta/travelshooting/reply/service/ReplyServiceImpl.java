@@ -41,7 +41,7 @@ public class ReplyServiceImpl implements ReplyService {
             throw new AccessDeniedException("대댓글 수정 권한이 없습니다.");
         }
 
-        reply.setContents(replyRequestDto.getContents());
+        reply.setContent(replyRequestDto.getContent());
 
         replyRepository.save(reply);
         return new ApiResponseDto("대댓글 수정 완료", HttpStatus.OK.value());

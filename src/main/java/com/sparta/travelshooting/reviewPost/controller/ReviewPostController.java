@@ -20,19 +20,19 @@ public class ReviewPostController {
 
     private final ReviewPostService reviewPostService;
 
-    //후기 게시글 작성
-    @PostMapping("")
-    public ResponseEntity<ApiResponseDto> createReviewPost(@RequestParam("imageFile") MultipartFile imageFile, @ModelAttribute ReviewPostRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails){
-        try {
-            ReviewPostService.createReviewPost(imageFile, requestDto, userDetails.getUser());
-        } catch (RejectedExecutionException e) {
-            ApiResponseDto apiResponseDto = new ApiResponseDto(e.getMessage(), HttpStatus.BAD_REQUEST.value());
-            return new ResponseEntity<>(apiResponseDto, HttpStatus.OK);
-        }
-
-        ApiResponseDto apiResponseDto = new ApiResponseDto("게시글이 생성되었습니다.", HttpStatus.CREATED.value());
-        return new ResponseEntity<>(apiResponseDto, HttpStatus.CREATED);
-    }
+//    //후기 게시글 작성
+//    @PostMapping("")
+//    public ResponseEntity<ApiResponseDto> createReviewPost(@RequestParam("imageFile") MultipartFile imageFile, @ModelAttribute ReviewPostRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails){
+//        try {
+//            ReviewPostService.createReviewPost(imageFile, requestDto, userDetails.getUser());
+//        } catch (RejectedExecutionException e) {
+//            ApiResponseDto apiResponseDto = new ApiResponseDto(e.getMessage(), HttpStatus.BAD_REQUEST.value());
+//            return new ResponseEntity<>(apiResponseDto, HttpStatus.OK);
+//        }
+//
+//        ApiResponseDto apiResponseDto = new ApiResponseDto("게시글이 생성되었습니다.", HttpStatus.CREATED.value());
+//        return new ResponseEntity<>(apiResponseDto, HttpStatus.CREATED);
+//    }
 
 
 
@@ -53,18 +53,18 @@ public class ReviewPostController {
 
 
     //후기 게시글 삭제
-    @DeleteMapping("/{reviewPostId}")
-    public ResponseEntity<ApiResponseDto> deleteReviewPost(@PathVariable Long reviewPostId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        try {
-            reviewPostService.deleteReviewPost(reviewPostId, userDetails.getUser());
-        } catch (RejectedExecutionException e) {
-            ApiResponseDto apiResponseDto = new ApiResponseDto(e.getMessage(), HttpStatus.BAD_REQUEST.value());
-            return new ResponseEntity<>(apiResponseDto, HttpStatus.OK);
-        }
-
-        ApiResponseDto apiResponseDto = new ApiResponseDto("게시글이 삭제되었습니다.", HttpStatus.OK.value());
-        return new ResponseEntity<>(apiResponseDto, HttpStatus.OK);
-    }
+//    @DeleteMapping("/{reviewPostId}")
+//    public ResponseEntity<ApiResponseDto> deleteReviewPost(@PathVariable Long reviewPostId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+//        try {
+//            reviewPostService.deleteReviewPost(reviewPostId, userDetails.getUser());
+//        } catch (RejectedExecutionException e) {
+//            ApiResponseDto apiResponseDto = new ApiResponseDto(e.getMessage(), HttpStatus.BAD_REQUEST.value());
+//            return new ResponseEntity<>(apiResponseDto, HttpStatus.OK);
+//        }
+//
+//        ApiResponseDto apiResponseDto = new ApiResponseDto("게시글이 삭제되었습니다.", HttpStatus.OK.value());
+//        return new ResponseEntity<>(apiResponseDto, HttpStatus.OK);
+//    }
 
 
 
