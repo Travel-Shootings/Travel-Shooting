@@ -1,12 +1,9 @@
 package com.sparta.travelshooting.user.controller;
 
-import com.sparta.travelshooting.jwt.JwtUtil;
-import com.sparta.travelshooting.security.UserDetailsImpl;
 import com.sparta.travelshooting.user.dto.ApiResponseDto;
 import com.sparta.travelshooting.user.dto.LoginRequestDto;
 import com.sparta.travelshooting.user.dto.SignupRequestDto;
 import com.sparta.travelshooting.user.dto.TokenResponseDto;
-import com.sparta.travelshooting.user.entity.User;
 import com.sparta.travelshooting.user.service.TokenService;
 import com.sparta.travelshooting.user.service.UserAuthService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -14,9 +11,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -25,7 +19,6 @@ import org.springframework.web.bind.annotation.*;
 public class UserAuthController {
     private final UserAuthService userService;
     private final TokenService tokenService;
-    private final JwtUtil jwtUtil;
 
     // 회원가입 API
     @PostMapping("/user/signup")
@@ -57,11 +50,12 @@ public class UserAuthController {
      * 로그아웃 API
      * - redis를 활용하면 성능이 더 좋지만 우선 DB에 저장 (추후에 업데이트)
      * - 로그아웃 -> 리프레시 토큰을 삭제
-     * - 남아있는 AccessToken은 어떻게 처리하는 거지..? -> 블랙리스트
-      */
+     * - 남아있는 AccessToken은 어떻게 처리하는 거지..? -> 블랙리스트에 저장
+     * TODO : 만료된 AccessToken을 정기적으로 삭제하는 것 -> 스케줄러 이용
+     */
     @DeleteMapping("/user/logout")
-    public ResponseEntity<ApiResponseDto> logout(@AuthenticationPrincipal UserDetailsImpl userDetails, HttpServletRequest req, HttpServletResponse res) {
-        userService.logout(userDetails.getUser(), req, res);
+    public ResponseEntity<ApiResponseDto> logout(HttpServletRequest req, HttpServletResponse res) {
+        userService.logout(req, res);
 
         ApiResponseDto apiResponseDto = new ApiResponseDto("로그아웃 성공", HttpStatus.OK.value());
         return new ResponseEntity<>(apiResponseDto, HttpStatus.OK);

@@ -33,7 +33,7 @@ public class JwtUtil {
     // Token 식별자
     public static final String BEARER_PREFIX = "Bearer ";
     // 토큰 만료시간
-    private final long TOKEN_TIME = 30 * 60 * 1000L; // 30분
+    private final long TOKEN_TIME = 60 * 1000L; // 1분
     private final long REFRESH_TOKEN_TIME = 6000 * 60 * 1000L; // 6000분 -> 100시간
 
     // Base64 Encode 한 SecretKey
@@ -128,7 +128,7 @@ public class JwtUtil {
                     .parseClaimsJws(token);
             return true;
         } catch (NullPointerException e) {
-            log.info("토큰에 문제가 생겨 로그아웃합니다.");
+            log.info("토큰에 문제가 생겼습니다.");
         }
         return false;
     }

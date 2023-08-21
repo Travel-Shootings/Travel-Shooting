@@ -23,8 +23,7 @@ public interface UserAuthService {
 
     /**
      * 로그아웃 API
-     * @param user 로그아웃 요청을 위한 유저 데이터
-     * @param res
+     * @param req 로그아웃 요청 데이터
      */
-    void logout(User user, HttpServletRequest req, HttpServletResponse res);
+    void logout(HttpServletRequest req, HttpServletResponse res);
 }

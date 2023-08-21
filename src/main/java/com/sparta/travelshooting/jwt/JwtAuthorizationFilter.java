@@ -3,6 +3,8 @@ package com.sparta.travelshooting.jwt;
 import com.sparta.travelshooting.security.UserDetailsServiceImpl;
 import com.sparta.travelshooting.user.dto.TokenResponseDto;
 import com.sparta.travelshooting.user.repository.TokenBlackListRepository;
+import com.sparta.travelshooting.user.service.TokenService;
+import com.sparta.travelshooting.user.service.UserAuthService;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -27,6 +29,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
     private final JwtUtil jwtUtil;
     private final UserDetailsServiceImpl userDetailsService;
     private final TokenBlackListRepository tokenBlackListRepository;
+    private final TokenService tokenService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res, FilterChain filterChain) throws ServletException, IOException {
@@ -41,8 +44,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
         if (StringUtils.hasText(tokenValue)) {
             tokenValue = jwtUtil.substringToken(tokenValue);
             if (!jwtUtil.validateToken(tokenValue, res)) {
-                req.getRequestDispatcher("/api/user/refresh-token").forward(req, res);
-                return;
+                tokenValue = jwtUtil.substringToken(tokenService.requestRefreshToken(res, req).getAccessToken());
             }
 
             Claims info = jwtUtil.getUserInfoFromToken(tokenValue);
@@ -57,8 +59,6 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
 
         filterChain.doFilter(req, res);
     }
-
-
 
     // 인증 처리
     public void setAuthentication(String username) {

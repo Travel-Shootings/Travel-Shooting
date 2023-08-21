@@ -88,14 +88,15 @@ public class UserAuthServiceImpl implements UserAuthService {
      * 3. 쿠키 삭제
      */
     @Override
-    public void logout(User user, HttpServletRequest req, HttpServletResponse res) {
+    public void logout(HttpServletRequest req, HttpServletResponse res) {
         // Refresh Token 삭제
-        RefreshToken refreshToken = refreshTokenRepository.findByUserId(user.getId()).orElseThrow(() -> new NullPointerException("Not Found User"));
+        String req2 = jwtUtil.getTokenFromRequest(req);
+        log.info(req2);
+        RefreshToken refreshToken = refreshTokenRepository.findByAccessToken(req2).orElseThrow(() -> new IllegalArgumentException("Token not found"));
         refreshTokenRepository.delete(refreshToken);
 
         // Access Token 블랙리스트에 추가
         String accessToken = jwtUtil.getTokenFromRequest(req);
-
         Date expireationDate = jwtUtil.extractExpirationDateFromToken(jwtUtil.substringToken(accessToken));
 
         TokenBlackList tokenBlackList = new TokenBlackList(accessToken, expireationDate);
