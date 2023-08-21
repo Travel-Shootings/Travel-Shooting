@@ -7,7 +7,7 @@ import com.sparta.travelshooting.user.dto.LoginRequestDto;
 import com.sparta.travelshooting.user.dto.SignupRequestDto;
 import com.sparta.travelshooting.user.dto.TokenResponseDto;
 import com.sparta.travelshooting.user.service.TokenService;
-import com.sparta.travelshooting.user.service.UserService;
+import com.sparta.travelshooting.user.service.UserAuthService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -19,8 +19,8 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api")
 @RequiredArgsConstructor
-public class UserController {
-    private final UserService userService;
+public class UserAuthController {
+    private final UserAuthService userService;
     private final TokenService tokenService;
     private final JwtUtil jwtUtil;
 
@@ -43,6 +43,7 @@ public class UserController {
     }
 
     // 토큰 재발급 API
+    // 자동으로 호출되는 것은 아마 js로 처리해야 하는 것 같음
     @PostMapping("/user/refresh-token")
     public ResponseEntity<TokenResponseDto> requestRefresh(@AuthenticationPrincipal UserDetailsImpl userDetails, HttpServletResponse res, HttpServletRequest req) {
         // 현재 쿠키 삭제
@@ -54,9 +55,8 @@ public class UserController {
 
     /**
      * 로그아웃 API
-     * - 해당 쿠키에서 토큰을 추출해서 블랙리스트에 추가
      * - redis를 활용하면 성능이 더 좋지만 우선 DB에 저장 (추후에 업데이트)
-     * - 로그아웃을 하면 리프레시 토큰을 삭제해야한다.
+     * - 로그아웃 -> 리프레시 토큰을 삭제
      * - 남아있는 AccessToken은 어떻게 처리하는 거지..? -> 블랙리스트
       */
     @DeleteMapping("/user/logout")

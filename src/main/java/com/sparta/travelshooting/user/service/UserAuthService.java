@@ -6,7 +6,7 @@ import com.sparta.travelshooting.user.entity.User;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-public interface UserService {
+public interface UserAuthService {
 
     /**
      * 회원가입 API
