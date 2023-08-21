@@ -74,7 +74,7 @@ public class UserAuthServiceImpl implements UserAuthService {
         // TODO : redis를 이용해서 저장하는 방법 공부
         // 우선은 DB에 저장
         String refreshTokenValue = jwtUtil.createRefreshToken(requestDto.getEmail(), user.getRole());
-        RefreshToken refreshToken = new RefreshToken(user.getId(), refreshTokenValue);
+        RefreshToken refreshToken = new RefreshToken(user.getId(), refreshTokenValue, token);
         refreshTokenRepository.save(refreshToken);
 
         // AccessToken은 쿠키에 추가

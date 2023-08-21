@@ -50,7 +50,7 @@ public class WebSecurityConfig {
         http.authorizeHttpRequests((authorizeHttpRequests) ->
                 authorizeHttpRequests
                         .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
-                        .requestMatchers("/api/user/**", "/api/my-page/**", "/api/my-page").permitAll()
+                        .requestMatchers("/api/user/**").permitAll()
                         .anyRequest().authenticated()
         );
 

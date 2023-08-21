@@ -18,8 +18,16 @@ public class RefreshToken {
     @Column
     private String tokenValue;
 
-    public RefreshToken(Long id, String refreshTokenValue) {
+    @Column
+    private String accessToken;
+
+    public RefreshToken(Long id, String refreshTokenValue, String token) {
         this.userId = id;
         this.tokenValue = refreshTokenValue;
+        this.accessToken = token;
+    }
+
+    public void update(String token) {
+        this.accessToken = token;
     }
 }

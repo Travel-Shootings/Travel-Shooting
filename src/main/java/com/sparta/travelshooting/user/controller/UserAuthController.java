@@ -6,6 +6,7 @@ import com.sparta.travelshooting.user.dto.ApiResponseDto;
 import com.sparta.travelshooting.user.dto.LoginRequestDto;
 import com.sparta.travelshooting.user.dto.SignupRequestDto;
 import com.sparta.travelshooting.user.dto.TokenResponseDto;
+import com.sparta.travelshooting.user.entity.User;
 import com.sparta.travelshooting.user.service.TokenService;
 import com.sparta.travelshooting.user.service.UserAuthService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -13,7 +14,9 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -45,11 +48,8 @@ public class UserAuthController {
     // 토큰 재발급 API
     // 자동으로 호출되는 것은 아마 js로 처리해야 하는 것 같음
     @PostMapping("/user/refresh-token")
-    public ResponseEntity<TokenResponseDto> requestRefresh(@AuthenticationPrincipal UserDetailsImpl userDetails, HttpServletResponse res, HttpServletRequest req) {
-        // 현재 쿠키 삭제
-        jwtUtil.deleteCookie(jwtUtil.getTokenFromRequest(req), res);
-
-        TokenResponseDto tokenResponseDto = tokenService.requestRefreshToken(userDetails.getUser(), res);
+    public ResponseEntity<TokenResponseDto> requestRefresh(HttpServletResponse res, HttpServletRequest req) {
+        TokenResponseDto tokenResponseDto = tokenService.requestRefreshToken(res, req);
         return new ResponseEntity<>(tokenResponseDto, HttpStatus.CREATED);
     }
 

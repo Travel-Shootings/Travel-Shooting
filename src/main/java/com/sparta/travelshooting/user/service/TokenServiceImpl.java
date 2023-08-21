@@ -3,14 +3,20 @@ package com.sparta.travelshooting.user.service;
 import com.sparta.travelshooting.jwt.JwtUtil;
 import com.sparta.travelshooting.user.dto.TokenResponseDto;
 import com.sparta.travelshooting.user.entity.RefreshToken;
+import com.sparta.travelshooting.user.entity.RoleEnum;
 import com.sparta.travelshooting.user.entity.User;
 import com.sparta.travelshooting.user.repository.RefreshTokenRepository;
+import io.jsonwebtoken.Claims;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class TokenServiceImpl implements TokenService{
 
     private final RefreshTokenRepository refreshTokenRepository;
@@ -22,17 +28,25 @@ public class TokenServiceImpl implements TokenService{
      * 3. AccessToken을 발급한 뒤 쿠키에 추가
     */
     @Override
-    public TokenResponseDto requestRefreshToken(User user, HttpServletResponse res) {
-        RefreshToken refreshToken = refreshTokenRepository.findByUserId(user.getId()).orElseThrow(() -> new IllegalArgumentException("Token not found"));
+    @Transactional
+    public TokenResponseDto requestRefreshToken(HttpServletResponse res, HttpServletRequest req) {
+        String req2 = jwtUtil.getTokenFromRequest(req);
+        log.info(req2);
+        RefreshToken refreshToken = refreshTokenRepository.findByAccessToken(req2).orElseThrow(() -> new IllegalArgumentException("Token not found"));
 
         String validateToken = jwtUtil.substringToken(refreshToken.getTokenValue());
-        if (!jwtUtil.validateRefreshToken(validateToken, res)) {
+        if (!jwtUtil.validateRefreshToken(validateToken)) {
             throw new IllegalArgumentException("로그인을 새로 해주세요.");
         };
 
-        String token = jwtUtil.createAccessToken(user.getEmail(), user.getRole());
-        jwtUtil.addJwtToCookie(token, res);
+        // 현재 쿠키 삭제
+        jwtUtil.deleteCookie(jwtUtil.getTokenFromRequest(req), res);
 
+        Claims claims = jwtUtil.getUserInfoFromRefreshToken(validateToken);
+        String token = jwtUtil.createAccessToken(claims.getSubject(), (RoleEnum) claims.get("AUTHORIZATION_KEY"));
+        refreshToken.update(token);
+
+        jwtUtil.addJwtToCookie(token, res);
         return new TokenResponseDto(refreshToken.getTokenValue(), token);
     }
 }
