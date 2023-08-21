@@ -1,24 +1,18 @@
 package com.sparta.travelshooting.security;
 
 import com.sparta.travelshooting.user.entity.User;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.ArrayList;
 import java.util.Collection;
 
+@Getter
+@RequiredArgsConstructor
 public class UserDetailsImpl implements UserDetails {
 
     private final User user;
-
-    public UserDetailsImpl(User user) {
-        this.user = user;
-    }
-
-    public User getUser() {
-        return this.user;
-    }
 
     @Override
     public String getPassword() {
@@ -30,15 +24,11 @@ public class UserDetailsImpl implements UserDetails {
         return user.getUsername();
     }
 
+
+    // 사용자의 권한을 GrantedAuthority 로 추상화 및 반환
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        String authority = user.getUsername();
-
-        SimpleGrantedAuthority simpleGrantedAuthority = new SimpleGrantedAuthority(authority);
-        Collection<GrantedAuthority> authorities = new ArrayList<>();
-        authorities.add(simpleGrantedAuthority);
-
-        return authorities;
+        return null;
     }
 
     @Override

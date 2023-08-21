@@ -1,28 +1,44 @@
 package com.sparta.travelshooting.user.entity;
 
-import com.sparta.travelshooting.post.entity.PostLike;
+import com.sparta.travelshooting.user.dto.SignupRequestDto;
 import jakarta.persistence.*;
 import lombok.Getter;
-import lombok.Setter;
-
-import java.util.ArrayList;
-import java.util.List;
+import lombok.NoArgsConstructor;
 
 @Entity
+@NoArgsConstructor
+@Table(name = "users")
 @Getter
-@Setter
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "username", nullable = false, unique = true)
-    private String username;
+    @Column(nullable = false, unique = true)
+    private String email;
 
-    @Column(name = "password", nullable = false)
+    @Column(nullable = false)
     private String password;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
-    private List<PostLike> postLikes = new ArrayList<>();
+    @Column(nullable = false)
+    private String username;
+
+    @Column(nullable = false)
+    private String nickname;
+
+    @Enumerated(value = EnumType.STRING)
+    private RegionEnum region;
+
+    @Enumerated(value = EnumType.STRING)
+    private RoleEnum role;
+
+    public User(SignupRequestDto requestDto, String password, RegionEnum region, RoleEnum role) {
+        this.email = requestDto.getEmail();
+        this.password = password;
+        this.username = requestDto.getUsername();
+        this.nickname = requestDto.getNickname();
+        this.region = region;
+        this.role = role;
+    }
 }
