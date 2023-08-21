@@ -1,5 +1,6 @@
 package com.sparta.travelshooting.jwt;
 
+import com.sparta.travelshooting.user.entity.RoleEnum;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -13,6 +14,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
+import javax.crypto.SecretKey;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
@@ -27,17 +29,17 @@ public class JwtUtil {
     // Header Authorization KEY 값
     public static final String AUTHORIZATION_HEADER = "Authorization";
     // 사용자 권한 값의 KEY
-//    public static final String AUTHORIZATION_KEY = "auth";
+    public static final String AUTHORIZATION_KEY = "auth";
     // Token 식별자
     public static final String BEARER_PREFIX = "Bearer ";
     // 토큰 만료시간
-    private final long TOKEN_TIME = 60 * 60 * 1000L; // 60분
+    private final long TOKEN_TIME = 30 * 60 * 1000L; // 30분
+    private final long REFRESH_TOKEN_TIME = 6000 * 60 * 1000L; // 6000분 -> 100시간
 
     // Base64 Encode 한 SecretKey
     @Value("${jwt.secret.key}")
     private String secretKey;
     private Key key;
-    private final SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
 
     // 객체 초기화: secretKey 를 Base64 로 디코드한다.
     @PostConstruct
@@ -46,21 +48,46 @@ public class JwtUtil {
         key = Keys.hmacShaKeyFor(bytes);
     }
 
+    // refresh
+    private final SecretKey refreshKey;
+
+    public JwtUtil(@Value("${jwt.refresh.key}") String jwtRefreshKey) {
+        this.refreshKey = Keys.hmacShaKeyFor(jwtRefreshKey.getBytes());
+    }
+
+    private final SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
+
+
+
     // 토큰 생성
     // secretKey = 토큰에 서명하기 위해 사용하는 키
     // email = 앞으로 유저 정보를 포함한 메서드를 실행시킬 때마다 토큰에서 꺼내서 인증 확인
-    public String createToken(String email) {
+    public String createAccessToken(String email, RoleEnum role) {
         Date date = new Date();
 
         return BEARER_PREFIX +
                 Jwts.builder()
                         .setSubject(email) // 사용자 식별자값(ID), 공간에 email 을 넣어 줌
-//                        .claim(AUTHORIZATION_KEY, role) // 공간 속에 권한 키값과 사용자 권한을 담는다
+                        .claim(AUTHORIZATION_KEY, role) // 공간 속에 권한 키값과 사용자 권한을 담는다
                         .setExpiration(new Date(date.getTime() + TOKEN_TIME)) // 만료 시간
                         .setIssuedAt(date) // 발급일
                         .signWith(key, signatureAlgorithm) // 암호화 알고리즘
                         .compact(); // String 형식의 JWT 토큰으로 반환됨
     }
+
+    public String createRefreshToken(String email, RoleEnum role) {
+        Date date = new Date();
+
+        return BEARER_PREFIX +
+                Jwts.builder()
+                        .setSubject(email) // 사용자 식별자값(ID), 공간에 email 을 넣어 줌
+                        .claim(AUTHORIZATION_KEY, role) // 공간 속에 권한 키값과 사용자 권한을 담는다
+                        .setExpiration(new Date(date.getTime() + REFRESH_TOKEN_TIME)) // 만료 시간
+                        .setIssuedAt(date) // 발급일
+                        .signWith(refreshKey, signatureAlgorithm) // 암호화 알고리즘
+                        .compact(); // String 형식의 JWT 토큰으로 반환됨
+    }
+
 
     // JWT Cookie 에 저장
     public void addJwtToCookie(String token, HttpServletResponse res) {
@@ -87,8 +114,21 @@ public class JwtUtil {
                     .parseClaimsJws(token);
             return true;
         } catch (Exception e) {
+            return false;
+        }
+    }
+
+    // 리프레시 토큰 검증
+    public boolean validateRefreshToken(String token) {
+        try {
+            Jwts.parserBuilder()
+                    // 비밀 값으로 복호화
+                    .setSigningKey(refreshKey)
+                    .build()
+                    .parseClaimsJws(token);
+            return true;
+        } catch (NullPointerException e) {
             log.info("토큰에 문제가 생겨 로그아웃합니다.");
-            deleteCookie(token, res);
         }
         return false;
     }
@@ -96,6 +136,11 @@ public class JwtUtil {
     // 토큰에서 사용자 정보 가져오기
     public Claims getUserInfoFromToken(String token) {
         return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
+    }
+
+    // 토큰에서 사용자 정보 가져오기
+    public Claims getUserInfoFromRefreshToken(String token) {
+        return Jwts.parserBuilder().setSigningKey(refreshKey).build().parseClaimsJws(token).getBody();
     }
 
     public String getTokenFromRequest(HttpServletRequest req) {
@@ -112,6 +157,16 @@ public class JwtUtil {
             }
         }
         return null;
+    }
+
+    //토큰에서 만료 시간 가져오기
+    public Date extractExpirationDateFromToken(String token) {
+        Claims claims = Jwts.parser()
+                .setSigningKey(key) // 토큰 검증을 위해 사용한 키
+                .parseClaimsJws(token)
+                .getBody();
+
+        return claims.getExpiration(); // 토큰의 만료 시간을 반환
     }
 
     public String substringToken(String tokenValue) {

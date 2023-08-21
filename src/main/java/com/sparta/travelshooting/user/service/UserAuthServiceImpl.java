@@ -3,22 +3,27 @@ package com.sparta.travelshooting.user.service;
 import com.sparta.travelshooting.jwt.JwtUtil;
 import com.sparta.travelshooting.user.dto.LoginRequestDto;
 import com.sparta.travelshooting.user.dto.SignupRequestDto;
-import com.sparta.travelshooting.user.entity.RegionEnum;
-import com.sparta.travelshooting.user.entity.RoleEnum;
-import com.sparta.travelshooting.user.entity.User;
+import com.sparta.travelshooting.user.entity.*;
+import com.sparta.travelshooting.user.repository.RefreshTokenRepository;
+import com.sparta.travelshooting.user.repository.TokenBlackListRepository;
 import com.sparta.travelshooting.user.repository.UserRepository;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
+
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class UserServiceImpl implements UserService {
+public class UserAuthServiceImpl implements UserAuthService {
 
     private final UserRepository userRepository;
+    private final RefreshTokenRepository refreshTokenRepository;
+    private final TokenBlackListRepository tokenBlackListRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtUtil jwtUtil;
 
@@ -63,8 +68,40 @@ public class UserServiceImpl implements UserService {
             throw new IllegalArgumentException("비밀번호가 틀렸습니다.");
         }
 
-        // Jwt 토큰 생성 및 쿠키에 추가하기
-        String token = jwtUtil.createToken(requestDto.getEmail());
+        // Jwt 토큰 생성
+        String token = jwtUtil.createAccessToken(requestDto.getEmail(), user.getRole());
+
+        // TODO : redis를 이용해서 저장하는 방법 공부
+        // 우선은 DB에 저장
+        String refreshTokenValue = jwtUtil.createRefreshToken(requestDto.getEmail(), user.getRole());
+        RefreshToken refreshToken = new RefreshToken(user.getId(), refreshTokenValue, token);
+        refreshTokenRepository.save(refreshToken);
+
+        // AccessToken은 쿠키에 추가
         jwtUtil.addJwtToCookie(token, res);
+    }
+
+    /**
+     * 1. Refresh Token 삭제
+     * 2. Access Token 블랙리스트에 추가
+     *      -> 만료기한이 지난 AccessToken 데이터 정리는 스케줄링을 이용해보자
+     * 3. 쿠키 삭제
+     */
+    @Override
+    public void logout(User user, HttpServletRequest req, HttpServletResponse res) {
+        // Refresh Token 삭제
+        RefreshToken refreshToken = refreshTokenRepository.findByUserId(user.getId()).orElseThrow(() -> new NullPointerException("Not Found User"));
+        refreshTokenRepository.delete(refreshToken);
+
+        // Access Token 블랙리스트에 추가
+        String accessToken = jwtUtil.getTokenFromRequest(req);
+
+        Date expireationDate = jwtUtil.extractExpirationDateFromToken(jwtUtil.substringToken(accessToken));
+
+        TokenBlackList tokenBlackList = new TokenBlackList(accessToken, expireationDate);
+        tokenBlackListRepository.save(tokenBlackList);
+
+        // 쿠키 삭제
+        jwtUtil.deleteCookie(accessToken, res);
     }
 }
