@@ -10,4 +10,9 @@ public class PostViewController {
     public String test () {
         return "test";
     }
+
+    @GetMapping("/test/board")
+    public String testBoard () {
+        return "board";
+    }
 }

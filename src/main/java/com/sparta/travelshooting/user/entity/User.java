@@ -1,9 +1,13 @@
 package com.sparta.travelshooting.user.entity;
 
+import com.sparta.travelshooting.post.entity.PostLike;
 import com.sparta.travelshooting.user.dto.SignupRequestDto;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @NoArgsConstructor
@@ -32,6 +36,9 @@ public class User {
 
     @Enumerated(value = EnumType.STRING)
     private RoleEnum role;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+    private List<PostLike> postLikes = new ArrayList<>();
 
     public User(SignupRequestDto requestDto, String password, RegionEnum region, RoleEnum role) {
         this.email = requestDto.getEmail();

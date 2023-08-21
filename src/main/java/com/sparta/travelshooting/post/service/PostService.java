@@ -9,6 +9,7 @@ import com.sparta.travelshooting.post.entity.PostLike;
 import com.sparta.travelshooting.post.repository.PostLikeRepository;
 import com.sparta.travelshooting.post.repository.PostRepository;
 import com.sparta.travelshooting.user.entity.User;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -26,6 +27,7 @@ public class PostService {
     private final PostLikeRepository postLikeRepository;
 
     // 게시글 생성
+    @Transactional
     public PostResponseDto createPost(PostRequestDto postRequestDto, User user) {
         Post post = new Post(postRequestDto, user);
         postRepository.save(post);
@@ -50,6 +52,7 @@ public class PostService {
     }
 
     //게시글 수정
+    @Transactional
     public PostResponseDto updatePost(PostRequestDto postRequestDto, Long postId, User user) {
         Optional<Post> post = postRepository.findById(postId);
         if (post.isEmpty()) {
@@ -61,6 +64,7 @@ public class PostService {
     }
 
     //게시글 삭제
+    @Transactional
     public void deletePost(Long postId, User user) {
         Optional<Post> post = postRepository.findById(postId);
         if (post.isEmpty()) {
@@ -70,6 +74,7 @@ public class PostService {
     }
 
     //좋아요 기능
+    @Transactional
     public ApiResponseDto addLike(Long postId, User user) {
         Optional<Post> post = postRepository.findById(postId);
         Optional<PostLike> findpostLike = postLikeRepository.findByPostIdAndUserId(postId, user.getId());
@@ -81,11 +86,13 @@ public class PostService {
             return new ApiResponseDto("이미 좋아요를 한 상태입니다.", 400);
         }
         postLikeRepository.save(new PostLike(user, post.get()));
-        post.get().setLikeCount(+1);
+        post.get().setLikeCount(post.get().getLikeCount() + 1);
+        postRepository.save(post.get());
         return new ApiResponseDto("좋아요 등록 성공", 201);
     }
 
 
+    @Transactional
     public ApiResponseDto deleteLike(Long postId, User user) {
         Optional<Post> post = postRepository.findById(postId);
         Optional<PostLike> findpostLike = postLikeRepository.findByPostIdAndUserId(postId, user.getId());
@@ -95,7 +102,8 @@ public class PostService {
             return new ApiResponseDto("해당 글에 좋아요를 하지 않은 상태입니다.", 400);
         }
         postLikeRepository.delete(findpostLike.get());
-        post.get().setLikeCount(-1);
+        post.get().setLikeCount(post.get().getLikeCount() - 1);
+        postRepository.save(post.get());
         return new ApiResponseDto("좋아요 취소 성공", 201);
     }
 }
