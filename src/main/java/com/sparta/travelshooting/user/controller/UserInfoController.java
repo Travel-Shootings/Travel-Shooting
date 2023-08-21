@@ -1,15 +1,14 @@
 package com.sparta.travelshooting.user.controller;
 
 import com.sparta.travelshooting.security.UserDetailsImpl;
+import com.sparta.travelshooting.user.dto.EditInfoRequestDto;
 import com.sparta.travelshooting.user.dto.UserResponseDto;
 import com.sparta.travelshooting.user.service.UserInfoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api")
@@ -27,6 +26,12 @@ public class UserInfoController {
     }
 
     // 마이페이지 : 자신의 정보 수정 (nickname, region)
+    @PutMapping("/my-page/edit")
+    public ResponseEntity<UserResponseDto> editUserInfo(@AuthenticationPrincipal UserDetailsImpl userDetails, @RequestBody EditInfoRequestDto requestDto) {
+        UserResponseDto userResponseDto = userInfoService.editUserInfo(userDetails.getUser(), requestDto);
+        return new ResponseEntity<>(userResponseDto, HttpStatus.OK);
+    }
+
 
     // 마이페이지 : 비밀번호 수정
 }

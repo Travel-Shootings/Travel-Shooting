@@ -1,5 +1,6 @@
 package com.sparta.travelshooting.user.entity;
 
+import com.sparta.travelshooting.user.dto.EditInfoRequestDto;
 import com.sparta.travelshooting.user.dto.SignupRequestDto;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -40,5 +41,10 @@ public class User {
         this.nickname = requestDto.getNickname();
         this.region = region;
         this.role = role;
+    }
+
+    public void update(String nickname, RegionEnum region) {
+        this.nickname = nickname;
+        this.region = region;
     }
 }
