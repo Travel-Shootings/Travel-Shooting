@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+    <script type="text/javascript"
+            src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=7u8454s6qg&submodules=geocoder"></script>
+    <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/css/container.css">
+    <link rel="stylesheet" type="text/css" href="/css/map.css">
+    <style>
+        /* 전체 페이지 스타일링 */
+
+        body {
+            font-family: "Open Sans", Helvetica, Arial, sans-serif;
+            font-weight: 300;
+            font-size: 12px;
+            line-height: 30px;
+            color: #777;
+            background: #ffffff;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            -webkit-font-smoothing: antialiased;
+            -moz-font-smoothing: antialiased;
+            -o-font-smoothing: antialiased;
+            font-smoothing: antialiased;
+            text-rendering: optimizeLegibility;
+        }
+
+        /* 레이아웃 스타일링 */
+
+        .main-container {
+            display: flex; /* 자식 요소들을 가로로 나란히 배치 */
+            justify-content: space-between; /* 각 요소 사이의 공간을 최대로 설정 */
+            align-items: flex-start;
+            max-width: 100%; /* 화면 너비에 맞추기 */
+            padding: 20px; /* 여백 설정 (원하는 여백 크기로 조절) */
+        }
+
+        .map-container {
+            flex: 1; /* 지도가 남은 공간을 모두 차지하도록 설정 */
+            height: 500px; /* 높이 조절 (원하는 높이로 변경) */
+        }
+
+        /* 나머지 스타일 코드들 */
+
+        /* 반응형 디자인을 위한 미디어 쿼리 추가 */
+
+    </style>
+</head>
+
+<body>
+<div class="main-container">
+    <div class="map-container">
+        <div class="search">
+            <input id="address" type="text" placeholder="검색할 주소">
+            <input id="submit" type="button" value="주소검색">
+        </div>
+        <div id="map" style="width:1000px;height:1000px;"></div>
+    </div>
+
+    <div class="container">
+        <form id="contact" action="" method="post">
+            <h3>여행 일정</h3>
+            <h4>당신의 여행 일정을 작성하고 사람들과 공유하세요!</h4>
+            <fieldset>
+                <input placeholder="제목을 입력하세요." type="text" tabindex="1" required autofocus>
+            </fieldset>
+            <fieldset>
+                <textarea placeholder="본문을 입력하세요" tabindex="2" required></textarea>
+            </fieldset>
+            <fieldset>
+                <textarea placeholder="Type your Message Here...." tabindex="3" required></textarea>
+            </fieldset>
+            <fieldset>
+                <table class="totalSummary">
+                    <tr>
+                        <th colspan="3" class="summaryTitle">총 일정 정보 </th>
+                    </tr>
+                    <tr>
+                        <th scope="col">총 비용 </th>
+                        <th scope="col">총 기간</th>
+                        <th scope="col">총 인원</th>
+                    </tr>
+                    <tr>
+                        <td>20000원 </td>
+                        <td>00월 00일</td>
+                        <td>2명 </td>
+                    </tr>
+                </table>
+            </fieldset>
+            <fieldset>
+                <button name="submit" type="submit" id="contact-submit" data-submit="...Sending">Submit</button>
+                <button name="submit" type="submit" id="cancel-submit" data-submit="...Sending">Cancel</button>
+            </fieldset>
+        </form>
+    </div>
+</div>
+
+<div class="user-list" id="searchLists">
+    <!-- 백엔드에서 받아온 장소 정보를 렌더링 -->
+    <div th:each="searchResults : ${naverSearch}" class="user-list-item">
+        <span th:text="${searchResults.title}" class="place-title"></span>
+        <span th:text="${searchResults.address}" class="place-address"></span>
+        <span th:text="${searchResults.roadAddress}" class="place-roadAddress"></span>
+        <button class="show-details-button" type="button"> 선택</button>
+    </div>
+</div>
+
+
+<script>
+    $(document).ready(function () {
+        $('.show-details-button').click(function () {
+            const $placeItem = $(this).closest('.user-list-item');
+            const title = $placeItem.find('.place-title').text();
+            const address = $placeItem.find('.place-address').text();
+            const roadAddress = $placeItem.find('.place-roadAddress').text();
+            const popupContent = `
+                    <div class="popup">
+                        <h3>${title}</h3>
+                        <p>주소: ${address}</p>
+                        <p>도로명 주소: ${roadAddress}</p>
+                        <button class="close-popup-button">닫기</button>
+                    </div>
+                `;
+            const $popup = $(popupContent);
+            $('body').append($popup);
+            // 팝업 닫기 버튼 클릭 시 팝업 제거
+            $popup.find('.close-popup-button').click(function () {
+                $popup.remove();
+            });
+        });
+    });
+</script>
+
+
+<!--<div>-->
+<!--    <table>-->
+<!--        <thead>-->
+<!--        <tr>-->
+<!--            <th>주소</th>-->
+<!--            <th>위도</th>-->
+<!--            <th>경도</th>-->
+<!--        </tr>-->
+<!--        </thead>-->
+<!--        <tbody id="mapList"></tbody>-->
+<!--    </table>-->
+<!--</div>-->
+</body>
+<script>
+
+    $('#search').on('click', function (e) {
+        e.preventDefault();
+        searchNaver($('#keyword').val());
+    });
+
+    function searchNaver(keyword) {
+        const title = $('#search-title').val();
+        const address = $('#search-address').val();
+        const roadAddress = $('#search-roadAddress').val();
+
+        const searchData = {
+            title: title,
+            address: address,
+            roadAddress: roadAddress,
+        };
+
+        $.ajax({
+            url: `/api/server/naver`,
+            type: 'GET',
+            contentType: 'application/json',
+            data: JSON.stringify(searchData),
+            success: function () {
+                alert('장소 등록이 되었습니다.');
+                window.location.href = `/api/test`;
+            },
+            error: function () {
+                alert('선택한 장소는 없습니다.');
+            }
+        });
+
+    }
+
+
+    //지도를 그려주는 함수 실행
+    selectMapList();
+
+    //검색한 주소의 정보를 insertAddress 함수로 넘겨준다.
+    function searchAddressToCoordinate(address) {
+        naver.maps.Service.geocode({
+            query: address
+        }, function (status, response) {
+            if (status === naver.maps.Service.Status.ERROR) {
+                return alert('Something Wrong!');
+            }
+            if (response.v2.meta.totalCount === 0) {
+                return alert('올바른 주소를 입력해주세요.');
+            }
+            var htmlAddresses = [],
+                item = response.v2.addresses[0],
+                point = new naver.maps.Point(item.x, item.y);
+            if (item.roadAddress) {
+                htmlAddresses.push('[도로명 주소] ' + item.roadAddress);
+            }
+            if (item.jibunAddress) {
+                htmlAddresses.push('[지번 주소] ' + item.jibunAddress);
+            }
+            if (item.englishAddress) {
+                htmlAddresses.push('[영문명 주소] ' + item.englishAddress);
+            }
+
+            insertAddress(item.roadAddress, item.x, item.y);
+
+        });
+    }
+
+    // 주소 검색의 이벤트
+    $('#address').on('keydown', function (e) {
+        var keyCode = e.which;
+        if (keyCode === 13) { // Enter Key
+            searchAddressToCoordinate($('#address').val());
+        }
+    });
+    $('#submit').on('click', function (e) {
+        e.preventDefault();
+        searchAddressToCoordinate($('#address').val());
+    });
+    // naver.maps.Event.once(map, 'init_stylemap', initGeocoder)
+
+
+    //검색정보를 테이블로 작성해주고, 지도에 마커를 찍어준다.
+    function insertAddress(address, latitude, longitude) {
+        var mapList = "";
+        mapList += "<tr>"
+        mapList += "	<td>" + address + "</td>"
+        mapList += "	<td>" + latitude + "</td>"
+        mapList += "	<td>" + longitude + "</td>"
+        mapList += "</tr>"
+
+        $('#mapList').append(mapList);
+
+        var map = new naver.maps.Map('map', {
+            center: new naver.maps.LatLng(longitude, latitude),
+            zoom: 14
+        });
+        var marker = new naver.maps.Marker({
+            map: map,
+            position: new naver.maps.LatLng(longitude, latitude),
+        });
+    }
+
+    //지도를 그려주는 함수
+    function selectMapList() {
+
+        var map = new naver.maps.Map('map', {
+            center: new naver.maps.LatLng(37.3595704, 127.105399),
+            zoom: 10
+        });
+    }
+
+
+    // 지도를 이동하게 해주는 함수
+    function moveMap(len, lat) {
+        var mapOptions = {
+            center: new naver.maps.LatLng(len, lat),
+            zoom: 15,
+            mapTypeControl: true
+        };
+        var map = new naver.maps.Map('map', mapOptions);
+        var marker = new naver.maps.Marker({
+            position: new naver.maps.LatLng(len, lat),
+            map: map
+        });
+    }
+</script>
+</html>
