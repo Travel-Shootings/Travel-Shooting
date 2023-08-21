@@ -28,14 +28,14 @@ public class Reply extends Timestamp {
     @JoinColumn(name = "userId")
     private User user;
 
-    private String contents;
+    private String content;
 
 
     public Reply(ReplyRequestDto replyRequestDto,Comment comment, User user){
 
         this.user = user;
         this.comment = comment;
-        this.contents = replyRequestDto.getContents();
+        this.content = replyRequestDto.getContent();
     }
 
 

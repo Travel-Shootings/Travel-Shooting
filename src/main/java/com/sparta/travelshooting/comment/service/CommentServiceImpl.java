@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 import java.util.concurrent.RejectedExecutionException;
 @Service
 @AllArgsConstructor
-public class CommentServiceImpl extends CommentService {
+public class CommentServiceImpl implements CommentService {
 
     private final CommentRepository commentRepository;
     private final PostRepository postRepository;

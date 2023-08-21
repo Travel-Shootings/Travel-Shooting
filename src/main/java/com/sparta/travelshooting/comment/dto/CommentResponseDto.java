@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 public class CommentResponseDto extends Timestamp {
     private Long id;
     private String nickName;
-    private String contents;
+    private String content;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
 
@@ -16,7 +16,7 @@ public class CommentResponseDto extends Timestamp {
     public CommentResponseDto(Comment comment) {
         this.id = comment.getCommentId();
         this.nickName = comment.getUser().getNickname();
-        this.contents = comment.getContents();
+        this.content = comment.getContent();
         this.createdAt = comment.getCreatedAt();
         this.modifiedAt = comment.getModifiedAt();
 

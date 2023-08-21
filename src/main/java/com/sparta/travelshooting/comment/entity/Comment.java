@@ -24,7 +24,7 @@ public class Comment extends Timestamp {
     private String nickName;
 
     @Column(nullable = false)
-    private String contents;
+    private String content;
 
     @ManyToOne
     @JoinColumn(name= "postId")
@@ -33,7 +33,7 @@ public class Comment extends Timestamp {
 
     public Comment(CommentRequestDto commentRequestDto, Post post, User user){
         this.nickName = user.getNickname();
-        this.contents = commentRequestDto.getContents();
+        this.content = commentRequestDto.getContent();
         this.post = post;
     }
 

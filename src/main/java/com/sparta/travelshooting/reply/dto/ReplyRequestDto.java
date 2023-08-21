@@ -10,5 +10,5 @@ import lombok.Setter;
 @NoArgsConstructor
 public class ReplyRequestDto {
     private Long commentId;
-    private String contents;
+    private String content;
 }

@@ -10,14 +10,14 @@ import java.time.LocalDateTime;
 public class ReplyResponseDto extends Timestamp {
     private Long id;
     private String nickName;
-    private String contents;
+    private String content;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
 
     public ReplyResponseDto(Reply reply) {
         this.id = reply.getId();
         this.nickName = reply.getUser().getNickname();
-        this.contents = reply.getContents();
+        this.content = reply.getContent();
         this.createdAt = reply.getCreatedAt();
         this.modifiedAt = reply.getModifiedAt();
     }
