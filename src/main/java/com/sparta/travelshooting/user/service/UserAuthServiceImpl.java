@@ -7,6 +7,7 @@ import com.sparta.travelshooting.user.entity.*;
 import com.sparta.travelshooting.user.repository.RefreshTokenRepository;
 import com.sparta.travelshooting.user.repository.TokenBlackListRepository;
 import com.sparta.travelshooting.user.repository.UserRepository;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +16,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.UUID;
 
 @Service
 @Slf4j
@@ -68,13 +70,13 @@ public class UserAuthServiceImpl implements UserAuthService {
             throw new IllegalArgumentException("비밀번호가 틀렸습니다.");
         }
 
+        String refreshTokenValue = UUID.randomUUID().toString();
+        RefreshToken refreshToken = new RefreshToken(user.getId(), refreshTokenValue);
+        refreshTokenRepository.save(refreshToken);
+        res.addCookie(new Cookie("refreshToken", refreshTokenValue));
+
         // Jwt 토큰 생성
         String token = jwtUtil.createAccessToken(requestDto.getEmail(), user.getRole());
-
-        // refresh 토큰 DB에 저장  cf) redis를 활용하면 성능면에서 더 좋음
-        String refreshTokenValue = jwtUtil.createRefreshToken(requestDto.getEmail(), user.getRole());
-        RefreshToken refreshToken = new RefreshToken(user.getId(), refreshTokenValue, token);
-        refreshTokenRepository.save(refreshToken);
 
         // AccessToken은 쿠키에 추가
         jwtUtil.addJwtToCookie(token, res);
@@ -89,9 +91,8 @@ public class UserAuthServiceImpl implements UserAuthService {
     @Override
     public void logout(HttpServletRequest req, HttpServletResponse res) {
         // Refresh Token 삭제
-        String req2 = jwtUtil.getTokenFromRequest(req);
-        log.info(req2);
-        RefreshToken refreshToken = refreshTokenRepository.findByAccessToken(req2).orElseThrow(() -> new IllegalArgumentException("Token not found"));
+        String refreshTokenUUID = jwtUtil.getUUID(req);
+        RefreshToken refreshToken = refreshTokenRepository.findById(refreshTokenUUID).orElseThrow(() -> new IllegalArgumentException("Token not found"));
         refreshTokenRepository.delete(refreshToken);
 
         // Access Token 블랙리스트에 추가
@@ -101,7 +102,13 @@ public class UserAuthServiceImpl implements UserAuthService {
         TokenBlackList tokenBlackList = new TokenBlackList(accessToken, expireationDate);
         tokenBlackListRepository.save(tokenBlackList);
 
-        // 쿠키 삭제
-        jwtUtil.deleteCookie(accessToken, res);
+        // 엑세스 토큰이 담겨있는 쿠키 삭제
+        jwtUtil.deleteCookieWithAccessToken(accessToken, res);
+
+        // 리프레시 토큰이 담겨있는 쿠키 삭제
+        Cookie cookie = new Cookie("refreshToken", refreshTokenUUID);
+        cookie.setPath("/api/user");
+        cookie.setMaxAge(0);
+        res.addCookie(cookie);
     }
 }

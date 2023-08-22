@@ -3,9 +3,9 @@ package com.sparta.travelshooting.user.service;
 import com.sparta.travelshooting.jwt.JwtUtil;
 import com.sparta.travelshooting.user.dto.TokenResponseDto;
 import com.sparta.travelshooting.user.entity.RefreshToken;
-import com.sparta.travelshooting.user.entity.RoleEnum;
+import com.sparta.travelshooting.user.entity.User;
 import com.sparta.travelshooting.user.repository.RefreshTokenRepository;
-import io.jsonwebtoken.Claims;
+import com.sparta.travelshooting.user.repository.UserRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Slf4j
 public class TokenServiceImpl implements TokenService{
 
+    private final UserRepository userRepository;
     private final RefreshTokenRepository refreshTokenRepository;
     private final JwtUtil jwtUtil;
 
@@ -32,25 +33,21 @@ public class TokenServiceImpl implements TokenService{
         /**
          * accesstoken을 이용해서 refresh 토큰을 조회하는 건 뭔가 좋은 방법이 아닌 것 같음
          * 토큰을 탈취당한 상태에서도 제 3자가 토큰을 재발급 받을 수 있을 것 같음,,
-         * TODO : refresh토큰을 클라이언트에 저장한 뒤 그것을 통해 조회하는 방법으로 수정 필요
          */
-        String req2 = jwtUtil.getTokenFromRequest(req);
-        log.info(req2);
-        RefreshToken refreshToken = refreshTokenRepository.findByAccessToken(req2).orElseThrow(() -> new IllegalArgumentException("Token not found"));
-
-        String validateToken = jwtUtil.substringToken(refreshToken.getTokenValue());
-        if (!jwtUtil.validateRefreshToken(validateToken)) {
-            throw new IllegalArgumentException("로그인을 새로 해주세요.");
-        };
+        String refreshTokenUUID = jwtUtil.getUUID(req);
+        RefreshToken refreshToken = refreshTokenRepository.findById(refreshTokenUUID).orElseThrow(() -> new IllegalArgumentException("Token not found"));
 
         // 현재 쿠키 삭제
-        jwtUtil.deleteCookie(jwtUtil.getTokenFromRequest(req), res);
+        jwtUtil.deleteCookieWithAccessToken(jwtUtil.getTokenFromRequest(req), res);
 
-        Claims claims = jwtUtil.getUserInfoFromRefreshToken(validateToken);
-        String token = jwtUtil.createAccessToken(claims.getSubject(), (RoleEnum) claims.get("AUTHORIZATION_KEY"));
-        refreshToken.update(token);
+        //유저의 정보 가져오기 (엑세스 토큰을 새로 발급하기 위해서)
+        Long userId = refreshToken.getUserId();
+        User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("Not found user"));
 
+        // 새로운 엑세스 토큰을 만들고 쿠키에 추가
+        String token = jwtUtil.createAccessToken(user.getEmail(), user.getRole());
         jwtUtil.addJwtToCookie(token, res);
-        return new TokenResponseDto(refreshToken.getTokenValue(), token);
+
+        return new TokenResponseDto(refreshToken.getRefreshToken(), token);
     }
 }

@@ -1,6 +1,5 @@
 package com.sparta.travelshooting.user.entity;
 
-import com.sparta.travelshooting.user.dto.EditInfoRequestDto;
 import com.sparta.travelshooting.user.dto.SignupRequestDto;
 import jakarta.persistence.*;
 import lombok.Getter;

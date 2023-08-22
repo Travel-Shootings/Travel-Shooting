@@ -14,7 +14,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
-import javax.crypto.SecretKey;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
@@ -47,17 +46,7 @@ public class JwtUtil {
         byte[] bytes = Base64.getDecoder().decode(secretKey);
         key = Keys.hmacShaKeyFor(bytes);
     }
-
-    // refresh
-    private final SecretKey refreshKey;
-
-    public JwtUtil(@Value("${jwt.refresh.key}") String jwtRefreshKey) {
-        this.refreshKey = Keys.hmacShaKeyFor(jwtRefreshKey.getBytes());
-    }
-
     private final SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
-
-
 
     // 토큰 생성
     // secretKey = 토큰에 서명하기 위해 사용하는 키
@@ -74,20 +63,6 @@ public class JwtUtil {
                         .signWith(key, signatureAlgorithm) // 암호화 알고리즘
                         .compact(); // String 형식의 JWT 토큰으로 반환됨
     }
-
-    public String createRefreshToken(String email, RoleEnum role) {
-        Date date = new Date();
-
-        return BEARER_PREFIX +
-                Jwts.builder()
-                        .setSubject(email) // 사용자 식별자값(ID), 공간에 email 을 넣어 줌
-                        .claim(AUTHORIZATION_KEY, role) // 공간 속에 권한 키값과 사용자 권한을 담는다
-                        .setExpiration(new Date(date.getTime() + REFRESH_TOKEN_TIME)) // 만료 시간
-                        .setIssuedAt(date) // 발급일
-                        .signWith(refreshKey, signatureAlgorithm) // 암호화 알고리즘
-                        .compact(); // String 형식의 JWT 토큰으로 반환됨
-    }
-
 
     // JWT Cookie 에 저장
     public void addJwtToCookie(String token, HttpServletResponse res) {
@@ -118,29 +93,9 @@ public class JwtUtil {
         }
     }
 
-    // 리프레시 토큰 검증
-    public boolean validateRefreshToken(String token) {
-        try {
-            Jwts.parserBuilder()
-                    // 비밀 값으로 복호화
-                    .setSigningKey(refreshKey)
-                    .build()
-                    .parseClaimsJws(token);
-            return true;
-        } catch (NullPointerException e) {
-            log.info("토큰에 문제가 생겼습니다.");
-        }
-        return false;
-    }
-
     // 토큰에서 사용자 정보 가져오기
     public Claims getUserInfoFromToken(String token) {
         return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
-    }
-
-    // 토큰에서 사용자 정보 가져오기
-    public Claims getUserInfoFromRefreshToken(String token) {
-        return Jwts.parserBuilder().setSigningKey(refreshKey).build().parseClaimsJws(token).getBody();
     }
 
     public String getTokenFromRequest(HttpServletRequest req) {
@@ -176,7 +131,7 @@ public class JwtUtil {
         throw new NullPointerException("Not Found Token");
     }
 
-    public void deleteCookie(String token, HttpServletResponse res) {
+    public void deleteCookieWithAccessToken(String token, HttpServletResponse res) {
         try {
             token = URLEncoder.encode(token, "utf-8").replaceAll("\\+", "%20"); // Cookie Value 에는 공백이 불가능해서 encoding 진행
 
@@ -190,4 +145,23 @@ public class JwtUtil {
             throw new IllegalArgumentException("에러가 발생했습니다.");
         }
     }
+
+
+
+    //refresh token의 값 가져오기
+    public String getUUID(HttpServletRequest req) {
+        try {
+            Cookie[] cookies = req.getCookies();
+
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals("refreshToken")) {
+                    return cookie.getValue();
+                }
+            }
+            return null;
+        } catch (Exception e) {
+            throw new IllegalArgumentException("문제가 발생했습니다.");
+        }
+    }
+
 }

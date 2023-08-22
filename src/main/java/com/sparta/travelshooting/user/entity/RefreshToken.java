@@ -1,33 +1,22 @@
 package com.sparta.travelshooting.user.entity;
 
-import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.redis.core.RedisHash;
 
-@Entity
 @Getter
 @NoArgsConstructor
+@RedisHash(value = "refreshToken", timeToLive = 60 * 60 * 24) // 리프레시 토큰 저장 시간 : 24시간
 public class RefreshToken {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String refreshToken;
 
-    @Column
     private Long userId;
 
-    @Column
-    private String tokenValue;
-
-    @Column
-    private String accessToken;
-
-    public RefreshToken(Long id, String refreshTokenValue, String token) {
+    public RefreshToken(Long id, String refreshTokenValue) {
         this.userId = id;
-        this.tokenValue = refreshTokenValue;
-        this.accessToken = token;
+        this.refreshToken = refreshTokenValue;
     }
 
-    public void update(String token) {
-        this.accessToken = token;
-    }
 }
