@@ -48,4 +48,9 @@ public class User {
         this.region = region;
         this.role = role;
     }
+
+    public void update(String nickname, RegionEnum region) {
+        this.nickname = nickname;
+        this.region = region;
+    }
 }

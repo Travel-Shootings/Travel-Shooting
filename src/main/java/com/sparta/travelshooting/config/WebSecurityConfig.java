@@ -3,6 +3,8 @@ package com.sparta.travelshooting.config;
 import com.sparta.travelshooting.jwt.JwtAuthorizationFilter;
 import com.sparta.travelshooting.jwt.JwtUtil;
 import com.sparta.travelshooting.security.UserDetailsServiceImpl;
+import com.sparta.travelshooting.user.repository.TokenBlackListRepository;
+import com.sparta.travelshooting.user.service.TokenService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
@@ -21,6 +23,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class WebSecurityConfig {
     private final JwtUtil jwtUtil;
     private final UserDetailsServiceImpl userDetailsService;
+    private final TokenBlackListRepository tokenBlackListRepository;
+    private final TokenService tokenService;
 
     // AuthenticationManager
     @Bean
@@ -31,7 +35,7 @@ public class WebSecurityConfig {
     // 인가 처리
     @Bean
     public JwtAuthorizationFilter jwtAuthorizationFilter() {
-        return new JwtAuthorizationFilter(jwtUtil, userDetailsService);
+        return new JwtAuthorizationFilter(jwtUtil, userDetailsService, tokenBlackListRepository, tokenService);
     }
 
     // SecurityFilterChain
