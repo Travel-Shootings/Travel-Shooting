@@ -73,7 +73,12 @@ public class UserAuthServiceImpl implements UserAuthService {
         String refreshTokenValue = UUID.randomUUID().toString();
         RefreshToken refreshToken = new RefreshToken(user.getId(), refreshTokenValue);
         refreshTokenRepository.save(refreshToken);
-        res.addCookie(new Cookie("refreshToken", refreshTokenValue));
+
+        // refresh token 쿠키에 추가
+        Cookie cookie = new Cookie("refreshToken", refreshTokenValue);
+        cookie.setPath("/");
+        cookie.setHttpOnly(true);
+        res.addCookie(cookie);
 
         // Jwt 토큰 생성
         String token = jwtUtil.createAccessToken(requestDto.getEmail(), user.getRole());
@@ -107,7 +112,7 @@ public class UserAuthServiceImpl implements UserAuthService {
 
         // 리프레시 토큰이 담겨있는 쿠키 삭제
         Cookie cookie = new Cookie("refreshToken", refreshTokenUUID);
-        cookie.setPath("/api/user");
+        cookie.setPath("/");
         cookie.setMaxAge(0);
         res.addCookie(cookie);
     }
