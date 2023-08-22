@@ -1,5 +1,6 @@
 package com.sparta.travelshooting.user.service;
 
+import com.sparta.travelshooting.common.ApiResponseDto;
 import com.sparta.travelshooting.jwt.JwtUtil;
 import com.sparta.travelshooting.user.dto.LoginRequestDto;
 import com.sparta.travelshooting.user.dto.SignupRequestDto;
@@ -12,6 +13,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -30,7 +32,7 @@ public class UserAuthServiceImpl implements UserAuthService {
     private final JwtUtil jwtUtil;
 
     @Override
-    public void signup(SignupRequestDto requestDto) {
+    public ApiResponseDto signup(SignupRequestDto requestDto) {
         String email = requestDto.getEmail();
         String password = passwordEncoder.encode(requestDto.getPassword());
         String nickname = requestDto.getNickname();
@@ -56,10 +58,12 @@ public class UserAuthServiceImpl implements UserAuthService {
         // 사용자 정보 DB에 저장
         User user = new User(requestDto, password, region, role);
         userRepository.save(user);
+
+        return new ApiResponseDto("회원가입이 되었습니다.", HttpStatus.CREATED.value());
     }
 
     @Override
-    public void login(LoginRequestDto requestDto, HttpServletResponse res) {
+    public ApiResponseDto login(LoginRequestDto requestDto, HttpServletResponse res) {
         // 이메일 확인
         User user = userRepository.findByEmail(requestDto.getEmail()).orElseThrow(
                 () -> new IllegalArgumentException("가입되지 않은 이메일입니다.")
@@ -85,6 +89,8 @@ public class UserAuthServiceImpl implements UserAuthService {
 
         // AccessToken은 쿠키에 추가
         jwtUtil.addJwtToCookie(token, res);
+
+        return new ApiResponseDto("로그인이 완료되었습니다.", HttpStatus.OK.value());
     }
 
     /**
@@ -94,7 +100,7 @@ public class UserAuthServiceImpl implements UserAuthService {
      * 3. 쿠키 삭제
      */
     @Override
-    public void logout(HttpServletRequest req, HttpServletResponse res) {
+    public ApiResponseDto logout(HttpServletRequest req, HttpServletResponse res) {
         // Refresh Token 삭제
         String refreshTokenUUID = jwtUtil.getUUID(req);
         RefreshToken refreshToken = refreshTokenRepository.findById(refreshTokenUUID).orElseThrow(() -> new IllegalArgumentException("Token not found"));
@@ -115,5 +121,7 @@ public class UserAuthServiceImpl implements UserAuthService {
         cookie.setPath("/");
         cookie.setMaxAge(0);
         res.addCookie(cookie);
+
+        return new ApiResponseDto("로그아웃 성공", HttpStatus.OK.value());
     }
 }

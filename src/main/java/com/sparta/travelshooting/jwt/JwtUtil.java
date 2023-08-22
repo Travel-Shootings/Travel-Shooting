@@ -2,6 +2,7 @@ package com.sparta.travelshooting.jwt;
 
 import com.sparta.travelshooting.user.entity.RoleEnum;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
@@ -33,7 +34,6 @@ public class JwtUtil {
     public static final String BEARER_PREFIX = "Bearer ";
     // 토큰 만료시간
     private final long TOKEN_TIME = 30 * 60 * 1000L; // 30분
-    private final long REFRESH_TOKEN_TIME = 6000 * 60 * 1000L; // 6000분 -> 100시간
 
     // Base64 Encode 한 SecretKey
     @Value("${jwt.secret.key}")
@@ -80,7 +80,7 @@ public class JwtUtil {
     }
 
     // 토큰 검증
-    public boolean validateToken(String token, HttpServletResponse res) {
+    public boolean validateToken(String token) {
         try {
             Jwts.parserBuilder()
                     // 비밀 값으로 복호화
@@ -88,8 +88,10 @@ public class JwtUtil {
                     .build()
                     .parseClaimsJws(token);
             return true;
-        } catch (Exception e) {
+        } catch (ExpiredJwtException e) {
             return false;
+        } catch (Exception e) {
+            throw new IllegalArgumentException("토큰에 문제가 생겼습니다.");
         }
     }
 
@@ -145,8 +147,6 @@ public class JwtUtil {
             throw new IllegalArgumentException("에러가 발생했습니다.");
         }
     }
-
-
 
     //refresh token의 값 가져오기
     public String getUUID(HttpServletRequest req) {

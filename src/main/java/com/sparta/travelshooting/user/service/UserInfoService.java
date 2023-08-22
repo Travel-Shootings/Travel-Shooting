@@ -1,5 +1,6 @@
 package com.sparta.travelshooting.user.service;
 
+import com.sparta.travelshooting.common.ApiResponseDto;
 import com.sparta.travelshooting.user.dto.EditInfoRequestDto;
 import com.sparta.travelshooting.user.dto.PasswordRequestDto;
 import com.sparta.travelshooting.user.dto.UserResponseDto;
@@ -28,5 +29,5 @@ public interface UserInfoService {
      * @param user 로그인 된 유저
      * @param requestDto 비밀번호 수정 데이터
      */
-    void editUserPassword(User user, PasswordRequestDto requestDto);
+    ApiResponseDto editUserPassword(User user, PasswordRequestDto requestDto);
 }
