@@ -97,7 +97,7 @@ public class ChatRoomServiceImpl implements ChatRoomService {
 
     @Override
     public UserChatRoom findUserChatRoom(Long userId, Long chatRoomId) {
-        return userChatRoomRepository.findByUserUserIdAndChatRoomChatRoomId(userId, chatRoomId).orElseThrow(() ->
+        return userChatRoomRepository.findByUserIdAndChatRoomChatRoomId(userId, chatRoomId).orElseThrow(() ->
                 new IllegalArgumentException("채팅방 입장 정보가 잘못되었습니다.")
         );
     }

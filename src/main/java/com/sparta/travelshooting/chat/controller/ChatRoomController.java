@@ -4,10 +4,12 @@ import com.sparta.travelshooting.chat.dto.ChatMessageResponseDto;
 import com.sparta.travelshooting.chat.dto.ChatRoomRequestDto;
 import com.sparta.travelshooting.chat.service.ChatRoomService;
 import com.sparta.travelshooting.common.entity.ApiResponseDto;
+import com.sparta.travelshooting.security.UserDetailsImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -34,14 +36,14 @@ public class ChatRoomController {
 
     @Operation(summary = "채팅방 입장")
     @PostMapping("/{chatRoomId}/join")
-    public ApiResponseDto joinChatRoom(@PathVariable Long chatRoomId) {
-        return chatRoomService.joinChatRoom(1L, chatRoomId); //userId는 User 서비스 merge 하기 전 임시
+    public ApiResponseDto joinChatRoom(@PathVariable Long chatRoomId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return chatRoomService.joinChatRoom(userDetails.getUser().getId(), chatRoomId); //userId는 User 서비스 merge 하기 전 임시
     }
 
     @Operation(summary = "채팅방 나가기")
     @PostMapping("/{chatRoomId}/leave")
-    public ApiResponseDto leaveChatRoom(@PathVariable Long chatRoomId) {
-        return chatRoomService.leaveChatRoom(1L, chatRoomId); //userId는 User 서비스 merge 하기 전 임시
+    public ApiResponseDto leaveChatRoom(@PathVariable Long chatRoomId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return chatRoomService.leaveChatRoom(userDetails.getUser().getId(), chatRoomId); //userId는 User 서비스 merge 하기 전 임시
     }
 
     @Operation(summary = "채팅방 채팅 내역 전체 불러오기")
