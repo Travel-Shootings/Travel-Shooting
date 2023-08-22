@@ -71,8 +71,7 @@ public class UserAuthServiceImpl implements UserAuthService {
         // Jwt 토큰 생성
         String token = jwtUtil.createAccessToken(requestDto.getEmail(), user.getRole());
 
-        // TODO : redis를 이용해서 저장하는 방법 공부
-        // 우선은 DB에 저장
+        // refresh 토큰 DB에 저장  cf) redis를 활용하면 성능면에서 더 좋음
         String refreshTokenValue = jwtUtil.createRefreshToken(requestDto.getEmail(), user.getRole());
         RefreshToken refreshToken = new RefreshToken(user.getId(), refreshTokenValue, token);
         refreshTokenRepository.save(refreshToken);

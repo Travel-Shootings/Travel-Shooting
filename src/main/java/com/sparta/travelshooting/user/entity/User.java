@@ -34,6 +34,9 @@ public class User {
     @Enumerated(value = EnumType.STRING)
     private RoleEnum role;
 
+    @Column
+    private String recentPassword;
+
     public User(SignupRequestDto requestDto, String password, RegionEnum region, RoleEnum role) {
         this.email = requestDto.getEmail();
         this.password = password;
@@ -46,5 +49,10 @@ public class User {
     public void update(String nickname, RegionEnum region) {
         this.nickname = nickname;
         this.region = region;
+    }
+
+    public void passwordUpdate(String newPassword) {
+        this.recentPassword = this.password;
+        this.password = newPassword;
     }
 }
