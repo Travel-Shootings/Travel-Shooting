@@ -22,6 +22,8 @@ public class ReplyServiceImpl implements ReplyService {
     private final ReplyRepository replyRepository;
     private final CommentRepository commentRepository;
 
+
+    //대댓글 생성
     @Override
     public ReplyResponseDto createReply(ReplyRequestDto requestDto, User user){
         Comment comment = commentRepository.findById(requestDto.getCommentId()).orElseThrow(()->new EntityNotFoundException("해당 댓글을 찾을 수 없습니다."));
@@ -31,13 +33,13 @@ public class ReplyServiceImpl implements ReplyService {
         return new ReplyResponseDto(reply);
     }
 
-
+    //대댓글 수정
     @Override
     public ApiResponseDto updateReply(Long replyId, ReplyRequestDto replyRequestDto, User user) {
         Reply reply = replyRepository.findById(replyId)
                 .orElseThrow(() -> new EntityNotFoundException("대댓글을 찾을 수 없습니다."));
 
-        if (!reply.getUser().equals(user)) {
+        if (!reply.getUser().getId().equals(user.getId())) {
             throw new AccessDeniedException("대댓글 수정 권한이 없습니다.");
         }
 
@@ -47,12 +49,13 @@ public class ReplyServiceImpl implements ReplyService {
         return new ApiResponseDto("대댓글 수정 완료", HttpStatus.OK.value());
     }
 
+    //대댓글 삭제
     @Override
     public ApiResponseDto deleteReply(Long replyId, User user) {
         Reply reply = replyRepository.findById(replyId)
                 .orElseThrow(() -> new EntityNotFoundException("대댓글을 찾을 수 없습니다."));
 
-        if (!reply.getUser().equals(user)) {
+        if (!reply.getUser().getId().equals(user.getId())) {
             throw new AccessDeniedException("대댓글 삭제 권한이 없습니다.");
         }
 

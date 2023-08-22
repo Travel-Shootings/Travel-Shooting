@@ -14,7 +14,7 @@ public class CommentResponseDto {
 
     public CommentResponseDto(Comment comment) {
         this.id = comment.getCommentId();
-        this.nickName = comment.getUser().getNickname();
+        this.nickName = comment.getNickName();
         this.content = comment.getContent();
         this.createdAt = comment.getCreatedAt();
         this.modifiedAt = comment.getModifiedAt();

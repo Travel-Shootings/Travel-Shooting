@@ -1,7 +1,6 @@
 package com.sparta.travelshooting.jwt;
 
 import com.sparta.travelshooting.security.UserDetailsServiceImpl;
-import com.sparta.travelshooting.user.dto.TokenResponseDto;
 import com.sparta.travelshooting.user.repository.TokenBlackListRepository;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.FilterChain;
@@ -10,7 +9,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;

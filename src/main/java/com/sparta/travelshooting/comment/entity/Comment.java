@@ -27,15 +27,16 @@ public class Comment extends Timestamp {
     private String content;
 
     @ManyToOne
-    @JoinColumn(name= "postId")
+    @JoinColumn(name= "post_Id")
     private Post post;
 
     @ManyToOne
-    @JoinColumn(name = "userId")
+    @JoinColumn(name = "user_Id")
     private User user;
 
 
     public Comment(CommentRequestDto commentRequestDto, Post post, User user){
+        this.user = user;
         this.nickName = user.getNickname();
         this.content = commentRequestDto.getContent();
         this.post = post;

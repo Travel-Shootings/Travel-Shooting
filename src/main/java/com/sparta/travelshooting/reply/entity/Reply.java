@@ -21,11 +21,11 @@ public class Reply extends Timestamp {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "commentId")
+    @JoinColumn(name = "comment_Id")
     private Comment comment;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "userId")
+    @JoinColumn(name = "user_Id")
     private User user;
 
     private String content;
