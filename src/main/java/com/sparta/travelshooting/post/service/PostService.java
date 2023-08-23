@@ -1,5 +1,6 @@
 package com.sparta.travelshooting.post.service;
 
+import com.sparta.travelshooting.common.ApiResponseDto;
 import com.sparta.travelshooting.journeylist.controller.JourneyListController;
 import com.sparta.travelshooting.journeylist.dto.JourneyListRequestDto;
 import com.sparta.travelshooting.journeylist.dto.JourneyListResponseDto;
@@ -73,12 +74,13 @@ public class PostService {
 
     //게시글 삭제
     @Transactional
-    public void deletePost(Long postId, User user) {
+    public ApiResponseDto deletePost(Long postId, User user) {
         Optional<Post> post = postRepository.findById(postId);
         if (post.isEmpty()) {
             throw new IllegalArgumentException("해당 글은 존재하지 않습니다.");
         }
         postRepository.deleteById(postId);
+        return new ApiResponseDto("게시글 삭제 성공", 200);
     }
 
     //좋아요 기능
@@ -96,7 +98,7 @@ public class PostService {
         postLikeRepository.save(new PostLike(user, post.get()));
         post.get().setLikeCounts(post.get().getLikeCounts() + 1);
         postRepository.save(post.get());
-        return new ApiResponseDto("좋아요 등록 성공", 201);
+        return new ApiResponseDto("좋아요 등록 성공", 200);
     }
 
 
@@ -112,6 +114,6 @@ public class PostService {
         postLikeRepository.delete(findpostLike.get());
         post.get().setLikeCounts(post.get().getLikeCounts() - 1);
         postRepository.save(post.get());
-        return new ApiResponseDto("좋아요 취소 성공", 201);
+        return new ApiResponseDto("좋아요 취소 성공", 200);
     }
 }

@@ -1,6 +1,7 @@
 package com.sparta.travelshooting.admin.service;
 
 import com.sparta.travelshooting.admin.dto.AdminProfileRequestDto;
+import com.sparta.travelshooting.common.ApiResponseDto;
 import com.sparta.travelshooting.post.dto.PostRequestDto;
 import com.sparta.travelshooting.post.dto.PostResponseDto;
 import com.sparta.travelshooting.post.entity.Post;
@@ -48,7 +49,7 @@ public class AdminService {
 
     // 유저 정보 수정
     @Transactional
-    public void updateUser(Long userId, AdminProfileRequestDto requestDto) {
+    public ApiResponseDto updateUser(Long userId, AdminProfileRequestDto requestDto) {
         Optional<User> user = userRepository.findById(userId);
         if (user.isEmpty()) {
             throw new NullPointerException("해당 유저는 존재하지 않습니다.");
@@ -65,11 +66,12 @@ public class AdminService {
         user.get().setRegion(requestDto.getRegion());
         user.get().setRole(requestDto.getRole());
         userRepository.save(user.get());
+        return new ApiResponseDto("유저 정보 수정 성공", 200);
     }
 
     // 게시글 수정
     @Transactional
-    public void updatePost(Long postId, PostRequestDto requestDto) {
+    public ApiResponseDto updatePost(Long postId, PostRequestDto requestDto) {
         Optional<Post> post = postRepository.findById(postId);
         if (post.isEmpty()) {
             throw new NullPointerException("해당 게시글은 존재하지 않습니다.");
@@ -77,8 +79,10 @@ public class AdminService {
         post.get().setTitle(requestDto.getTitle());
         post.get().setContents(requestDto.getContents());
         postRepository.save(post.get());
+        return new ApiResponseDto("게시글 수정 성공", 200);
     }
 
+    // 댓글 수정
 
 }
 

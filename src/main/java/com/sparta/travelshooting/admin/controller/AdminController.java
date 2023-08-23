@@ -1,9 +1,8 @@
 package com.sparta.travelshooting.admin.controller;
 
 import com.sparta.travelshooting.admin.dto.AdminProfileRequestDto;
-import com.sparta.travelshooting.admin.dto.AdminSummaryResponseDto;
 import com.sparta.travelshooting.admin.service.AdminService;
-import com.sparta.travelshooting.post.dto.ApiResponseDto;
+import com.sparta.travelshooting.common.ApiResponseDto;
 import com.sparta.travelshooting.post.dto.PostRequestDto;
 import com.sparta.travelshooting.post.dto.PostResponseDto;
 import com.sparta.travelshooting.user.dto.UserResponseDto;
@@ -47,16 +46,16 @@ public class AdminController {
     @Secured("Role_ADMIN")
     @PutMapping("/user/{userId}")
     public ResponseEntity<ApiResponseDto> updateUser(@PathVariable Long userId, @RequestBody AdminProfileRequestDto requestDto) {
-        adminService.updateUser(userId, requestDto);
-        return ResponseEntity.ok().body(new ApiResponseDto("유저 정보 수정 완료.", 201));
+        ApiResponseDto apiResponseDto = adminService.updateUser(userId, requestDto);
+        return new ResponseEntity<>(apiResponseDto, HttpStatus.OK);
     }
 
     // 게시글 수정
     @Secured("Role_ADMIN")
     @PutMapping("/posts/{postId}")
     public ResponseEntity<ApiResponseDto> updatePost(@PathVariable Long postId, @RequestBody PostRequestDto requestDto) {
-        adminService.updatePost(postId, requestDto);
-        return ResponseEntity.ok().body(new ApiResponseDto("글 수정 완료", 201));
+       ApiResponseDto apiResponseDto = adminService.updatePost(postId, requestDto);
+        return new ResponseEntity<>(apiResponseDto, HttpStatus.OK);
     }
 
     // 댓글 수정
