@@ -1,4 +1,4 @@
-package com.sparta.travelshooting.S3;
+package com.sparta.travelshooting.S3Image.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

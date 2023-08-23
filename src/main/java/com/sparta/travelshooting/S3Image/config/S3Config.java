@@ -1,4 +1,4 @@
-package com.sparta.travelshooting.S3;
+package com.sparta.travelshooting.S3Image.config;
 
 import com.amazonaws.auth.AWSStaticCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;
@@ -11,11 +11,16 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class S3Config {
 
+
+    //액세스 키
     @Value("${cloud.aws.credentials.access-key}")
     private String accessKey;
 
+    //시크릿 키
     @Value("${cloud.aws.credentials.secret-key}")
     private String secretKey;
+
+    //지역
 
     @Value("${cloud.aws.region.static}")
     private String region;

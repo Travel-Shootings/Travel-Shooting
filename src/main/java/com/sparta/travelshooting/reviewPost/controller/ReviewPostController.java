@@ -20,7 +20,7 @@ public class ReviewPostController {
 
     private final ReviewPostService reviewPostService;
 
-//    //후기 게시글 작성
+    //후기 게시글 작성
 //    @PostMapping("")
 //    public ResponseEntity<ApiResponseDto> createReviewPost(@RequestParam("imageFile") MultipartFile imageFile, @ModelAttribute ReviewPostRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails){
 //        try {
@@ -52,7 +52,7 @@ public class ReviewPostController {
     }
 
 
-    //후기 게시글 삭제
+//    후기 게시글 삭제
 //    @DeleteMapping("/{reviewPostId}")
 //    public ResponseEntity<ApiResponseDto> deleteReviewPost(@PathVariable Long reviewPostId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
 //        try {

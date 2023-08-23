@@ -1,4 +1,4 @@
-package com.sparta.travelshooting.S3;
+package com.sparta.travelshooting.S3Image.entity;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;

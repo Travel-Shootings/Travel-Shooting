@@ -1,9 +1,12 @@
-package com.sparta.travelshooting.S3;
+package com.sparta.travelshooting.S3Image.service;
 
 
 import com.amazonaws.services.ecr.model.ImageNotFoundException;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.ObjectMetadata;
+import com.sparta.travelshooting.S3Image.dto.ImageSaveDto;
+import com.sparta.travelshooting.S3Image.entity.Image;
+import com.sparta.travelshooting.S3Image.repository.ImageRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,13 +20,15 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class ImageService {
+public class ImageServiceImpl implements ImageService {
 
     private static String bucketName = "travelshooting";
 
     private final AmazonS3Client amazonS3Client;
     private final ImageRepository imageRepository;
 
+    //이미지 파일을 업로드하고, 각 이미지의 업로드 된 URL을 리스트에 저장하여 반환
+    @Override
     @Transactional
     public List<String> saveImages(ImageSaveDto saveDto) {
         List<String> resultList = new ArrayList<>();
@@ -36,6 +41,8 @@ public class ImageService {
         return resultList;
     }
 
+    //이미지 파일을 S3에 업로드
+    @Override
     @Transactional
     public String saveImage(MultipartFile multipartFile) {
         String originalName = multipartFile.getOriginalFilename();
@@ -61,6 +68,8 @@ public class ImageService {
     }
 
 
+    //이미지 수정
+    @Override
     @Transactional
     public String updateImage(Long imageId, MultipartFile multipartFile) {
         Optional<Image> imageOptional = imageRepository.findById(imageId);
@@ -88,6 +97,8 @@ public class ImageService {
     }
 
 
+    //이미지 삭제
+    @Override
     @Transactional
     public void deleteImage(Long imageId) {
         Image image = imageRepository.findById(imageId)
@@ -100,7 +111,7 @@ public class ImageService {
         imageRepository.delete(image);
     }
 
-
+    //S3에서 이미지 삭제
     private void deleteImageFromS3(String filename) {
         amazonS3Client.deleteObject(bucketName, filename);
     }
