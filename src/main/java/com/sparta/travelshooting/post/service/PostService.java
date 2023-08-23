@@ -37,6 +37,7 @@ public class PostService {
     // 게시글 전체 조회
     public List<PostResponseDto> getPosts() {
         List<Post> postList = postRepository.findAll();
+
         return postList.stream()
                 .map(PostResponseDto::new)
                 .collect(Collectors.toList());
