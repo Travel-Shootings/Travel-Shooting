@@ -1,9 +1,13 @@
 package com.sparta.travelshooting.post.service;
 
+import com.sparta.travelshooting.journeylist.controller.JourneyListController;
+import com.sparta.travelshooting.journeylist.dto.JourneyListRequestDto;
+import com.sparta.travelshooting.journeylist.dto.JourneyListResponseDto;
+import com.sparta.travelshooting.journeylist.entity.JourneyList;
+import com.sparta.travelshooting.journeylist.repository.JourneyListRepository;
+import com.sparta.travelshooting.journeylist.service.JourneyListService;
 import com.sparta.travelshooting.post.controller.NaverApiController;
-import com.sparta.travelshooting.post.dto.ApiResponseDto;
-import com.sparta.travelshooting.post.dto.PostRequestDto;
-import com.sparta.travelshooting.post.dto.PostResponseDto;
+import com.sparta.travelshooting.post.dto.*;
 import com.sparta.travelshooting.post.entity.Post;
 import com.sparta.travelshooting.post.entity.PostLike;
 import com.sparta.travelshooting.post.repository.PostLikeRepository;
@@ -11,9 +15,9 @@ import com.sparta.travelshooting.post.repository.PostRepository;
 import com.sparta.travelshooting.user.entity.User;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -29,10 +33,13 @@ public class PostService {
     // 게시글 생성
     @Transactional
     public PostResponseDto createPost(PostRequestDto postRequestDto, User user) {
-        Post post = new Post(postRequestDto, user);
+        List<JourneyList> journeyList = new ArrayList<>();
+        Post post = new Post(postRequestDto, journeyList, user);
         postRepository.save(post);
+
         return new PostResponseDto(post);
     }
+
 
     // 게시글 전체 조회
     public List<PostResponseDto> getPosts() {
@@ -87,7 +94,7 @@ public class PostService {
             return new ApiResponseDto("이미 좋아요를 한 상태입니다.", 400);
         }
         postLikeRepository.save(new PostLike(user, post.get()));
-        post.get().setLikeCount(post.get().getLikeCount() + 1);
+        post.get().setLikeCounts(post.get().getLikeCounts() + 1);
         postRepository.save(post.get());
         return new ApiResponseDto("좋아요 등록 성공", 201);
     }
@@ -103,7 +110,7 @@ public class PostService {
             return new ApiResponseDto("해당 글에 좋아요를 하지 않은 상태입니다.", 400);
         }
         postLikeRepository.delete(findpostLike.get());
-        post.get().setLikeCount(post.get().getLikeCount() - 1);
+        post.get().setLikeCounts(post.get().getLikeCounts() - 1);
         postRepository.save(post.get());
         return new ApiResponseDto("좋아요 취소 성공", 201);
     }

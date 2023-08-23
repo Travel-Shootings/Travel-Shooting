@@ -1,8 +1,8 @@
 package com.sparta.travelshooting.post.controller;
 
-import com.sparta.travelshooting.post.dto.ApiResponseDto;
-import com.sparta.travelshooting.post.dto.PostRequestDto;
-import com.sparta.travelshooting.post.dto.PostResponseDto;
+import com.sparta.travelshooting.journeylist.dto.JourneyListRequestDto;
+import com.sparta.travelshooting.journeylist.dto.JourneyListResponseDto;
+import com.sparta.travelshooting.post.dto.*;
 import com.sparta.travelshooting.post.service.PostService;
 import com.sparta.travelshooting.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +25,7 @@ public class PostController {
         PostResponseDto postResponseDto = postService.createPost(postRequestDto, userDetails.getUser());
         return ResponseEntity.status(201).body(postResponseDto);
     }
+
 
     // 전체 게시글 조회
     @GetMapping("/posts")
