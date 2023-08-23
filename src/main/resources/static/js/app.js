@@ -4,6 +4,8 @@ const stompClient = new StompJs.Client({
 
 let chatRoomId = null;
 
+let authCookie = Cookies.get("Authorization");
+
 stompClient.onConnect = (frame) => {
     setConnected(true);
     console.log('Connected: ' + frame);
@@ -12,7 +14,8 @@ stompClient.onConnect = (frame) => {
     });
     $.ajax({
         url: "/api/chat-room/" + chatRoomId,
-        type: "GET"
+        type: "GET",
+        header: {"Authorization": authCookie}
     })
         .done(function (response) {
             console.log(response)
