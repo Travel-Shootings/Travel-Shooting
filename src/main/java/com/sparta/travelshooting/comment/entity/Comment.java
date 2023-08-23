@@ -2,7 +2,7 @@ package com.sparta.travelshooting.comment.entity;
 
 
 import com.sparta.travelshooting.comment.dto.CommentRequestDto;
-import com.sparta.travelshooting.common.Timestamp;
+import com.sparta.travelshooting.common.Timestamped;
 import com.sparta.travelshooting.post.entity.Post;
 import com.sparta.travelshooting.user.entity.User;
 import jakarta.persistence.*;
@@ -14,7 +14,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class Comment extends Timestamp {
+public class Comment extends Timestamped {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -1,6 +1,7 @@
 package com.sparta.travelshooting.reviewPost.entity;
 
 import com.sparta.travelshooting.S3Image.entity.Image;
+import com.sparta.travelshooting.common.Timestamped;
 import com.sparta.travelshooting.user.entity.User;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -15,7 +16,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @EntityListeners(AuditingEntityListener.class)
 @Table(name ="ReviewPost")
 
-public class ReviewPost {
+public class ReviewPost extends Timestamped {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
