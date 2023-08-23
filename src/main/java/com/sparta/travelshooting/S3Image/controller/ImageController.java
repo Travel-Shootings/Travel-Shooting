@@ -5,12 +5,13 @@ import com.sparta.travelshooting.S3Image.service.ImageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
-@RestController
+@Controller
 @RequiredArgsConstructor
 @RequestMapping("/api")
 public class ImageController {
@@ -20,9 +21,9 @@ public class ImageController {
     //이미지 저장
 
     @PostMapping("/image")
-    @ResponseStatus(HttpStatus.OK)
-    public List<String> saveImage(@ModelAttribute ImageSaveDto imageSaveDto) {
-        return imageService.saveImages(imageSaveDto);
+    public ResponseEntity<List<String>> saveImage(@ModelAttribute ImageSaveDto imageSaveDto) {
+        List<String> imageUrls = imageService.saveImages(imageSaveDto);
+        return ResponseEntity.ok().body(imageUrls);
     }
 
     //이미지 수정

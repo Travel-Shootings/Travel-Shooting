@@ -10,11 +10,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.concurrent.RejectedExecutionException;
 
-@RestController
+@Controller
 @RequiredArgsConstructor
 @RequestMapping("/api/posts/{postId}/comments/{commentId}/replies")
 public class ReplyController {
@@ -34,25 +35,20 @@ public class ReplyController {
     public ResponseEntity<ApiResponseDto> updateReply(@PathVariable Long replyId, @RequestBody ReplyRequestDto replyRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         try {
             replyService.updateReply(replyId, replyRequestDto, userDetails.getUser());
+            return ResponseEntity.ok(new ApiResponseDto("대댓글이 수정되었습니다", HttpStatus.OK.value()));
         } catch (RejectedExecutionException e) {
-            ApiResponseDto apiResponseDto = new ApiResponseDto(e.getMessage(), HttpStatus.BAD_REQUEST.value());
-            return new ResponseEntity<>(apiResponseDto, HttpStatus.OK);
+            return ResponseEntity.ok(new ApiResponseDto(e.getMessage(), HttpStatus.BAD_REQUEST.value()));
         }
-
-        ApiResponseDto apiResponseDto = new ApiResponseDto("대댓글이 수정되었습니다", HttpStatus.OK.value());
-        return new ResponseEntity<>(apiResponseDto, HttpStatus.OK);
     }
 
     @DeleteMapping("/{replyId}")
-    public ResponseEntity<ApiResponseDto> deleteReply(@PathVariable Long replyId, @AuthenticationPrincipal UserDetailsImpl userDetails){
-        try{
+    public ResponseEntity<ApiResponseDto> deleteReply(@PathVariable Long replyId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        try {
             replyService.deleteReply(replyId, userDetails.getUser());
-        }catch (RejectedExecutionException e){
-            ApiResponseDto apiResponseDto = new ApiResponseDto(e.getMessage(), HttpStatus.BAD_REQUEST.value());
-            return new ResponseEntity<>(apiResponseDto, HttpStatus.OK);
+            return ResponseEntity.ok(new ApiResponseDto("대댓글이 삭제되었습니다", HttpStatus.OK.value()));
+        } catch (RejectedExecutionException e) {
+            return ResponseEntity.ok(new ApiResponseDto(e.getMessage(), HttpStatus.BAD_REQUEST.value()));
         }
-        ApiResponseDto apiResponseDto = new ApiResponseDto("대댓글이 삭제되었습니다", HttpStatus.OK.value());
-        return new ResponseEntity<>(apiResponseDto, HttpStatus.OK);
     }
 
 

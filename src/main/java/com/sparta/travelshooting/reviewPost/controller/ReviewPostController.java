@@ -9,19 +9,20 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.concurrent.RejectedExecutionException;
 
-@RestController
+@Controller
 @RequiredArgsConstructor
 @RequestMapping("/api/reviewPosts")
 public class ReviewPostController {
 
     private final ReviewPostService reviewPostService;
 
-//    후기 게시글 작성
+
 // 후기 게시글 작성
 @PostMapping("")
 public ResponseEntity<ApiResponseDto> createReviewPost(@RequestParam("images") MultipartFile imageFile, @ModelAttribute ReviewPostRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
