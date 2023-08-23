@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 
+@Secured("ADMIN")
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/admin")
@@ -29,21 +30,18 @@ public class AdminController {
 //    }
 
     // 유저 전체 정보 조회
-    @Secured("Role_ADMIN")
     @GetMapping("/users")
     public ResponseEntity<List<UserResponseDto>> showUsers() {
         return ResponseEntity.status(HttpStatus.OK).body(adminService.showUsers());
     }
 
     // 글 전체 정보 조회
-    @Secured("Role_ADMIN")
     @GetMapping("/posts")
     public List<PostResponseDto> showPosts() {
         return adminService.showPosts();
     }
 
     //유저 프로필 수정
-    @Secured("Role_ADMIN")
     @PutMapping("/user/{userId}")
     public ResponseEntity<ApiResponseDto> updateUser(@PathVariable Long userId, @RequestBody AdminProfileRequestDto requestDto) {
         ApiResponseDto apiResponseDto = adminService.updateUser(userId, requestDto);
@@ -51,7 +49,6 @@ public class AdminController {
     }
 
     // 게시글 수정
-    @Secured("Role_ADMIN")
     @PutMapping("/posts/{postId}")
     public ResponseEntity<ApiResponseDto> updatePost(@PathVariable Long postId, @RequestBody PostRequestDto requestDto) {
        ApiResponseDto apiResponseDto = adminService.updatePost(postId, requestDto);
