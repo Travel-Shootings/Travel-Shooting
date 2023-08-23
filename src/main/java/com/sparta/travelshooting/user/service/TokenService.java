@@ -1,7 +1,6 @@
 package com.sparta.travelshooting.user.service;
 
 import com.sparta.travelshooting.user.dto.TokenResponseDto;
-import com.sparta.travelshooting.user.entity.User;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 

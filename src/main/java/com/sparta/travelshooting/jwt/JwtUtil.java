@@ -1,20 +1,23 @@
 package com.sparta.travelshooting.jwt;
 
+import com.sparta.travelshooting.redis.RedisUtil;
 import com.sparta.travelshooting.user.entity.RoleEnum;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+import io.jsonwebtoken.security.SignatureException;
 import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
-import javax.crypto.SecretKey;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
@@ -24,7 +27,9 @@ import java.util.Date;
 
 @Component
 @Slf4j
+@RequiredArgsConstructor
 public class JwtUtil {
+    private final RedisUtil redisUtil;
     // 토큰 생성에 필요한 값
     // Header Authorization KEY 값
     public static final String AUTHORIZATION_HEADER = "Authorization";
@@ -34,7 +39,6 @@ public class JwtUtil {
     public static final String BEARER_PREFIX = "Bearer ";
     // 토큰 만료시간
     private final long TOKEN_TIME = 30 * 60 * 1000L; // 30분
-    private final long REFRESH_TOKEN_TIME = 6000 * 60 * 1000L; // 6000분 -> 100시간
 
     // Base64 Encode 한 SecretKey
     @Value("${jwt.secret.key}")
@@ -47,17 +51,7 @@ public class JwtUtil {
         byte[] bytes = Base64.getDecoder().decode(secretKey);
         key = Keys.hmacShaKeyFor(bytes);
     }
-
-    // refresh
-    private final SecretKey refreshKey;
-
-    public JwtUtil(@Value("${jwt.refresh.key}") String jwtRefreshKey) {
-        this.refreshKey = Keys.hmacShaKeyFor(jwtRefreshKey.getBytes());
-    }
-
     private final SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
-
-
 
     // 토큰 생성
     // secretKey = 토큰에 서명하기 위해 사용하는 키
@@ -75,20 +69,6 @@ public class JwtUtil {
                         .compact(); // String 형식의 JWT 토큰으로 반환됨
     }
 
-    public String createRefreshToken(String email, RoleEnum role) {
-        Date date = new Date();
-
-        return BEARER_PREFIX +
-                Jwts.builder()
-                        .setSubject(email) // 사용자 식별자값(ID), 공간에 email 을 넣어 줌
-                        .claim(AUTHORIZATION_KEY, role) // 공간 속에 권한 키값과 사용자 권한을 담는다
-                        .setExpiration(new Date(date.getTime() + REFRESH_TOKEN_TIME)) // 만료 시간
-                        .setIssuedAt(date) // 발급일
-                        .signWith(refreshKey, signatureAlgorithm) // 암호화 알고리즘
-                        .compact(); // String 형식의 JWT 토큰으로 반환됨
-    }
-
-
     // JWT Cookie 에 저장
     public void addJwtToCookie(String token, HttpServletResponse res) {
         try {
@@ -105,42 +85,30 @@ public class JwtUtil {
     }
 
     // 토큰 검증
-    public boolean validateToken(String token, HttpServletResponse res) {
+    public boolean validateToken(String token) {
         try {
             Jwts.parserBuilder()
                     // 비밀 값으로 복호화
                     .setSigningKey(key)
                     .build()
                     .parseClaimsJws(token);
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
-    }
 
-    // 리프레시 토큰 검증
-    public boolean validateRefreshToken(String token) {
-        try {
-            Jwts.parserBuilder()
-                    // 비밀 값으로 복호화
-                    .setSigningKey(refreshKey)
-                    .build()
-                    .parseClaimsJws(token);
+            // 블랙리스트에 있는 토큰인지 확인
+            if(redisUtil.hasKeyBlackList(token)) {
+                throw new IllegalArgumentException("사용할 수 없는 토큰입니다. 다시 로그인 해주세요.");
+            }
+
             return true;
-        } catch (NullPointerException e) {
-            log.info("토큰에 문제가 생겨 로그아웃합니다.");
+        } catch (ExpiredJwtException e) {
+            return false;
+        } catch (Exception e) {
+            throw new IllegalArgumentException(e.getMessage());
         }
-        return false;
     }
 
     // 토큰에서 사용자 정보 가져오기
     public Claims getUserInfoFromToken(String token) {
         return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
-    }
-
-    // 토큰에서 사용자 정보 가져오기
-    public Claims getUserInfoFromRefreshToken(String token) {
-        return Jwts.parserBuilder().setSigningKey(refreshKey).build().parseClaimsJws(token).getBody();
     }
 
     public String getTokenFromRequest(HttpServletRequest req) {
@@ -161,12 +129,17 @@ public class JwtUtil {
 
     //토큰에서 만료 시간 가져오기
     public Date extractExpirationDateFromToken(String token) {
-        Claims claims = Jwts.parser()
-                .setSigningKey(key) // 토큰 검증을 위해 사용한 키
-                .parseClaimsJws(token)
-                .getBody();
+        try {
+            Claims claims = Jwts.parser()
+                    .setSigningKey(key) // 토큰 검증을 위해 사용한 키
+                    .parseClaimsJws(token)
+                    .getBody();
 
-        return claims.getExpiration(); // 토큰의 만료 시간을 반환
+            return claims.getExpiration(); // 토큰의 만료 시간을 반환
+        } catch (SignatureException e) {
+            throw new RuntimeException(e.getMessage());
+        }
+
     }
 
     public String substringToken(String tokenValue) {
@@ -176,7 +149,7 @@ public class JwtUtil {
         throw new NullPointerException("Not Found Token");
     }
 
-    public void deleteCookie(String token, HttpServletResponse res) {
+    public void deleteCookieWithAccessToken(String token, HttpServletResponse res) {
         try {
             token = URLEncoder.encode(token, "utf-8").replaceAll("\\+", "%20"); // Cookie Value 에는 공백이 불가능해서 encoding 진행
 
@@ -190,4 +163,21 @@ public class JwtUtil {
             throw new IllegalArgumentException("에러가 발생했습니다.");
         }
     }
+
+    //refresh token의 값 가져오기
+    public String getUUID(HttpServletRequest req) {
+        try {
+            Cookie[] cookies = req.getCookies();
+
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals("refreshToken")) {
+                    return cookie.getValue();
+                }
+            }
+            return null;
+        } catch (Exception e) {
+            throw new IllegalArgumentException("문제가 발생했습니다.");
+        }
+    }
+
 }

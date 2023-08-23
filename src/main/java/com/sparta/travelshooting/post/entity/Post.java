@@ -1,6 +1,7 @@
 package com.sparta.travelshooting.post.entity;
 
 import com.sparta.travelshooting.common.Timestamped;
+import com.sparta.travelshooting.journeylist.entity.JourneyList;
 import com.sparta.travelshooting.post.dto.PostRequestDto;
 import com.sparta.travelshooting.user.entity.User;
 import jakarta.persistence.*;
@@ -29,7 +30,7 @@ public class Post extends Timestamped {
     private String contents;
 
     @Column
-    private Integer likeCount = 0;
+    private Integer likeCounts = 0;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
@@ -38,9 +39,13 @@ public class Post extends Timestamped {
     @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
     private List<PostLike> postLikes = new ArrayList<>();
 
-    public Post (PostRequestDto postRequestDto, User user) {
+    @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
+    private List<JourneyList> journeyLists = new ArrayList<>();
+
+    public Post (PostRequestDto postRequestDto, List<JourneyList> journeyList, User user) {
         this.title = postRequestDto.getTitle();
         this.contents = postRequestDto.getContents();
+        this.journeyLists = journeyList;
         this.user = user;
     }
 }

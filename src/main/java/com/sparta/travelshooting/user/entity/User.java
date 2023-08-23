@@ -1,11 +1,11 @@
 package com.sparta.travelshooting.user.entity;
 
 import com.sparta.travelshooting.post.entity.PostLike;
-import com.sparta.travelshooting.user.dto.EditInfoRequestDto;
 import com.sparta.travelshooting.user.dto.SignupRequestDto;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 @Table(name = "users")
 @Getter
+@Setter
 public class User {
 
     @Id
@@ -38,6 +39,9 @@ public class User {
     @Enumerated(value = EnumType.STRING)
     private RoleEnum role;
 
+    @Column
+    private String recentPassword;
+
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     private List<PostLike> postLikes = new ArrayList<>();
 
@@ -53,5 +57,10 @@ public class User {
     public void update(String nickname, RegionEnum region) {
         this.nickname = nickname;
         this.region = region;
+    }
+
+    public void passwordUpdate(String newPassword) {
+        this.recentPassword = this.password;
+        this.password = newPassword;
     }
 }
