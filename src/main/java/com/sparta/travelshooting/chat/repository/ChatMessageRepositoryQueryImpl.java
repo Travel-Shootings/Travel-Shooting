@@ -25,7 +25,7 @@ public class ChatMessageRepositoryQueryImpl implements ChatMessageRepositoryQuer
 
         return jpaQueryFactory.select(chatMessage)
                 .from(chatMessage)
-                .offset(pageable.getOffset())
+                .offset(pageable.getOffset() - 1) // 1-based
                 .limit(pageable.getPageSize())
                 .orderBy(orderSpecifier)
                 .fetch();
