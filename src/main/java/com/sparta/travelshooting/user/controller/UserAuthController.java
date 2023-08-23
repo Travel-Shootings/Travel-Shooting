@@ -1,8 +1,10 @@
 package com.sparta.travelshooting.user.controller;
 
 import com.sparta.travelshooting.common.ApiResponseDto;
+import com.sparta.travelshooting.redis.RedisUtil;
 import com.sparta.travelshooting.user.dto.LoginRequestDto;
 import com.sparta.travelshooting.user.dto.SignupRequestDto;
+import com.sparta.travelshooting.user.dto.TokenRequestDto;
 import com.sparta.travelshooting.user.dto.TokenResponseDto;
 import com.sparta.travelshooting.user.service.TokenService;
 import com.sparta.travelshooting.user.service.UserAuthService;
@@ -20,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 public class UserAuthController {
     private final UserAuthService userService;
     private final TokenService tokenService;
+
 
     // 회원가입 API
     @PostMapping("/signup")
@@ -60,5 +63,12 @@ public class UserAuthController {
     public ResponseEntity<ApiResponseDto> illegalArgumentException(IllegalArgumentException e) {
         ApiResponseDto apiResponseDto = new ApiResponseDto(e.getMessage(), HttpStatus.BAD_REQUEST.value());
         return new ResponseEntity<>(apiResponseDto, HttpStatus.BAD_REQUEST);
+    }
+
+    // Access Token 블랙리스트 확인 API -> 테스트용이라서 추후에 제거 (TokenRequestDto 도 삭제)
+    private final RedisUtil redisUtil;
+    @PostMapping("/black-list")
+    public ResponseEntity<Boolean> checkBlackList(@RequestBody TokenRequestDto token) {
+        return new ResponseEntity<>(redisUtil.hasKeyBlackList(token.getToken()), HttpStatus.OK);
     }
 }
