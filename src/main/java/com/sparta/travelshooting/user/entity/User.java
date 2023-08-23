@@ -37,6 +37,9 @@ public class User {
     @Enumerated(value = EnumType.STRING)
     private RoleEnum role;
 
+    @Column
+    private String recentPassword;
+
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     private List<PostLike> postLikes = new ArrayList<>();
 
@@ -52,5 +55,10 @@ public class User {
     public void update(String nickname, RegionEnum region) {
         this.nickname = nickname;
         this.region = region;
+    }
+
+    public void passwordUpdate(String newPassword) {
+        this.recentPassword = this.password;
+        this.password = newPassword;
     }
 }

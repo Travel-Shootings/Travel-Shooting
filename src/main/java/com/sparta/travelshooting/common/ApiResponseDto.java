@@ -1,4 +1,4 @@
-package com.sparta.travelshooting.user.dto;
+package com.sparta.travelshooting.common;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
