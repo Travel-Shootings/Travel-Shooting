@@ -14,5 +14,7 @@ public interface ReviewPostService {
     ApiResponseDto updateReviewPost(Long ReviewPostId, MultipartFile imageFile, ReviewPostRequestDto requestDto, User user);
 
 
+    //후기 게시글 삭제
+    ApiResponseDto deleteReviewPost(Long reviewPostId, User user);
 
 }

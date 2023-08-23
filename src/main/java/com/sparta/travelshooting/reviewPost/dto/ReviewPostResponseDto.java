@@ -19,7 +19,7 @@ public class ReviewPostResponseDto {
         this.id = reviewPost.getId();
         this.title = reviewPost.getTitle();
         this.content = reviewPost.getContent();
-        this.imageUrl = reviewPost.getImageUrl();
+        this.imageUrl = reviewPost.getImage().getAccessUrl();
     }
 }
 

@@ -1,5 +1,6 @@
 package com.sparta.travelshooting.reviewPost.entity;
 
+import com.sparta.travelshooting.S3Image.entity.Image;
 import com.sparta.travelshooting.user.entity.User;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -27,19 +28,28 @@ public class ReviewPost {
     @JoinColumn(name = "userId")
     private User user;
 
-    private String imageUrl;
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL) // Image와의 관계 매핑
+    @JoinColumn(name = "imageId")
+    private Image image;
 
 
-    public ReviewPost(String title, String content, User user, String imageUrl) {
+    private String accessUrl;
+
+
+    public ReviewPost(String title, String content, User user, Image image,String accessUrl) {
 
         this.title = title;
         this.content = content;
         this.user = user;
-        this.imageUrl = imageUrl;
+        this.image = image;
+        this.accessUrl = accessUrl;
+
     }
 
-    public void updateReviewPost(String title, String content) {
+    public void updateReviewPost(String title, String content, Image image,String accessUrl) {
         this.title = title;
         this.content = content;
+        this.image = image;
+        this.image.setAccessUrl(accessUrl);
     }
 }
