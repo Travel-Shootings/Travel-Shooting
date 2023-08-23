@@ -1,6 +1,7 @@
 package com.sparta.travelshooting.post.service;
 
-//import com.sparta.travelshooting.post.controller.NaverApiController;
+import com.sparta.travelshooting.post.controller.NaverApiController;
+import com.sparta.travelshooting.post.controller.NaverApiController;
 import com.sparta.travelshooting.post.dto.ApiResponseDto;
 import com.sparta.travelshooting.post.dto.PostRequestDto;
 import com.sparta.travelshooting.post.dto.PostResponseDto;
@@ -23,7 +24,7 @@ import java.util.stream.Collectors;
 public class PostService {
 
     private final PostRepository postRepository;
-//    private final NaverApiController naverApiController;
+    private final NaverApiController naverApiController;
     private final PostLikeRepository postLikeRepository;
 
     // 게시글 생성
