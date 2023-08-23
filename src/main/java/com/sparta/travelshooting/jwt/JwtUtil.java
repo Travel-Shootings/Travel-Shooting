@@ -93,8 +93,9 @@ public class JwtUtil {
                     .build()
                     .parseClaimsJws(token);
 
+            String checkToken = BEARER_PREFIX + token;
             // 블랙리스트에 있는 토큰인지 확인
-            if(redisUtil.hasKeyBlackList(token)) {
+            if(redisUtil.hasKeyBlackList(checkToken)) {
                 throw new IllegalArgumentException("사용할 수 없는 토큰입니다. 다시 로그인 해주세요.");
             }
 
