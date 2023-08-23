@@ -17,16 +17,15 @@ import java.util.concurrent.RejectedExecutionException;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/api/posts/{postId}/comments")
+@RequestMapping("/api/comments")
 public class CommentController {
 
     private final CommentService commentService;
 
-
-    //댓글 생성
+    // 댓글 생성
     @PostMapping("")
-    public ResponseEntity<CommentResponseDto> createComment(@RequestBody CommentRequestDto commentRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails){
-        CommentResponseDto responseDto = commentService.createComment(commentRequestDto, userDetails.getUser());
+    public ResponseEntity<CommentResponseDto> createComment(@RequestParam Long postId, @RequestBody CommentRequestDto commentRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        CommentResponseDto responseDto = commentService.createComment(postId, commentRequestDto, userDetails.getUser());
         return new ResponseEntity<>(responseDto, HttpStatus.CREATED);
     }
 

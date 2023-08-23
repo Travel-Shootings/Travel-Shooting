@@ -9,7 +9,7 @@ import com.sparta.travelshooting.user.entity.User;
 public interface CommentService {
 
     //댓글 생성
-    CommentResponseDto createComment(CommentRequestDto requestDto, User user);
+    CommentResponseDto createComment(Long postId, CommentRequestDto requestDto, User user);
 
     //댓글 수정
     ApiResponseDto updateComment(Long commentId, CommentRequestDto requestDto, User user);

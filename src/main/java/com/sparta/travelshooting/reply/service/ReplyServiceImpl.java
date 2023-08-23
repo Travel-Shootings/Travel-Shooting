@@ -25,9 +25,9 @@ public class ReplyServiceImpl implements ReplyService {
 
     //대댓글 생성
     @Override
-    public ReplyResponseDto createReply(ReplyRequestDto requestDto, User user){
-        Comment comment = commentRepository.findById(requestDto.getCommentId()).orElseThrow(()->new EntityNotFoundException("해당 댓글을 찾을 수 없습니다."));
-        Reply reply = new Reply(requestDto,comment,user);
+    public ReplyResponseDto createReply(Long commentId, ReplyRequestDto requestDto, User user) {
+        Comment comment = commentRepository.findById(commentId).orElseThrow(() -> new EntityNotFoundException("해당 댓글을 찾을 수 없습니다."));
+        Reply reply = new Reply(requestDto, comment, user);
         replyRepository.save(reply);
 
         return new ReplyResponseDto(reply);

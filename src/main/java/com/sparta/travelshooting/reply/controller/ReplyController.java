@@ -17,15 +17,15 @@ import java.util.concurrent.RejectedExecutionException;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/api/posts/{postId}/comments/{commentId}/replies")
+@RequestMapping("/api/replies")
 public class ReplyController {
 
     private final ReplyService replyService;
 
     //대댓글생성
     @PostMapping("")
-    public ResponseEntity<ReplyResponseDto> createReply(@PathVariable Long commentId, @RequestBody ReplyRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails){
-        ReplyResponseDto replyResponseDto = replyService.createReply(requestDto, userDetails.getUser());
+    public ResponseEntity<ReplyResponseDto> createReply(@RequestParam Long commentId, @RequestBody ReplyRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        ReplyResponseDto replyResponseDto = replyService.createReply(commentId, requestDto, userDetails.getUser());
         return new ResponseEntity<>(replyResponseDto, HttpStatus.CREATED);
     }
 

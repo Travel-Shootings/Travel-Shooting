@@ -23,13 +23,12 @@ public class CommentServiceImpl implements CommentService {
 
 
     @Override
-    //댓글 생성
-    public CommentResponseDto createComment(CommentRequestDto requestDto, User user){
-        Post post = postRepository.findById(requestDto.getPostId()).orElseThrow();
+    public CommentResponseDto createComment(Long postId, CommentRequestDto requestDto, User user) {
+        Post post = postRepository.findById(postId).orElseThrow(() -> new IllegalArgumentException("해당 게시글을 찾을 수 없습니다."));
         Comment comment = new Comment(requestDto, post, user);
-
         commentRepository.save(comment);
-        return new CommentResponseDto(comment);
+        CommentResponseDto responseDto = new CommentResponseDto(comment);
+        return responseDto;
     }
 
     @Override
