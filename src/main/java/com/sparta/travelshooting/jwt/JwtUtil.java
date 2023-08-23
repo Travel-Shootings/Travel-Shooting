@@ -1,15 +1,18 @@
 package com.sparta.travelshooting.jwt;
 
+import com.sparta.travelshooting.redis.RedisUtil;
 import com.sparta.travelshooting.user.entity.RoleEnum;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+import io.jsonwebtoken.security.SignatureException;
 import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -24,7 +27,9 @@ import java.util.Date;
 
 @Component
 @Slf4j
+@RequiredArgsConstructor
 public class JwtUtil {
+    private final RedisUtil redisUtil;
     // 토큰 생성에 필요한 값
     // Header Authorization KEY 값
     public static final String AUTHORIZATION_HEADER = "Authorization";
@@ -87,11 +92,17 @@ public class JwtUtil {
                     .setSigningKey(key)
                     .build()
                     .parseClaimsJws(token);
+
+            // 블랙리스트에 있는 토큰인지 확인
+            if(redisUtil.hasKeyBlackList(token)) {
+                throw new IllegalArgumentException("사용할 수 없는 토큰입니다. 다시 로그인 해주세요.");
+            }
+
             return true;
         } catch (ExpiredJwtException e) {
             return false;
         } catch (Exception e) {
-            throw new IllegalArgumentException("토큰에 문제가 생겼습니다.");
+            throw new IllegalArgumentException(e.getMessage());
         }
     }
 
@@ -118,12 +129,17 @@ public class JwtUtil {
 
     //토큰에서 만료 시간 가져오기
     public Date extractExpirationDateFromToken(String token) {
-        Claims claims = Jwts.parser()
-                .setSigningKey(key) // 토큰 검증을 위해 사용한 키
-                .parseClaimsJws(token)
-                .getBody();
+        try {
+            Claims claims = Jwts.parser()
+                    .setSigningKey(key) // 토큰 검증을 위해 사용한 키
+                    .parseClaimsJws(token)
+                    .getBody();
 
-        return claims.getExpiration(); // 토큰의 만료 시간을 반환
+            return claims.getExpiration(); // 토큰의 만료 시간을 반환
+        } catch (SignatureException e) {
+            throw new RuntimeException(e.getMessage());
+        }
+
     }
 
     public String substringToken(String tokenValue) {
