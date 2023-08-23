@@ -57,10 +57,6 @@ public class NaverApiService {
     }
 
     public List<NaverAddressDto> fromJSONtoItems(String response) {
-        // 단건시 얘를 쓰면됨
-//        JSONObject jsonObject = new JSONObject(response);
-//        JSONArray itemsArray = jsonObject.getJSONArray("items");
-//        return new NaverAddressDto(itemsArray.getJSONObject(0));
 
         JSONObject jsonObject = new JSONObject(response);
         JSONArray items = jsonObject.getJSONArray("items"); // key값으로 item을 주면 value값 다 불러옴
