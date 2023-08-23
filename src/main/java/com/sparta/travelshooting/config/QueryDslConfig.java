@@ -1,4 +1,4 @@
-package com.sparta.travelshooting.common;
+package com.sparta.travelshooting.config;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
@@ -7,8 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class QueryDslConfiguration {
-
+public class QueryDslConfig {
     @PersistenceContext
     private EntityManager entityManager;
 
