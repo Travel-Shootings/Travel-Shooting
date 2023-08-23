@@ -2,11 +2,14 @@ package com.sparta.travelshooting.user.service;
 
 import com.sparta.travelshooting.common.ApiResponseDto;
 import com.sparta.travelshooting.jwt.JwtUtil;
+import com.sparta.travelshooting.redis.RedisUtil;
 import com.sparta.travelshooting.user.dto.LoginRequestDto;
 import com.sparta.travelshooting.user.dto.SignupRequestDto;
-import com.sparta.travelshooting.user.entity.*;
+import com.sparta.travelshooting.user.entity.RefreshToken;
+import com.sparta.travelshooting.user.entity.RegionEnum;
+import com.sparta.travelshooting.user.entity.RoleEnum;
+import com.sparta.travelshooting.user.entity.User;
 import com.sparta.travelshooting.user.repository.RefreshTokenRepository;
-import com.sparta.travelshooting.user.repository.TokenBlackListRepository;
 import com.sparta.travelshooting.user.repository.UserRepository;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -27,8 +30,8 @@ public class UserAuthServiceImpl implements UserAuthService {
 
     private final UserRepository userRepository;
     private final RefreshTokenRepository refreshTokenRepository;
-    private final TokenBlackListRepository tokenBlackListRepository;
     private final PasswordEncoder passwordEncoder;
+    private final RedisUtil redisUtil;
     private final JwtUtil jwtUtil;
 
     @Override
@@ -108,10 +111,9 @@ public class UserAuthServiceImpl implements UserAuthService {
 
         // Access Token 블랙리스트에 추가
         String accessToken = jwtUtil.getTokenFromRequest(req);
-        Date expireationDate = jwtUtil.extractExpirationDateFromToken(jwtUtil.substringToken(accessToken));
-
-        TokenBlackList tokenBlackList = new TokenBlackList(accessToken, expireationDate);
-        tokenBlackListRepository.save(tokenBlackList);
+        Date expirationDate = jwtUtil.extractExpirationDateFromToken(jwtUtil.substringToken(accessToken));
+        Long expirationDateMill = expirationDate.getTime() - System.currentTimeMillis(); // 토큰 만료 시간 - 현재 시간
+        redisUtil.setBlackList(accessToken, "AccessToken", expirationDateMill);
 
         // 엑세스 토큰이 담겨있는 쿠키 삭제
         jwtUtil.deleteCookieWithAccessToken(accessToken, res);
