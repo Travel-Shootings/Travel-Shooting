@@ -9,12 +9,15 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController
+@Controller
 @RequestMapping("/api/chat-room")
 @RequiredArgsConstructor
 @Tag(name = "채팅방 관리 API")
@@ -24,37 +27,43 @@ public class ChatRoomController {
 
     @Operation(summary = "채팅방 개설")
     @PostMapping
-    public ApiResponseDto createChatRoom(@RequestBody ChatRoomRequestDto chatRoomRequestDto) {
-        return chatRoomService.createChatRoom(chatRoomRequestDto.getRoomName());
+    public ResponseEntity<ApiResponseDto> createChatRoom(@RequestBody ChatRoomRequestDto chatRoomRequestDto) {
+        ApiResponseDto apiResponseDto = chatRoomService.createChatRoom(chatRoomRequestDto.getRoomName());
+        return new ResponseEntity<>(apiResponseDto, HttpStatus.OK);
     }
 
     @Operation(summary = "채팅방 삭제")
     @DeleteMapping("/{chatRoomId}")
-    public ApiResponseDto deleteChatRoom(@PathVariable Long chatRoomId) {
-        return chatRoomService.deleteChatRoom(chatRoomId);
+    public ResponseEntity<ApiResponseDto> deleteChatRoom(@PathVariable Long chatRoomId) {
+        ApiResponseDto apiResponseDto = chatRoomService.deleteChatRoom(chatRoomId);
+        return new ResponseEntity<>(apiResponseDto, HttpStatus.OK);
     }
 
     @Operation(summary = "채팅방 입장")
     @PostMapping("/{chatRoomId}/join")
-    public ApiResponseDto joinChatRoom(@PathVariable Long chatRoomId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        return chatRoomService.joinChatRoom(userDetails.getUser().getId(), chatRoomId); //userId는 User 서비스 merge 하기 전 임시
+    public ResponseEntity<ApiResponseDto> joinChatRoom(@PathVariable Long chatRoomId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        ApiResponseDto apiResponseDto = chatRoomService.joinChatRoom(userDetails.getUser().getId(), chatRoomId);
+        return new ResponseEntity<>(apiResponseDto, HttpStatus.OK);
     }
 
     @Operation(summary = "채팅방 나가기")
     @PostMapping("/{chatRoomId}/leave")
-    public ApiResponseDto leaveChatRoom(@PathVariable Long chatRoomId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        return chatRoomService.leaveChatRoom(userDetails.getUser().getId(), chatRoomId); //userId는 User 서비스 merge 하기 전 임시
+    public ResponseEntity<ApiResponseDto> leaveChatRoom(@PathVariable Long chatRoomId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        ApiResponseDto apiResponseDto = chatRoomService.leaveChatRoom(userDetails.getUser().getId(), chatRoomId);
+        return new ResponseEntity<>(apiResponseDto, HttpStatus.OK);
     }
 
     @Operation(summary = "채팅방 채팅 내역 전체 불러오기")
     @GetMapping("/{chatRoomId}")
-    public List<ChatMessageResponseDto> getChatRoomChatMessage(@PathVariable Long chatRoomId) {
-        return chatRoomService.getChatRoomChatMessage(chatRoomId);
+    public ResponseEntity<List<ChatMessageResponseDto>> getChatRoomChatMessage(@PathVariable Long chatRoomId) {
+        List<ChatMessageResponseDto> chatMessageResponseDtoList = chatRoomService.getChatRoomChatMessage(chatRoomId);
+        return new ResponseEntity<>(chatMessageResponseDtoList, HttpStatus.OK);
     }
 
     @Operation(summary = "채팅방 채팅 내역 페이징으로 불러오기")
     @GetMapping("/{chatRoomId}/paging")
-    public List<ChatMessageResponseDto> getChatRoomChatMessagePaging(@PathVariable Long chatRoomId, Pageable pageable) {
-        return chatRoomService.getChatRoomChatMessagePaging(chatRoomId, pageable);
+    public ResponseEntity<List<ChatMessageResponseDto>> getChatRoomChatMessagePaging(@PathVariable Long chatRoomId, Pageable pageable) {
+        List<ChatMessageResponseDto> chatMessageResponseDtoList = chatRoomService.getChatRoomChatMessagePaging(chatRoomId, pageable);
+        return new ResponseEntity<>(chatMessageResponseDtoList, HttpStatus.OK);
     }
 }

@@ -6,12 +6,14 @@ import com.sparta.travelshooting.chat.service.ChatMessageService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Controller;
 
-@RestController
+@Controller
 @RequiredArgsConstructor
 @Tag(name = "채팅 관리 API")
 public class ChatMessageController {
@@ -21,7 +23,8 @@ public class ChatMessageController {
     @Operation(summary = "채팅 보내기")
     @MessageMapping("/hello/{chatRoomId}")
     @SendTo("/topic/messages/{chatRoomId}")
-    public ChatMessageResponseDto sendChat(@DestinationVariable Long chatRoomId, ChatMessageRequestDto chatMessageRequestDto) {
-        return chatMessageService.sendChat(chatRoomId, chatMessageRequestDto);
+    public ResponseEntity<ChatMessageResponseDto> sendChat(@DestinationVariable Long chatRoomId, ChatMessageRequestDto chatMessageRequestDto) {
+        ChatMessageResponseDto chatMessageResponseDto = chatMessageService.sendChat(chatRoomId, chatMessageRequestDto);
+        return new ResponseEntity<>(chatMessageResponseDto, HttpStatus.OK);
     }
 }
