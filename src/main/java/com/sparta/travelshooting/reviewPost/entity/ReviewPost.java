@@ -36,24 +36,20 @@ public class ReviewPost extends Timestamped {
 
 
 
-    private String accessUrl;
-
-
-    public ReviewPost(String title, String content, User user, Image image,String accessUrl) {
+    public ReviewPost(String title, String content, User user,Image image) {
 
         this.title = title;
         this.content = content;
         this.user = user;
         this.image = image;
-        this.accessUrl = accessUrl;
 
 
     }
 
-    public void updateReviewPost(String title, String content, Image image,String accessUrl) {
+    public void updateReviewPost(String title, String content, Image image) {
         this.title = title;
         this.content = content;
         this.image = image;
-        this.image.setAccessUrl(accessUrl);
     }
+
 }

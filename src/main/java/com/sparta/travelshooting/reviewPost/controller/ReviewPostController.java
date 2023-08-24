@@ -40,7 +40,7 @@ public ResponseEntity<ApiResponseDto> createReviewPost(@RequestParam("images") M
 
     // 후기 게시글 수정
     @PutMapping("/{reviewPostId}")
-    public ResponseEntity<ApiResponseDto> updateReviewPost(@PathVariable Long reviewPostId, @RequestParam(required = false) MultipartFile imageFile, @ModelAttribute ReviewPostRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+    public ResponseEntity<ApiResponseDto> updateReviewPost(@PathVariable Long reviewPostId, @RequestParam("images") MultipartFile imageFile, @ModelAttribute ReviewPostRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         try {
             ApiResponseDto apiResponseDto = reviewPostService.updateReviewPost(reviewPostId, imageFile, requestDto, userDetails.getUser());
             return new ResponseEntity<>(apiResponseDto, HttpStatus.OK);

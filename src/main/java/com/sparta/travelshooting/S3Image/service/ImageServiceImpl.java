@@ -61,8 +61,8 @@ public class ImageServiceImpl implements ImageService {
         } catch(IOException e) {
 
         }
-//
-//        imageRepository.save(image);
+
+        imageRepository.save(image);
 
         return image.getAccessUrl();
     }
@@ -81,8 +81,7 @@ public class ImageServiceImpl implements ImageService {
         Image existingImage = imageOptional.get();
 
 
-
-        // S3에서 기존 이미지 삭제
+//         S3에서 기존 이미지 삭제
         deleteImageFromS3(existingImage.getAccessUrl());
 
         // S3에 새로운 이미지 저장
@@ -90,10 +89,9 @@ public class ImageServiceImpl implements ImageService {
 
         // 이미지 정보 업데이트
         existingImage.setAccessUrl(newImageUrl);
-        imageRepository.save(existingImage);
 
         // 기존 이미지 정보 삭제
-        imageRepository.delete(existingImage);
+//        imageRepository.delete(existingImage);
 
 
         return newImageUrl;

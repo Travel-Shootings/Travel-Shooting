@@ -46,4 +46,5 @@ public class Image {
     public String getFileName(String originName) {
         return UUID.randomUUID() + "." + extractExtension(originName);
     }
+
 }
