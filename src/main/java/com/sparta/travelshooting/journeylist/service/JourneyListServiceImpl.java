@@ -34,6 +34,8 @@ public class JourneyListServiceImpl implements JourneyListService {
     }
 
     //여행 일정 수정
+    @Transactional
+    @Override
     public ApiResponseDto updateJourney(Long postId, Long journeyListId, JourneyListRequestDto journeyListRequestDto) {
         Optional<Post> post = postRepository.findById(postId);
         Optional<JourneyList> journeyList = journeyListRepository.findById(journeyListId);
@@ -47,6 +49,8 @@ public class JourneyListServiceImpl implements JourneyListService {
     }
 
     // 여행 일정 삭제
+    @Transactional
+    @Override
     public ApiResponseDto deleteJourney(Long postId, Long journeyListId) {
         Optional<Post> post = postRepository.findById(postId);
         Optional<JourneyList> journeyList = journeyListRepository.findById(journeyListId);
