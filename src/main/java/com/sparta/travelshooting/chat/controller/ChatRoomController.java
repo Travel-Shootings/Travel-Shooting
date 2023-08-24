@@ -3,7 +3,7 @@ package com.sparta.travelshooting.chat.controller;
 import com.sparta.travelshooting.chat.dto.ChatMessageResponseDto;
 import com.sparta.travelshooting.chat.dto.ChatRoomRequestDto;
 import com.sparta.travelshooting.chat.service.ChatRoomService;
-import com.sparta.travelshooting.common.entity.ApiResponseDto;
+import com.sparta.travelshooting.common.ApiResponseDto;
 import com.sparta.travelshooting.security.UserDetailsImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;

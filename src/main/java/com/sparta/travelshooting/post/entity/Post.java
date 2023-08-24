@@ -48,4 +48,9 @@ public class Post extends Timestamped {
         this.journeyLists = journeyList;
         this.user = user;
     }
+
+    public void update (PostRequestDto postRequestDto) {
+        this.title = postRequestDto.getTitle();
+        this.contents = postRequestDto.getContents();
+    }
 }

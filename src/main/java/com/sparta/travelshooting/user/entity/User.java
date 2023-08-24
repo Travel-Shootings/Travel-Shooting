@@ -1,5 +1,6 @@
 package com.sparta.travelshooting.user.entity;
 
+import com.sparta.travelshooting.admin.dto.AdminProfileRequestDto;
 import com.sparta.travelshooting.post.entity.PostLike;
 import com.sparta.travelshooting.user.dto.SignupRequestDto;
 import jakarta.persistence.*;
@@ -62,5 +63,13 @@ public class User {
     public void passwordUpdate(String newPassword) {
         this.recentPassword = this.password;
         this.password = newPassword;
+    }
+
+    public void updateByAdmin(AdminProfileRequestDto adminProfileRequestDto) {
+        this.email = adminProfileRequestDto.getEmail();
+        this.password = adminProfileRequestDto.getPassword();
+        this.nickname = adminProfileRequestDto.getNickname();
+        this.region = adminProfileRequestDto.getRegion();
+        this.role = adminProfileRequestDto.getRole();
     }
 }
