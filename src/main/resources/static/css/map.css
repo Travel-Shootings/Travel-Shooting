@@ -1,0 +1,10 @@
+.map-container #map {
+    border-radius: 15px; /* 원하는 반지름 크기로 조절 */
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5); /* 그림자 추가 */
+    margin-left: 100px;
+    margin-top: 15px;
+}
+
+.search {
+    margin-left: 100px;
+}
