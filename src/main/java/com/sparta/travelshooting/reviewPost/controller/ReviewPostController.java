@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
 import java.util.concurrent.RejectedExecutionException;
 
 @Controller
@@ -35,6 +36,25 @@ public ResponseEntity<ApiResponseDto> createReviewPost(@RequestParam("images") M
         return new ResponseEntity<>(apiResponseDto, HttpStatus.BAD_REQUEST);
     }
 }
+
+    // 후기 게시글 단건 조회
+    @GetMapping("/{reviewPostId}")
+    public ResponseEntity<ReviewPostResponseDto> getReviewPost(@PathVariable Long reviewPostId) {
+        try {
+            ReviewPostResponseDto responseDto = reviewPostService.getReviewPost(reviewPostId);
+            return new ResponseEntity<>(responseDto, HttpStatus.OK);
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    // 후기 게시글 전체 조회
+    @GetMapping("")
+    public ResponseEntity<List<ReviewPostResponseDto>> getAllReviewPosts() {
+        List<ReviewPostResponseDto> responseDto = reviewPostService.getAllReviewPosts();
+        return new ResponseEntity<>(responseDto, HttpStatus.OK);
+    }
+
 
 
 

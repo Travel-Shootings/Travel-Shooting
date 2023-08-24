@@ -16,7 +16,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -40,6 +42,24 @@ public class ReviewPostServiceImpl implements ReviewPostService {
         reviewPostRepository.save(reviewPost);
 
         return new ReviewPostResponseDto(reviewPost);
+    }
+
+    @Override
+    public ReviewPostResponseDto getReviewPost(Long reviewPostId) {
+        Optional<ReviewPost> optionalReviewPost = reviewPostRepository.findById(reviewPostId);
+        if (optionalReviewPost.isEmpty()) {
+            throw new IllegalArgumentException("해당 게시글을 찾을 수 없습니다.");
+        }
+        ReviewPost reviewPost = optionalReviewPost.get();
+        return new ReviewPostResponseDto(reviewPost);
+    }
+
+    @Override
+    public List<ReviewPostResponseDto> getAllReviewPosts() {
+        List<ReviewPost> reviewPosts = reviewPostRepository.findAll();
+        return reviewPosts.stream()
+                .map(ReviewPostResponseDto::new)
+                .collect(Collectors.toList());
     }
 
 

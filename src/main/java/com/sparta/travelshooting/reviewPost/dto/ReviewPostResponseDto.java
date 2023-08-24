@@ -8,7 +8,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ReviewPostResponseDto {
-    private Long id;
     private String title;
     private String content;
     private String imageUrl;
@@ -16,7 +15,6 @@ public class ReviewPostResponseDto {
 
 
     public ReviewPostResponseDto(ReviewPost reviewPost){
-        this.id = reviewPost.getId();
         this.title = reviewPost.getTitle();
         this.content = reviewPost.getContent();
         this.imageUrl = reviewPost.getImage().getAccessUrl();

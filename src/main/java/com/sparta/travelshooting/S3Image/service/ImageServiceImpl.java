@@ -62,8 +62,6 @@ public class ImageServiceImpl implements ImageService {
 
         }
 
-        imageRepository.save(image);
-
         return image.getAccessUrl();
     }
 
@@ -89,9 +87,9 @@ public class ImageServiceImpl implements ImageService {
 
         // 이미지 정보 업데이트
         existingImage.setAccessUrl(newImageUrl);
+        existingImage.setOriginName(multipartFile.getOriginalFilename());
 
-        // 기존 이미지 정보 삭제
-//        imageRepository.delete(existingImage);
+
 
 
         return newImageUrl;

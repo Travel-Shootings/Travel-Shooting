@@ -6,6 +6,8 @@ import com.sparta.travelshooting.reviewPost.dto.ReviewPostResponseDto;
 import com.sparta.travelshooting.user.entity.User;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+
 public interface ReviewPostService {
     //후기 게시글 작성
     ReviewPostResponseDto createReviewPost(MultipartFile imageFile, ReviewPostRequestDto requestDto, User user);
@@ -16,5 +18,9 @@ public interface ReviewPostService {
 
     //후기 게시글 삭제
     ApiResponseDto deleteReviewPost(Long reviewPostId, User user);
+
+    ReviewPostResponseDto getReviewPost(Long reviewPostId);
+
+    List<ReviewPostResponseDto> getAllReviewPosts();
 
 }

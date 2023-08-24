@@ -1,10 +1,7 @@
 package com.sparta.travelshooting.S3Image.entity;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.UUID;
 
@@ -33,6 +30,10 @@ public class Image {
 
     public void setAccessUrl(String accessUrl) {
         this.accessUrl = accessUrl;
+    }
+
+    public void setOriginName(String originName){
+        this.originName = originName;
     }
 
     // 이미지 파일의 확장자를 추출하는 메소드
