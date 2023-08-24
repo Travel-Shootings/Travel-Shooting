@@ -34,8 +34,13 @@ public class Image {
 
     public void setOriginName(String originName){
         this.originName = originName;
+        updateStoredName();
     }
 
+
+    private void updateStoredName() {
+        this.storedName = getFileName(originName);
+    }
     // 이미지 파일의 확장자를 추출하는 메소드
     public String extractExtension(String originName) {
         int index = originName.lastIndexOf('.');
