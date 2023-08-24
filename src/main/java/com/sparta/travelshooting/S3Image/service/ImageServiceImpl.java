@@ -62,7 +62,7 @@ public class ImageServiceImpl implements ImageService {
 
         }
 
-        imageRepository.save(image);
+//        imageRepository.save(image);
 
         return image.getAccessUrl();
     }
