@@ -34,6 +34,8 @@ public class ReviewPost extends Timestamped {
     private Image image;
 
 
+
+
     private String accessUrl;
 
 
@@ -44,6 +46,7 @@ public class ReviewPost extends Timestamped {
         this.user = user;
         this.image = image;
         this.accessUrl = accessUrl;
+
 
     }
 

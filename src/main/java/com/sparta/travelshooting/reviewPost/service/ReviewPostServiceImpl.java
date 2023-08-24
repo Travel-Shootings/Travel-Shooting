@@ -34,15 +34,14 @@ public class ReviewPostServiceImpl implements ReviewPostService {
         //이미지 엔티티 생성
         Image image = new Image(imageFile.getOriginalFilename());
         image.setAccessUrl(imageUrl);
-        imageRepository.save(image); // 이미지 엔티티를 저장
+//        imageRepository.save(image); // 이미지 엔티티를 저장
 
         // 게시글 생성 및 저장
-        ReviewPost reviewPost = new ReviewPost(requestDto.getTitle(), requestDto.getContent(),user,image, image.getAccessUrl());
+        ReviewPost reviewPost = new ReviewPost(requestDto.getTitle(), requestDto.getContent(),user, image,image.getAccessUrl());
         reviewPostRepository.save(reviewPost);
 
         return new ReviewPostResponseDto(reviewPost);
     }
-
 
     @Override
     @Transactional
@@ -55,23 +54,21 @@ public class ReviewPostServiceImpl implements ReviewPostService {
         ReviewPost reviewPost = optionalReviewPost.get();
 
         // 이미지 업로드 및 수정
-        String newImageUrl = null;
-        Image newImage = null; // 새로운 이미지 엔티티 변수 추가
+        Image newImage = reviewPost.getImage(); // 기존 이미지 엔티티를 가져옴
+        String newImageUrl = reviewPost.getAccessUrl(); // 기존 이미지 URL을 가져옴
 
         if (imageFile != null && !imageFile.isEmpty()) {
             newImageUrl = imageService.updateImage(reviewPost.getImage().getId(), imageFile);
-            newImage = new Image(imageFile.getOriginalFilename()); // 새로운 이미지 엔티티 생성 코드 추가
-            imageRepository.save(newImage); // 새로운 이미지를 저장해야 함
-        } else {
-            newImage = reviewPost.getImage(); // 이미지 파일이 없을 때 기존 이미지 사용
-            newImageUrl = newImage.getAccessUrl(); // 이미지 파일이 없을 때도 accessUrl 사용
+            newImage.setAccessUrl(newImageUrl); // 이미지 URL을 업데이트
         }
 
         // 게시글 업데이트
         reviewPost.updateReviewPost(requestDto.getTitle(), requestDto.getContent(), newImage, newImageUrl);
+        reviewPostRepository.save(reviewPost);
 
         return new ApiResponseDto("게시글 수정 완료", HttpStatus.OK.value());
     }
+
 
 
     @Override

@@ -61,7 +61,7 @@ public class ImageServiceImpl implements ImageService {
         } catch(IOException e) {
 
         }
-
+//
 //        imageRepository.save(image);
 
         return image.getAccessUrl();
@@ -80,8 +80,10 @@ public class ImageServiceImpl implements ImageService {
 
         Image existingImage = imageOptional.get();
 
+
+
         // S3에서 기존 이미지 삭제
-        deleteImageFromS3(existingImage.getStoredName());
+        deleteImageFromS3(existingImage.getAccessUrl());
 
         // S3에 새로운 이미지 저장
         String newImageUrl = saveImage(multipartFile);
@@ -92,6 +94,7 @@ public class ImageServiceImpl implements ImageService {
 
         // 기존 이미지 정보 삭제
         imageRepository.delete(existingImage);
+
 
         return newImageUrl;
     }
@@ -105,15 +108,25 @@ public class ImageServiceImpl implements ImageService {
                 .orElseThrow(() -> new IllegalArgumentException("Image not found with ID: " + imageId));
 
         // 이미지 삭제 로직
-        deleteImageFromS3(image.getStoredName());
+        deleteImageFromS3(image.getAccessUrl());
 
         // 데이터베이스에서 이미지 삭제
         imageRepository.delete(image);
     }
 
-    //S3에서 이미지 삭제
-    private void deleteImageFromS3(String filename) {
+    // S3에서 이미지 삭제
+    private void deleteImageFromS3(String accessUrl) {
+        String filename = extractFilenameFromUrl(accessUrl);
         amazonS3Client.deleteObject(bucketName, filename);
+    }
+
+    // URL에서 파일 이름 추출
+    private String extractFilenameFromUrl(String url) {
+        int lastSlashIndex = url.lastIndexOf('/');
+        if (lastSlashIndex != -1) {
+            return url.substring(lastSlashIndex + 1);
+        }
+        return url;
     }
 
 
