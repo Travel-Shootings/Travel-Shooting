@@ -5,6 +5,8 @@ import com.sparta.travelshooting.reviewPost.dto.ReviewPostRequestDto;
 import com.sparta.travelshooting.reviewPost.dto.ReviewPostResponseDto;
 import com.sparta.travelshooting.reviewPost.service.ReviewPostService;
 import com.sparta.travelshooting.security.UserDetailsImpl;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,27 +20,29 @@ import java.util.concurrent.RejectedExecutionException;
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/api/reviewPosts")
+@Tag(name = "여행 계획 후기 게시글 API")
 public class ReviewPostController {
 
     private final ReviewPostService reviewPostService;
 
 
-// 후기 게시글 작성
-@PostMapping("")
-public ResponseEntity<ApiResponseDto> createReviewPost(@RequestParam("images") MultipartFile imageFile, @ModelAttribute ReviewPostRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-    try {
-        ReviewPostResponseDto responseDto = reviewPostService.createReviewPost(imageFile, requestDto, userDetails.getUser());
-        ApiResponseDto apiResponseDto = new ApiResponseDto("게시글이 생성되었습니다.", HttpStatus.CREATED.value());
-        return new ResponseEntity<>(apiResponseDto, HttpStatus.CREATED);
-    } catch (RejectedExecutionException e) {
-        ApiResponseDto apiResponseDto = new ApiResponseDto(e.getMessage(), HttpStatus.BAD_REQUEST.value());
-        return new ResponseEntity<>(apiResponseDto, HttpStatus.BAD_REQUEST);
+    // 후기 게시글 작성
+    @Operation(summary = "후기 게시글 작성")
+    @PostMapping("")
+    public ResponseEntity<ApiResponseDto> createReviewPost(@RequestParam("images") MultipartFile imageFile, @ModelAttribute ReviewPostRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        try {
+            ReviewPostResponseDto responseDto = reviewPostService.createReviewPost(imageFile, requestDto, userDetails.getUser());
+            ApiResponseDto apiResponseDto = new ApiResponseDto("게시글이 생성되었습니다.", HttpStatus.CREATED.value());
+            return new ResponseEntity<>(apiResponseDto, HttpStatus.CREATED);
+        } catch (RejectedExecutionException e) {
+            ApiResponseDto apiResponseDto = new ApiResponseDto(e.getMessage(), HttpStatus.BAD_REQUEST.value());
+            return new ResponseEntity<>(apiResponseDto, HttpStatus.BAD_REQUEST);
+        }
     }
-}
-
 
 
     // 후기 게시글 수정
+    @Operation(summary = "후기 게시글 수정")
     @PutMapping("/{reviewPostId}")
     public ResponseEntity<ApiResponseDto> updateReviewPost(@PathVariable Long reviewPostId, @RequestParam(required = false) MultipartFile imageFile, @ModelAttribute ReviewPostRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         try {
@@ -52,6 +56,7 @@ public ResponseEntity<ApiResponseDto> createReviewPost(@RequestParam("images") M
 
 
     // 후기 게시글 삭제
+    @Operation(summary = "후기 게시글 삭제")
     @DeleteMapping("/{reviewPostId}")
     public ResponseEntity<ApiResponseDto> deleteReviewPost(@PathVariable Long reviewPostId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         try {
@@ -62,8 +67,6 @@ public ResponseEntity<ApiResponseDto> createReviewPost(@RequestParam("images") M
             return new ResponseEntity<>(apiResponseDto, HttpStatus.BAD_REQUEST);
         }
     }
-
-
 
 
 }

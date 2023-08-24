@@ -12,7 +12,7 @@ public class SwaggerConfig {
     public OpenAPI openAPI() {
         Info info = new Info()
                 .title("여행 계획 서비스 API")
-                .version("0.0.2")
+                .version("0.0.3")
                 .description("여행 계획을 세우고 공유하는 서비스의 API입니다.");
 
         return new OpenAPI()

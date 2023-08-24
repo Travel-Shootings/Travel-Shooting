@@ -6,6 +6,8 @@ import com.sparta.travelshooting.comment.dto.CommentResponseDto;
 import com.sparta.travelshooting.comment.service.CommentService;
 import com.sparta.travelshooting.common.ApiResponseDto;
 import com.sparta.travelshooting.security.UserDetailsImpl;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,11 +20,13 @@ import java.util.concurrent.RejectedExecutionException;
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/api/comments")
+@Tag(name = "댓글 API")
 public class CommentController {
 
     private final CommentService commentService;
 
     // 댓글 생성
+    @Operation(summary = "댓글 생성")
     @PostMapping("")
     public ResponseEntity<CommentResponseDto> createComment(@RequestParam Long postId, @RequestBody CommentRequestDto commentRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         CommentResponseDto responseDto = commentService.createComment(postId, commentRequestDto, userDetails.getUser());
@@ -31,6 +35,7 @@ public class CommentController {
 
 
     //댓글 수정
+    @Operation(summary = "댓글 수정")
     @PutMapping("/{commentId}")
     public ResponseEntity<ApiResponseDto> updateComment(@PathVariable Long commentId, @RequestBody CommentRequestDto commentRequestdto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         try {
@@ -43,6 +48,7 @@ public class CommentController {
 
 
     //댓글 삭제
+    @Operation(summary = "댓글 삭제")
     @DeleteMapping("/{commentId}")
     public ResponseEntity<ApiResponseDto> deleteComment(@PathVariable Long commentId, @AuthenticationPrincipal UserDetailsImpl userDetails){
         try {

@@ -6,6 +6,8 @@ import com.sparta.travelshooting.journeylist.dto.JourneyListResponseDto;
 import com.sparta.travelshooting.post.dto.*;
 import com.sparta.travelshooting.post.service.PostService;
 import com.sparta.travelshooting.security.UserDetailsImpl;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,11 +20,13 @@ import java.util.List;
 @Controller
 @RequestMapping("/api/posts")
 @RequiredArgsConstructor
+@Tag(name = "게시글 API")
 public class PostController {
 
     private final PostService postService;
 
     // 글 생성
+    @Operation(summary = "게시글 생성")
     @PostMapping()
     public ResponseEntity<PostResponseDto> createPost(@RequestBody PostRequestDto postRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         PostResponseDto postResponseDto = postService.createPost(postRequestDto, userDetails.getUser());
@@ -31,6 +35,7 @@ public class PostController {
 
 
     // 전체 게시글 조회
+    @Operation(summary = "전체 게시글 조회")
     @GetMapping()
     public ResponseEntity<List<PostResponseDto>> getPosts() {
         List<PostResponseDto> postResponseDto = postService.getPosts();
@@ -38,6 +43,7 @@ public class PostController {
     }
 
     // 단건 게시글 조회
+    @Operation(summary = "단건 게시글 조회")
     @GetMapping("/{postId}")
     public ResponseEntity<PostResponseDto> getPost(@PathVariable Long postId) {
         PostResponseDto postResponseDto = postService.getPost(postId);
@@ -45,6 +51,7 @@ public class PostController {
     }
 
     // 게시글 수정
+    @Operation(summary = "게시글 수정")
     @PutMapping("/{postId}")
     public ResponseEntity<PostResponseDto> updatePost(@RequestBody PostRequestDto postRequestDto, @PathVariable Long postId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         PostResponseDto postResponseDto = postService.updatePost(postRequestDto, postId, userDetails.getUser());
@@ -52,6 +59,7 @@ public class PostController {
     }
 
     // 게시글 삭제
+    @Operation(summary = "게시글 삭제")
     @DeleteMapping("/{postId}")
     public ResponseEntity<ApiResponseDto> deletePost(@PathVariable Long postId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         ApiResponseDto apiResponseDto = postService.deletePost(postId, userDetails.getUser());
@@ -59,6 +67,7 @@ public class PostController {
     }
 
     //좋아요 기능
+    @Operation(summary = "게시글 좋아요")
     @PostMapping("/{postId}/like")
     public ResponseEntity<ApiResponseDto> addLike(@PathVariable Long postId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         ApiResponseDto apiResponseDto = postService.addLike(postId, userDetails.getUser());
@@ -66,6 +75,7 @@ public class PostController {
     }
 
     //좋아요 취소 기능
+    @Operation(summary = "게시글 좋아요 취소")
     @DeleteMapping("/{postId}/like")
     public ResponseEntity<ApiResponseDto> deleteLike(@PathVariable Long postId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         ApiResponseDto apiResponseDto = postService.deleteLike(postId, userDetails.getUser());
