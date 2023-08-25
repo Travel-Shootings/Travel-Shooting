@@ -2,6 +2,7 @@ package com.sparta.travelshooting.reviewPost.entity;
 
 import com.sparta.travelshooting.S3Image.entity.Image;
 import com.sparta.travelshooting.common.Timestamped;
+import com.sparta.travelshooting.post.entity.PostLike;
 import com.sparta.travelshooting.user.entity.User;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -35,6 +36,11 @@ public class ReviewPost extends Timestamped {
     @OneToMany(mappedBy = "reviewPost", cascade = CascadeType.ALL)
     private List<Image> images = new ArrayList<>(); // 이미지 컬렉션 추가
 
+    @Column
+    private Integer likeCounts = 0;
+
+    @OneToMany(mappedBy = "reviewPost", cascade = CascadeType.REMOVE)
+    private List<ReviewPostLike> reviewPostLikes = new ArrayList<>();
 
 
 

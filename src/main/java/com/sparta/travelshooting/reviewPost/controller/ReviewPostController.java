@@ -35,27 +35,6 @@ public class ReviewPostController {
         return new ResponseEntity<>(apiResponseDto, HttpStatus.CREATED);
     }
 
-    // 후기 게시글 단건 조회
-    @GetMapping("/{reviewPostId}")
-    public ResponseEntity<ReviewPostResponseDto> getReviewPost(@PathVariable Long reviewPostId) {
-        try {
-            ReviewPostResponseDto responseDto = reviewPostService.getReviewPost(reviewPostId);
-            return new ResponseEntity<>(responseDto, HttpStatus.OK);
-        } catch (IllegalArgumentException e) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-    }
-
-    // 후기 게시글 전체 조회
-    @GetMapping("")
-    public ResponseEntity<List<ReviewPostResponseDto>> getAllReviewPosts() {
-        List<ReviewPostResponseDto> responseDto = reviewPostService.getAllReviewPosts();
-        return new ResponseEntity<>(responseDto, HttpStatus.OK);
-    }
-
-
-
-
     // 후기 게시글 수정
     @PatchMapping("/{reviewPostId}")
     public ResponseEntity<ApiResponseDto> updateReviewPost(@PathVariable Long reviewPostId, @RequestParam(value = "images", required = false) List<MultipartFile> imageFiles, @ModelAttribute ReviewPostRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
@@ -79,6 +58,38 @@ public class ReviewPostController {
             ApiResponseDto apiResponseDto = new ApiResponseDto(e.getMessage(), HttpStatus.BAD_REQUEST.value());
             return new ResponseEntity<>(apiResponseDto, HttpStatus.BAD_REQUEST);
         }
+    }
+
+    // 후기 게시글 단건 조회
+    @GetMapping("/{reviewPostId}")
+    public ResponseEntity<ReviewPostResponseDto> getReviewPost(@PathVariable Long reviewPostId) {
+        try {
+            ReviewPostResponseDto responseDto = reviewPostService.getReviewPost(reviewPostId);
+            return new ResponseEntity<>(responseDto, HttpStatus.OK);
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    // 후기 게시글 전체 조회
+    @GetMapping("")
+    public ResponseEntity<List<ReviewPostResponseDto>> getAllReviewPosts() {
+        List<ReviewPostResponseDto> responseDto = reviewPostService.getAllReviewPosts();
+        return new ResponseEntity<>(responseDto, HttpStatus.OK);
+    }
+
+    //좋아요 기능
+    @PostMapping("/{reviewPostId}/like")
+    public ResponseEntity<ApiResponseDto> addLike(@PathVariable Long reviewPostId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        ApiResponseDto apiResponseDto = reviewPostService.addLike(reviewPostId, userDetails.getUser());
+        return new ResponseEntity<>(apiResponseDto, HttpStatus.OK);
+    }
+
+    //좋아요 취소 기능
+    @DeleteMapping("/{reviewPostId}/like")
+    public ResponseEntity<ApiResponseDto> deleteLike(@PathVariable Long reviewPostId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        ApiResponseDto apiResponseDto = reviewPostService.deleteLike(reviewPostId, userDetails.getUser());
+        return new ResponseEntity<>(apiResponseDto, HttpStatus.OK);
     }
 
 

@@ -4,9 +4,13 @@ import com.sparta.travelshooting.S3Image.entity.Image;
 import com.sparta.travelshooting.S3Image.repository.ImageRepository;
 import com.sparta.travelshooting.S3Image.service.ImageService;
 import com.sparta.travelshooting.common.ApiResponseDto;
+import com.sparta.travelshooting.post.entity.Post;
+import com.sparta.travelshooting.post.entity.PostLike;
 import com.sparta.travelshooting.reviewPost.dto.ReviewPostRequestDto;
 import com.sparta.travelshooting.reviewPost.dto.ReviewPostResponseDto;
 import com.sparta.travelshooting.reviewPost.entity.ReviewPost;
+import com.sparta.travelshooting.reviewPost.entity.ReviewPostLike;
+import com.sparta.travelshooting.reviewPost.repository.ReviewPostLikeRepository;
 import com.sparta.travelshooting.reviewPost.repository.ReviewPostRepository;
 import com.sparta.travelshooting.user.entity.User;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +31,7 @@ public class ReviewPostServiceImpl implements ReviewPostService {
     private final ReviewPostRepository reviewPostRepository;
     private final ImageService imageService;
     private final ImageRepository imageRepository;
+    private final ReviewPostLikeRepository reviewPostLikeRepository;
 
 
     // 후기 게시글 생성
@@ -67,6 +72,10 @@ public class ReviewPostServiceImpl implements ReviewPostService {
         }
         ReviewPost reviewPost = optionalReviewPost.get();
 
+        if (!reviewPost.getUser().getId().equals(user.getId())) {
+            return new ApiResponseDto("게시글 작성자만 수정할 수 있습니다.", HttpStatus.FORBIDDEN.value());
+        }
+
         // 이미지 업데이트
         List<Image> images = reviewPost.getImages();
         if (imageFiles != null && !imageFiles.isEmpty()) {
@@ -106,6 +115,10 @@ public class ReviewPostServiceImpl implements ReviewPostService {
         }
         ReviewPost reviewPost = optionalReviewPost.get();
 
+        if (!reviewPost.getUser().getId().equals(user.getId())) {
+            return new ApiResponseDto("게시글 작성자만 삭제할 수 있습니다.", HttpStatus.FORBIDDEN.value());
+        }
+
         // 이미지 삭제
         List<Image> images = reviewPost.getImages();
         for (Image image : images) {
@@ -139,6 +152,55 @@ public class ReviewPostServiceImpl implements ReviewPostService {
         return reviewPosts.stream()
                 .map(ReviewPostResponseDto::new)
                 .collect(Collectors.toList());
+    }
+
+
+    //좋아요 기능
+    @Override
+    @Transactional
+    public ApiResponseDto addLike(Long reviewPostId, User user) {
+        Optional<ReviewPost> optionalReviewPost = reviewPostRepository.findById(reviewPostId);
+        if (optionalReviewPost.isEmpty()) {
+            throw new IllegalArgumentException("해당 글은 존재하지 않습니다.");
+        }
+        ReviewPost reviewPost = optionalReviewPost.get();
+
+        Optional<ReviewPostLike> findReviewPostLike = reviewPostLikeRepository.findByReviewPostIdAndUserId(reviewPostId, user.getId());
+        if (reviewPost.getUser().getId().equals(user.getId())) {
+            return new ApiResponseDto("자신의 글에는 좋아요를 할 수 없습니다.", 400);
+        } else if (findReviewPostLike.isPresent()) {
+            return new ApiResponseDto("이미 좋아요를 한 상태입니다.", 400);
+        }
+
+        ReviewPostLike newReviewPostLike = new ReviewPostLike(user, reviewPost);
+        reviewPostLikeRepository.save(newReviewPostLike);
+
+        reviewPost.setLikeCounts(reviewPost.getLikeCounts() + 1);
+        reviewPostRepository.save(reviewPost);
+
+        return new ApiResponseDto("좋아요 등록 성공", 200);
+    }
+
+    //좋아요 취소
+    @Override
+    @Transactional
+    public ApiResponseDto deleteLike(Long reviewPostId, User user) {
+        Optional<ReviewPost> optionalReviewPost = reviewPostRepository.findById(reviewPostId);
+        if (optionalReviewPost.isEmpty()) {
+            throw new IllegalArgumentException("해당 글은 존재하지 않습니다.");
+        }
+        ReviewPost reviewPost = optionalReviewPost.get();
+
+        Optional<ReviewPostLike> findReviewPostLike = reviewPostLikeRepository.findByReviewPostIdAndUserId(reviewPostId, user.getId());
+        if (findReviewPostLike.isEmpty()) {
+            return new ApiResponseDto("해당 글에 좋아요를 하지 않은 상태입니다.", 400);
+        }
+
+        reviewPostLikeRepository.delete(findReviewPostLike.get());
+        reviewPost.setLikeCounts(reviewPost.getLikeCounts() - 1);
+        reviewPostRepository.save(reviewPost);
+
+        return new ApiResponseDto("좋아요 취소 성공", 200);
     }
 }
 
