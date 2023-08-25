@@ -17,7 +17,12 @@ public class ReviewPostResponseDto {
     public ReviewPostResponseDto(ReviewPost reviewPost){
         this.title = reviewPost.getTitle();
         this.content = reviewPost.getContent();
-        this.imageUrl = reviewPost.getImage().getAccessUrl();
+        //이미지값을 넣지 않을 때를 위한 로직
+        if(reviewPost.getImage() != null){
+            this.imageUrl = reviewPost.getImage().getAccessUrl();
+        }else{
+            this.imageUrl = null;
+        }
     }
 }
 

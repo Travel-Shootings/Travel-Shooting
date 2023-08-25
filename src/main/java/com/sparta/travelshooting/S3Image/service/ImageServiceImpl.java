@@ -73,7 +73,7 @@ public class ImageServiceImpl implements ImageService {
         Optional<Image> imageOptional = imageRepository.findById(imageId);
         if (imageOptional.isEmpty()) {
             // 이미지 정보가 없을 경우 예외 처리
-            throw new ImageNotFoundException("Image not found with ID: " + imageId);
+            throw new ImageNotFoundException("해당 이미지를 찾을 수 없습니다: " + imageId);
         }
 
         Image existingImage = imageOptional.get();
@@ -90,9 +90,6 @@ public class ImageServiceImpl implements ImageService {
         existingImage.setOriginName(multipartFile.getOriginalFilename());
 
 
-
-
-
         return newImageUrl;
     }
 
@@ -102,9 +99,9 @@ public class ImageServiceImpl implements ImageService {
     @Transactional
     public void deleteImage(Long imageId) {
         Image image = imageRepository.findById(imageId)
-                .orElseThrow(() -> new IllegalArgumentException("Image not found with ID: " + imageId));
+                .orElseThrow(() -> new IllegalArgumentException("해당 이미지를 찾을 수 없습니다: " + imageId));
 
-        // 이미지 삭제 로직
+        // S3에서 이미지 삭제 로직
         deleteImageFromS3(image.getAccessUrl());
 
         // 데이터베이스에서 이미지 삭제

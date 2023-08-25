@@ -19,8 +19,10 @@ public interface ReviewPostService {
     //후기 게시글 삭제
     ApiResponseDto deleteReviewPost(Long reviewPostId, User user);
 
+    //게시글 단건 조회
     ReviewPostResponseDto getReviewPost(Long reviewPostId);
 
+    //게시글 전체 조회
     List<ReviewPostResponseDto> getAllReviewPosts();
 
 }

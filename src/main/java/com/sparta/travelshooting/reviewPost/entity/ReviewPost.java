@@ -29,8 +29,8 @@ public class ReviewPost extends Timestamped {
     @JoinColumn(name = "userId")
     private User user;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL) // Image와의 관계 매핑
-    @JoinColumn(name = "imageId")
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "imageId", nullable = true) // nullable 속성 추가
     private Image image;
 
 
@@ -51,5 +51,8 @@ public class ReviewPost extends Timestamped {
         this.content = content;
         this.image = image;
     }
+
+
+
 
 }

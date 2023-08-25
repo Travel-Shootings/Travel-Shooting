@@ -26,15 +26,11 @@ public class ReviewPostController {
 
 // 후기 게시글 작성
 @PostMapping("")
-public ResponseEntity<ApiResponseDto> createReviewPost(@RequestParam("images") MultipartFile imageFile, @ModelAttribute ReviewPostRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-    try {
-        ReviewPostResponseDto responseDto = reviewPostService.createReviewPost(imageFile, requestDto, userDetails.getUser());
-        ApiResponseDto apiResponseDto = new ApiResponseDto("게시글이 생성되었습니다.", HttpStatus.CREATED.value());
-        return new ResponseEntity<>(apiResponseDto, HttpStatus.CREATED);
-    } catch (RejectedExecutionException e) {
-        ApiResponseDto apiResponseDto = new ApiResponseDto(e.getMessage(), HttpStatus.BAD_REQUEST.value());
-        return new ResponseEntity<>(apiResponseDto, HttpStatus.BAD_REQUEST);
-    }
+public ResponseEntity<ApiResponseDto> createReviewPost(@RequestParam(value = "images", required = false) MultipartFile imageFile, @ModelAttribute ReviewPostRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails
+) {
+    ReviewPostResponseDto responseDto = reviewPostService.createReviewPost(imageFile, requestDto, userDetails.getUser());
+    ApiResponseDto apiResponseDto = new ApiResponseDto("게시글이 생성되었습니다.", HttpStatus.CREATED.value());
+    return new ResponseEntity<>(apiResponseDto, HttpStatus.CREATED);
 }
 
     // 후기 게시글 단건 조회
@@ -60,7 +56,7 @@ public ResponseEntity<ApiResponseDto> createReviewPost(@RequestParam("images") M
 
     // 후기 게시글 수정
     @PutMapping("/{reviewPostId}")
-    public ResponseEntity<ApiResponseDto> updateReviewPost(@PathVariable Long reviewPostId, @RequestParam("images") MultipartFile imageFile, @ModelAttribute ReviewPostRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+    public ResponseEntity<ApiResponseDto> updateReviewPost(@PathVariable Long reviewPostId, @RequestParam(value = "images", required = false) MultipartFile imageFile, @ModelAttribute ReviewPostRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         try {
             ApiResponseDto apiResponseDto = reviewPostService.updateReviewPost(reviewPostId, imageFile, requestDto, userDetails.getUser());
             return new ResponseEntity<>(apiResponseDto, HttpStatus.OK);
