@@ -6,7 +6,10 @@
     <!--Stylesheet-->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
           integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    <link href="/css/main.css" rel="stylesheet">
+    <link href="/css/chat.css" rel="stylesheet">
+
+    <!--live server css-->
+    <link href="/static/css/chat.css" rel="stylesheet">
 
     <!--JQuery-->
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
@@ -18,7 +21,7 @@
     <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js"></script>
 
     <!--JS-->
-    <script src="/js/app.js"></script>
+    <script src="/js/chat.js"></script>
 </head>
 <body>
 <div id="main-content" class="container">
@@ -33,7 +36,8 @@
                     <div>
                         <label for="connect">WebSocket connection:</label>
                         <button id="connect" class="btn btn-default" type="submit">Connect</button>
-                        <button id="disconnect" class="btn btn-default" type="submit" disabled="disabled">Disconnect</button>
+                        <button id="disconnect" class="btn btn-default" type="submit" disabled="disabled">Disconnect
+                        </button>
                     </div>
                 </div>
             </form>
@@ -56,15 +60,31 @@
     </div>
     <div class="row">
         <div class="col-md-12">
-            <table id="conversation" class="table table-striped">
-                <thead>
-                <tr>
-                    <th>Chat Messages</th>
-                </tr>
-                </thead>
-                <tbody id="chat-messages">
-                </tbody>
-            </table>
+            <div class="table-wrapper">
+                <table id="conversation" class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>Chat Messages</th>
+                    </tr>
+                    </thead>
+                    <tbody id="chat-messages">
+                    <tr>
+                        <td>
+                            <div class='message-content'>
+                                senderName: contentcontentcontentcontentcontentcontentcontent contentcontentcontentcontentcontentcontentcontentcontent
+                                exampleexampleexampleexampleexampleexampleexampleexampleexample
+                                exampleexampleexampleexampleexampleexampleexample
+                                exampleexampleexampleexample exampleexampleexampleexampleexampleexample
+                                exampleexampleexample exampleexampleexampleexampleexampleexampleexample
+                            </div>
+                            <div class='message-time'>
+                                2000-00-00 00:00:00
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>

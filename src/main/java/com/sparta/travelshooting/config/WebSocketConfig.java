@@ -1,4 +1,4 @@
-package com.sparta.travelshooting.chat.config;
+package com.sparta.travelshooting.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
@@ -12,13 +12,14 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry config) {
-        config.enableSimpleBroker("/topic");
-        config.setApplicationDestinationPrefixes("/app");
+        config.enableSimpleBroker("/sub");
+        config.setApplicationDestinationPrefixes("/pub");
     }
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         // url: ws://localhost:8080/travel-shooting-websocket
-        registry.addEndpoint("/travel-shooting-websocket");
+        registry.addEndpoint("/travel-shooting-websocket")
+                .setAllowedOrigins("*");
     }
 }
