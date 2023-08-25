@@ -46,7 +46,7 @@ public class ImageServiceImpl implements ImageService {
     @Transactional
     public String saveImage(MultipartFile multipartFile) {
         String originalName = multipartFile.getOriginalFilename();
-        Image image = new Image(originalName);
+        Image image = new Image(originalName, null);
         String filename = image.getStoredName();
 
         try {

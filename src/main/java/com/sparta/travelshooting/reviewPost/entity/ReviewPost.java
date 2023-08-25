@@ -9,6 +9,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -29,27 +32,27 @@ public class ReviewPost extends Timestamped {
     @JoinColumn(name = "userId")
     private User user;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "imageId", nullable = true) // nullable 속성 추가
-    private Image image;
+    @OneToMany(mappedBy = "reviewPost", cascade = CascadeType.ALL)
+    private List<Image> images = new ArrayList<>(); // 이미지 컬렉션 추가
 
 
 
 
-    public ReviewPost(String title, String content, User user,Image image) {
+
+    public ReviewPost(String title, String content, User user,List<Image> images) {
 
         this.title = title;
         this.content = content;
         this.user = user;
-        this.image = image;
+        this.images = images;
 
 
     }
 
-    public void updateReviewPost(String title, String content, Image image) {
+    public void updateReviewPost(String title, String content, List<Image> images) {
         this.title = title;
         this.content = content;
-        this.image = image;
+        this.images = images;
     }
 
 

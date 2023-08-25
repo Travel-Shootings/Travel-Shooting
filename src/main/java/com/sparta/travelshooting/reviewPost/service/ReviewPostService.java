@@ -10,10 +10,10 @@ import java.util.List;
 
 public interface ReviewPostService {
     //후기 게시글 작성
-    ReviewPostResponseDto createReviewPost(MultipartFile imageFile, ReviewPostRequestDto requestDto, User user);
+    ReviewPostResponseDto createReviewPost(List<MultipartFile> imageFiles, ReviewPostRequestDto requestDto, User user);
 
     //후기 게시글 수정
-    ApiResponseDto updateReviewPost(Long ReviewPostId, MultipartFile imageFile, ReviewPostRequestDto requestDto, User user);
+    ApiResponseDto updateReviewPost(Long ReviewPostId, List<MultipartFile> imageFiles, ReviewPostRequestDto requestDto, User user);
 
 
     //후기 게시글 삭제
