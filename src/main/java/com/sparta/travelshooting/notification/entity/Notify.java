@@ -29,4 +29,8 @@ public class Notify {
         this.user = author;
         this.isRead = read;
     }
+
+    public void read() {
+        this.isRead = true;
+    }
 }

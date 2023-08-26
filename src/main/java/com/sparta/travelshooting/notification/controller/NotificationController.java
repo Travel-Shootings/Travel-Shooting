@@ -36,7 +36,8 @@ public class NotificationController {
     // 알림 확인 API
     @PostMapping("/{notificationId}/read")
     public ResponseEntity<ApiResponseDto> readNotification(@PathVariable Long notificationId) {
-        return null;
+        ApiResponseDto apiResponseDto = notificationService.readNotification(notificationId);
+        return new ResponseEntity<>(apiResponseDto, HttpStatus.OK);
     }
 
     // 확인한 알림 삭제 API
