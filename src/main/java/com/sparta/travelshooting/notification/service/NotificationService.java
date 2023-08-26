@@ -20,4 +20,18 @@ public interface NotificationService {
      * @return 알림 확인
      */
     ApiResponseDto readNotification(Long notificationId);
+
+    /**
+     * 읽은 알림 조회 API
+     * @param user 로그인 된 유저 정보
+     * @return 읽은 알림 List
+     */
+    List<NotificationResponseDto> getCheckedNotifications(User user);
+
+    /**
+     * 읽은 알림 삭제 API
+     * @param user 로그인 된 유저 정보
+     * @return 알림 삭제
+     */
+    ApiResponseDto deleteNotification(User user);
 }

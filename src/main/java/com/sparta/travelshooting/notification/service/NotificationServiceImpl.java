@@ -14,7 +14,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class NotificationServiceImpl implements NotificationService{
+public class NotificationServiceImpl implements NotificationService {
     private final NotificationRepository notificationRepository;
 
     @Override
@@ -32,5 +32,21 @@ public class NotificationServiceImpl implements NotificationService{
         notify.read();
 
         return new ApiResponseDto("알림 확인", HttpStatus.OK.value());
+    }
+
+    @Override
+    public List<NotificationResponseDto> getCheckedNotifications(User user) {
+        return notificationRepository.findAllByUserIdAndIsReadTrue(user.getId())
+                .stream()
+                .map(NotificationResponseDto::new)
+                .toList();
+    }
+
+    @Override
+    @Transactional
+    public ApiResponseDto deleteNotification(User user) {
+        notificationRepository.deleteAllByUserIdAndIsReadTrue(user.getId());
+
+        return new ApiResponseDto("알림 삭제", HttpStatus.OK.value());
     }
 }
