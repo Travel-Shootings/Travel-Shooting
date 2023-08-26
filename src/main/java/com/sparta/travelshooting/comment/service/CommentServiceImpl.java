@@ -5,6 +5,8 @@ import com.sparta.travelshooting.comment.dto.CommentResponseDto;
 import com.sparta.travelshooting.comment.entity.Comment;
 import com.sparta.travelshooting.comment.repository.CommentRepository;
 import com.sparta.travelshooting.common.ApiResponseDto;
+import com.sparta.travelshooting.notification.entity.Notify;
+import com.sparta.travelshooting.notification.repository.NotificationRepository;
 import com.sparta.travelshooting.post.entity.Post;
 import com.sparta.travelshooting.post.repository.PostRepository;
 import com.sparta.travelshooting.user.entity.User;
@@ -19,7 +21,9 @@ public class CommentServiceImpl implements CommentService {
 
     private final CommentRepository commentRepository;
     private final PostRepository postRepository;
+    private final NotificationRepository notificationRepository;
 
+    public static final String COMMENT_CREATE_MESSAGE = " 님이 댓글을 작성했습니다.";
 
 
     @Override
@@ -27,6 +31,15 @@ public class CommentServiceImpl implements CommentService {
         Post post = postRepository.findById(postId).orElseThrow(() -> new IllegalArgumentException("해당 게시글을 찾을 수 없습니다."));
         Comment comment = new Comment(requestDto, post, user);
         commentRepository.save(comment);
+
+        // 알림 보내기
+        User author = post.getUser(); // post 작성자
+        String message = user.getNickname() + COMMENT_CREATE_MESSAGE; // 알림 메세지
+        boolean read = false; // 알림 확인 여부
+
+        Notify notify = new Notify(author, message, read);
+        notificationRepository.save(notify);
+
         CommentResponseDto responseDto = new CommentResponseDto(comment);
         return responseDto;
     }
