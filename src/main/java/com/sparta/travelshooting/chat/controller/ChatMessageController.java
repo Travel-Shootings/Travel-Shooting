@@ -21,8 +21,8 @@ public class ChatMessageController {
     private final ChatMessageService chatMessageService;
 
     @Operation(summary = "채팅 보내기")
-    @MessageMapping("/hello/{chatRoomId}")
-    @SendTo("/topic/messages/{chatRoomId}")
+    @MessageMapping("/message/{chatRoomId}")
+    @SendTo("/sub/chat/room/{chatRoomId}")
     public ResponseEntity<ChatMessageResponseDto> sendChat(@DestinationVariable Long chatRoomId, ChatMessageRequestDto chatMessageRequestDto) {
         ChatMessageResponseDto chatMessageResponseDto = chatMessageService.sendChat(chatRoomId, chatMessageRequestDto);
         return new ResponseEntity<>(chatMessageResponseDto, HttpStatus.OK);

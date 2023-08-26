@@ -9,8 +9,8 @@ let authCookie = Cookies.get("Authorization");
 stompClient.onConnect = (frame) => {
     setConnected(true);
     console.log('Connected: ' + frame);
-    stompClient.subscribe('/topic/messages/' + chatRoomId, (message) => {
-        showMessage(JSON.parse(message.body));
+    stompClient.subscribe('/sub/chat/room/' + chatRoomId, (message) => {
+        showMessage(JSON.parse(message.body).body);
     });
     $.ajax({
         url: "/api/chat-room/" + chatRoomId,
@@ -63,7 +63,7 @@ function disconnect() {
 
 function sendMessage() {
     stompClient.publish({
-        destination: "/app/hello/" + chatRoomId,
+        destination: "/pub/message/" + chatRoomId,
         body: JSON.stringify({
             'senderName': $("#name").val(),
             'content': $("#message").val()
@@ -73,7 +73,12 @@ function sendMessage() {
 
 function showMessage(message) {
     $("#chat-messages").append("<tr><td>"
-        + message.senderName + ": " + message.content + "    " + message.time
+        + "<div class='message-content'>"
+        + message.senderName + ": " + message.content
+        + "</div>"
+        + "<div class='message-time'>"
+        + message.simpleTime
+        + "</div>"
         + "</td></tr>");
 }
 

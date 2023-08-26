@@ -1,0 +1,18 @@
+.table-wrapper {
+    max-width: 100%; /* Adjust as needed */
+    overflow-x: auto; /* Add horizontal scroll if necessary */
+}
+
+.message-content {
+    float: left;
+    width: 80%;
+    max-width: 70%;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+.message-time {
+    float: right;
+    width: 20%;
+    text-align: right;
+}
