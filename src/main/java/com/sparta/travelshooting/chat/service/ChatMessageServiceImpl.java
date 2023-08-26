@@ -16,16 +16,16 @@ public class ChatMessageServiceImpl implements ChatMessageService {
     private final ChatRoomService chatRoomService;
 
     @Override
-    public ChatMessageResponseDto sendChat(Long chatRoomId, ChatMessageRequestDto chatMessageRequestDto) {
-        String senderName = chatMessageRequestDto.getSenderName();
+    public ChatMessageResponseDto sendChat(Long chatRoomId, ChatMessageRequestDto chatMessageRequestDto, String nickname, Long userId) {
         String content = chatMessageRequestDto.getContent();
 
         ChatRoom chatRoom = chatRoomService.findChatRoom(chatRoomId);
 
         ChatMessage chatMessage = ChatMessage.builder()
-                .senderName(senderName)
+                .senderName(nickname)
                 .content(content)
                 .chatRoom(chatRoom)
+                .userId(userId)
                 .build();
 
         chatMessageRepository.save(chatMessage);

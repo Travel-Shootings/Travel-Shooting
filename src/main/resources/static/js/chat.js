@@ -1,10 +1,13 @@
+let authCookie = Cookies.get("Authorization");
+
 const stompClient = new StompJs.Client({
-    brokerURL: 'ws://localhost:8080/travel-shooting-websocket'
+    brokerURL: 'ws://localhost:8080/travel-shooting-websocket',
+    connectHeaders: {
+        "Authorization": authCookie
+    }
 });
 
 let chatRoomId = null;
-
-let authCookie = Cookies.get("Authorization");
 
 stompClient.onConnect = (frame) => {
     setConnected(true);
@@ -18,25 +21,26 @@ stompClient.onConnect = (frame) => {
         header: {"Authorization": authCookie}
     })
         .done(function (response) {
-            console.log(response)
             response.forEach(function (message) {
                 showMessage(message);
             })
         })
         .fail(function (response, status, xhr) {
-            console.log(response);
-            console.log(status);
-            console.log(xhr);
+            console.log(response, status, xhr);
         })
 };
 
 stompClient.onWebSocketError = (error) => {
     console.error('Error with websocket', error);
+    alert("웹소켓 연결 오류");
+    window.location.reload();
 };
 
 stompClient.onStompError = (frame) => {
     console.error('Broker reported error: ' + frame.headers['message']);
     console.error('Additional details: ' + frame.body);
+    alert("STOMP 오류");
+    window.location.reload();
 };
 
 function setConnected(connected) {
@@ -65,7 +69,6 @@ function sendMessage() {
     stompClient.publish({
         destination: "/pub/message/" + chatRoomId,
         body: JSON.stringify({
-            'senderName': $("#name").val(),
             'content': $("#message").val()
         })
     });
