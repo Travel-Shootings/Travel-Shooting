@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 @ControllerAdvice
 public class GlobalControllerAdvice {
-    @ExceptionHandler({IllegalArgumentException.class, AccessDeniedException.class,})
+    @ExceptionHandler({IllegalArgumentException.class, AccessDeniedException.class, IndexOutOfBoundsException.class})
     public ResponseEntity<ApiResponseDto> handleException(Exception e) {
         return ResponseEntity.badRequest().body(
                 new ApiResponseDto(e.getMessage(), HttpStatus.BAD_REQUEST.value())

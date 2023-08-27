@@ -1,12 +1,12 @@
 .table-wrapper {
-    max-width: 100%; /* Adjust as needed */
-    overflow-x: auto; /* Add horizontal scroll if necessary */
+    max-width: 95%;
+    overflow-x: auto;
 }
 
 .message-content {
     float: left;
     width: 80%;
-    max-width: 70%;
+    max-width: 80%;
     word-wrap: break-word;
     overflow-wrap: break-word;
 }
@@ -39,4 +39,18 @@ label[for="message"] {
     flex: 0; /* 필요한 공간만 차지하도록 설정 */
     margin-right: 10px; /* 레이블과 입력 영역 사이에 간격 추가 */
     align-self: center; /* 수직 가운데 정렬 */
+}
+
+.message-sender, .message-time {
+    font-size: 8px;
+}
+
+.message-sender {
+    min-width: 16.67%;
+}
+
+.button-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

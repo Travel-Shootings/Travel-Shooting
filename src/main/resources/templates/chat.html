@@ -47,18 +47,29 @@
                 <table id="conversation" class="table table-striped">
                     <thead>
                     <tr>
-                        <th>채팅 기록</th>
+                        <th>채팅 내역
+                            <div class="button-wrapper">
+                                <button id="get-more-chat-btn">채팅 내역 더 불러오기</button>
+                            </div>
+                        </th>
                     </tr>
                     </thead>
                     <tbody id="chat-messages">
                     <tr>
                         <td>
-                            <div class='message-content'>
-                                닉네임1234: 채팅 메세지가 매우 길어질 경우에 줄바꿈이 잘 되는지 테스트해보기 위한 문장. 채팅 메세지가 매우 길어질 경우에 줄바꿈이 잘 되는지 테스트해보기 위한 문장. 채팅 메세지가 매우 길어질 경우에 줄바꿈이 잘 되는지 테스트해보기 위한 문장.
-                                채팅 메세지가 매우 길어질 경우에 줄바꿈이 잘 되는지 테스트해보기 위한 문장. 채팅 메세지가 매우 길어질 경우에 줄바꿈이 잘 되는지 테스트해보기 위한 문장.
-                            </div>
-                            <div class='message-time'>
-                                2000-00-00 00:00:00
+                            <div class="row">
+                                <div class="col-md-2 message-sender">
+                                    닉네임1234
+                                </div>
+                                <div class="col-md-8 message-content" data-chat-message-id="1">
+                                    채팅 메세지가 매우 길어질 경우에 줄바꿈이 잘 되는지 테스트해보기 위한 문장. 채팅 메세지가 매우 길어질 경우에 줄바꿈이 잘 되는지 테스트해보기 위한
+                                    문장. 채팅 메세지가 매우 길어질 경우에 줄바꿈이 잘 되는지 테스트해보기 위한 문장.
+                                    채팅 메세지가 매우 길어질 경우에 줄바꿈이 잘 되는지 테스트해보기 위한 문장. 채팅 메세지가 매우 길어질 경우에 줄바꿈이 잘 되는지 테스트해보기 위한
+                                    문장.
+                                </div>
+                                <div class="col-md-2 message-time">
+                                    2000-00-00 00:00:00
+                                </div>
                             </div>
                         </td>
                     </tr>
