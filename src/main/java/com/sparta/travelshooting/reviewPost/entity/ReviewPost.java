@@ -38,7 +38,7 @@ public class ReviewPost extends Timestamped {
     @OneToMany(mappedBy = "reviewPost", cascade = CascadeType.ALL)
     private List<Image> images = new ArrayList<>(); // 이미지 컬렉션 추가
 
-    @OneToMany(mappedBy = "reviewPost", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @OneToMany(mappedBy = "reviewPost", cascade = CascadeType.REMOVE)
     private List<Comment> comments = new ArrayList<>();
 
     @Column

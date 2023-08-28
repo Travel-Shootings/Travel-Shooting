@@ -10,7 +10,6 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-@Setter
 public class Image {
 
     @Id
@@ -42,6 +41,10 @@ public class Image {
     public void setOriginName(String originName){
         this.originName = originName;
         updateStoredName();
+    }
+
+    public void setReviewPost(ReviewPost reviewPost){
+        this.reviewPost = reviewPost;
     }
 
 
