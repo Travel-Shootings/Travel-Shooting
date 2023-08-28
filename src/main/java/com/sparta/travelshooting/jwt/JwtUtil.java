@@ -95,7 +95,7 @@ public class JwtUtil {
 
             String checkToken = BEARER_PREFIX + token;
             // 블랙리스트에 있는 토큰인지 확인
-            if (redisUtil.hasKeyBlackList(checkToken)) {
+            if(redisUtil.hasKeyBlackList(token)) {
                 throw new IllegalArgumentException("사용할 수 없는 토큰입니다. 다시 로그인 해주세요.");
             }
 
@@ -131,8 +131,9 @@ public class JwtUtil {
     //토큰에서 만료 시간 가져오기
     public Date extractExpirationDateFromToken(String token) {
         try {
-            Claims claims = Jwts.parser()
+            Claims claims = Jwts.parserBuilder()
                     .setSigningKey(key) // 토큰 검증을 위해 사용한 키
+                    .build()
                     .parseClaimsJws(token)
                     .getBody();
 

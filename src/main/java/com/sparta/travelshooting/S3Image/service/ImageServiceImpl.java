@@ -46,7 +46,7 @@ public class ImageServiceImpl implements ImageService {
     @Transactional
     public String saveImage(MultipartFile multipartFile) {
         String originalName = multipartFile.getOriginalFilename();
-        Image image = new Image(originalName);
+        Image image = new Image(originalName, null);
         String filename = image.getStoredName();
 
         try {
@@ -62,8 +62,6 @@ public class ImageServiceImpl implements ImageService {
 
         }
 
-        imageRepository.save(image);
-
         return image.getAccessUrl();
     }
 
@@ -75,23 +73,22 @@ public class ImageServiceImpl implements ImageService {
         Optional<Image> imageOptional = imageRepository.findById(imageId);
         if (imageOptional.isEmpty()) {
             // 이미지 정보가 없을 경우 예외 처리
-            throw new ImageNotFoundException("Image not found with ID: " + imageId);
+            throw new ImageNotFoundException("해당 이미지를 찾을 수 없습니다: " + imageId);
         }
 
         Image existingImage = imageOptional.get();
 
-        // S3에서 기존 이미지 삭제
-        deleteImageFromS3(existingImage.getStoredName());
+
+//         S3에서 기존 이미지 삭제
+        deleteImageFromS3(existingImage.getAccessUrl());
 
         // S3에 새로운 이미지 저장
         String newImageUrl = saveImage(multipartFile);
 
         // 이미지 정보 업데이트
         existingImage.setAccessUrl(newImageUrl);
-        imageRepository.save(existingImage);
+        existingImage.setOriginName(multipartFile.getOriginalFilename());
 
-        // 기존 이미지 정보 삭제
-        imageRepository.delete(existingImage);
 
         return newImageUrl;
     }
@@ -102,18 +99,28 @@ public class ImageServiceImpl implements ImageService {
     @Transactional
     public void deleteImage(Long imageId) {
         Image image = imageRepository.findById(imageId)
-                .orElseThrow(() -> new IllegalArgumentException("Image not found with ID: " + imageId));
+                .orElseThrow(() -> new IllegalArgumentException("해당 이미지를 찾을 수 없습니다: " + imageId));
 
-        // 이미지 삭제 로직
-        deleteImageFromS3(image.getStoredName());
+        // S3에서 이미지 삭제 로직
+        deleteImageFromS3(image.getAccessUrl());
 
         // 데이터베이스에서 이미지 삭제
         imageRepository.delete(image);
     }
 
-    //S3에서 이미지 삭제
-    private void deleteImageFromS3(String filename) {
+    // S3에서 이미지 삭제
+    private void deleteImageFromS3(String accessUrl) {
+        String filename = extractFilenameFromUrl(accessUrl);
         amazonS3Client.deleteObject(bucketName, filename);
+    }
+
+    // URL에서 파일 이름 추출
+    private String extractFilenameFromUrl(String url) {
+        int lastSlashIndex = url.lastIndexOf('/');
+        if (lastSlashIndex != -1) {
+            return url.substring(lastSlashIndex + 1);
+        }
+        return url;
     }
 
 

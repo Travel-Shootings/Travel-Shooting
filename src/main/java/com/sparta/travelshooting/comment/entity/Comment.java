@@ -5,11 +5,16 @@ import com.sparta.travelshooting.admin.dto.AdminCommentRequestDto;
 import com.sparta.travelshooting.comment.dto.CommentRequestDto;
 import com.sparta.travelshooting.common.Timestamped;
 import com.sparta.travelshooting.post.entity.Post;
+import com.sparta.travelshooting.reply.entity.Reply;
+import com.sparta.travelshooting.reviewPost.entity.ReviewPost;
 import com.sparta.travelshooting.user.entity.User;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -32,15 +37,24 @@ public class Comment extends Timestamped {
     private Post post;
 
     @ManyToOne
+    @JoinColumn(name= "reviewPost_Id")
+    private ReviewPost reviewPost;
+
+    @ManyToOne
     @JoinColumn(name = "user_Id")
     private User user;
 
+    @OneToMany(mappedBy = "comment", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<Reply> replies = new ArrayList<>();
 
-    public Comment(CommentRequestDto commentRequestDto, Post post, User user){
+
+
+    public Comment(CommentRequestDto commentRequestDto, Post post,ReviewPost reviewPost, User user){
         this.user = user;
         this.nickName = user.getNickname();
         this.content = commentRequestDto.getContent();
         this.post = post;
+        this.reviewPost = reviewPost;
     }
 
     public void updateByAdmin (AdminCommentRequestDto commentRequestDto) {

@@ -1,5 +1,6 @@
 package com.sparta.travelshooting.user.entity;
 
+import com.sparta.travelshooting.notification.entity.Notify;
 import com.sparta.travelshooting.admin.dto.AdminProfileRequestDto;
 import com.sparta.travelshooting.post.entity.PostLike;
 import com.sparta.travelshooting.user.dto.SignupRequestDto;
@@ -45,6 +46,9 @@ public class User {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     private List<PostLike> postLikes = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+    private List<Notify> notifications = new ArrayList<>();
 
     public User(SignupRequestDto requestDto, String password, RegionEnum region, RoleEnum role) {
         this.email = requestDto.getEmail();
