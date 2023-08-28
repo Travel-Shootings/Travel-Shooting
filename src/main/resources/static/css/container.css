@@ -22,7 +22,7 @@ body {
     background: #ffffff;
 }
 
-.container {
+.journey-container {
     max-width: 1100px;
     width: 100%;
     max-height: 1100px; /* 원하는 높이 값으로 변경 */
@@ -158,3 +158,7 @@ fieldset {
 :-ms-input-placeholder {
     color:#888;
 }
+
+
+
+
