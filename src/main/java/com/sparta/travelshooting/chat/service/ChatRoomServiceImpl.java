@@ -74,7 +74,7 @@ public class ChatRoomServiceImpl implements ChatRoomService {
 
     @Override
     public List<ChatMessageResponseDto> getChatRoomChatMessage(Long chatRoomId) {
-        return chatMessageRepository.findAllByChatRoomChatRoomId(chatRoomId)
+        return chatMessageRepository.findAllByChatRoomChatRoomIdOrderByTimeDesc(chatRoomId)
                 .stream()
                 .map(ChatMessageResponseDto::new)
                 .toList();
@@ -82,10 +82,30 @@ public class ChatRoomServiceImpl implements ChatRoomService {
 
     @Override
     public List<ChatMessageResponseDto> getChatRoomChatMessagePaging(Long chatRoomId, Pageable pageable) {
-        return chatMessageRepositoryQuery.getChatRoomChatMessagePaging(chatRoomId, pageable)
+        List<ChatMessageResponseDto> chatMessageResponseDtoList = chatMessageRepositoryQuery.getChatRoomChatMessagePaging(chatRoomId, pageable)
                 .stream()
                 .map(ChatMessageResponseDto::new)
                 .toList();
+
+        if (chatMessageResponseDtoList.isEmpty()) {
+            throw new IndexOutOfBoundsException("조회할 데이터가 없습니다.");
+        }
+
+        return chatMessageResponseDtoList;
+    }
+
+    @Override
+    public List<ChatMessageResponseDto> getChatRoomChatMessageReferenceValue(Long chatRoomId, Long chatMessageId, Long pageSize) {
+        List<ChatMessageResponseDto> chatMessageResponseDtoList = chatMessageRepositoryQuery.getChatRoomChatMessageReferenceValue(chatRoomId, chatMessageId, pageSize)
+                .stream()
+                .map(ChatMessageResponseDto::new)
+                .toList();
+
+        if (chatMessageResponseDtoList.isEmpty()) {
+            throw new IndexOutOfBoundsException("조회할 데이터가 없습니다.");
+        }
+
+        return chatMessageResponseDtoList;
     }
 
     @Override

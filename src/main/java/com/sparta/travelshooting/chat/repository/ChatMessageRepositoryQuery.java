@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface ChatMessageRepositoryQuery {
     List<ChatMessage> getChatRoomChatMessagePaging(Long chatRoomId, Pageable pageable);
+
+    List<ChatMessage> getChatRoomChatMessageReferenceValue(Long chatRoomId, Long chatMessageId, Long pageSize);
 }

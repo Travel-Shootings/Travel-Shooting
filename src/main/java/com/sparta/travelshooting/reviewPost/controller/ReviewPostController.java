@@ -5,6 +5,8 @@ import com.sparta.travelshooting.reviewPost.dto.ReviewPostRequestDto;
 import com.sparta.travelshooting.reviewPost.dto.ReviewPostResponseDto;
 import com.sparta.travelshooting.reviewPost.service.ReviewPostService;
 import com.sparta.travelshooting.security.UserDetailsImpl;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,11 +21,13 @@ import java.util.concurrent.RejectedExecutionException;
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/api/reviewPosts")
+@Tag(name = "여행 계획 후기 게시글 API")
 public class ReviewPostController {
 
     private final ReviewPostService reviewPostService;
 
-//후기 게시글 생성
+    //후기 게시글 생성
+    @Operation(summary = "후기 게시글 작성")
     @PostMapping("")
     public ResponseEntity<ApiResponseDto> createReviewPost(
             @RequestParam(value = "images", required = false) List<MultipartFile> imageFiles,
@@ -36,6 +40,7 @@ public class ReviewPostController {
     }
 
     // 후기 게시글 수정
+    @Operation(summary = "후기 게시글 수정")
     @PatchMapping("/{reviewPostId}")
     public ResponseEntity<ApiResponseDto> updateReviewPost(@PathVariable Long reviewPostId, @RequestParam(value = "images", required = false) List<MultipartFile> imageFiles, @ModelAttribute ReviewPostRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         try {
@@ -49,6 +54,7 @@ public class ReviewPostController {
 
 
     // 후기 게시글 삭제
+    @Operation(summary = "후기 게시글 삭제")
     @DeleteMapping("/{reviewPostId}")
     public ResponseEntity<ApiResponseDto> deleteReviewPost(@PathVariable Long reviewPostId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         try {
@@ -91,8 +97,6 @@ public class ReviewPostController {
         ApiResponseDto apiResponseDto = reviewPostService.deleteLike(reviewPostId, userDetails.getUser());
         return new ResponseEntity<>(apiResponseDto, HttpStatus.OK);
     }
-
-
 
 
 }

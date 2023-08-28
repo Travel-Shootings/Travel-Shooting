@@ -62,6 +62,16 @@ public interface ChatRoomService {
     List<ChatMessageResponseDto> getChatRoomChatMessagePaging(Long chatRoomId, Pageable pageable);
 
     /**
+     * 채팅방의 채팅 내역 기준값(미만)으로 불러오기: 기준 채팅 이전의 채팅을 불러오기 위한 메서드
+     *
+     * @param chatRoomId    채팅 내역을 불러올 채팅방 ID
+     * @param chatMessageId 기준 채팅 메세지 ID
+     * @param pageSize      조회할 크기
+     * @return 채팅 내역
+     */
+    List<ChatMessageResponseDto> getChatRoomChatMessageReferenceValue(Long chatRoomId, Long chatMessageId, Long pageSize);
+
+    /**
      * 채팅방 찾기
      *
      * @param chatRoomId 찾을 채팅방 ID

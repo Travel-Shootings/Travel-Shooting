@@ -25,8 +25,28 @@ public class ChatMessageRepositoryQueryImpl implements ChatMessageRepositoryQuer
 
         return jpaQueryFactory.select(chatMessage)
                 .from(chatMessage)
-                .offset(pageable.getOffset() - 1) // 1-based
+                .where(
+                        chatMessage.chatRoom.chatRoomId.eq(chatRoomId)
+                )
+                .offset(pageable.getOffset()) // 0-based 로 다시 수정
                 .limit(pageable.getPageSize())
+                .orderBy(orderSpecifier)
+                .fetch();
+    }
+
+    // 채팅 메세지 기준값(미만)으로 불러오기
+    @Override
+    public List<ChatMessage> getChatRoomChatMessageReferenceValue(Long chatRoomId, Long chatMessageId, Long pageSize) {
+        QChatMessage chatMessage = QChatMessage.chatMessage;
+        OrderSpecifier<?> orderSpecifier = new OrderSpecifier<>(Order.DESC, chatMessage.time);
+
+        return jpaQueryFactory.select(chatMessage)
+                .from(chatMessage)
+                .where(
+                        chatMessage.chatMessageId.lt(chatMessageId)
+                                .and(chatMessage.chatRoom.chatRoomId.eq(chatRoomId))
+                )
+                .limit(pageSize)
                 .orderBy(orderSpecifier)
                 .fetch();
     }

@@ -54,7 +54,7 @@ public class ChatRoomController {
     }
 
     @Operation(summary = "채팅방 채팅 내역 전체 불러오기")
-    @GetMapping("/{chatRoomId}")
+    @GetMapping("/{chatRoomId}/all-chat")
     public ResponseEntity<List<ChatMessageResponseDto>> getChatRoomChatMessage(@PathVariable Long chatRoomId) {
         List<ChatMessageResponseDto> chatMessageResponseDtoList = chatRoomService.getChatRoomChatMessage(chatRoomId);
         return new ResponseEntity<>(chatMessageResponseDtoList, HttpStatus.OK);
@@ -64,6 +64,13 @@ public class ChatRoomController {
     @GetMapping("/{chatRoomId}/paging")
     public ResponseEntity<List<ChatMessageResponseDto>> getChatRoomChatMessagePaging(@PathVariable Long chatRoomId, Pageable pageable) {
         List<ChatMessageResponseDto> chatMessageResponseDtoList = chatRoomService.getChatRoomChatMessagePaging(chatRoomId, pageable);
+        return new ResponseEntity<>(chatMessageResponseDtoList, HttpStatus.OK);
+    }
+
+    @Operation(summary = "채팅방 채팅 내역 기준값으로 불러오기")
+    @GetMapping("/{chatRoomId}")
+    public ResponseEntity<List<ChatMessageResponseDto>> getChatRoomChatMessageReferenceValue(@RequestParam Long chatMessageId, @RequestParam Long pageSize, @PathVariable Long chatRoomId) {
+        List<ChatMessageResponseDto> chatMessageResponseDtoList = chatRoomService.getChatRoomChatMessageReferenceValue(chatRoomId, chatMessageId, pageSize);
         return new ResponseEntity<>(chatMessageResponseDtoList, HttpStatus.OK);
     }
 }

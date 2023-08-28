@@ -33,11 +33,16 @@ public class ChatMessage {
     @JoinColumn(name = "chat_room_id")
     private ChatRoom chatRoom;
 
+    // 불필요한 연관관계 미설정
+    // senderName, 즉 사용자 닉네임은 변경이 가능하기 때문에 고유값을 저장
+    private Long userId;
+
     @Builder
-    public ChatMessage(String senderName, String content, ChatRoom chatRoom) {
+    public ChatMessage(String senderName, String content, ChatRoom chatRoom, Long userId) {
         this.senderName = senderName;
         this.content = content;
         this.time = LocalDateTime.now();
         this.chatRoom = chatRoom;
+        this.userId = userId;
     }
 }
