@@ -43,4 +43,18 @@ public class JourneyList {
         this.members = requestDto.getMembers();
         this.post = post;
     }
+
+    public void update(JourneyListRequestDto requestDto) {
+        this.locations = requestDto.getLocations();
+        this.budget = requestDto.getBudget();
+        this.period = requestDto.getPeriod();
+        this.members = requestDto.getMembers();
+    }
+
+    public void updateByAdmin(JourneyListRequestDto requestDto) {
+        this.locations = requestDto.getLocations();
+        this.budget = requestDto.getBudget();
+        this.period = requestDto.getPeriod();
+        this.members = requestDto.getMembers();
+    }
 }

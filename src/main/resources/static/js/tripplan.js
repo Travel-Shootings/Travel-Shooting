@@ -1,14 +1,15 @@
-var options = {
-    valueNames: [ 'id', 'name', 'age', 'city' ]
+const options = {
+    valueNames: ['id', 'location', 'budget', 'period', 'members']
 };
 
 // Init list
-var contactList = new List('contacts', options);
+const contactList = new List('contacts', options);
 
-var idField = $('#id-field'),
-    nameField = $('#name-field'),
-    ageField = $('#age-field'),
-    cityField = $('#city-field'),
+let idField = $('#id-field'),
+    locationField = $('#location-field'),
+    budgetField = $('#budget-field'),
+    periodField = $('#period-field'),
+    membersField = $('#members-field'),
     addBtn = $('#add-btn'),
     editBtn = $('#edit-btn').hide(),
     removeBtns = $('.remove-item-btn'),
@@ -20,21 +21,23 @@ refreshCallbacks();
 addBtn.click(function() {
     contactList.add({
         id: Math.floor(Math.random()*110000),
-        name: nameField.val(),
-        age: ageField.val(),
-        city: cityField.val()
+        location: locationField.val(),
+        budget: budgetField.val(),
+        period: periodField.val(),
+        members: membersField.val()
     });
     clearFields();
     refreshCallbacks();
 });
 
 editBtn.click(function() {
-    var item = contactList.get('id', idField.val())[0];
+    const item = contactList.get('id', idField.val())[0];
     item.values({
         id:idField.val(),
-        name: nameField.val(),
-        age: ageField.val(),
-        city: cityField.val()
+        location: locationField.val(),
+        budget: budgetField.val(),
+        period: periodField.val(),
+        members: membersField.val()
     });
     clearFields();
     editBtn.hide();
@@ -47,17 +50,18 @@ function refreshCallbacks() {
     editBtns = $(editBtns.selector);
 
     removeBtns.click(function() {
-        var itemId = $(this).closest('tr').find('.id').text();
+        const itemId = $(this).closest('tr').find('.id').text();
         contactList.remove('id', itemId);
     });
 
     editBtns.click(function() {
-        var itemId = $(this).closest('tr').find('.id').text();
-        var itemValues = contactList.get('id', itemId)[0].values();
+        const itemId = $(this).closest('tr').find('.id').text();
+        const itemValues = contactList.get('id', itemId)[0].values();
         idField.val(itemValues.id);
-        nameField.val(itemValues.name);
-        ageField.val(itemValues.age);
-        cityField.val(itemValues.city);
+        locationField.val(itemValues.location);
+        budgetField.val(itemValues.budget);
+        periodField.val(itemValues.period);
+        membersField.val(itemValues.members);
 
         editBtn.show();
         addBtn.hide();
@@ -65,7 +69,8 @@ function refreshCallbacks() {
 }
 
 function clearFields() {
-    nameField.val('');
-    ageField.val('');
-    cityField.val('');
+    locationField.val('');
+    budgetField.val('');
+    periodField.val('');
+    membersField.val('');
 }

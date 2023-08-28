@@ -1,0 +1,179 @@
+body {
+
+    #background-color: #ffffff;
+}
+
+.container {
+    padding-top: 40px;
+    padding-bottom: 40px;
+    margin: 10px;
+    text-align: center;
+    color: white;
+    width: 700px;
+    height: 600px;
+}
+
+.container.tickets {
+    background-color: #47A6F6;
+    margin: auto;
+}
+
+.container.credit_card {
+    background-color: #34495e;
+}
+
+.container.coffee {
+    background-color: #C63D0F;
+}
+
+.form {
+    max-width: 330px;
+    padding: 15px;
+    margin: 0 auto;
+
+}
+
+.form .form-heading {
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.form .checkbox {
+    font-weight: normal;
+}
+
+.form .form-control {
+    position: relative;
+    height: auto;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    padding: 10px;
+    margin: 10px;
+    font-size: 16px;
+}
+
+.form .form-control:focus {
+    z-index: 2;
+}
+
+.form input[type="email"] {
+    margin-bottom: -1px;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+.btn {
+    margin: 10px;
+    min-width: 90px;
+}
+
+.btn.gold {
+    background-color: #D7971A;
+    border-color: #D7971A
+}
+
+.btn.green {
+    background-color: #2ecc71;
+    border-color: #2ecc71;
+}
+
+.btn.btn-cancel {
+    background-color: #ED5E68;
+    color: white;
+}
+
+.input-group label {
+    display: flex; /* 자식 요소들을 가로로 나란히 배치 */
+    justify-content: space-between; /* 각 요소 사이의 공간을 최대로 설정 */
+    align-items: flex-start;
+    max-width: 500px; /* 화면 너비에 맞추기 */
+    padding: 20px; /* 여백 설정 (원하는 여백 크기로 조절) */
+}
+
+.search-button {
+    width: 50px; /* 버튼의 너비를 설정하세요. */
+    height: 25px; /* 버튼의 높이를 설정하세요. */
+    /*background-image: url('/static/images/zoom-lens.png'); !* 이미지 경로를 설정하세요. *!*/
+    background-size: cover; /* 배경 이미지를 버튼 크기에 맞게 조절합니다. */
+    /*border: none; !* 버튼 스타일링을 제거합니다. *!*/
+    cursor: pointer; /* 커서를 포인터로 변경하여 클릭 가능한 버튼으로 만듭니다. */
+}
+
+.modal-body {
+    position: absolute;
+    top: 50%; /* 모달을 화면가운데 놓기위함. */
+
+    width: 600px; /* 모달의 가로크기  */
+    height: 800px; /* 모달의 세로크기 */
+
+    padding: 40px;
+
+    text-align: left;
+
+    background-color: rgb(255, 255, 255); /* 모달창 배경(흰색) */
+    border-radius: 10px; /* */
+    box-shadow: 0 2px 3px 0 rgba(34, 36, 38, 0.15); /* 테두리 그림자  */
+
+    transform: translateY(-50%); /* 모듈창열었을때 위치설정 가운데로  */
+}
+
+.modal-body .form-heading {
+    margin-bottom: 5px;
+    text-align: center;
+}
+
+.modal-body .checkbox {
+    font-weight: normal;
+}
+
+.modal-body .form-control {
+    position: relative;
+    height: auto;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    padding: 10px;
+    margin: 30px;
+    font-size: 25px;
+}
+
+.modal-body .form-control:focus {
+    z-index: 2;
+}
+
+.modal-body .modal-category{
+    margin-bottom: 20px;
+}
+
+.add-journey {
+    width: 100%; /* 가로 폭을 100%로 설정하여 부모 요소에 맞춤 */
+    height: auto; /* 높이를 자동으로 설정하여 내용에 따라 조정 */
+    border-radius: 20px;
+    text-align: center;
+    font-size: 15px;
+    font-family: "Open Sans", Helvetica, Arial, sans-serif;
+    display: flex;
+    justify-content: center; /* 가로 중앙 정렬 */
+    align-items: center; /* 세로 중앙 정렬 */
+    max-width: 100%;
+    padding: 20px;
+}
+
+
+
+.modal {
+    position: absolute;
+    display: none;
+
+    justify-content: center;
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+

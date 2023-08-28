@@ -11,8 +11,10 @@
     <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/list.js/1.5.0/list.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/list.js/2.3.1/list.min.js"></script>
     <link rel="stylesheet" type="text/css" href="/css/container.css">
     <link rel="stylesheet" type="text/css" href="/css/map.css">
+    <link rel="stylesheet" type="text/css" href="/css/journeyList.css">
     <link rel="stylesheet" type="text/css" href="/css/tripplan.css">
     <script src="/js/tripplan.js"></script>
 
@@ -60,35 +62,39 @@
 
     </style>
 </head>
+<link rel="icon" href="data:;base64,iVBORw0KGgo=">
 
 <body>
 <div class="main-container">
     <div class="map-container">
         <div class="search">
+            <input id="add-journey" type="button" class="add-journey" value="여행 일정 추가" onclick="addJourney()">
+            <button class="btn-open-modal">Modal열기</button>
             <input id="address" type="text" placeholder="검색할 주소">
             <input id="submit" type="button" value="주소검색">
         </div>
         <div id="map" style="width:1000px;height:1000px;"></div>
     </div>
 
-    <div class="container">
-        <form id="contact" action="" method="post">
+    <div class="journey-container">
+        <form id="contact" action="">
             <h3>여행 일정</h3>
             <h4>당신의 여행 일정을 작성하고 사람들과 공유하세요!</h4>
             <fieldset>
-                <input placeholder="제목을 입력하세요." type="text" tabindex="1" autofocus>
+                <input placeholder="제목을 입력하세요." id="title" type="text" tabindex="1" autofocus>
             </fieldset>
             <fieldset>
-                <textarea placeholder="본문을 입력하세요" tabindex="2"></textarea>
+                <textarea placeholder="본문을 입력하세요" id="contents" tabindex="2"></textarea>
             </fieldset>
             <fieldset>
                 <div id="contacts">
                     <table>
                         <thead>
                         <tr>
-                            <th class="sort" data-sort="name">예상 비용</th>
-                            <th class="sort" data-sort="age">예상 시간</th>
-                            <th class="sort" data-sort="city">예상 인원</th>
+                            <th class="sort" data-sort="place">여행 장소</th>
+                            <th class="sort" data-sort="budget">예상 비용</th>
+                            <th class="sort" data-sort="duration">예상 시간</th>
+                            <th class="sort" data-sort="members">예상 인원</th>
                             <th colspan="2">
                                 <input type="text" class="search" placeholder="Search contact"/>
                             </th>
@@ -97,9 +103,10 @@
                         <tbody class="list">
                         <tr>
                             <td class="id" style="display:none;">1</td>
-                            <td class="name">Jonny</td>
-                            <td class="age">27</td>
-                            <td class="city">Stockholm</td>
+                            <td class="place">부산</td>
+                            <td class="budget">Jonny</td>
+                            <td class="duration">27</td>
+                            <td class="members">Stockholm</td>
                             <td class="edit">
                                 <button class="edit-item-btn">Edit</button>
                             </td>
@@ -109,9 +116,10 @@
                         </tr>
                         <tr>
                             <td class="id" style="display:none;">2</td>
-                            <td class="name">Jonas</td>
-                            <td class="age">-132</td>
-                            <td class="city">Berlin</td>
+                            <td class="place">서울</td>
+                            <td class="budget">Jonas</td>
+                            <td class="duration">""</td>
+                            <td class="members">2</td>
                             <td class="edit">
                                 <button class="edit-item-btn">Edit</button>
                             </td>
@@ -121,9 +129,10 @@
                         </tr>
                         <tr>
                             <td class="id" style="display:none;">3</td>
-                            <td class="name">Gustaf</td>
-                            <td class="age">-23</td>
-                            <td class="city">Sundsvall</td>
+                            <td class="place">인천</td>
+                            <td class="budget">Gustaf</td>
+                            <td class="duration">""</td>
+                            <td class="members">3</td>
                             <td class="edit">
                                 <button class="edit-item-btn">Edit</button>
                             </td>
@@ -133,9 +142,10 @@
                         </tr>
                         <tr>
                             <td class="id" style="display:none;">4</td>
-                            <td class="name">Fredrik</td>
-                            <td class="age">26</td>
-                            <td class="city">Goteborg</td>
+                            <td class="place">광주</td>
+                            <td class="budget">Fredrik</td>
+                            <td class="duration">""</td>
+                            <td class="members">3</td>
                             <td class="edit">
                                 <button class="edit-item-btn">Edit</button>
                             </td>
@@ -146,15 +156,18 @@
                         </tbody>
                     </table>
                     <table>
-                        <td class="name">
+                        <td class="place">
                             <input type="hidden" id="id-field"/>
-                            <input type="text" id="name-field" placeholder="원"/>
+                            <input type="text" id="location-field" placeholder="장소명"/>
                         </td>
-                        <td class="age">
-                            <input type="text" id="age-field" placeholder="시간"/>
+                        <td class="budget">
+                            <input type="text" id="budget-field" placeholder="원"/>
                         </td>
-                        <td class="city">
-                            <input type="text" id="city-field" placeholder="명"/>
+                        <td class="period">
+                            <input type="text" id="period-field" placeholder="시간"/>
+                        </td>
+                        <td class="members">
+                            <input type="text" id="members-field" placeholder="명"/>
                         </td>
                         <td class="add">
                             <button id="add-btn">Add</button>
@@ -181,8 +194,8 @@
                 </table>
             </fieldset>
             <fieldset>
-                <button name="submit" type="submit" id="contact-submit" data-submit="...Sending">Submit</button>
-                <button name="submit" type="submit" id="cancel-submit" data-submit="...Sending">Cancel</button>
+                <button name="submit" type="submit" id="addPost" data-submit="...Sending">Submit</button>
+                <button name="submit" type="submit" id="cancelPost" data-submit="...Sending">Cancel</button>
             </fieldset>
         </form>
     </div>
@@ -237,6 +250,42 @@
 <!--        <tbody id="mapList"></tbody>-->
 <!--    </table>-->
 <!--</div>-->
+
+<div class="modal">
+    <form class="modal-body">
+        <h2 class="form-heading">여행 정보</h2>
+
+        <div class="modal-category">
+            <label for="location" class="sr-only">여행 장소 </label>
+            <input type="search" id="location" class="form-control" placeholder="여행 장소를 검색하세요." required autofocus>
+            <button type="button" id="search-icon" class="search-button" value="검색"></button>
+        </div>
+
+        <div class="modal-category">
+            <label for="budget" class="sr-only">예상 금액</label>
+            <input type="text" id="budget" class="form-control" placeholder="예상 금액을 입력하세요." required>
+        </div>
+
+        <div class="modal-category">
+            <label for="journeyDate" class="sr-only">여행 일정</label>
+            <input type="date" id="journeyDate" class="form-control" placeholder="여행 일정을 입력하세요" required>
+        </div>
+
+        <div class="modal-category">
+            <label for="member" class="sr-only">여행 인원</label>
+            <input type="text" id="member" class="form-control" placeholder="여행 인원을 설정하세요." min="1" required>
+        </div>
+
+        <div class="add-journey">
+            <div class="col-sm-6">
+                <button class="btn btn-lg btn-primary btn-block green" id="post-journey" type="submit">일정등록</button>
+            </div>
+            <div class="col-sm-6">
+                <button class="btn btn-lg btn-cancel btn-block" type="submit">돌아가기</button>
+            </div>
+        </div>
+    </form>
+</div>
 </body>
 <script>
 
@@ -269,8 +318,9 @@
                 alert('선택한 장소는 없습니다.');
             }
         });
-
     }
+
+    // 게시글 입력
 
 
     //지도를 그려주는 함수 실행
@@ -364,4 +414,56 @@
         });
     }
 </script>
+
+
+<script>
+    let idx = {
+        init: function () {
+            $("#addPost").on("click", () => {
+                this.newPost();
+            });
+        },
+
+        newPost: function () {
+            let data = {
+                title: $('#title').val(),
+                contents: $('#contents').val(),
+            };
+            console.log(data)
+
+            fetch(`/api/posts`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(data)
+            })
+                .then(response => response.json())
+                .then(data => {
+                    alert("글 작성 성공");
+                    location.href = "/"
+                })
+                .catch(error => {
+                    console.error("댓글 작성 실패:", error);
+                }); //ajax 통신을 이용해서 파라미터를 json으로 변경하여 insert 요청
+        }
+    }
+    idx.init();
+</script>
+
+<script>
+    function addJourney() {
+        window.location.href = "http://localhost:8080/journey";
+    }
+</script>
+
+<script>
+    const modal = document.querySelector('.modal');
+    const btnOpenModal = document.querySelector('.btn-open-modal');
+
+    btnOpenModal.addEventListener("click", () => {
+        modal.style.display = "flex";
+    });
+</script>
+
 </html>

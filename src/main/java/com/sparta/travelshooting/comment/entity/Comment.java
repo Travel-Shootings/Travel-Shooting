@@ -1,6 +1,7 @@
 package com.sparta.travelshooting.comment.entity;
 
 
+import com.sparta.travelshooting.admin.dto.AdminCommentRequestDto;
 import com.sparta.travelshooting.comment.dto.CommentRequestDto;
 import com.sparta.travelshooting.common.Timestamped;
 import com.sparta.travelshooting.post.entity.Post;
@@ -56,4 +57,8 @@ public class Comment extends Timestamped {
         this.reviewPost = reviewPost;
     }
 
+    public void updateByAdmin (AdminCommentRequestDto commentRequestDto) {
+        this.nickName = commentRequestDto.getNickname();
+        this.content = commentRequestDto.getContents();
+    }
 }
