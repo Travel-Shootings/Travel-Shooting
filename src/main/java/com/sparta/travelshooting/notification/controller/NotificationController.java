@@ -1,6 +1,6 @@
 package com.sparta.travelshooting.notification.controller;
 
-import com.sparta.travelshooting.common.entity.ApiResponseDto;
+import com.sparta.travelshooting.common.ApiResponseDto;
 import com.sparta.travelshooting.notification.dto.NotificationResponseDto;
 import com.sparta.travelshooting.notification.service.NotificationService;
 import com.sparta.travelshooting.security.UserDetailsImpl;

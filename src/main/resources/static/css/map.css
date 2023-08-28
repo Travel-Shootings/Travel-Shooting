@@ -9,17 +9,5 @@
     margin-left: 100px;
 }
 
-.add-journey {
-    width: 600px;
-    height: 150px;
-    border-radius: 20px;
-    text-align: center;
-    font-size: 15px;
-    font-family: "Open Sans", Helvetica, Arial, sans-serif;
 
-    display: flex; /* 자식 요소들을 가로로 나란히 배치 */
-    align-items: flex-start;
-    max-width: 100%; /* 화면 너비에 맞추기 */
-    padding: 20px; /* 여백 설정 (원하는 여백 크기로 조절) */
-}
 

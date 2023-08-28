@@ -109,7 +109,7 @@ body {
 
     padding: 40px;
 
-    text-align: center;
+    text-align: left;
 
     background-color: rgb(255, 255, 255); /* 모달창 배경(흰색) */
     border-radius: 10px; /* */
@@ -145,6 +145,23 @@ body {
 .modal-body .modal-category{
     margin-bottom: 20px;
 }
+
+.add-journey {
+    width: 100%; /* 가로 폭을 100%로 설정하여 부모 요소에 맞춤 */
+    height: auto; /* 높이를 자동으로 설정하여 내용에 따라 조정 */
+    border-radius: 20px;
+    text-align: center;
+    font-size: 15px;
+    font-family: "Open Sans", Helvetica, Arial, sans-serif;
+    display: flex;
+    justify-content: center; /* 가로 중앙 정렬 */
+    align-items: center; /* 세로 중앙 정렬 */
+    max-width: 100%;
+    padding: 20px;
+}
+
+
+
 .modal {
     position: absolute;
     display: none;
@@ -158,4 +175,5 @@ body {
 
     background-color: rgba(0, 0, 0, 0.4);
 }
+
 
