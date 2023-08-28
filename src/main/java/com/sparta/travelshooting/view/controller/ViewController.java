@@ -13,4 +13,9 @@ public class ViewController {
     public String chat() {
         return "chat";
     }
+
+    @GetMapping("/home")
+    public String home() {
+        return "home";
+    }
 }
