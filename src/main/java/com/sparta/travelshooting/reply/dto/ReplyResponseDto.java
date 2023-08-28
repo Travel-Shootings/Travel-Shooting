@@ -1,13 +1,12 @@
 package com.sparta.travelshooting.reply.dto;
 
-import com.sparta.travelshooting.common.Timestamped;
 import com.sparta.travelshooting.reply.entity.Reply;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
 
 @Getter
-public class ReplyResponseDto extends Timestamped {
+public class ReplyResponseDto  {
     private Long id;
     private String nickName;
     private String content;
