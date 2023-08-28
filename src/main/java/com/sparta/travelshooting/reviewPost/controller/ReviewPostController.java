@@ -79,14 +79,14 @@ public class ReviewPostController {
     }
 
     //좋아요 기능
-    @PostMapping("/{reviewPostId}/like")
+    @PostMapping("/like/{reviewPostId}")
     public ResponseEntity<ApiResponseDto> addLike(@PathVariable Long reviewPostId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         ApiResponseDto apiResponseDto = reviewPostService.addLike(reviewPostId, userDetails.getUser());
         return new ResponseEntity<>(apiResponseDto, HttpStatus.OK);
     }
 
     //좋아요 취소 기능
-    @DeleteMapping("/{reviewPostId}/like")
+    @DeleteMapping("/like/{reviewPostId}")
     public ResponseEntity<ApiResponseDto> deleteLike(@PathVariable Long reviewPostId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         ApiResponseDto apiResponseDto = reviewPostService.deleteLike(reviewPostId, userDetails.getUser());
         return new ResponseEntity<>(apiResponseDto, HttpStatus.OK);

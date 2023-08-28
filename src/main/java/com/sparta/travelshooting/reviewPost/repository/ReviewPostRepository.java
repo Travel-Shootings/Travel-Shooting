@@ -13,6 +13,4 @@ public interface ReviewPostRepository extends JpaRepository<ReviewPost,Long> {
     //후기게시판 전체조회
     List<ReviewPost> findAll();
 
-//    @EntityGraph(attributePaths = "images")
-//    Optional<ReviewPost> findById(Long id); // 특정 ID의 게시물과 이미지 조회
 }

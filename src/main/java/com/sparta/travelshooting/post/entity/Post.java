@@ -1,8 +1,10 @@
 package com.sparta.travelshooting.post.entity;
 
+import com.sparta.travelshooting.comment.entity.Comment;
 import com.sparta.travelshooting.common.Timestamped;
 import com.sparta.travelshooting.journeylist.entity.JourneyList;
 import com.sparta.travelshooting.post.dto.PostRequestDto;
+import com.sparta.travelshooting.reply.entity.Reply;
 import com.sparta.travelshooting.user.entity.User;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -41,6 +43,9 @@ public class Post extends Timestamped {
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
     private List<JourneyList> journeyLists = new ArrayList<>();
+
+    @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<Comment> posts = new ArrayList<>();
 
     public Post (PostRequestDto postRequestDto, List<JourneyList> journeyList, User user) {
         this.title = postRequestDto.getTitle();
