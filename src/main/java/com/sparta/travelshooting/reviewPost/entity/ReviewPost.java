@@ -1,13 +1,19 @@
 package com.sparta.travelshooting.reviewPost.entity;
 
 import com.sparta.travelshooting.S3Image.entity.Image;
+import com.sparta.travelshooting.comment.entity.Comment;
 import com.sparta.travelshooting.common.Timestamped;
+import com.sparta.travelshooting.post.entity.PostLike;
+import com.sparta.travelshooting.reply.entity.Reply;
 import com.sparta.travelshooting.user.entity.User;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -29,28 +35,35 @@ public class ReviewPost extends Timestamped {
     @JoinColumn(name = "userId")
     private User user;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL) // Image와의 관계 매핑
-    @JoinColumn(name = "imageId")
-    private Image image;
+    @OneToMany(mappedBy = "reviewPost", cascade = CascadeType.ALL)
+    private List<Image> images = new ArrayList<>(); // 이미지 컬렉션 추가
 
+    @OneToMany(mappedBy = "reviewPost", cascade = CascadeType.REMOVE)
+    private List<Comment> comments = new ArrayList<>();
 
-    private String accessUrl;
+    @Column
+    private Integer likeCounts = 0;
 
+    @OneToMany(mappedBy = "reviewPost", cascade = CascadeType.REMOVE)
+    private List<ReviewPostLike> reviewPostLikes = new ArrayList<>();
 
-    public ReviewPost(String title, String content, User user, Image image,String accessUrl) {
+    public ReviewPost(String title, String content, User user,List<Image> images) {
 
         this.title = title;
         this.content = content;
         this.user = user;
-        this.image = image;
-        this.accessUrl = accessUrl;
+        this.images = images;
+
 
     }
 
-    public void updateReviewPost(String title, String content, Image image,String accessUrl) {
+    public void updateReviewPost(String title, String content, List<Image> images) {
         this.title = title;
         this.content = content;
-        this.image = image;
-        this.image.setAccessUrl(accessUrl);
+        this.images = images;
     }
+
+
+
+
 }

@@ -8,6 +8,7 @@ import com.sparta.travelshooting.common.ApiResponseDto;
 import com.sparta.travelshooting.security.UserDetailsImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,13 +26,23 @@ public class CommentController {
 
     private final CommentService commentService;
 
-    // 댓글 생성
-    @Operation(summary = "댓글 생성")
-    @PostMapping
+    // 여행 게시판 댓글 생성
+    @Operation(summary = "여행 게시판 댓글 생성")
+    @PostMapping("/post")
     public ResponseEntity<CommentResponseDto> createComment(@RequestParam Long postId, @RequestBody CommentRequestDto commentRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         CommentResponseDto responseDto = commentService.createComment(postId, commentRequestDto, userDetails.getUser());
         return new ResponseEntity<>(responseDto, HttpStatus.CREATED);
     }
+
+
+    // 후기 게시판 댓글 생성
+    @Operation(summary = "후기 게시판 댓글 생성")
+    @PostMapping("/reviewPost")
+    public ResponseEntity<CommentResponseDto> createCommentReview(@RequestParam Long reviewPostId, @RequestBody CommentRequestDto commentRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        CommentResponseDto responseDto = commentService.createCommentReview(reviewPostId, commentRequestDto, userDetails.getUser());
+        return new ResponseEntity<>(responseDto, HttpStatus.CREATED);
+    }
+
 
 
     //댓글 수정

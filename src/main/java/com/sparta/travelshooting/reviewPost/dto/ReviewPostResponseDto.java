@@ -1,26 +1,32 @@
 package com.sparta.travelshooting.reviewPost.dto;
 
 
+import com.sparta.travelshooting.S3Image.entity.Image;
 import com.sparta.travelshooting.reviewPost.entity.ReviewPost;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Getter
 @Setter
 public class ReviewPostResponseDto {
-    private Long id;
     private String title;
     private String content;
-    private String imageUrl;
-
+    private List<String> imageUrls;
+    private Integer likeCounts;
 
 
     public ReviewPostResponseDto(ReviewPost reviewPost){
-        this.id = reviewPost.getId();
         this.title = reviewPost.getTitle();
         this.content = reviewPost.getContent();
-        this.imageUrl = reviewPost.getImage().getAccessUrl();
+        this.likeCounts = reviewPost.getLikeCounts();
+        this.imageUrls = reviewPost.getImages().stream()
+                .map(Image::getAccessUrl)
+                .collect(Collectors.toList());
     }
-}
+    }
+
 
 
