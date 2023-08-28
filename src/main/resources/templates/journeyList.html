@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title> 여행 일정 </title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="/css/journeyList.css">
+</head>
+
+<body id="main_body">
+<div class="container tickets">
+    <form class="form">
+        <h2 class="form-heading">여행 정보</h2>
+        <div class="input-group">
+            <label for="location" class="sr-only">여행 장소</label>
+            <input type="search" id="location" class="form-control" placeholder="여행할 장소를 입력하세요." required autofocus>
+            <span class="input-group-addon" id="search-addon">
+        <button type="button" id="search-icon" class="search-button"></button>
+    </span>
+        </div>
+
+        <label for="budget" class="sr-only">예상 금액</label>
+        <input type="text" id="budget" class="form-control" placeholder="예상 금액을 입력하세요." required>
+
+        <label for="journeyDate" class="sr-only">여행 일정</label>
+        <input type="date" id="journeyDate" class="form-control" placeholder="여행 일정을 입력하세요" required>
+
+        <label for="member" class="sr-only">여행 인원</label>
+        <input type="text" id="member" class="form-control" placeholder="여행 인원을 설정하세요." min="1" required>
+
+        <div class="modal-add-cancel">
+            <div class="col-sm-6">
+                <button class="btn btn-lg btn-primary btn-block green" id="add-journey" type="submit">일정등록</button>
+            </div>
+            <div class="col-sm-6">
+                <button class="btn btn-lg btn-cancel btn-block" type="submit">돌아가기</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+<script>
+    let addjourney = {
+        init: function () {
+            $("#add-journey").on("click", () => {
+                this.newJourney();
+            });
+        },
+
+        newJourney: function () {
+            let data = {
+                location: $('#location').val(),
+                budget: $('#budget').val(),
+                period: $('#period').val(),
+                members: $('#members').val()
+            };
+            console.log(data)
+
+            fetch(`/api/posts/{post_id}/journeyList`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(data)
+            })
+                .then(response => response.json())
+                .then(data => {
+                    alert("여행 일정 작성 성공");
+                    location.href = "/"
+                })
+                .catch(error => {
+                    console.error("여행 일정 작성 실패:", error);
+                }); //ajax 통신을 이용해서 파라미터를 json으로 변경하여 insert 요청
+        }
+    }
+    addjourney.init();
+
+</script>
+
+<script>
+
+    $('#search-icon').on('click', function (e) {
+        e.preventDefault();
+        searchNaver($('#location').val());
+    });
+
+</script>
+
+</body>
+
+
+</html>

@@ -33,6 +33,6 @@ public class NaverApiController {
     public String searchAddress(@RequestParam String query, Model model) {
         List<NaverAddressDto> naverAddressDtoList = naverApiService.searchAddress(query);
         model.addAttribute("naverSearch", naverAddressDtoList);
-        return "test";
+        return "create-post";
     }
 }

@@ -7,7 +7,7 @@ import com.sparta.travelshooting.chat.repository.ChatMessageRepository;
 import com.sparta.travelshooting.chat.repository.ChatMessageRepositoryQuery;
 import com.sparta.travelshooting.chat.repository.ChatRoomRepository;
 import com.sparta.travelshooting.chat.repository.UserChatRoomRepository;
-import com.sparta.travelshooting.common.entity.ApiResponseDto;
+import com.sparta.travelshooting.common.ApiResponseDto;
 import com.sparta.travelshooting.user.entity.User;
 import com.sparta.travelshooting.user.repository.UserRepository;
 import jakarta.transaction.Transactional;

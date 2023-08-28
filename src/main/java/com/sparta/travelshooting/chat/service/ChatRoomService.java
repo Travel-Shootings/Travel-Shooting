@@ -3,7 +3,7 @@ package com.sparta.travelshooting.chat.service;
 import com.sparta.travelshooting.chat.dto.ChatMessageResponseDto;
 import com.sparta.travelshooting.chat.entity.ChatRoom;
 import com.sparta.travelshooting.chat.entity.UserChatRoom;
-import com.sparta.travelshooting.common.entity.ApiResponseDto;
+import com.sparta.travelshooting.common.ApiResponseDto;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
