@@ -1,0 +1,60 @@
+/*홈페이지 기본 상호작용 관련*/
+.slider .btn {
+    margin-top: 20px;
+}
+
+.section-search input {
+    padding: 5px !important;
+    font-size: 18px !important;
+    width: 90% !important;
+    border: #f4f4f4 3px solid !important;
+}
+
+.section-follow .fa-4x {
+    margin: 5px 10px;
+}
+
+.section-contact h5 {
+    margin-bottom: 30px;
+}
+
+/*오프캔버스 관련 공통*/
+.offcanvas-header{
+    padding: 15px 30px 15px 30px;
+}
+
+/*채팅 관련*/
+#chat-main-content {
+    width: 100%;
+    margin: 0 0 0 0;
+}
+
+.message-sender {
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.message-time {
+    float: right;
+    text-align: right;
+    font-size: 8px;
+}
+
+.message-content {
+    margin: 5px;
+}
+
+.button-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.get-more-chat-btn {
+    font-size: 8px;
+}
+
+/*사용자 메뉴 관련*/
+.user-menu-btn {
+    margin: 5px;
+}
