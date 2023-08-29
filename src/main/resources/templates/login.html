@@ -1,110 +1,65 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="en" >
 <head>
     <meta charset="UTF-8">
+
+    <title>Login</title>
     <link rel="icon" href="data:,">
-    <script src="https://code.jquery.com/jquery-3.7.0.min.js"
-            integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
-    </script>
-    <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
-
-    <title>login</title>
-    <style>
-        #btn-login {
-            width: 355px;
-            margin-top: 10px;
-            margin-bottom: 10px;
-            height: 50px;
-        }
-
-        #inputUsername {
-            margin-top: 200px;
-            margin-bottom: 10px;
-            height: 50px;
-        }
-
-        #inputPassword {
-            height: 50px;
-        }
-
-        #login-button {
-            padding-right: 70px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-    </style>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css'>
+    <link rel='stylesheet' href='https://fonts.googleapis.com/icon?family=Material+Icons'>
+    <link rel="stylesheet" href="/css/login.css">
 
 </head>
-
 <body>
-
-<form class="form-horizontal container justify-content-end" style="width: 450px;">
-    <div class="form-group">
-        <div class="col-sm-10">
-            <input type="text" class="form-control" id="inputUsername" placeholder="Username">
+<!-- partial:index.partial.html -->
+<div class="navbar-fixed">
+    <nav class="teal">
+        <div class="container">
+            <div class="nav-wrapper">
+                <a href="/" class="brand-logo">Travel Shooting</a>
+                <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+                <ul class="right hide-on-med-and-down">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+                    <li>
+                        <a href="/view/user/signup">Sign Up</a>
+                    </li>
+                </ul>
+            </div>
         </div>
-    </div>
-    <div class="form-group">
-        <div class="col-sm-10">
-            <input type="password" class="form-control" id="inputPassword" placeholder="Password">
-        </div>
-    </div>
-</form>
-<div id = "login-button">
-    <button class="btn btn-dark" id="btn-login"><strong>Submit</strong></button>
+    </nav>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
-        crossorigin="anonymous"></script>
+<!-- Section: Contact -->
+<div id="wrapper">
+    <form class="form-horizontal container justify-content-end" style="width: 450px;">
+        <div class="form-group">
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="inputUsername" placeholder="Email">
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-10">
+                <input type="password" class="form-control" id="inputPassword" placeholder="Password">
+            </div>
+        </div>
+    </form>
+    <div id="login-button">
+        <button class="btn btn-dark" id="btn-login"><strong>Submit</strong></button>
+    </div>
+</div>
 
-<script>
-    let idx = {
-        init: function (){
-            $("#btn-login").on("click", () => {
-                this.login();
-            });
-        },
 
-        login: function () {
-            // alert("user의 save함수 호출됨");
-            let data = {
-                email : $('#inputUsername').val(),
-                password : $('#inputPassword').val()
-            };
+<!-- Footer -->
+<footer class="section teal darken-2 white-text center">
+    <p class="flow-text">Travel Shooting </p>
+</footer>
+<!-- partial -->
+<script src='https://use.fontawesome.com/releases/v5.0.6/js/all.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js'></script>
+<script src="/js/login.js"></script>
 
-            $.ajax({
-                // 로그인 수행 요청
-                type: "POST",
-                url:"/api/user/login",
-                data: JSON.stringify(data), // http body data
-                contentType:"application/json; charset=urf-8",
-                dataType:"json"
-            }).done(function(res){
-                console.log(res)
-                console.log(res.status)
-                if (res.status === 200) {
-                    alert("로그인이 완료되었습니다.")
-                    window.location.reload();
-                } else if (res.status === 400) {
-                    alert("로그인에 실패했습니다.")
-                }
-            }).fail(function (request, status, error){
-                console.log(status)
-                console.log(error)
-                alert("로그인에 실패했습니다.");
-            }); //ajax 통신을 이용해서 파라미터를 json으로 변경하여 insert 요청
-        }
-    }
-    idx.init();
-</script>
 </body>
-
-
 </html>
