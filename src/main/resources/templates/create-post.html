@@ -9,6 +9,7 @@
             src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=7u8454s6qg&submodules=geocoder"></script>
     <script src="https://code.jquery.com/jquery-latest.min.js"></script>
     <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/list.js/1.5.0/list.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/list.js/2.3.1/list.min.js"></script>
@@ -104,7 +105,7 @@
                         <tr>
                             <td class="id" style="display:none;">1</td>
                             <td class="place">부산</td>
-                            <td class="budget">Jonny</td>
+                            <td class="budget">20000</td>
                             <td class="duration">27</td>
                             <td class="members">Stockholm</td>
                             <td class="edit">
@@ -117,7 +118,7 @@
                         <tr>
                             <td class="id" style="display:none;">2</td>
                             <td class="place">서울</td>
-                            <td class="budget">Jonas</td>
+                            <td class="budget">30000</td>
                             <td class="duration">""</td>
                             <td class="members">2</td>
                             <td class="edit">
@@ -130,7 +131,7 @@
                         <tr>
                             <td class="id" style="display:none;">3</td>
                             <td class="place">인천</td>
-                            <td class="budget">Gustaf</td>
+                            <td class="budget">40000</td>
                             <td class="duration">""</td>
                             <td class="members">3</td>
                             <td class="edit">
@@ -143,7 +144,7 @@
                         <tr>
                             <td class="id" style="display:none;">4</td>
                             <td class="place">광주</td>
-                            <td class="budget">Fredrik</td>
+                            <td class="budget">50000</td>
                             <td class="duration">""</td>
                             <td class="members">3</td>
                             <td class="edit">
@@ -257,23 +258,23 @@
 
         <div class="modal-category">
             <label for="location" class="sr-only">여행 장소 </label>
-            <input type="search" id="location" class="form-control" placeholder="여행 장소를 검색하세요." required autofocus>
+            <input type="search" id="location" class="form-control" placeholder="여행 장소를 검색하세요." autofocus>
             <button type="button" id="search-icon" class="search-button" value="검색"></button>
         </div>
 
         <div class="modal-category">
             <label for="budget" class="sr-only">예상 금액</label>
-            <input type="text" id="budget" class="form-control" placeholder="예상 금액을 입력하세요." required>
+            <input type="text" id="budget" class="form-control" placeholder="예상 금액을 입력하세요.">
         </div>
 
         <div class="modal-category">
             <label for="journeyDate" class="sr-only">여행 일정</label>
-            <input type="date" id="journeyDate" class="form-control" placeholder="여행 일정을 입력하세요" required>
+            <input type="date" id="journeyDate" class="form-control" placeholder="여행 일정을 입력하세요">
         </div>
 
         <div class="modal-category">
             <label for="member" class="sr-only">여행 인원</label>
-            <input type="text" id="member" class="form-control" placeholder="여행 인원을 설정하세요." min="1" required>
+            <input type="text" id="member" class="form-control" placeholder="여행 인원을 설정하세요." min="1">
         </div>
 
         <div class="add-journey">
@@ -319,8 +320,6 @@
             }
         });
     }
-
-    // 게시글 입력
 
 
     //지도를 그려주는 함수 실행
@@ -426,8 +425,18 @@
 
         newPost: function () {
             let data = {
-                title: $('#title').val(),
-                contents: $('#contents').val(),
+                postRequestDto: {
+                    title: $('#title').val(),
+                    contents: $('#contents').val(),
+                },
+                journeyListRequestDtos: [
+                    {
+                        locations: $('#location-field').val(),
+                        budget: $('#budget-field').val(),
+                        period: $('#period-field').val(),
+                        members: $('#members-field').val()
+                    }
+                ]
             };
             console.log(data)
 
@@ -458,12 +467,42 @@
 </script>
 
 <script>
-    const modal = document.querySelector('.modal');
+    // 모달 창 열기 버튼 클릭 시
     const btnOpenModal = document.querySelector('.btn-open-modal');
-
     btnOpenModal.addEventListener("click", () => {
+        // 모달 열 때, 저장된 값이 있다면 입력란에 할당
+        const savedTitle = sessionStorage.getItem('modalTitle');
+        const savedContents = sessionStorage.getItem('modalContents');
+
+        // 입력란에 할당
+        document.getElementById('title').value = savedTitle || '';
+        document.getElementById('contents').value = savedContents || '';
+
+        // 모달 열기
+        const modal = document.querySelector('.modal');
         modal.style.display = "flex";
     });
+
+    // 모달 닫기 버튼 클릭 시
+    const btnCloseModal = document.querySelector('#cancelPost');
+    btnCloseModal.addEventListener('click', function () {
+        closeModal();
+    });
+
+    // 모달 닫기 함수
+    function closeModal() {
+        // 모달이 닫힐 때 입력란의 값을 저장
+        const titleValue = document.getElementById('title').value;
+        const contentsValue = document.getElementById('contents').value;
+
+        sessionStorage.setItem('modalTitle', titleValue);
+        sessionStorage.setItem('modalContents', contentsValue);
+
+        // 모달 닫기
+        const modal = document.querySelector('.modal');
+        modal.style.display = 'none';
+    }
 </script>
+
 
 </html>

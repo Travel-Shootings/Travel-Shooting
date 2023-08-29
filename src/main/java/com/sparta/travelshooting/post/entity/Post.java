@@ -3,6 +3,7 @@ package com.sparta.travelshooting.post.entity;
 import com.sparta.travelshooting.comment.entity.Comment;
 import com.sparta.travelshooting.common.Timestamped;
 import com.sparta.travelshooting.journeylist.entity.JourneyList;
+import com.sparta.travelshooting.post.dto.PostAndJourneyListDto;
 import com.sparta.travelshooting.post.dto.PostRequestDto;
 import com.sparta.travelshooting.reply.entity.Reply;
 import com.sparta.travelshooting.user.entity.User;
