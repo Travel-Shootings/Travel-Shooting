@@ -20,7 +20,7 @@ public class ViewController {
         return "login";
     }
 
-    //로그인 페이지로 이동
+    //회원가입 페이지로 이동
     @GetMapping("/user/signup")
     public String signup() {
         return "signup";
