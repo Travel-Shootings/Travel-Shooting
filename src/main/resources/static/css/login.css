@@ -1,0 +1,61 @@
+.slider .btn {
+  margin-top: 20px;
+}
+
+.section-search input {
+  padding: 5px !important;
+  font-size: 18px !important;
+  width: 90% !important;
+  border: #f4f4f4 3px solid !important;
+}
+
+.section-follow .fa-4x {
+  margin: 5px 10px;
+}
+
+.section-contact h5 {
+  margin-bottom: 30px;
+}
+
+#btn-login {
+  width: 355px;
+  margin-top: 30px;
+  margin-bottom: 200px;
+  height: 50px;
+  display :inline-block;
+}
+
+#inputUsername {
+  width: 355px;
+  margin-top: 150px;
+  margin-bottom: 20px;
+  height: 50px;
+}
+
+#inputPassword{
+  width: 355px;
+  height: 50px;
+}
+
+.form-group {
+  text-align: center
+}
+
+#login-button {
+  text-align: center;
+}
+
+#wrapper{
+  height: auto;
+  min-height: 100%;
+  padding-bottom: 120px;
+}
+footer{
+  height: 120px;
+  width: 100%;
+  /*position : relative;*/
+  /*transform : translateY(-100%);*/
+
+  position : absolute;
+  bottom : 0;
+}
