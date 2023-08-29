@@ -1,3 +1,4 @@
+// 홈페이지 버튼 상호작용 관련
 // Side Menu
 const sideNav = document.querySelector('.sidenav');
 M.Sidenav.init(sideNav, {});

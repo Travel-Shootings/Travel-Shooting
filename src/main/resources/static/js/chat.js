@@ -1,3 +1,4 @@
+// 채팅 관련
 let authCookie = Cookies.get("Authorization");
 
 const stompClient = new StompJs.Client({
@@ -41,7 +42,7 @@ function setConnected(connected) {
         $("#conversation").hide();
     }
     $("#chat-messages").html("");
-    $(".button-wrapper").html('<button id="get-more-chat-btn">채팅 내역 더 불러오기</button>');
+    $(".button-wrapper").html('<button class="btn get-more-chat-btn">채팅 내역 더 불러오기</button>');
     page = 0;
 }
 
@@ -70,14 +71,14 @@ function sendMessage() {
 function showMessage(message) {
     $("#chat-messages").append("<tr><td>"
         + "<div class='row'>"
-        + "<div class='col-md-2 message-sender'>"
+        + "<div class='col-md-6 message-sender'>"
         + message.senderName
         + "</div>"
-        + "<div class='col-md-8 message-content' data-chat-message-id='" + message.chatMessageId + "'>"
-        + message.content
-        + "</div>"
-        + "<div class='col-md-2 message-time'>"
+        + "<div class='col-md-6 message-time'>"
         + message.simpleTime
+        + "</div>"
+        + "<div class='col-md-12 message-content' data-chat-message-id='" + message.chatMessageId + "'>"
+        + message.content
         + "</div>"
         + "</div>"
         + "</td></tr>");
@@ -88,7 +89,7 @@ $(function () {
     $("#connect").click(() => connect());
     $("#disconnect").click(() => disconnect());
     $("#send").click(() => sendMessage());
-    $(document).on("click", "#get-more-chat-btn", function () {
+    $(document).on("click", ".get-more-chat-btn", function () {
         getChatMessages(page);
     });
 });
@@ -96,14 +97,14 @@ $(function () {
 function showPastMessage(message) {
     $("#chat-messages").prepend("<tr><td>"
         + "<div class='row'>"
-        + "<div class='col-md-2 message-sender'>"
+        + "<div class='col-md-6 message-sender'>"
         + message.senderName
         + "</div>"
-        + "<div class='col-md-8 message-content' data-chat-message-id='" + message.chatMessageId + "'>"
-        + message.content
-        + "</div>"
-        + "<div class='col-md-2 message-time'>"
+        + "<div class='col-md-6 message-time'>"
         + message.simpleTime
+        + "</div>"
+        + "<div class='col-md-12 message-content' data-chat-message-id='" + message.chatMessageId + "'>"
+        + message.content
         + "</div>"
         + "</div>"
         + "</td></tr>");

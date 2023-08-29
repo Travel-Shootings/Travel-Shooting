@@ -5,12 +5,20 @@
     <title>Main Page Title</title>
 
     <!--stylesheet-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
     <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css'>
     <link rel='stylesheet' href='https://fonts.googleapis.com/icon?family=Material+Icons'>
     <link rel="stylesheet" href="/css/home.css">
 
     <!--live server css-->
     <link rel="stylesheet" href="/static/css/home.css">
+
+    <!--bootstrap JS-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+            crossorigin="anonymous"></script>
+
 
     <!--JQuery-->
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
@@ -22,7 +30,8 @@
     <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js"></script>
 </head>
 <body>
-<!-- partial:index.partial.html -->
+
+<!--데스크탑 메뉴바-->
 <div class="navbar-fixed">
     <nav class="teal">
         <div class="container">
@@ -45,11 +54,25 @@
                     <li>
                         <a href="#contact">Contact</a>
                     </li>
+                    <li>
+                        <a type="btn" data-bs-toggle="offcanvas" href="#offcanvasChat"
+                           aria-controls="offcanvasChat">
+                            Chat
+                        </a>
+                    </li>
+                    <li>
+                        <a type="btn" data-bs-toggle="offcanvas" href="#offcanvasUser"
+                           aria-controls="offcanvasUser">
+                            My Account
+                        </a>
+                    </li>
                 </ul>
             </div>
         </div>
     </nav>
 </div>
+
+<!--모바일 메뉴바-->
 <ul class="sidenav" id="mobile-demo">
     <li>
         <a href="#home">Home</a>
@@ -66,7 +89,111 @@
     <li>
         <a href="#contact">Contact</a>
     </li>
+    <li>
+        <a type="btn" data-bs-toggle="offcanvas" href="#offcanvasChat"
+           aria-controls="offcanvasChat">
+            Chat
+        </a>
+    </li>
+    <li>
+        <a type="btn" data-bs-toggle="offcanvas" href="#offcanvasUser"
+           aria-controls="offcanvasUser">
+            My Account
+        </a>
+    </li>
 </ul>
+
+<!--사용자 메뉴 오프캔버스-->
+<div class="offcanvas offcanvas-end" tabindex="-1"
+     id="offcanvasUser"
+     aria-labelledby="offcanvasUserLabel">
+    <div class="offcanvas-header">
+        <h3 id="offcanvasUserLabel">User Menu</h3>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"
+                aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+        <div class="circle-container">
+            <div class="circle">
+                <img class="profile-img"
+                     src="https://t4.ftcdn.net/jpg/02/15/84/43/360_F_215844325_ttX9YiIIyeaR7Ne6EaLLjMAmy4GvPC69.jpg">
+                <p>프로필 사진 들어갈 자리에 임시 이미지 넣었습니다</p>
+            </div>
+        </div>
+        <div>
+            <button class="btn user-menu-btn" id="user-menu-profile">My Profile</button>
+        </div>
+        <div>
+            <button class="btn user-menu-btn" id="user-menu-password">Change Password</button>
+        </div>
+        <div>
+            <button class="btn user-menu-btn" id="user-menu-logout">Logout</button>
+        </div>
+    </div>
+</div>
+
+<!--채팅 오프캔버스-->
+<div class="offcanvas offcanvas-end" tabindex="-1"
+     id="offcanvasChat"
+     aria-labelledby="offcanvasChatLabel">
+    <div class="offcanvas-header">
+        <h3 id="offcanvasChatLabel">Chat</h3>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"
+                aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+        <div id="chat-main-content" class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <form class="form-inline">
+                        <div class="form-group">
+                            <div>
+                                <label for="room-number">채팅방 선택</label>
+                                <input type="text" id="room-number" class="form-control" placeholder="목록 띄울것">
+                                <button id="connect" class="btn btn-default" type="submit">입장</button>
+                                <button id="disconnect" class="btn btn-default" type="submit" disabled="disabled">나가기
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="table-wrapper">
+                        <p type="label">채팅 내역</p>
+                        <table id="conversation" class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th>
+                                    <div class="button-wrapper">
+                                        <p class="disconnected-notification">채팅방에 입장해주세요.</p>
+                                    </div>
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody id="chat-messages">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="row" id="input-chat">
+                <div class="col-md-12">
+                    <form class="form-inline">
+                        <div class="form-group">
+                            <div>
+                                <label for="message">채팅</label>
+                                <input type="text" id="message" class="form-control" placeholder="메세지를 입력하세요.">
+                                <button id="send" class="btn btn-default" type="submit">보내기</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 <!-- Section: Slider -->
 <section id="home" class="slider scrollspy">
@@ -323,8 +450,9 @@
                         <label for="phone">Phone</label>
                     </div>
                     <div class="input-field">
-                        <textarea class="materialize-textarea" placeholder="Enter Message" id="message"></textarea>
-                        <label for="message">Message</label>
+                        <textarea class="materialize-textarea" placeholder="Enter Contact Message"
+                                  id="contact-message"></textarea>
+                        <label for="contact-message">Contact Message</label>
                     </div>
                     <input type="submit" value="Submit" class="btn">
                 </div>
@@ -340,12 +468,12 @@
 <!-- partial -->
 <script src='https://use.fontawesome.com/releases/v5.0.6/js/all.js'></script>
 <script src='https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js'></script>
-<script src="./script.js"></script>
 
 </body>
 
 <!--JS-->
 <script src="/js/home.js"></script>
+<script src="/js/chat.js"></script>
 
 <!--live server JS-->
 <script src="/static/js/home.js"></script>
