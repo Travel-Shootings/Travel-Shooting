@@ -40,12 +40,15 @@ public class ReviewPostServiceImpl implements ReviewPostService {
     public ReviewPostResponseDto createReviewPost(List<MultipartFile> imageFiles, ReviewPostRequestDto requestDto, User user) {
         List<Image> images = new ArrayList<>();  // 이미지 초기화
 
-        for (MultipartFile imageFile : imageFiles) {
-            if (imageFile != null && !imageFile.isEmpty()) {
-                Image image = new Image(imageFile.getOriginalFilename(), null); // ReviewPost는 아직 생성되지 않았으므로 null 전달
-                String imageUrl = imageService.saveImage(imageFile);
-                image.setAccessUrl(imageUrl);
-                images.add(image); // 이미지 컬렉션에 추가
+        // imageFiles가 null이 아니고 비어있지 않은 경우에만 처리
+        if (imageFiles != null && !imageFiles.isEmpty()) {
+            for (MultipartFile imageFile : imageFiles) {
+                if (imageFile != null && !imageFile.isEmpty()) {
+                    Image image = new Image(imageFile.getOriginalFilename(), null); // ReviewPost는 아직 생성되지 않았으므로 null 전달
+                    String imageUrl = imageService.saveImage(imageFile);
+                    image.setAccessUrl(imageUrl);
+                    images.add(image); // 이미지 컬렉션에 추가
+                }
             }
         }
 
@@ -61,6 +64,7 @@ public class ReviewPostServiceImpl implements ReviewPostService {
 
         return new ReviewPostResponseDto(reviewPost);
     }
+
 
     // 후기 게시글 수정
     @Override

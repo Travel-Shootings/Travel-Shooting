@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
 public class ReviewPostResponseDto {
     private String title;
     private String content;
+    private String nickName;
     private List<String> imageUrls;
     private Integer likeCounts;
 
@@ -21,6 +22,7 @@ public class ReviewPostResponseDto {
     public ReviewPostResponseDto(ReviewPost reviewPost){
         this.title = reviewPost.getTitle();
         this.content = reviewPost.getContent();
+        this.nickName= reviewPost.getNickName();
         this.likeCounts = reviewPost.getLikeCounts();
         this.imageUrls = reviewPost.getImages().stream()
                 .map(Image::getAccessUrl)
