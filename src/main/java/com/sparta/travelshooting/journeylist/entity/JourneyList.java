@@ -26,11 +26,14 @@ public class JourneyList {
     @Column(nullable = false)
     private Long budget;
 
-    @Column(nullable = false)
+    @Column
     private LocalDateTime period;
 
     @Column(nullable = false)
     private Integer members;
+
+    @Column(nullable = false)
+    private String placeAddress;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "post_id")
@@ -41,6 +44,7 @@ public class JourneyList {
         this.budget = requestDto.getBudget();
         this.period = requestDto.getPeriod();
         this.members = requestDto.getMembers();
+        this.placeAddress = requestDto.getPlaceAddress();
         this.post = post;
     }
 
@@ -49,6 +53,7 @@ public class JourneyList {
         this.budget = requestDto.getBudget();
         this.period = requestDto.getPeriod();
         this.members = requestDto.getMembers();
+        this.placeAddress = requestDto.getPlaceAddress();
     }
 
     public void updateByAdmin(JourneyListRequestDto requestDto) {
@@ -56,5 +61,6 @@ public class JourneyList {
         this.budget = requestDto.getBudget();
         this.period = requestDto.getPeriod();
         this.members = requestDto.getMembers();
+        this.placeAddress = requestDto.getPlaceAddress();
     }
 }

@@ -31,9 +31,12 @@ public class Reply extends Timestamped {
 
 
     public Reply(ReplyRequestDto replyRequestDto,Comment comment, User user){
-
         this.user = user;
         this.comment = comment;
+        this.content = replyRequestDto.getContent();
+    }
+
+    public void updateByAdmin (ReplyRequestDto replyRequestDto) {
         this.content = replyRequestDto.getContent();
     }
 

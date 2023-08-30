@@ -10,4 +10,5 @@ public class JourneyListRequestDto {
     private Long budget;
     private LocalDateTime period;
     private Integer members;
+    private String placeAddress;
 }
