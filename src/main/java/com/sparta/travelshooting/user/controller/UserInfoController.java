@@ -34,8 +34,8 @@ public class UserInfoController {
     // 마이페이지 : 자신의 정보 수정 (nickname, region)
     @Operation(summary = "자신의 정보 수정")
     @PutMapping("/edit")
-    public ResponseEntity<UserResponseDto> editUserInfo(@AuthenticationPrincipal UserDetailsImpl userDetails, @RequestBody EditInfoRequestDto requestDto) {
-        UserResponseDto userResponseDto = userInfoService.editUserInfo(userDetails.getUser(), requestDto);
+    public ResponseEntity<ApiResponseDto> editUserInfo(@AuthenticationPrincipal UserDetailsImpl userDetails, @RequestBody EditInfoRequestDto requestDto) {
+        ApiResponseDto userResponseDto = userInfoService.editUserInfo(userDetails.getUser(), requestDto);
         return new ResponseEntity<>(userResponseDto, HttpStatus.OK);
     }
 

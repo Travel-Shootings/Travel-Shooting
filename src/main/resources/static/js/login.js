@@ -60,10 +60,10 @@ let idx = {
                 console.log(res)
                 console.log(res.statusCode)
                 if (res.statusCode === 200) {
-                    alert("로그인이 완료되었습니다.")
+                    alert(res.message)
                     window.location.href = "/view/home";
                 } else if (res.statusCode === 400) {
-                    alert("로그인에 실패했습니다.")
+                    alert(res.message)
                 }
             })
             .fail(function (request, status, error) {

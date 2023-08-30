@@ -47,7 +47,6 @@ public class UserAuthController {
      * 로그아웃 API
      * - 로그아웃 -> 리프레시 토큰을 삭제
      * - 남아있는 AccessToken은 어떻게 처리하는 거지..? -> 블랙리스트에 저장
-     * TODO : 만료된 AccessToken을 정기적으로 삭제하는 것 -> redis로 업데이트
      */
     @Operation(summary = "로그아웃")
     @DeleteMapping("/logout")

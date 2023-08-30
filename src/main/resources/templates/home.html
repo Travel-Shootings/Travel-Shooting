@@ -117,14 +117,15 @@
             <div class="circle">
                 <img class="profile-img"
                      src="https://t4.ftcdn.net/jpg/02/15/84/43/360_F_215844325_ttX9YiIIyeaR7Ne6EaLLjMAmy4GvPC69.jpg">
-                <p>프로필 사진 들어갈 자리에 임시 이미지 넣었습니다</p>
+                <div id="nickname-box">
+                    <span th:text="${nickname}">Nickname</span>
+                </div>
             </div>
         </div>
         <div>
-            <button class="btn user-menu-btn" id="user-menu-profile">My Profile</button>
-        </div>
-        <div>
-            <button class="btn user-menu-btn" id="user-menu-password">Change Password</button>
+            <a href="/user/profile">
+                <button class="btn user-menu-btn" id="user-menu-profile">My Profile</button>
+            </a>
         </div>
         <div>
             <button class="btn user-menu-btn" id="user-menu-logout">Logout</button>

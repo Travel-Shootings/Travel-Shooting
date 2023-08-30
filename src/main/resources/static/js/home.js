@@ -34,3 +34,37 @@ M.Autocomplete.init(ac, {
         "The Bahamas": null,
     }
 });
+
+// logout
+let idx = {
+    init: function () {
+        $("#user-menu-logout").on("click", () => {
+            this.logout();
+        });
+    },
+
+    logout: function () {
+        $.ajax({
+            type: "DELETE",
+            url: "/api/user/logout",
+            contentType: "application/json; charset=urf-8",
+            dataType: "json"
+        })
+            .done(function (res) {
+                console.log(res)
+                console.log(res.statusCode)
+                if (res.statusCode === 200) {
+                    alert(res.message)
+                    window.location.href = "/view/home";
+                } else if (res.statusCode === 400) {
+                    alert(res.message)
+                }
+            })
+            .fail(function (request, status, error) {
+                console.log(status)
+                console.log(error)
+                alert("로그아웃에 실패했습니다.");
+            });
+    }
+}
+idx.init();
