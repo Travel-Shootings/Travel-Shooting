@@ -48,8 +48,8 @@ public class UserInfoServiceImpl implements UserInfoService{
         }
 
         // 가장 최근 비밀번호와 매치
-        if (passwordEncoder.matches(requestDto.getNewPassword(), user.getRecentPassword())) {
-            throw new IllegalArgumentException("최근에 사용했던 비밀번호입니다.");
+        if (passwordEncoder.matches(requestDto.getNewPassword(), user.getRecentPassword()) || passwordEncoder.matches(requestDto.getNewPassword(), user.getPassword())) {
+            throw new IllegalArgumentException("최근에 사용한 비밀번호입니다.");
         }
 
         String newPassword = passwordEncoder.encode(requestDto.getNewPassword());

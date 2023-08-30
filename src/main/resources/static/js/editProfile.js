@@ -2,19 +2,19 @@
 let idx = {
     init: function () {
         $("#edit-button").on("click", () => {
-            this.editProfile();
+            this.editPassword();
         });
     },
 
-    editProfile: function () {
+    editPassword: function () {
         let data = {
-            nickname: $('#inputNickname').val(),
-            region: $('#select-box').val()
+            oldPassword: $('#inputOldPassword').val(),
+            newPassword: $('#inputNewPassword').val()
         };
 
         $.ajax({
             type: "PUT",
-            url: "/api/my-page/edit",
+            url: "/api/my-page/edit/password",
             data: JSON.stringify(data),
             contentType: "application/json; charset=urf-8",
             dataType: "json"
@@ -33,7 +33,7 @@ let idx = {
             .fail(function (request, status, error) {
                 console.log(status)
                 console.log(error)
-                alert("프로필 수정에 실패했습니다.");
+                alert("비밀번호 변경에 실패했습니다.");
             });
     }
 }

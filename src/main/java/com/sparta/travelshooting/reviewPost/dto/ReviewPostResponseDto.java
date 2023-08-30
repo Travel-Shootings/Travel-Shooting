@@ -26,7 +26,7 @@ public class ReviewPostResponseDto {
                 .map(Image::getAccessUrl)
                 .collect(Collectors.toList());
     }
-    }
+}
 
 
 

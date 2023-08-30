@@ -56,4 +56,10 @@ public class ViewController {
         }
         return "editProfile";
     }
+
+    //비밀번호 변경 수정 페이지
+    @GetMapping("/user/editPassword")
+    public String editPassword() {
+        return "editPassword";
+    }
 }
