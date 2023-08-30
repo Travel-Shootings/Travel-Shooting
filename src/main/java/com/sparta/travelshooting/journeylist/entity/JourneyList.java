@@ -27,7 +27,10 @@ public class JourneyList {
     private Long budget;
 
     @Column
-    private LocalDateTime period;
+    private LocalDateTime startJourney;
+
+    @Column
+    private LocalDateTime endJourney;
 
     @Column(nullable = false)
     private Integer members;
@@ -42,7 +45,8 @@ public class JourneyList {
     public JourneyList(JourneyListRequestDto requestDto, Post post) {
         this.locations = requestDto.getLocations();
         this.budget = requestDto.getBudget();
-        this.period = requestDto.getPeriod();
+        this.startJourney = requestDto.getStartJourney();
+        this.endJourney = requestDto.getEndJourney();
         this.members = requestDto.getMembers();
         this.placeAddress = requestDto.getPlaceAddress();
         this.post = post;
@@ -51,7 +55,8 @@ public class JourneyList {
     public void update(JourneyListRequestDto requestDto) {
         this.locations = requestDto.getLocations();
         this.budget = requestDto.getBudget();
-        this.period = requestDto.getPeriod();
+        this.startJourney = requestDto.getStartJourney();
+        this.endJourney = requestDto.getEndJourney();
         this.members = requestDto.getMembers();
         this.placeAddress = requestDto.getPlaceAddress();
     }
@@ -59,7 +64,8 @@ public class JourneyList {
     public void updateByAdmin(JourneyListRequestDto requestDto) {
         this.locations = requestDto.getLocations();
         this.budget = requestDto.getBudget();
-        this.period = requestDto.getPeriod();
+        this.startJourney = requestDto.getStartJourney();
+        this.endJourney = requestDto.getEndJourney();
         this.members = requestDto.getMembers();
         this.placeAddress = requestDto.getPlaceAddress();
     }

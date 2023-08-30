@@ -20,7 +20,7 @@ public class JourneyListServiceImpl implements JourneyListService {
     private final JourneyListRepository journeyListRepository;
     private final PostRepository postRepository;
 
-    // 여행 일정 (팝업창) 생성
+    // 여행 일정 (모달창) 생성
     @Transactional
     @Override
     public JourneyListResponseDto createJourney(Long postId, JourneyListRequestDto journeyListRequestDto) {

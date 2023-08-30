@@ -105,7 +105,7 @@ body {
     top: 50%; /* 모달을 화면가운데 놓기위함. */
 
     width: 600px; /* 모달의 가로크기  */
-    height: 800px; /* 모달의 세로크기 */
+    height: 850px; /* 모달의 세로크기 */
 
     padding: 40px;
 
@@ -142,11 +142,6 @@ body {
     z-index: 2;
 }
 
-.modal-body .modal-category{
-    margin-bottom: 20px;
-}
-
-
 
 .add-journey, .btn-open-modal {
     width: 100%; /* 가로 폭을 100%로 설정하여 부모 요소에 맞춤 */
@@ -162,7 +157,9 @@ body {
     padding: 20px;
 }
 
-
+.add-journey {
+    margin-bottom: 300px;
+}
 
 .modal, .search-modal {
     position: absolute;
@@ -188,4 +185,10 @@ body {
     width: 100px;
     height: 50px;
     text-align: center;
+}
+
+.modal-category {
+    font-size: 15px;
+    font-family: "Open Sans", Helvetica, Arial, sans-serif;
+    font-weight: bold;
 }

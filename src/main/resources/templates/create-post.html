@@ -8,17 +8,10 @@
     <script type="text/javascript"
             src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=7u8454s6qg&submodules=geocoder"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <!--    <script src="https://code.jquery.com/jquery-latest.min.js"></script>-->
-    <!--    <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.4.min.js"></script>-->
-    <!--    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>-->
-    <!--    <script src="//cdnjs.cloudflare.com/ajax/libs/list.js/1.5.0/list.min.js"></script>-->
-    <!--    <script src="//cdnjs.cloudflare.com/ajax/libs/list.js/2.3.1/list.min.js"></script>-->
     <link rel="stylesheet" type="text/css" href="/css/container.css">
     <link rel="stylesheet" type="text/css" href="/css/map.css">
     <link rel="stylesheet" type="text/css" href="/css/journeyList.css">
     <link rel="stylesheet" type="text/css" href="/css/tripplan.css">
-    <script src="/js/tripplan.js"></script>
-
 
     <style>
         /* 전체 페이지 스타일링 */
@@ -92,58 +85,20 @@
                         <thead>
                         <tr>
                             <th class="sort" data-sort="place">여행 장소</th>
-                            <th class="sort" data-sort="budget">예상 비용</th>
-                            <th class="sort" data-sort="duration">여행 기간</th>
-                            <th class="sort" data-sort="members">예상 인원</th>
+                            <th class="sort" data-sort="budget">예산 비용</th>
+                            <th class="sort" data-sort="startJourney">여행 시작일</th>
+                            <th class="sort" data-sort="endJourney">여행 종료일</th>
+                            <th class="sort" data-sort="members">참여 인원</th>
                             <th class="sort" data-sort="placeAddress" style="display: none;">여행지 주소</th>
                         </tr>
                         </thead>
                         <tbody class="list">
                         <tr>
-                            <td class="id" style="display:none;">1</td>
-                            <td class="place">부산</td>
-                            <td class="budget">20000</td>
-                            <td class="duration">27</td>
-                            <td class="members">Stockholm</td>
-<!--                            <td class="placeAddress">부산시 영통구</td>-->
-                            <td class="edit">
-                                <button class="edit-item-btn">Edit</button>
-                            </td>
-                            <td class="remove">
-                                <button class="remove-item-btn" type="button">Remove</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="id" style="display:none;">2</td>
-                            <td class="place">서울</td>
-                            <td class="budget">30000</td>
-                            <td class="duration">""</td>
-                            <td class="members">2</td>
-                            <td class="edit">
-                                <button class="edit-item-btn">Edit</button>
-                            </td>
-                            <td class="remove">
-                                <button class="remove-item-btn" type="button">Remove</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="id" style="display:none;">3</td>
-                            <td class="place">인천</td>
-                            <td class="budget">40000</td>
-                            <td class="duration">""</td>
-                            <td class="members">3</td>
-                            <td class="edit">
-                                <button class="edit-item-btn">Edit</button>
-                            </td>
-                            <td class="remove">
-                                <button class="remove-item-btn" type="button">Remove</button>
-                            </td>
-                        </tr>
-                        <tr>
                             <td class="id" style="display:none;">4</td>
                             <td class="place">광주</td>
                             <td class="budget">50000</td>
-                            <td class="duration">""</td>
+                            <td class="startJourney">""</td>
+                            <td class="endJourney">""</td>
                             <td class="members">3</td>
                             <td class="edit">
                                 <button class="edit-item-btn">Edit</button>
@@ -153,25 +108,6 @@
                             </td>
                         </tr>
                         </tbody>
-                    </table>
-                    <table>
-                        <td class="place">
-                            <input type="hidden" id="id-field"/>
-                            <input type="text" id="location-field" placeholder="장소명"/>
-                        </td>
-                        <td class="budget">
-                            <input type="text" id="budget-field" placeholder="원"/>
-                        </td>
-                        <td class="period">
-                            <input type="text" id="period-field" placeholder="시간"/>
-                        </td>
-                        <td class="members">
-                            <input type="text" id="members-field" placeholder="명"/>
-                        </td>
-                        <td class="add">
-                            <button id="add-btn">Add</button>
-                            <button id="edit-btn">Edit</button>
-                        </td>
                     </table>
                 </div>
             </fieldset>
@@ -216,13 +152,18 @@
         </div>
 
         <div class="modal-category">
-            <label for="budget" class="sr-only">예상 금액</label>
+            <label for="budget" class="sr-only">예산 금액</label>
             <input type="text" id="budget" class="form-control" placeholder="예상 금액을 입력하세요.">
         </div>
 
         <div class="modal-category">
-            <label for="journeyDate" class="sr-only">여행 일정</label>
-            <input type="date" id="journeyDate" class="form-control" placeholder="여행 일정을 입력하세요">
+            <label for="journeyStartDate" class="sr-only">시작 일정</label>
+            <input type="datetime-local" id="journeyStartDate" class="form-control" placeholder="시작 일정을 입력하세요">
+        </div>
+
+        <div class="modal-category">
+            <label for="journeyEndDate" class="sr-only">종료 일정</label>
+            <input type="datetime-local" id="journeyEndDate" class="form-control" placeholder="종료 일정을 입력하세요">
         </div>
 
         <div class="modal-category">
@@ -232,7 +173,7 @@
 
         <div class="modal-category" style="display: none;">
             <label for="modaladdress" class="sr-only">주소지</label>
-            <input type="text" id="modaladdress" class="form-control" placeholder="주소지 숨기는 칸입니다.">
+            <input type="text" id="modaladdress" class="form-control" placeholder="주소지 숨기는 칸 입니다.">
         </div>
 
         <div class="add-journey">
@@ -414,14 +355,16 @@
             $(".list tr").each(function () {
                 const locations = $(this).find(".place").text();
                 const budget = $(this).find(".budget").text();
-                const period = $(this).find(".duration").text();
+                const startJourney = $(this).find(".startJourney").text();
+                const endJourney = $(this).find(".endJourney").text();
                 const members = $(this).find(".members").text();
                 const placeAddress = $(this).find(".placeAddress").text();
 
                 const dto = {
                     locations: locations,
                     budget: budget,
-                    period: period,
+                    startJourney: startJourney,
+                    endJourney: endJourney,
                     members: members,
                     placeAddress: placeAddress
                 };
@@ -459,22 +402,9 @@
 </script>
 
 <script>
+    // 모달 열기 버튼 클릭 시
     const btnOpenModal = document.querySelector('.btn-open-modal');
     btnOpenModal.addEventListener("click", () => {
-        // 모달 열 때, 저장된 테이블 상태를 불러와서 테이블에 적용
-        const tableDataJSON = sessionStorage.getItem('tableData');
-        if (tableDataJSON) {
-            const tableData = JSON.parse(tableDataJSON);
-            document.getElementById('title').value = tableData.title;
-            document.getElementById('contents').value = tableData.contents;
-            // 다른 필드들도 필요에 따라 추가
-        }
-
-        const tableHTML = sessionStorage.getItem('tableHTML');
-        if (tableHTML) {
-            $(".list").html(tableHTML);
-        }
-
         // 모달 열기
         const modal = document.querySelector('.modal');
         modal.style.display = "flex";
@@ -484,36 +414,10 @@
     const btnCloseModal = document.querySelector('#cancel-journey');
     btnCloseModal.addEventListener('click', function (e) {
         e.preventDefault();
-        // 테이블 상태를 객체로 저장
-        const tableData = {
-            title: document.getElementById('title').value,
-            contents: document.getElementById('contents').value,
-            // 다른 필드들도 필요에 따라 추가
-        };
-
-        // 객체를 JSON 문자열로 변환하여 localStorage에 저장
-        sessionStorage.setItem('tableData', JSON.stringify(tableData));
 
         // 모달 닫기
         const modal = document.querySelector('.modal');
         modal.style.display = 'none';
-    });
-</script>
-
-<script>
-    // 페이지 로드 시
-    window.addEventListener('load', function () {
-        // localStorage에서 데이터 가져오기
-        const tableDataString = localStorage.getItem('tableData');
-        if (tableDataString) {
-            // JSON 문자열을 객체로 변환
-            const tableData = JSON.parse(tableDataString);
-
-            // 필요한 필드들로 테이블 상태 복원
-            document.getElementById('title').value = tableData.title;
-            document.getElementById('contents').value = tableData.contents;
-            // 다른 필드들도 필요에 따라 복원
-        }
     });
 </script>
 
@@ -525,7 +429,8 @@
             // 여행 정보 입력 폼에서 값을 가져옴
             const location = $("#location").val();
             const budget = $("#budget").val();
-            const journeyDate = $("#journeyDate").val();
+            const startJourney = $("#journeyStartDate").val();
+            const endJourney = $("#journeyEndDate").val();
             const members = $("#member").val();
             const modaladdress = $("#modaladdress").val();
 
@@ -534,7 +439,8 @@
                             <td class="id" style="display:none;"></td>
                             <td class="place">${location}</td>
                             <td class="budget">${budget}</td>
-                            <td class="duration">${journeyDate}</td>
+                            <td class="startJourney">${startJourney}</td>
+                            <td class="endJourney">${endJourney}</td>
                             <td class="members">${members}</td>
                             <td class="placeAddress" style="display: none;">${modaladdress}</td>
                             <td class="edit">
@@ -551,7 +457,8 @@
             // 입력 필드 초기화
             $("#location").val('');
             $("#budget").val('');
-            $("#journeyDate").val('');
+            $("#journeyStartDate").val('');
+            $("#journeyEndDate").val('');
             $("#member").val('');
             $("#modaladdress").val('');
 
@@ -591,18 +498,14 @@
         const selectedPlace = $(this).closest('.user-list-item').find('.place-title').text();
         const selectedAddress = $(this).closest('.user-list-item').find('.place-address').text();
 
-        // id가 "location"인 입력란에 선택한 장소 정보 설정
+        // id가 "location"인 입력란에 선택한 장소 정보 설정 & id가 "modaladdress"인 입력란에 선택한 주소 정보 설정
         $('#location').val(selectedPlace);
-
-        // id가 "modaladdress"인 입력란에 선택한 주소 정보 설정
         $('#modaladdress').val(selectedAddress);
 
         // 모달 닫기 (선택한 정보를 입력란에 설정한 후 모달을 닫을 수 있음)
         const modal = document.querySelector('.search-modal');
         modal.style.display = 'none';
     });
-
-
 </script>
 
 
