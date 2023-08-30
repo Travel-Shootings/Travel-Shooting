@@ -189,11 +189,11 @@
 
 <div class="search-modal" id="second-modal">
     <div class="modal-dialog" role="document">
-            <div class="modal-body">
-                <!-- 백엔드에서 받아온 장소 정보를 동적으로 렌더링 -->
-                <div id="search-results" class="user-list-item"></div>
-                <button type="button" class="close-second-modal" data-dismiss="modal">닫기</button>
-            </div>
+        <div class="modal-body">
+            <!-- 백엔드에서 받아온 장소 정보를 동적으로 렌더링 -->
+            <div id="search-results" class="user-list-item"></div>
+            <button type="button" class="close-second-modal" data-dismiss="modal">닫기</button>
+        </div>
     </div>
 </div>
 
@@ -402,6 +402,16 @@
 </script>
 
 <script>
+    // 버튼 요소를 찾아서 클릭 이벤트 핸들러를 추가
+    $(document).ready(function () {
+        $("#cancelPost").click(function (e) {
+            e.preventDefault(); // 폼의 기본 동작(페이지 새로고침)을 막음
+            window.location.href = "http://localhost:8080/view/home"; // 메인 페이지로 이동
+        });
+    });
+</script>
+
+<script>
     // 모달 열기 버튼 클릭 시
     const btnOpenModal = document.querySelector('.btn-open-modal');
     btnOpenModal.addEventListener("click", () => {
@@ -493,7 +503,7 @@
     });
 
     // 선택창을 눌렀을 때 이벤트 핸들러 등록
-    $(document).on('click', '.select-place-button', function() {
+    $(document).on('click', '.select-place-button', function () {
         // 선택한 장소 정보 가져오기
         const selectedPlace = $(this).closest('.user-list-item').find('.place-title').text();
         const selectedAddress = $(this).closest('.user-list-item').find('.place-address').text();
