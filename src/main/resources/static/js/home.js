@@ -1,3 +1,31 @@
+window.onload = function() {
+    var login_btn = document.getElementById("login-btn");
+    var signup_btn = document.getElementById("signup-btn");
+    var mypage_btn = document.getElementById("mypage-btn");
+
+    if (checkAuthorizationCookie()) {
+        mypage_btn.style.display = "block";
+
+        login_btn.style.display = "none";
+        signup_btn.style.display = "none";
+    }
+
+    function checkAuthorizationCookie() {
+        var cookies = document.cookie.split(";");
+
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = cookies[i].split('=');
+
+            // "Authorization" 쿠키가 존재하는 경우 true 반환
+            if (cookie[0] === "Authorization") {
+                return true;
+            }
+        }
+        // "Authorization" 쿠키가 존재하지 않는 경우 false 반환
+        return false;
+    }
+}
+
 // 홈페이지 버튼 상호작용 관련
 // Side Menu
 const sideNav = document.querySelector('.sidenav');
@@ -68,3 +96,4 @@ let idx = {
     }
 }
 idx.init();
+

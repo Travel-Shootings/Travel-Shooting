@@ -60,10 +60,16 @@
                             Chat
                         </a>
                     </li>
-                    <li>
+                    <li id="login-btn">
+                        <a href="/view/user/login">Log In</a>
+                    </li>
+                    <li id="signup-btn">
+                        <a href="/view/user/signup">Sign Up</a>
+                    </li>
+                    <li id="mypage-btn" style="display: none">
                         <a type="btn" data-bs-toggle="offcanvas" href="#offcanvasUser"
                            aria-controls="offcanvasUser">
-                            My Account
+                            My Profile
                         </a>
                     </li>
                 </ul>
@@ -95,10 +101,11 @@
             Chat
         </a>
     </li>
+
     <li>
         <a type="btn" data-bs-toggle="offcanvas" href="#offcanvasUser"
            aria-controls="offcanvasUser">
-            My Account
+            My Profile
         </a>
     </li>
 </ul>
@@ -123,7 +130,7 @@
             </div>
         </div>
         <div>
-            <a href="/user/profile">
+            <a href="/view/user/profile">
                 <button class="btn user-menu-btn" id="user-menu-profile">My Profile</button>
             </a>
         </div>
