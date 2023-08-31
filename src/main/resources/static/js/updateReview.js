@@ -7,14 +7,40 @@ const reviewPostId = window.location.pathname.split('/').pop();
 submitButton.addEventListener('click', updateReviewPost);
 cancelButton.addEventListener('click', cancelUpdate);
 
+// 페이지 로드 시 게시물 데이터 조회 및 입력 필드에 채우기
+async function loadPostData() {
+    try {
+        const response = await fetch(`/api/reviewPosts/${reviewPostId}`);
+        const postData = await response.json();
+
+        // 입력 필드에 데이터 채우기
+        document.getElementById('title').value = postData.title;
+        document.getElementById('content').value = postData.content;
+
+    } catch (error) {
+        console.error('Error loading post data:', error);
+    }
+}
+
 // 후기 게시글 수정 요청 함수
 async function updateReviewPost() {
     // 필요한 데이터 수집 및 validation
+    const title = document.getElementById('title').value;
+    const content = document.getElementById('content').value;
+    const imageFiles = document.getElementById('images').files;
+
+    const formData = new FormData();
+    formData.append('title', title);
+    formData.append('content', content);
+
+    for (const file of imageFiles) {
+        formData.append('imageFiles', file);
+    }
 
     try {
         const response = await fetch(`/api/reviewPosts/${reviewPostId}`, {
             method: 'PATCH',
-            // 필요한 요청 데이터 추가
+            body: formData,
         });
 
         if (response.ok) {
@@ -33,3 +59,6 @@ function cancelUpdate() {
     // 수정 취소 시 처리
     window.location.href = '/view/reviewPost'; // 이전에 보던 후기 게시글 페이지로 이동
 }
+
+// 페이지 로드 시 기존 데이터 불러오기
+loadPostData();

@@ -80,33 +80,32 @@ public class ReviewPostServiceImpl implements ReviewPostService {
             return new ApiResponseDto("게시글 작성자만 수정할 수 있습니다.", HttpStatus.FORBIDDEN.value());
         }
 
-        // 이미지 업데이트
-        List<Image> images = reviewPost.getImages();
+        // 기존 이미지 삭제
+        List<Image> existingImages = reviewPost.getImages();
+        for (Image existingImage : existingImages) {
+            imageService.deleteImage(existingImage.getId()); // 이미지 삭제 서비스 메서드 호출
+        }
+        existingImages.clear(); // 기존 이미지 목록 비우기
+
+        // 새로운 이미지 추가
+        List<Image> updatedImages = new ArrayList<>();
         if (imageFiles != null && !imageFiles.isEmpty()) {
-
-
             for (MultipartFile imageFile : imageFiles) {
                 Image newImage = new Image(imageFile.getOriginalFilename(), reviewPost);
                 String newImageUrl = imageService.saveImage(imageFile);
                 newImage.setAccessUrl(newImageUrl);
                 imageRepository.save(newImage);
-                images.add(newImage);
-            }
-        } else {
-            // 이미지를 null로 넣은 경우 기존 이미지 삭제
-            if (!images.isEmpty()) {
-                for (Image image : images) {
-                    imageService.deleteImage(image.getId()); // 이미지 삭제 서비스 메서드 호출
-                }
-
+                updatedImages.add(newImage);
             }
         }
 
         // 게시글 정보 업데이트 (제목, 내용)
-        reviewPost.updateReviewPost(requestDto.getTitle(), requestDto.getContent(), images);
+        reviewPost.updateReviewPost(requestDto.getTitle(), requestDto.getContent(), updatedImages);
 
         return new ApiResponseDto("게시글 수정 완료", HttpStatus.OK.value());
     }
+
+
 
 
     // 후기 게시글 삭제
