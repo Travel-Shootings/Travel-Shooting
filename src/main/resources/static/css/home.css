@@ -19,11 +19,15 @@
 }
 
 /*오프캔버스 관련 공통*/
-.offcanvas-header{
+.offcanvas-header {
     padding: 15px 30px 15px 30px;
 }
 
 /*채팅 관련*/
+#offcanvasChat {
+    width: 500px;
+}
+
 #chat-main-content {
     width: 100%;
     margin: 0 0 0 0;
@@ -44,6 +48,11 @@
     margin: 5px;
 }
 
+#message {
+    flex: 1;
+    margin-right: 5px;
+}
+
 .button-wrapper {
     display: flex;
     justify-content: center;
@@ -52,6 +61,43 @@
 
 .get-more-chat-btn {
     font-size: 8px;
+}
+
+.dropdown-menu {
+    max-height: 250px;
+    overflow-y: auto;
+}
+
+.dropdown-item {
+    margin-bottom: 0;
+}
+
+.dropdown-item:active {
+    background-color: #009688;
+}
+
+.chat-div {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+}
+
+#connect {
+    margin-top: 5px;
+    margin-right: 5px;
+}
+
+#disconnect {
+    margin-top: 5px;
+}
+
+#chat-room-list {
+    margin-top: 5px;
+    height: 36px;
+}
+
+.input-message {
+    display: flex;
 }
 
 /*사용자 메뉴 관련*/

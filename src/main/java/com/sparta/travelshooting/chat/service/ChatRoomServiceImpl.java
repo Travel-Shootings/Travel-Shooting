@@ -1,6 +1,7 @@
 package com.sparta.travelshooting.chat.service;
 
 import com.sparta.travelshooting.chat.dto.ChatMessageResponseDto;
+import com.sparta.travelshooting.chat.dto.ChatRoomResponseDto;
 import com.sparta.travelshooting.chat.entity.ChatRoom;
 import com.sparta.travelshooting.chat.entity.UserChatRoom;
 import com.sparta.travelshooting.chat.repository.ChatMessageRepository;
@@ -70,6 +71,11 @@ public class ChatRoomServiceImpl implements ChatRoomService {
         userChatRoomRepository.delete(userChatRoom);
 
         return new ApiResponseDto(user.getNickname() + "님이 " + chatRoom.getChatRoomName() + " 채팅방 나기기 완료", HttpStatus.OK.value());
+    }
+
+    @Override
+    public List<ChatRoomResponseDto> getChatRoomList() {
+        return chatRoomRepository.findAll().stream().map(ChatRoomResponseDto::new).toList();
     }
 
     @Override

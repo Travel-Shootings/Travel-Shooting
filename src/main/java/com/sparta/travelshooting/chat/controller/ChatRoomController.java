@@ -2,6 +2,7 @@ package com.sparta.travelshooting.chat.controller;
 
 import com.sparta.travelshooting.chat.dto.ChatMessageResponseDto;
 import com.sparta.travelshooting.chat.dto.ChatRoomRequestDto;
+import com.sparta.travelshooting.chat.dto.ChatRoomResponseDto;
 import com.sparta.travelshooting.chat.service.ChatRoomService;
 import com.sparta.travelshooting.common.ApiResponseDto;
 import com.sparta.travelshooting.security.UserDetailsImpl;
@@ -51,6 +52,13 @@ public class ChatRoomController {
     public ResponseEntity<ApiResponseDto> leaveChatRoom(@PathVariable Long chatRoomId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         ApiResponseDto apiResponseDto = chatRoomService.leaveChatRoom(userDetails.getUser().getId(), chatRoomId);
         return new ResponseEntity<>(apiResponseDto, HttpStatus.OK);
+    }
+
+    @Operation(summary = "채팅방 목록 불러오기")
+    @GetMapping
+    public ResponseEntity<List<ChatRoomResponseDto>> getChatRoomList() {
+        List<ChatRoomResponseDto> chatRoomResponseDtoList = chatRoomService.getChatRoomList();
+        return new ResponseEntity<>(chatRoomResponseDtoList, HttpStatus.OK);
     }
 
     @Operation(summary = "채팅방 채팅 내역 전체 불러오기")

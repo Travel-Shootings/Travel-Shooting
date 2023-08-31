@@ -1,6 +1,7 @@
 package com.sparta.travelshooting.chat.service;
 
 import com.sparta.travelshooting.chat.dto.ChatMessageResponseDto;
+import com.sparta.travelshooting.chat.dto.ChatRoomResponseDto;
 import com.sparta.travelshooting.chat.entity.ChatRoom;
 import com.sparta.travelshooting.chat.entity.UserChatRoom;
 import com.sparta.travelshooting.common.ApiResponseDto;
@@ -43,6 +44,13 @@ public interface ChatRoomService {
      * @return 요청 처리 결과
      */
     ApiResponseDto leaveChatRoom(Long userId, Long chatRoomId);
+
+    /**
+     * 채팅방 목록 불러오기
+     *
+     * @return 채팅방 목록
+     */
+    List<ChatRoomResponseDto> getChatRoomList();
 
     /**
      * 채팅방의 채팅 내역 전체 불러오기
