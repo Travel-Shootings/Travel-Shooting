@@ -42,7 +42,7 @@ async function renderReviewPosts(reviewPosts) {
         const titleCell = document.createElement('th');
         titleCell.classList.add('th-title');
         const titleLink = document.createElement('a');
-        titleLink.href = `/view/viewReview/${post.id}`;
+        titleLink.href = `/view/reviewPost/${post.id}`;
         titleLink.textContent = `${post.title}`;
         titleCell.appendChild(titleLink);
         row.appendChild(titleCell);

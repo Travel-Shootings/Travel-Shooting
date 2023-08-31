@@ -1,0 +1,61 @@
+/* style.css */
+
+body {
+    font-family: Arial, sans-serif;
+}
+
+h1 {
+    color: #333;
+    text-align: center;
+}
+
+#post-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 40px;
+    background-color: #f0f8ea;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+#image-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    text-align: center; /* 이미지 가운데 정렬 */
+}
+
+.post-image {
+    width: 600px; /* 이미지 가로 크기 설정 */
+    height: 400px; /* 이미지 세로 크기 설정 */
+    margin: 10px; /* 이미지 간격 설정 */
+    object-fit: cover; /* 이미지 비율 유지하며 크롭 */
+}
+
+#post-content {
+    color: #333;
+    font-size: 16px; /* 포스트 내용 스타일 설정 */
+    line-height: 1.6;
+    margin-top: 20px;
+}
+
+#buttons-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+button {
+    cursor: pointer;
+    background-color: #6db865;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    margin: 0 10px;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+button:hover {
+    background-color: #4b8e4e;
+}
