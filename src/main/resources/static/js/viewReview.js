@@ -4,6 +4,10 @@ const postContentElement = document.getElementById('post-content');
 const imageContainer = document.getElementById('image-container'); // 이미지를 표시할 컨테이너
 const deleteButton = document.getElementById('delete-button'); // 삭제 버튼
 const editButton = document.getElementById('edit-button');
+// 좋아요 버튼 요소를 가져옵니다.
+const likeButton = document.getElementById('like-button');
+const likeIcon = document.getElementById('like-icon');
+
 // URL 경로에서 reviewPostId 추출
 const reviewPostId = window.location.pathname.split('/').pop();
 
@@ -40,6 +44,11 @@ async function init() {
 
         // 이미지 URL 정보를 이용해 이미지를 화면에 표시
         renderImages(postData.imageUrls);
+
+
+        // 좋아요 수를 가져와서 UI에 표시
+        const likeCountElement = document.getElementById('like-count');
+        likeCountElement.textContent = postData.likeCounts; // 수정된 부분
 
         const imageElements = document.querySelectorAll('.post-image');
         for (const imageElement of imageElements) {
@@ -83,5 +92,34 @@ async function deleteReviewPost() {
         }
     }
 }
+
+// 좋아요 버튼 클릭 이벤트를 처리합니다.
+likeButton.addEventListener('click', async () => {
+    try {
+        const response = await fetch(`/api/reviewPosts/like/${reviewPostId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            if (data.status === 200) {
+                alert('좋아요가 등록되었습니다.');
+            } else {
+                alert(data.message); // 에러 메시지를 표시합니다.
+            }
+        } else {
+            console.error('Error adding like:', response.statusText);
+        }
+        window.location.reload();
+    } catch (error) {
+        console.error('Error adding like:', error);
+    }
+});
+
+
+
 
 init();

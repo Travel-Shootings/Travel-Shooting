@@ -3,16 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Review Post</title>
+    <title>여행 후기 게시판</title>
     <link rel="stylesheet" href="/css/viewReview.css">
 </head>
 <body>
-<h1>Review Post</h1>
+<h1>여행 후기 게시판</h1>
 <div id="post-container">
     <h2 id="post-title"></h2>
+    <div id="like-info">
+        <span id="like-count">0</span> <span id="like-icon">❤️</span>
+    </div>
+
     <div id="image-container"></div> <!-- 이미지를 표시할 컨테이너 -->
     <p id="post-content"></p>
     <div id="buttons-container">
+        <button id="like-button">좋아요</button>
         <button id="edit-button">수정</button>
         <button id="delete-button">삭제</button>
     </div>

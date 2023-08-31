@@ -65,7 +65,6 @@ public class ImageServiceImpl implements ImageService {
         return image.getAccessUrl();
     }
 
-
     //이미지 수정
     @Override
     @Transactional
@@ -77,7 +76,6 @@ public class ImageServiceImpl implements ImageService {
         }
 
         Image existingImage = imageOptional.get();
-
 
 //         S3에서 기존 이미지 삭제
         deleteImageFromS3(existingImage.getAccessUrl());
@@ -122,7 +120,6 @@ public class ImageServiceImpl implements ImageService {
         }
         return url;
     }
-
 
 
 }

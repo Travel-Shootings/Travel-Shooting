@@ -1,61 +1,48 @@
-/* style.css */
-
 body {
     font-family: Arial, sans-serif;
 }
-
 h1 {
     color: #333;
     text-align: center;
 }
-
-#post-container {
-    max-width: 800px;
+#reviewForm {
+    max-width: 800px; /* 가로 2배 크기로 조정 */
     margin: 0 auto;
-    padding: 40px;
-    background-color: #f0f8ea;
+    padding: 40px; /* 가로 2배 크기로 조정 */
+    background-color: #f0f8ea; /* 초록색 배경색 */
     border-radius: 5px;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
 }
-
-#image-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    text-align: center; /* 이미지 가운데 정렬 */
-}
-
-.post-image {
-    width: 600px; /* 이미지 가로 크기 설정 */
-    height: 400px; /* 이미지 세로 크기 설정 */
-    margin: 10px; /* 이미지 간격 설정 */
-    object-fit: cover; /* 이미지 비율 유지하며 크롭 */
-}
-
-#post-content {
+label {
+    font-weight: bold;
     color: #333;
-    font-size: 16px; /* 포스트 내용 스타일 설정 */
-    line-height: 1.6;
-    margin-top: 20px;
 }
-
-#buttons-container {
-    display: flex;
-    justify-content: center;
-    margin-top: 20px;
+input[type="text"],
+textarea,
+input[type="file"],
+button {
+    width: 100%;
+    padding: 12px; /* 세로 2배 크기로 조정 */
+    margin-bottom: 15px; /* 세로 2배 크기로 조정 */
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    font-size: 14px;
+    color: #333;
+    background-color: #fff;
+    margin-top: 15px;
 }
-
+textarea {
+    height: 150px; /* 세로 3배 크기로 조정 */
+}
+input[type="file"] {
+    background-color: #f0f8ea; /* 초록색 배경색 */
+}
 button {
     cursor: pointer;
-    background-color: #6db865;
+    background-color: #6db865; /* 초록색 배경색 */
     color: #fff;
     border: none;
-    padding: 10px 20px;
-    margin: 0 10px;
-    border-radius: 5px;
-    font-size: 14px;
 }
-
 button:hover {
-    background-color: #4b8e4e;
+    background-color: #4b8e4e; /* 더 진한 초록색 배경색 */
 }
