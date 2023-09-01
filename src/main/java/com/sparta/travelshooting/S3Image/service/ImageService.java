@@ -13,9 +13,6 @@ public interface ImageService {
     //이미지 파일을 S3에 업로드
     String saveImage(MultipartFile multipartFile);
 
-    //이미지 파일 수정
-    String updateImage(Long imageId, MultipartFile multipartFile);
-
     //이미지 파일 S3에서 삭제
     void deleteImage(Long imageId);
 }

@@ -37,5 +37,4 @@ public class Reply extends Timestamped {
         this.content = replyRequestDto.getContent();
     }
 
-
 }

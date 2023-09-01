@@ -3,14 +3,20 @@ package com.sparta.travelshooting.view.controller;
 import com.sparta.travelshooting.security.UserDetailsImpl;
 import com.sparta.travelshooting.user.entity.User;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import com.sparta.travelshooting.reviewPost.dto.ReviewPostResponseDto;
+import com.sparta.travelshooting.reviewPost.service.ReviewPostService;
+import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping("/view")
+@AllArgsConstructor
 public class ViewController {
 
     @GetMapping("/home")
@@ -78,4 +84,35 @@ public class ViewController {
 
         return "admin_user_edit_profile";
     }
+
+
+
+    //후기게시판 전체조회
+    @GetMapping("/reviewPost")
+    public String viewAllReviewPost(){
+        return "reviewPost";
+    }
+
+    //후기게시판 단건조회
+    @GetMapping("/reviewPost/{reviewPostId}")
+    public String viewReviewPost(){
+            return "viewReview";
+    }
+
+    //후기게시판 생성
+    @GetMapping("/reviewPost/create")
+    public String createReview() {
+        return "createReview";
+    }
+
+    //후기게시판 수정
+
+    @GetMapping("/reviewPost/update/{reviewPostId}")
+    public String updateReview(){
+        return "updateReview";
+    }
+
+
+
+
 }
