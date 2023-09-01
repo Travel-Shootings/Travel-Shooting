@@ -117,8 +117,6 @@ function deleteUser(userId) {
             if (res.statusCode === 200) {
                 alert(res.message)
                 window.location.reload(); // 부모 창 새로고침
-            } else if (res.statusCode === 400) {
-                alert(res.message)
             }
         })
         .fail(function (request, status, error) {

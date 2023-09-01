@@ -95,8 +95,6 @@ let idx = {
                 if (res.statusCode === 200) {
                     alert(res.message)
                     window.location.href = "/view/home";
-                } else if (res.statusCode === 400) {
-                    alert(res.message)
                 }
             })
             .fail(function (request, status, error) {

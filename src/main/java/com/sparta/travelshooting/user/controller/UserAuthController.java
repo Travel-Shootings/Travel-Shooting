@@ -62,13 +62,6 @@ public class UserAuthController {
         return new ResponseEntity<>(tokenResponseDto, HttpStatus.CREATED);
     }
 
-//    // IllegalArgumentException 에 대한 예외처리
-//    @ExceptionHandler(IllegalArgumentException.class)
-//    public ResponseEntity<ApiResponseDto> illegalArgumentException(IllegalArgumentException e) {
-//        ApiResponseDto apiResponseDto = new ApiResponseDto(e.getMessage(), HttpStatus.BAD_REQUEST.value());
-//        return new ResponseEntity<>(apiResponseDto, HttpStatus.BAD_REQUEST);
-//    }
-
     // Access Token 블랙리스트 확인 API -> 테스트용이라서 추후에 제거 (TokenRequestDto 도 삭제)
     private final RedisUtil redisUtil;
 

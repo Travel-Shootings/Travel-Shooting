@@ -26,14 +26,12 @@ let idx = {
                     alert(res.message)
                     window.close(); // 팝업 창 닫기
                     window.opener.location.reload(); // 부모 창 새로고침
-                } else if (res.statusCode === 400) {
-                    alert(res.message)
                 }
             })
-            .fail(function (request, status, error) {
+            .fail(function (request, status, error, response) {
                 console.log(status)
                 console.log(error)
-                alert("비밀번호 변경에 실패했습니다.");
+                alert(response.responseJSON.message);
             });
     }
 }

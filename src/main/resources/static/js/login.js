@@ -66,10 +66,10 @@ let idx = {
                     alert(res.message)
                 }
             })
-            .fail(function (request, status, error) {
+            .fail(function (request, status, error, response) {
                 console.log(status)
                 console.log(error)
-                alert("로그인에 실패했습니다.");
+                alert(response.responseJSON.message);
             });
     }
 }
