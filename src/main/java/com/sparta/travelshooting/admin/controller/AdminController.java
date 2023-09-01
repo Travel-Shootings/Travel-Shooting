@@ -52,7 +52,7 @@ public class AdminController {
     @Operation(summary = "유저 정보 조회")
     @GetMapping("/users/{userId}")
     public ResponseEntity<UserResponseDto> showUser(@PathVariable Long userId) {
-        UserResponseDto userResponseDto = adminServiceImpl.showUser(userId);
+        UserResponseDto userResponseDto = adminService.showUser(userId);
         return new ResponseEntity<>(userResponseDto, HttpStatus.OK);
     }
 

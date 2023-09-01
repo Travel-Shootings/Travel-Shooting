@@ -3,14 +3,10 @@ package com.sparta.travelshooting.view.controller;
 import com.sparta.travelshooting.security.UserDetailsImpl;
 import com.sparta.travelshooting.user.entity.User;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import com.sparta.travelshooting.reviewPost.dto.ReviewPostResponseDto;
-import com.sparta.travelshooting.reviewPost.service.ReviewPostService;
 import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -41,10 +37,11 @@ public class ViewController {
     }
 
     //게시글 작성 페이지로 이동
-    @GetMapping("/create-post")
+    @GetMapping("/post/create")
     public String createPost () {
         return "createPost";
     }
+
     //유저 프로필로 이동
     @GetMapping("/user/profile")
     public String userProfile(@AuthenticationPrincipal UserDetailsImpl userDetails, Model model) {
@@ -92,9 +89,9 @@ public class ViewController {
 
 
     //게시글 단건 조회 페이지로 이동
-    @GetMapping("/show-post")
+    @GetMapping("/post/view")
     public String showPost () {
-        return "showPost";
+        return "viewPost";
     }
 
     //후기게시판 전체조회
