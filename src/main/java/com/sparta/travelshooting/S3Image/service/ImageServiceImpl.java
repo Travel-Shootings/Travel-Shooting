@@ -64,31 +64,6 @@ public class ImageServiceImpl implements ImageService {
         return image.getAccessUrl();
     }
 
-    //이미지 수정
-    @Override
-    @Transactional
-    public String updateImage(Long imageId, MultipartFile multipartFile) {
-        Optional<Image> imageOptional = imageRepository.findById(imageId);
-        if (imageOptional.isEmpty()) {
-            // 이미지 정보가 없을 경우 예외 처리
-            throw new ImageNotFoundException("해당 이미지를 찾을 수 없습니다: " + imageId);
-        }
-
-        Image existingImage = imageOptional.get();
-
-//         S3에서 기존 이미지 삭제
-        deleteImageFromS3(existingImage.getAccessUrl());
-
-        // S3에 새로운 이미지 저장
-        String newImageUrl = saveImage(multipartFile);
-
-        // 이미지 정보 업데이트
-        existingImage.setAccessUrl(newImageUrl);
-        existingImage.setOriginName(multipartFile.getOriginalFilename());
-
-        return newImageUrl;
-    }
-
 
     //이미지 삭제
     @Override
