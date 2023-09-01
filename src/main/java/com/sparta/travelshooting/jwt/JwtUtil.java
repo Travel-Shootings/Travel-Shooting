@@ -52,7 +52,7 @@ public class JwtUtil {
             "/js/**",
             "/css/**",
             "/img/**",
-            "/view/**"
+            "/templates/**"
     };
     private final AntPathMatcher pathMatcher = new AntPathMatcher();
 
@@ -131,8 +131,6 @@ public class JwtUtil {
                 return null;
             }
         }
-
-        log.warn(req.getRequestURI());
 
         Cookie[] cookies = req.getCookies();
         if (cookies != null) {

@@ -47,7 +47,6 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
                 return;
             }
         }
-        log.warn("JwtAuthorizationFilter.doFilterInternal");
         filterChain.doFilter(req, res);
     }
 

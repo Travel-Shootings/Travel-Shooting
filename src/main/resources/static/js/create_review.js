@@ -40,7 +40,7 @@ reviewForm.addEventListener('submit', async (event) => {
     }
 
     try {
-        const response = await fetch('/api/reviewPosts', {
+        const response = await fetch('/api/review-posts', {
             method: 'POST',
             body: formData,
         });
@@ -51,7 +51,7 @@ reviewForm.addEventListener('submit', async (event) => {
 
             if (confirmation) {
                 // 확인을 누를 경우 /view/reviewPost 페이지로 리디렉션
-                window.location.href = '/view/reviewPost';
+                window.location.href = '/view/review-post';
             }
         } else {
             messageElement.textContent = '게시글 작성에 실패했습니다.';

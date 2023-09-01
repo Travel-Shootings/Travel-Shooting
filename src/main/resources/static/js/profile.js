@@ -46,7 +46,7 @@ document.getElementById('user-menu-profile').addEventListener('click', function(
     const top = (screenHeight - popupHeight) / 2; // 세로 가운데 정렬
 
     // edit_profile.html /view/user/editProfile
-    const popupUrl = '/view/user/editProfile';
+    const popupUrl = '/view/user/edit-profile';
     const popupFeatures = `width=${popupWidth},height=${popupHeight},left=${left},top=${top}`;
 
     window.open(popupUrl, '프로필 수정', popupFeatures);
@@ -65,7 +65,7 @@ document.getElementById('user-menu-password').addEventListener('click', function
     const top = (screenHeight - popupHeight) / 2; // 세로 가운데 정렬
 
     // edit_password.html /view/user/editPassword
-    const popupUrl = '/view/user/editPassword';
+    const popupUrl = '/view/user/edit-password';
     const popupFeatures = `width=${popupWidth},height=${popupHeight},left=${left},top=${top}`;
 
     window.open(popupUrl, '비밀번호 변경', popupFeatures);
