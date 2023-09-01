@@ -1,13 +1,13 @@
 package com.sparta.travelshooting.notification.dto;
 
-import com.sparta.travelshooting.notification.entity.Notify;
+import com.sparta.travelshooting.notification.entity.Notification;
 import lombok.Getter;
 
 @Getter
 public class NotificationResponseDto {
     private String message;
 
-    public NotificationResponseDto(Notify notify) {
-        this.message = notify.getMessage();
+    public NotificationResponseDto(Notification notification) {
+        this.message = notification.getMessage();
     }
 }

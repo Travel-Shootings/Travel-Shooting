@@ -7,21 +7,24 @@ body {
 h1 {
     color: #333;
     text-align: center;
+    font-size: 200%
 }
 
 
 #post-title {
     background-color: white; /* 흰 박스 배경 색상 설정 */
-    width: 700px;
+    width: 600px;
     padding: 10px; /* 내용과 박스 경계 사이의 간격 설정 */
     box-sizing: border-box; /* 패딩까지 포함한 크기 계산 */
     display: inline-block; /* 영역 크기를 내용에 맞게 설정 */
+
+    font-size: 140%; /* 글자 크기를 70%로 설정 */
 }
 
 
 #post-content {
     background-color: white; /* 흰 박스 배경 색상 설정 */
-    width: 800px; /* 고정된 가로 크기 */
+    width: 700px; /* 고정된 가로 크기 */
     height: 600px; /* 고정된 세로 크기 */
     overflow: hidden; /* 내용이 영역을 넘어갈 경우 가려지도록 설정 */
     padding: 20px; /* 내용과 박스 경계 사이의 간격 설정 */
@@ -92,4 +95,56 @@ button:hover {
 #like-icon {
     font-size: 18px;
     color: red; /* 원하는 색상으로 변경하세요 */
+}
+
+/* 댓글 창 스타일링 */
+#comments-container {
+    margin-top: 20px;
+}
+
+#comment-form {
+    margin-bottom: 20px;
+}
+
+#comment-content {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    resize: none;
+}
+
+#comment-content:focus {
+    outline: none;
+    border-color: #3498db; /* 포커스 시 테두리 색상 변경 */
+}
+
+#comment-form button {
+    display: block;
+    margin-top: 10px;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#comment-form button:hover {
+    background-color: #2980b9;
+}
+
+#comment-list {
+    border-top: 1px solid #ccc;
+}
+
+.comment {
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #f0f0f0;
+    border-radius: 5px;
+}
+
+.comment p {
+    margin: 0;
 }

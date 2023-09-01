@@ -36,12 +36,6 @@ public class ViewController {
         return "signup";
     }
 
-    //게시글 작성 페이지로 이동
-    @GetMapping("/post/create")
-    public String createPost () {
-        return "createPost";
-    }
-
     //유저 프로필로 이동
     @GetMapping("/user/profile")
     public String userProfile(@AuthenticationPrincipal UserDetailsImpl userDetails, Model model) {
@@ -57,7 +51,7 @@ public class ViewController {
     }
 
     //유저 프로필 수정 페이지
-    @GetMapping("/user/editProfile")
+    @GetMapping("/user/edit-profile")
     public String editProfile(@AuthenticationPrincipal UserDetailsImpl userDetails, Model model) {
         if (userDetails != null) {
             User user = userDetails.getUser();
@@ -68,7 +62,7 @@ public class ViewController {
     }
 
     //비밀번호 변경 수정 페이지
-    @GetMapping("/user/editPassword")
+    @GetMapping("/user/edit-password")
     public String editPassword() {
         return "edit_password";
     }
@@ -87,36 +81,40 @@ public class ViewController {
         return "admin_user_edit_profile";
     }
 
+    //게시글 작성 페이지로 이동
+    @GetMapping("/post/create")
+    public String createPost () {
+        return "create_post";
+    }
 
     //게시글 단건 조회(상세보기) 이동
     @GetMapping("/post/view")
     public String showPost () {
-        return "viewPost";
+        return "view_post";
     }
 
     //후기게시판 전체조회
-    @GetMapping("/reviewPost")
+    @GetMapping("/review-post")
     public String viewAllReviewPost(){
-        return "reviewPost";
+        return "review_post";
     }
 
     //후기게시판 단건조회
-    @GetMapping("/reviewPost/{reviewPostId}")
+    @GetMapping("/review-post/{reviewPostId}")
     public String viewReviewPost(){
-            return "viewReview";
+            return "view_review";
     }
 
     //후기게시판 생성
-    @GetMapping("/reviewPost/create")
+    @GetMapping("/review-post/create")
     public String createReview() {
-        return "createReview";
+        return "create_review";
     }
 
     //후기게시판 수정
-
-    @GetMapping("/reviewPost/update/{reviewPostId}")
+    @GetMapping("/review-post/update/{reviewPostId}")
     public String updateReview(){
-        return "updateReview";
+        return "update_review";
     }
 
 

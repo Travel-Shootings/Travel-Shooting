@@ -51,11 +51,9 @@ public class WebSecurityConfig {
         http.authorizeHttpRequests((authorizeHttpRequests) ->
                 authorizeHttpRequests
                         .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
-                        .requestMatchers("/api/user/**", "/user/**").permitAll()
+                        .requestMatchers("/api/user/**").permitAll()
                         .requestMatchers(HttpMethod.GET,"/view/**").permitAll()
-                        .requestMatchers("/api/posts/**").permitAll()
                         .requestMatchers("/api/admin").hasRole("ADMIN")
-                        .requestMatchers("/test/**").permitAll()
                         .requestMatchers("/swg", "/swagger-ui/**", "/api-docs/**").permitAll()
                         .anyRequest().authenticated()
         );

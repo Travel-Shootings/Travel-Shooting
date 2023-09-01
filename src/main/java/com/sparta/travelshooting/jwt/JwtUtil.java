@@ -16,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import org.springframework.util.AntPathMatcher;
 import org.springframework.util.StringUtils;
 
 import java.io.UnsupportedEncodingException;
@@ -44,6 +45,16 @@ public class JwtUtil {
     @Value("${jwt.secret.key}")
     private String secretKey;
     private Key key;
+
+    private static final String[] STATIC_RESOURCE_LOCATIONS = {
+            "/static/**",
+            "/favicon.ico",
+            "/js/**",
+            "/css/**",
+            "/img/**",
+            "/templates/**"
+    };
+    private final AntPathMatcher pathMatcher = new AntPathMatcher();
 
     // 객체 초기화: secretKey 를 Base64 로 디코드한다.
     @PostConstruct
@@ -113,6 +124,14 @@ public class JwtUtil {
     }
 
     public String getTokenFromRequest(HttpServletRequest req) {
+        String requestPath = req.getRequestURI();
+
+        for (String staticLocation : STATIC_RESOURCE_LOCATIONS) {
+            if (pathMatcher.match(staticLocation, requestPath)) {
+                return null;
+            }
+        }
+
         Cookie[] cookies = req.getCookies();
         if (cookies != null) {
             for (Cookie cookie : cookies) {

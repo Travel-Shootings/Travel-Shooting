@@ -3,9 +3,6 @@ let authCookie = Cookies.get("Authorization");
 
 const stompClient = new StompJs.Client({
     brokerURL: 'ws://localhost:8080/travel-shooting-websocket',
-    connectHeaders: {
-        "Authorization": authCookie
-    }
 });
 
 let chatRoomId = null;
@@ -47,7 +44,7 @@ function setConnected(connected) {
 }
 
 function connect() {
-    chatRoomId = $("#room-number").val();
+    chatRoomId = $("#chat-room-list").val();
     stompClient.activate();
 }
 
@@ -114,7 +111,6 @@ function getChatMessagesOnConnect(currentPage) {
     $.ajax({
         url: "/api/chat-room/" + chatRoomId + "/paging?page=" + currentPage + "&size=10",
         type: "GET",
-        header: {"Authorization": authCookie}
     })
         .done(function (response) {
             response.forEach(function (message) {
@@ -140,7 +136,6 @@ function getChatMessages() {
     $.ajax({
         url: "/api/chat-room/" + chatRoomId + "?" + queryString,
         type: "GET",
-        header: {"Authorization": authCookie}
     })
         .done(function (response) {
             response.forEach(function (message) {
@@ -154,3 +149,23 @@ function getChatMessages() {
             }
         })
 }
+
+$($.ajax({
+        url: "/api/chat-room",
+        type: "GET"
+    })
+        .done(function (response) {
+            const chatRoomList = $("#chat-room-list");
+            chatRoomList.empty();
+
+            response.forEach(function (chatRoom) {
+                let chatRoomHtml = `
+                    <option value="${chatRoom.chatRoomId}">${chatRoom.chatRoomName}</option>
+                `
+                chatRoomList.append(chatRoomHtml);
+            })
+        })
+        .fail(function (response) {
+            console.log(response);
+        })
+)

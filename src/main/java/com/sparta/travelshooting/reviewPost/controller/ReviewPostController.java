@@ -20,7 +20,7 @@ import java.util.concurrent.RejectedExecutionException;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/api/reviewPosts")
+@RequestMapping("/api/review-posts")
 @Tag(name = "여행 계획 후기 게시글 API")
 public class ReviewPostController {
 
@@ -28,14 +28,12 @@ public class ReviewPostController {
 
     //후기 게시글 생성
     @Operation(summary = "후기 게시글 작성")
-    @PostMapping("")
+    @PostMapping
     public ResponseEntity<ApiResponseDto> createReviewPost(
             @RequestParam(value = "images", required = false) List<MultipartFile> imageFiles,
             @ModelAttribute ReviewPostRequestDto requestDto,
-            @AuthenticationPrincipal UserDetailsImpl userDetails
-    ) {
-        ReviewPostResponseDto responseDto = reviewPostService.createReviewPost(imageFiles, requestDto, userDetails.getUser());
-        ApiResponseDto apiResponseDto = new ApiResponseDto("게시글이 생성되었습니다.", HttpStatus.CREATED.value());
+            @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        ApiResponseDto apiResponseDto = reviewPostService.createReviewPost(imageFiles, requestDto, userDetails.getUser());
         return new ResponseEntity<>(apiResponseDto, HttpStatus.CREATED);
     }
 
@@ -46,13 +44,9 @@ public class ReviewPostController {
             @PathVariable Long reviewPostId,
             @RequestParam(value = "images", required = false) List<MultipartFile> imageFiles,
             @ModelAttribute ReviewPostRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        try {
-            ApiResponseDto apiResponseDto = reviewPostService.updateReviewPost(reviewPostId, imageFiles, requestDto, userDetails.getUser());
-            return new ResponseEntity<>(apiResponseDto, HttpStatus.OK);
-        } catch (RejectedExecutionException e) {
-            ApiResponseDto apiResponseDto = new ApiResponseDto(e.getMessage(), HttpStatus.BAD_REQUEST.value());
-            return new ResponseEntity<>(apiResponseDto, HttpStatus.BAD_REQUEST);
-        }
+
+        ApiResponseDto apiResponseDto = reviewPostService.updateReviewPost(reviewPostId, imageFiles, requestDto, userDetails.getUser());
+        return new ResponseEntity<>(apiResponseDto, HttpStatus.OK);
     }
 
 
@@ -60,28 +54,19 @@ public class ReviewPostController {
     @Operation(summary = "후기 게시글 삭제")
     @DeleteMapping("/{reviewPostId}")
     public ResponseEntity<ApiResponseDto> deleteReviewPost(@PathVariable Long reviewPostId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        try {
-            ApiResponseDto apiResponseDto = reviewPostService.deleteReviewPost(reviewPostId, userDetails.getUser());
-            return new ResponseEntity<>(apiResponseDto, HttpStatus.OK);
-        } catch (RejectedExecutionException e) {
-            ApiResponseDto apiResponseDto = new ApiResponseDto(e.getMessage(), HttpStatus.BAD_REQUEST.value());
-            return new ResponseEntity<>(apiResponseDto, HttpStatus.BAD_REQUEST);
-        }
+        ApiResponseDto apiResponseDto = reviewPostService.deleteReviewPost(reviewPostId, userDetails.getUser());
+        return new ResponseEntity<>(apiResponseDto, HttpStatus.OK);
     }
 
     // 후기 게시글 단건 조회
     @GetMapping("/{reviewPostId}")
     public ResponseEntity<ReviewPostResponseDto> getReviewPost(@PathVariable Long reviewPostId) {
-        try {
-            ReviewPostResponseDto responseDto = reviewPostService.getReviewPost(reviewPostId);
-            return new ResponseEntity<>(responseDto, HttpStatus.OK);
-        } catch (IllegalArgumentException e) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        ReviewPostResponseDto responseDto = reviewPostService.getReviewPost(reviewPostId);
+        return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
 
     // 후기 게시글 전체 조회
-    @GetMapping("")
+    @GetMapping
     public ResponseEntity<List<ReviewPostResponseDto>> getAllReviewPosts() {
         List<ReviewPostResponseDto> responseDto = reviewPostService.getAllReviewPosts();
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
@@ -100,6 +85,4 @@ public class ReviewPostController {
         ApiResponseDto apiResponseDto = reviewPostService.deleteLike(reviewPostId, userDetails.getUser());
         return new ResponseEntity<>(apiResponseDto, HttpStatus.OK);
     }
-
-
 }

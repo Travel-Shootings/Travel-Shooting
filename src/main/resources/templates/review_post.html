@@ -4,15 +4,36 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>여행 후기 게시판</title>
-  <link rel="stylesheet" href="/css/reviewPost.css">
+  <link rel="icon" href="data:,">
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+  <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css'>
+  <link rel='stylesheet' href='https://fonts.googleapis.com/icon?family=Material+Icons'>
+  <link rel="stylesheet" href="/css/review_post.css">
 </head>
 <body>
+
+
+<div class="navbar-fixed">
+  <nav class="teal">
+    <div class="container">
+      <div class="nav-wrapper">
+        <a href="/view/home" class="brand-logo">Travel Shooting</a>
+        <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+        <ul class="right hide-on-med-and-down">
+          <li>
+            <a href="/view/home">Home</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</div>
 <div id="reviewList"></div>
 
-<script src="/js/reviewPost.js"></script>
+<script src="/js/review_post.js"></script>
 
 <div id="create-review-button" class="create-button">
-  <a href="/view/reviewPost/create">게시글 작성</a>
+  <a href="/view/review-post/create">게시글 작성</a>
 </div>
 
 
@@ -49,7 +70,13 @@
     </div>
   </div>
 </section>
+<!-- Footer -->
+<footer class="section teal darken-2 white-text center">
+  <p class="flow-text">Travel Shooting </p>
+</footer>
 <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
 <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.js'></script>
+
+
 </body>
 </html>

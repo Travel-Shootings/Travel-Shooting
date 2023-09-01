@@ -33,7 +33,7 @@ cancelButton.addEventListener('click', cancelUpdate);
 // 페이지 로드 시 게시물 데이터 조회 및 입력 필드에 채우기
 async function loadPostData() {
     try {
-        const response = await fetch(`/api/reviewPosts/${reviewPostId}`);
+        const response = await fetch(`/api/review-posts/${reviewPostId}`);
         const postData = await response.json();
 
         // 입력 필드에 데이터 채우기
@@ -47,7 +47,7 @@ async function loadPostData() {
 // 수정 취소 함수
 function cancelUpdate() {
     // 수정 취소 시 처리
-    window.location.href = `/view/reviewPost/${reviewPostId}`; // 이전에 보던 후기 게시글 페이지로 이동
+    window.location.href = `/view/review-post/${reviewPostId}`; // 이전에 보던 후기 게시글 페이지로 이동
 }
 
 // 후기 게시글 수정 요청 함수
@@ -73,7 +73,7 @@ async function updateReviewPost() {
     }
 
     try {
-        const response = await fetch(`/api/reviewPosts/${reviewPostId}`, {
+        const response = await fetch(`/api/review-posts/${reviewPostId}`, {
             method: 'PUT', // PUT 메소드로 변경
             body: formData,
         });
@@ -84,7 +84,7 @@ async function updateReviewPost() {
 
             if (confirmation) {
                 // 확인을 누를 경우 /view/reviewPost 페이지로 리디렉션
-                window.location.href = '/view/reviewPost';
+                window.location.href = '/view/review-post';
             }
         } else {
             console.error('Error updating review post:', response.statusText);

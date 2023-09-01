@@ -8,8 +8,8 @@ section.notice {
 
 #create-review-button {
   position: fixed;
-  bottom: 20px;
-  right: 20px;
+  bottom: 200px;
+  right: 200px;
   background-color: #3498db;
   color: white;
   padding: 10px 20px;
@@ -171,4 +171,14 @@ section.notice {
   margin: -1px;
   width: 1px;
   height: 1px;
+}
+
+footer{
+  height: 120px;
+  width: 100%;
+  /*position : relative;*/
+  /*transform : translateY(-100%);*/
+
+  position : absolute;
+  bottom : 0;
 }
