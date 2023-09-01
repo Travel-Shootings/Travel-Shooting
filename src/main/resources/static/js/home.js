@@ -1,3 +1,42 @@
+var userRoleElement = document.getElementById('user-role');
+var userRole = userRoleElement.getAttribute('data');
+
+window.onload = function() {
+    var login_btn = document.getElementById("login-btn");
+    var signup_btn = document.getElementById("signup-btn");
+    var mypage_btn = document.getElementById("mypage-btn");
+    var admin_box = document.getElementById("admin-box");
+
+
+    if (checkAuthorizationCookie()) {
+        login_btn.style.display = "none";
+        signup_btn.style.display = "none";
+
+        mypage_btn.style.display = "block";
+    }
+
+    console.log('User Role:', userRole);
+
+    if (userRole === "ADMIN") {
+        admin_box.style.display = "block";
+    }
+
+    function checkAuthorizationCookie() {
+        var cookies = document.cookie.split(";");
+
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = cookies[i].split('=');
+
+            // "Authorization" 쿠키가 존재하는 경우 true 반환
+            if (cookie[0] === "Authorization") {
+                return true;
+            }
+        }
+        // "Authorization" 쿠키가 존재하지 않는 경우 false 반환
+        return false;
+    }
+}
+
 // 홈페이지 버튼 상호작용 관련
 // Side Menu
 const sideNav = document.querySelector('.sidenav');
@@ -34,3 +73,36 @@ M.Autocomplete.init(ac, {
         "The Bahamas": null,
     }
 });
+
+// logout
+let idx = {
+    init: function () {
+        $("#user-menu-logout").on("click", () => {
+            this.logout();
+        });
+    },
+
+    logout: function () {
+        $.ajax({
+            type: "DELETE",
+            url: "/api/user/logout",
+            contentType: "application/json; charset=urf-8",
+            dataType: "json"
+        })
+            .done(function (res) {
+                console.log(res)
+                console.log(res.statusCode)
+                if (res.statusCode === 200) {
+                    alert(res.message)
+                    window.location.href = "/view/home";
+                }
+            })
+            .fail(function (request, status, error) {
+                console.log(status)
+                console.log(error)
+                alert("로그아웃에 실패했습니다.");
+            });
+    }
+}
+idx.init();
+

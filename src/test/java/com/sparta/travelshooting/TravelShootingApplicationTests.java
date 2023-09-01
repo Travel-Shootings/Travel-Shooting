@@ -12,5 +12,6 @@ class TravelShootingApplicationTests {
 
 	@Test
 	void contextLoads() {
+
 	}
 }

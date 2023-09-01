@@ -21,7 +21,7 @@ public interface UserInfoService {
      * @param requestDto 수정 데이터
      * @return 수정된 유저의 정보가 담긴 데이터 반환
      */
-    UserResponseDto editUserInfo(User user, EditInfoRequestDto requestDto);
+    ApiResponseDto editUserInfo(User user, EditInfoRequestDto requestDto);
 
 
     /**

@@ -46,6 +46,7 @@ public class ReplyController {
         }
     }
 
+    //대댓글 삭제
     @Operation(summary = "대댓글 삭제")
     @DeleteMapping("/{replyId}")
     public ResponseEntity<ApiResponseDto> deleteReply(@PathVariable Long replyId, @AuthenticationPrincipal UserDetailsImpl userDetails) {

@@ -7,6 +7,8 @@ import lombok.Getter;
 
 @Getter
 public class UserResponseDto {
+    private Long id;
+
     private String email;
 
     private String nickname;
@@ -18,6 +20,7 @@ public class UserResponseDto {
     private RoleEnum role;
 
     public UserResponseDto(User info) {
+        this.id = info.getId();
         this.email = info.getEmail();
         this.nickname = info.getNickname();
         this.username = info.getUsername();

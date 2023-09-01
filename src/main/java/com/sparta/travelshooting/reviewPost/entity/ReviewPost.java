@@ -5,6 +5,7 @@ import com.sparta.travelshooting.comment.entity.Comment;
 import com.sparta.travelshooting.common.Timestamped;
 import com.sparta.travelshooting.post.entity.PostLike;
 import com.sparta.travelshooting.reply.entity.Reply;
+import com.sparta.travelshooting.reviewPost.dto.ReviewPostRequestDto;
 import com.sparta.travelshooting.user.entity.User;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -29,6 +30,7 @@ public class ReviewPost extends Timestamped {
     private Long id;
 
     private String title;
+
     private String content;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -44,6 +46,9 @@ public class ReviewPost extends Timestamped {
     @Column
     private Integer likeCounts = 0;
 
+    @Column(nullable = false)
+    private String nickName;
+
     @OneToMany(mappedBy = "reviewPost", cascade = CascadeType.REMOVE)
     private List<ReviewPostLike> reviewPostLikes = new ArrayList<>();
 
@@ -52,9 +57,8 @@ public class ReviewPost extends Timestamped {
         this.title = title;
         this.content = content;
         this.user = user;
+        this.nickName = user.getNickname();
         this.images = images;
-
-
     }
 
     public void updateReviewPost(String title, String content, List<Image> images) {
@@ -63,7 +67,11 @@ public class ReviewPost extends Timestamped {
         this.images = images;
     }
 
-
+    public void updateByAdmin(ReviewPostRequestDto requestDto, List<Image> images) {
+        this.title = requestDto.getTitle();
+        this.content = requestDto.getContent();
+        this.images = images;
+    }
 
 
 }

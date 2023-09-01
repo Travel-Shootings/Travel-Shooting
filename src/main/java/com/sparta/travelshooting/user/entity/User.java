@@ -2,6 +2,7 @@ package com.sparta.travelshooting.user.entity;
 
 import com.sparta.travelshooting.notification.entity.Notify;
 import com.sparta.travelshooting.admin.dto.AdminProfileRequestDto;
+import com.sparta.travelshooting.post.entity.Post;
 import com.sparta.travelshooting.post.entity.PostLike;
 import com.sparta.travelshooting.user.dto.SignupRequestDto;
 import jakarta.persistence.*;
@@ -35,14 +36,19 @@ public class User {
     @Column(nullable = false, unique = true)
     private String nickname;
 
+    @Column(nullable = false)
     @Enumerated(value = EnumType.STRING)
     private RegionEnum region;
 
+    @Column(nullable = false)
     @Enumerated(value = EnumType.STRING)
     private RoleEnum role;
 
     @Column
     private String recentPassword;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+    private List<Post> posts = new ArrayList<>();
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     private List<PostLike> postLikes = new ArrayList<>();
@@ -70,10 +76,7 @@ public class User {
     }
 
     public void updateByAdmin(AdminProfileRequestDto adminProfileRequestDto) {
-        this.email = adminProfileRequestDto.getEmail();
-        this.password = adminProfileRequestDto.getPassword();
         this.nickname = adminProfileRequestDto.getNickname();
-        this.region = adminProfileRequestDto.getRegion();
         this.role = adminProfileRequestDto.getRole();
     }
 }

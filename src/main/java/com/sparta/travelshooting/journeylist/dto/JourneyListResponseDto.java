@@ -11,13 +11,17 @@ import java.time.LocalDateTime;
 public class JourneyListResponseDto {
     private String locations;
     private Long budget;
-    private LocalDateTime period;
+    private LocalDateTime startJourney;
+    private LocalDateTime endJourney;
     private Integer members;
+    private String placeAddress;
 
     public JourneyListResponseDto (JourneyList journeyList) {
         this.locations = journeyList.getLocations();
         this.budget = journeyList.getBudget();
-        this.period = journeyList.getPeriod();
+        this.startJourney = journeyList.getStartJourney();
+        this.endJourney = journeyList.getEndJourney();
         this.members = journeyList.getMembers();
+        this.placeAddress = journeyList.getPlaceAddress();
     }
 }
