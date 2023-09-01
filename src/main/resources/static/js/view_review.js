@@ -14,7 +14,7 @@ const reviewPostId = window.location.pathname.split('/').pop();
 // 서버에서 게시물 데이터 조회
 async function fetchPostData() {
     try {
-        const response = await fetch(`/api/reviewPosts/${reviewPostId}`);
+        const response = await fetch(`/api/review-posts/${reviewPostId}`);
         const data = await response.json();
 
         return data;
@@ -62,7 +62,7 @@ async function init() {
 
         // 수정 버튼 이벤트 핸들러 등록
         editButton.addEventListener('click', () => {
-            window.location.href = `/view/reviewPost/update/${reviewPostId}`;
+            window.location.href = `/view/review-post/update/${reviewPostId}`;
         });
 
     } else {
@@ -77,7 +77,7 @@ async function deleteReviewPost() {
 
     if (confirmation) {
         try {
-            const response = await fetch(`/api/reviewPosts/${reviewPostId}`, {
+            const response = await fetch(`/api/review-posts/${reviewPostId}`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',
@@ -93,7 +93,7 @@ async function deleteReviewPost() {
                 } else {
                     alert(data.message);
                 }
-                window.location.href = '/view/reviewPost';
+                window.location.href = '/view/review-post';
 
             } else {
                 console.error('Error deleting review post:', response.statusText);
@@ -108,7 +108,7 @@ async function deleteReviewPost() {
 // 좋아요 버튼 클릭 이벤트를 처리합니다.
 likeButton.addEventListener('click', async () => {
     try {
-        const response = await fetch(`/api/reviewPosts/like/${reviewPostId}`, {
+        const response = await fetch(`/api/review-posts/like/${reviewPostId}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

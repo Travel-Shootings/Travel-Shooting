@@ -1,15 +1,14 @@
 package com.sparta.travelshooting.notification.repository;
 
-import com.sparta.travelshooting.notification.entity.Notify;
+import com.sparta.travelshooting.notification.entity.Notification;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.util.Collection;
 import java.util.List;
 
-public interface NotificationRepository extends JpaRepository<Notify, Long> {
-    List<Notify> findAllByUserIdAndIsReadFalse(Long id);
+public interface NotificationRepository extends JpaRepository<Notification, Long> {
+    List<Notification> findAllByUserIdAndIsReadFalse(Long id);
 
-    List<Notify> findAllByUserIdAndIsReadTrue(Long id);
+    List<Notification> findAllByUserIdAndIsReadTrue(Long id);
 
     void deleteAllByUserIdAndIsReadTrue(Long id);
 }

@@ -5,7 +5,7 @@ import com.sparta.travelshooting.comment.dto.CommentResponseDto;
 import com.sparta.travelshooting.comment.entity.Comment;
 import com.sparta.travelshooting.comment.repository.CommentRepository;
 import com.sparta.travelshooting.common.ApiResponseDto;
-import com.sparta.travelshooting.notification.entity.Notify;
+import com.sparta.travelshooting.notification.entity.Notification;
 import com.sparta.travelshooting.notification.repository.NotificationRepository;
 import com.sparta.travelshooting.post.entity.Post;
 import com.sparta.travelshooting.post.repository.PostRepository;
@@ -41,8 +41,8 @@ public class CommentServiceImpl implements CommentService {
         String message = user.getNickname() + COMMENT_CREATE_MESSAGE; // 알림 메세지
         boolean read = false; // 알림 확인 여부
 
-        Notify notify = new Notify(author, message, read);
-        notificationRepository.save(notify);
+        Notification notification = new Notification(author, message, read);
+        notificationRepository.save(notification);
 
         CommentResponseDto responseDto = new CommentResponseDto(comment);
         return responseDto;

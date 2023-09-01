@@ -33,23 +33,22 @@ public class Comment extends Timestamped {
     private String content;
 
     @ManyToOne
-    @JoinColumn(name= "post_Id")
+    @JoinColumn(name = "post_id")
     private Post post;
 
     @ManyToOne
-    @JoinColumn(name= "reviewPost_Id")
+    @JoinColumn(name = "review_post_id")
     private ReviewPost reviewPost;
 
     @ManyToOne
-    @JoinColumn(name = "user_Id")
+    @JoinColumn(name = "user_id")
     private User user;
 
     @OneToMany(mappedBy = "comment", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Reply> replies = new ArrayList<>();
 
 
-
-    public Comment(CommentRequestDto commentRequestDto, Post post,ReviewPost reviewPost, User user){
+    public Comment(CommentRequestDto commentRequestDto, Post post, ReviewPost reviewPost, User user) {
         this.user = user;
         this.nickName = user.getNickname();
         this.content = commentRequestDto.getContent();
@@ -57,7 +56,7 @@ public class Comment extends Timestamped {
         this.reviewPost = reviewPost;
     }
 
-    public void updateByAdmin (AdminCommentRequestDto commentRequestDto) {
+    public void updateByAdmin(AdminCommentRequestDto commentRequestDto) {
         this.nickName = commentRequestDto.getNickname();
         this.content = commentRequestDto.getContents();
     }

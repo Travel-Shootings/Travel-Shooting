@@ -7,7 +7,6 @@ import lombok.RequiredArgsConstructor;
 import java.time.LocalDateTime;
 
 @Getter
-@RequiredArgsConstructor
 public class JourneyListResponseDto {
     private String locations;
     private Long budget;

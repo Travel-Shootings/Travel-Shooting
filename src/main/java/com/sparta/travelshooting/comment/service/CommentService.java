@@ -17,7 +17,6 @@ public interface CommentService {
     //댓글 수정
     ApiResponseDto updateComment(Long commentId, CommentRequestDto requestDto, User user);
 
-
     //댓글 삭제
     ApiResponseDto deleteComment(Long id, User user);
 

@@ -406,8 +406,8 @@
                     location.href = "/view/home"
                 })
                 .catch(error => {
+                    console.log("댓글 작성 실패:", error);
                     alert("글 작성 실패")
-                    console.error("댓글 작성 실패:", error);
                 }); //ajax 통신을 이용해서 파라미터를 json으로 변경하여 insert 요청
         }
     }
@@ -539,8 +539,6 @@
 
         return formattedDate;
     }
-
-
 </script>
 
 <script>
@@ -633,10 +631,6 @@
         const modal = document.querySelector('.search-modal');
         modal.style.display = 'none';
     });
-</script>
-
-<script>
-
 </script>
 
 </body>
