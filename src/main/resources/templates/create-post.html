@@ -97,18 +97,18 @@
                         </thead>
                         <tbody class="list">
                         <tr>
-<!--                            <td class="id" style="display:none;">4</td>-->
-<!--                            <td class="place">광주</td>-->
-<!--                            <td class="budget">50000</td>-->
-<!--                            <td class="startJourney">""</td>-->
-<!--                            <td class="endJourney">""</td>-->
-<!--                            <td class="members">3</td>-->
-<!--                            <td class="edit">-->
-<!--                                <button class="edit-item-btn">Edit</button>-->
-<!--                            </td>-->
-<!--                            <td class="remove">-->
-<!--                                <button class="remove-item-btn" type="button">Remove</button>-->
-<!--                            </td>-->
+                            <td class="id" style="display:none;">4</td>
+                            <td class="place">광주</td>
+                            <td class="budget">50000</td>
+                            <td class="startJourney">""</td>
+                            <td class="endJourney">""</td>
+                            <td class="members">3</td>
+                            <td class="edit">
+                                <button class="edit-item-btn">Edit</button>
+                            </td>
+                            <td class="remove">
+                                <button class="remove-item-btn" type="button">Remove</button>
+                            </td>
                         </tr>
                         </tbody>
                     </table>
@@ -406,8 +406,7 @@
                     location.href = "http://localhost:8080/view/home"
                 })
                 .catch(error => {
-                    alert("글 작성 실패");
-                    console.error("글 작성 실패:", error);
+                    console.error("댓글 작성 실패:", error);
                 }); //ajax 통신을 이용해서 파라미터를 json으로 변경하여 insert 요청
         }
     }
@@ -553,60 +552,61 @@
         });
     });
 
-    $(document).ready(function () {
-        // 편집 버튼에 대한 클릭 이벤트 핸들러 설정
-        $(".list").on("click", ".edit-item-btn", function (e) {
-            e.preventDefault(); // 폼의 기본 동작(페이지 새로고침)을 막음
-
-            // 클릭한 편집 버튼이 속한 행을 찾습니다.
-            const row = $(this).closest("tr");
-
-            // 해당 행의 값을 가져와서 모달에 채웁니다.
-            const location = row.find(".place").text();
-            const budget = row.find(".budget").text();
-            const startJourney = row.find(".startJourney").text();
-            const endJourney = row.find(".endJourney").text();
-            const members = row.find(".members").text();
-            const placeAddress = row.find(".placeAddress").text();
-
-            // 모달에 값을 채웁니다.
-            $("#location").val(location);
-            $("#budget").val(budget);
-            $("#journeyStartDate").val(startJourney);
-            $("#journeyEndDate").val(endJourney);
-            $("#member").val(members);
-            $("#modaladdress").val(placeAddress);
-
-            // 모달을 엽니다.
-            const modal = document.querySelector('.modal');
-            modal.style.display = 'flex';
-
-            // 저장 버튼에 클릭 이벤트 핸들러를 추가하여 변경된 내용을 테이블에 반영합니다.
-            $("#post-journey").off("click"); // 이전에 등록된 클릭 핸들러 제거
-            $("#post-journey").on("click", function (e) {
-                e.preventDefault();
-
-                // 모달에서 변경된 값을 가져옵니다.
-                const editedLocation = $("#location").val();
-                const editedBudget = $("#budget").val();
-                const editedStartJourney = $("#journeyStartDate").val();
-                const editedEndJourney = $("#journeyEndDate").val();
-                const editedMembers = $("#member").val();
-                const editedPlaceAddress = $("#modaladdress").val();
-
-                // 테이블에 변경된 값을 반영합니다.
-                row.find(".place").text(editedLocation);
-                row.find(".budget").text(editedBudget);
-                row.find(".startJourney").text(editedStartJourney);
-                row.find(".endJourney").text(editedEndJourney);
-                row.find(".members").text(editedMembers);
-                row.find(".placeAddress").text(editedPlaceAddress);
-
-                // 모달을 닫습니다.
-                modal.style.display = 'none';
-            });
-        });
-    });
+    // 현재 문제가 있어서 주석 처리 중
+    // $(document).ready(function () {
+    //     // 편집 버튼에 대한 클릭 이벤트 핸들러 설정
+    //     $(".list").on("click", ".edit-item-btn", function (e) {
+    //         e.preventDefault(); // 폼의 기본 동작(페이지 새로고침)을 막음
+    //
+    //         // 클릭한 편집 버튼이 속한 행을 찾습니다.
+    //         const row = $(this).closest("tr");
+    //
+    //         // 해당 행의 값을 가져와서 모달에 채웁니다.
+    //         const location = row.find(".place").text();
+    //         const budget = row.find(".budget").text();
+    //         const startJourney = row.find(".startJourney").text();
+    //         const endJourney = row.find(".endJourney").text();
+    //         const members = row.find(".members").text();
+    //         const placeAddress = row.find(".placeAddress").text();
+    //
+    //         // 모달에 값을 채웁니다.
+    //         $("#location").val(location);
+    //         $("#budget").val(budget);
+    //         $("#journeyStartDate").val(startJourney);
+    //         $("#journeyEndDate").val(endJourney);
+    //         $("#member").val(members);
+    //         $("#modaladdress").val(placeAddress);
+    //
+    //         // 모달을 엽니다.
+    //         const modal = document.querySelector('.modal');
+    //         modal.style.display = 'flex';
+    //
+    //         // 저장 버튼에 클릭 이벤트 핸들러를 추가하여 변경된 내용을 테이블에 반영합니다.
+    //         $("#post-journey").off("click"); // 이전에 등록된 클릭 핸들러 제거
+    //         $("#post-journey").on("click", function (e) {
+    //             e.preventDefault();
+    //
+    //             // 모달에서 변경된 값을 가져옵니다.
+    //             const editedLocation = $("#location").val();
+    //             const editedBudget = $("#budget").val();
+    //             const editedStartJourney = $("#journeyStartDate").val();
+    //             const editedEndJourney = $("#journeyEndDate").val();
+    //             const editedMembers = $("#member").val();
+    //             const editedPlaceAddress = $("#modaladdress").val();
+    //
+    //             // 테이블에 변경된 값을 반영합니다.
+    //             row.find(".place").text(editedLocation);
+    //             row.find(".budget").text(editedBudget);
+    //             row.find(".startJourney").text(editedStartJourney);
+    //             row.find(".endJourney").text(editedEndJourney);
+    //             row.find(".members").text(editedMembers);
+    //             row.find(".placeAddress").text(editedPlaceAddress);
+    //
+    //             // 모달을 닫습니다.
+    //             modal.style.display = 'none';
+    //         });
+    //     });
+    // });
 </script>
 
 

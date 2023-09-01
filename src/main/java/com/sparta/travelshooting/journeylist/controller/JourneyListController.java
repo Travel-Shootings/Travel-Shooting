@@ -20,14 +20,6 @@ public class JourneyListController {
 
     private final JourneyListServiceImpl journeyListServiceImpl;
 
-    // 여행 일정 생성
-    @Operation(summary = "여행 일정 생성")
-    @PostMapping("/{postId}/journeyList")
-    public ResponseEntity<JourneyListResponseDto> createJourney(@PathVariable Long postId, @RequestBody JourneyListRequestDto journeyListRequestDto) {
-        JourneyListResponseDto journeyListResponseDto = journeyListServiceImpl.createJourney(postId, journeyListRequestDto);
-        return ResponseEntity.ok().body(journeyListResponseDto);
-    }
-
     // 여행 일정 수정
     @Operation(summary = "여행 일정 수정")
     @PutMapping("/{postId}/journeyList/{journeyListId}")
