@@ -30,6 +30,7 @@ public class ReviewPost extends Timestamped {
     private Long id;
 
     private String title;
+
     private String content;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -45,6 +46,9 @@ public class ReviewPost extends Timestamped {
     @Column
     private Integer likeCounts = 0;
 
+    @Column(nullable = false)
+    private String nickName;
+
     @OneToMany(mappedBy = "reviewPost", cascade = CascadeType.REMOVE)
     private List<ReviewPostLike> reviewPostLikes = new ArrayList<>();
 
@@ -53,9 +57,8 @@ public class ReviewPost extends Timestamped {
         this.title = title;
         this.content = content;
         this.user = user;
+        this.nickName = user.getNickname();
         this.images = images;
-
-
     }
 
     public void updateReviewPost(String title, String content, List<Image> images) {

@@ -15,7 +15,6 @@ public interface ReviewPostService {
     //후기 게시글 수정
     ApiResponseDto updateReviewPost(Long ReviewPostId, List<MultipartFile> imageFiles, ReviewPostRequestDto requestDto, User user);
 
-
     //후기 게시글 삭제
     ApiResponseDto deleteReviewPost(Long reviewPostId, User user);
 
@@ -27,6 +26,7 @@ public interface ReviewPostService {
 
     //후기 게시글 좋아요
     ApiResponseDto addLike(Long reviewPostId, User user);
+
     //후기 게시글 좋아요 취소
     ApiResponseDto deleteLike(Long ReviewPostId, User user);
 

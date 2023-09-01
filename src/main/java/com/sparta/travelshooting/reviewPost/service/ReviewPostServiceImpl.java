@@ -4,8 +4,6 @@ import com.sparta.travelshooting.S3Image.entity.Image;
 import com.sparta.travelshooting.S3Image.repository.ImageRepository;
 import com.sparta.travelshooting.S3Image.service.ImageService;
 import com.sparta.travelshooting.common.ApiResponseDto;
-import com.sparta.travelshooting.post.entity.Post;
-import com.sparta.travelshooting.post.entity.PostLike;
 import com.sparta.travelshooting.reviewPost.dto.ReviewPostRequestDto;
 import com.sparta.travelshooting.reviewPost.dto.ReviewPostResponseDto;
 import com.sparta.travelshooting.reviewPost.entity.ReviewPost;
@@ -40,12 +38,21 @@ public class ReviewPostServiceImpl implements ReviewPostService {
     public ReviewPostResponseDto createReviewPost(List<MultipartFile> imageFiles, ReviewPostRequestDto requestDto, User user) {
         List<Image> images = new ArrayList<>();  // 이미지 초기화
 
-        for (MultipartFile imageFile : imageFiles) {
-            if (imageFile != null && !imageFile.isEmpty()) {
-                Image image = new Image(imageFile.getOriginalFilename(), null); // ReviewPost는 아직 생성되지 않았으므로 null 전달
-                String imageUrl = imageService.saveImage(imageFile);
-                image.setAccessUrl(imageUrl);
-                images.add(image); // 이미지 컬렉션에 추가
+        // title과 content가 모두 유효한 값인지 확인
+        if (requestDto.getTitle() == null || requestDto.getTitle().isEmpty() ||
+                requestDto.getContent() == null || requestDto.getContent().isEmpty()) {
+            throw new IllegalArgumentException("Title and content must not be empty.");
+        }
+
+        // imageFiles가 null이 아니고 비어있지 않은 경우에만 처리
+        if (imageFiles != null && !imageFiles.isEmpty()) {
+            for (MultipartFile imageFile : imageFiles) {
+                if (imageFile != null && !imageFile.isEmpty()) {
+                    Image image = new Image(imageFile.getOriginalFilename(), null); // ReviewPost는 아직 생성되지 않았으므로 null 전달
+                    String imageUrl = imageService.saveImage(imageFile);
+                    image.setAccessUrl(imageUrl);
+                    images.add(image); // 이미지 컬렉션에 추가
+                }
             }
         }
 
@@ -58,9 +65,9 @@ public class ReviewPostServiceImpl implements ReviewPostService {
                 image.setReviewPost(reviewPost);
             }
         }
-
         return new ReviewPostResponseDto(reviewPost);
     }
+
 
     // 후기 게시글 수정
     @Override
@@ -76,33 +83,37 @@ public class ReviewPostServiceImpl implements ReviewPostService {
             return new ApiResponseDto("게시글 작성자만 수정할 수 있습니다.", HttpStatus.FORBIDDEN.value());
         }
 
-        // 이미지 업데이트
-        List<Image> images = reviewPost.getImages();
+        String newTitle = requestDto.getTitle();
+        String newContent = requestDto.getContent();
+
+        if (newTitle == null || newTitle.trim().isEmpty() || newContent == null || newContent.trim().isEmpty()) {
+            return new ApiResponseDto("제목과 내용을 입력해주세요.", HttpStatus.BAD_REQUEST.value());
+        }
+
+        // 기존 이미지 삭제
+        List<Image> existingImages = reviewPost.getImages();
+        for (Image existingImage : existingImages) {
+            imageService.deleteImage(existingImage.getId()); // 이미지 삭제 서비스 메서드 호출
+        }
+        existingImages.clear(); // 기존 이미지 목록 비우기
+
+        // 새로운 이미지 추가
+        List<Image> updatedImages = new ArrayList<>();
         if (imageFiles != null && !imageFiles.isEmpty()) {
-
-
             for (MultipartFile imageFile : imageFiles) {
                 Image newImage = new Image(imageFile.getOriginalFilename(), reviewPost);
                 String newImageUrl = imageService.saveImage(imageFile);
                 newImage.setAccessUrl(newImageUrl);
                 imageRepository.save(newImage);
-                images.add(newImage);
-            }
-        } else {
-            // 이미지를 null로 넣은 경우 기존 이미지 삭제
-            if (!images.isEmpty()) {
-                for (Image image : images) {
-                    imageService.deleteImage(image.getId()); // 이미지 삭제 서비스 메서드 호출
-                }
-
+                updatedImages.add(newImage);
             }
         }
-
         // 게시글 정보 업데이트 (제목, 내용)
-        reviewPost.updateReviewPost(requestDto.getTitle(), requestDto.getContent(), images);
+        reviewPost.updateReviewPost(requestDto.getTitle(), requestDto.getContent(), updatedImages);
 
         return new ApiResponseDto("게시글 수정 완료", HttpStatus.OK.value());
     }
+
 
 
     // 후기 게시글 삭제
@@ -131,7 +142,6 @@ public class ReviewPostServiceImpl implements ReviewPostService {
 
         return new ApiResponseDto("게시글 삭제 완료", HttpStatus.OK.value());
     }
-
 
 
     //게시글 단건 조회

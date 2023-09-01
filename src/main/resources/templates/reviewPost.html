@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>여행 후기 게시판</title>
+  <link rel="stylesheet" href="/css/reviewPost.css">
+</head>
+<body>
+<div id="reviewList"></div>
+
+<script src="/js/reviewPost.js"></script>
+
+<div id="create-review-button" class="create-button">
+  <a href="/view/reviewPost/create">게시글 작성</a>
+</div>
+
+
+<section class="notice">
+  <div class="page-title">
+    <div class="container">
+      <h3>여행 후기 게시판</h3>
+    </div>
+  </div>
+
+  <div id="board-search">
+    <div class="container">
+      <div class="search-window">
+      </div>
+    </div>
+  </div>
+
+  <div id="board-list">
+    <div class="container">
+      <table class="board-table">
+        <thead>
+        <tr>
+          <th scope="col" class="th-num">번호</th>
+          <th scope="col" class="th-title">제목</th>
+          <th scope="col" class="th-title">닉네임</th>
+          <th scope="col" class="th-title">좋아요</th>
+          <th scope="col" class="th-date">등록일</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.js'></script>
+</body>
+</html>
