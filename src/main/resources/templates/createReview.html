@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>여행후기 게시글 작성</title>
+  <link rel="stylesheet" href="/css/createReview.css">
+</head>
+<body>
+
+<form id="reviewForm">
+  <label for="title">제목:</label>
+  <input type="text" id="title" name="title"><br><br>
+  <label for="content">내용:</label>
+  <textarea id="content" name="content"></textarea><br><br>
+  <input type="file" id="images" name="images" multiple><br><br>
+  <div id="selectedImageNamesContainer"></div> <!-- 이미지 파일명을 표시할 컨테이너 -->
+  <button type="submit">작성</button>
+</form>
+<div id="message"></div>
+
+<script src="/js/createReview.js"></script>
+</body>
+</html>
