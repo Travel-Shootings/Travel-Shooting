@@ -403,9 +403,10 @@
                 .then(response => response.json())
                 .then(data => {
                     alert("글 작성 성공");
-                    location.href = "http://localhost:8080/view/home"
+                    location.href = "/view/home"
                 })
                 .catch(error => {
+                    alert("글 작성 실패")
                     console.error("댓글 작성 실패:", error);
                 }); //ajax 통신을 이용해서 파라미터를 json으로 변경하여 insert 요청
         }
