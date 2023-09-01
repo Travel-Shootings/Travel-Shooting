@@ -71,7 +71,7 @@
 
     <!-- 여행 일정(JourneyList 내용 칸 -->
     <div class="journey-container">
-        <form id="contact" action="">
+        <form id="contact" autocomplete="off">
             <h3>여행 일정</h3>
             <h4>당신의 여행 일정을 작성하고 사람들과 공유하세요!</h4>
             <fieldset>
@@ -96,20 +96,20 @@
                         </tr>
                         </thead>
                         <tbody class="list">
-                        <tr>
-                            <td class="id" style="display:none;">4</td>
-                            <td class="place">광주</td>
-                            <td class="budget">50000</td>
-                            <td class="startJourney">""</td>
-                            <td class="endJourney">""</td>
-                            <td class="members">3</td>
-                            <td class="edit">
-                                <button class="edit-item-btn">Edit</button>
-                            </td>
-                            <td class="remove">
-                                <button class="remove-item-btn" type="button">Remove</button>
-                            </td>
-                        </tr>
+                        <!--                        <tr>-->
+                        <!--                            <td class="id" style="display:none;">4</td>-->
+                        <!--                            <td class="place">광주</td>-->
+                        <!--                            <td class="budget">50000</td>-->
+                        <!--                            <td class="startJourney">""</td>-->
+                        <!--                            <td class="endJourney">""</td>-->
+                        <!--                            <td class="members">3</td>-->
+                        <!--                            <td class="edit">-->
+                        <!--                                <button class="edit-item-btn">Edit</button>-->
+                        <!--                            </td>-->
+                        <!--                            <td class="remove">-->
+                        <!--                                <button class="remove-item-btn" type="button">Remove</button>-->
+                        <!--                            </td>-->
+                        <!--                        </tr>-->
                         </tbody>
                     </table>
                 </div>
@@ -136,9 +136,9 @@
                 </table>
             </fieldset>
             <fieldset>
-                <button name="submit" type="submit" style="font-size: 20px" id="addPost" data-submit="...Sending">등록
+                <button name="submit" type="button" style="font-size: 20px" id="addPost" data-submit="...Sending">등록
                 </button>
-                <button name="submit" type="submit" style="font-size: 20px" id="cancelPost" data-submit="...Sending">
+                <button name="submit" type="button" style="font-size: 20px" id="cancelPost" data-submit="...Sending">
                     취소
                 </button>
             </fieldset>
@@ -539,8 +539,6 @@
 
         return formattedDate;
     }
-
-
 </script>
 
 <script>

@@ -88,7 +88,7 @@ public class ViewController {
     }
 
 
-    //게시글 단건 조회 페이지로 이동
+    //게시글 단건 조회(상세보기) 이동
     @GetMapping("/post/view")
     public String showPost () {
         return "viewPost";
