@@ -39,6 +39,4 @@ public class Reply extends Timestamped {
     public void updateByAdmin (ReplyRequestDto replyRequestDto) {
         this.content = replyRequestDto.getContent();
     }
-
-
 }

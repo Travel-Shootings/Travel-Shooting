@@ -16,7 +16,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Getter
-@Setter
 @RequiredArgsConstructor
 @Entity
 @Table(name = "post")

@@ -10,7 +10,6 @@ import lombok.Setter;
 import java.time.LocalDateTime;
 
 @Getter
-@Setter
 @RequiredArgsConstructor
 @Entity
 @Table(name = "post_journeyList")

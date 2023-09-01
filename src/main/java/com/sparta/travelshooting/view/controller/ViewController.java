@@ -32,7 +32,17 @@ public class ViewController {
         return "signup";
     }
 
+    //게시글 작성 페이지로 이동
+    @GetMapping("/create-post")
+    public String createPost () {
+        return "createPost";
+    }
 
+    //게시글 단건 조회 페이지로 이동
+    @GetMapping("/show-post")
+    public String showPost () {
+        return "showPost";
+    }
 
     //후기게시판 전체조회
     @GetMapping("/reviewPost")
