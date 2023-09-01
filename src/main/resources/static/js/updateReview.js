@@ -47,7 +47,7 @@ async function loadPostData() {
 // 수정 취소 함수
 function cancelUpdate() {
     // 수정 취소 시 처리
-    window.location.href = '/view/reviewPost'; // 이전에 보던 후기 게시글 페이지로 이동
+    window.location.href = `/view/reviewPost/${reviewPostId}`; // 이전에 보던 후기 게시글 페이지로 이동
 }
 
 // 후기 게시글 수정 요청 함수
@@ -56,6 +56,12 @@ async function updateReviewPost() {
     const title = document.getElementById('title').value;
     const content = document.getElementById('content').value;
     const images = document.getElementById('images').files;
+
+    // 입력값 validation
+    if (!title.trim() || !content.trim()) {
+        alert('제목과 내용을 입력해주세요.');
+        return;
+    }
 
     const formData = new FormData();
     formData.append('title', title);

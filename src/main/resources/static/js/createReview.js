@@ -25,6 +25,11 @@ reviewForm.addEventListener('submit', async (event) => {
     const content = reviewForm.content.value;
     const images = reviewForm.images.files;
 
+    if (title.trim() === '' || content.trim() === '') {
+        alert('제목과 내용을 입력해주세요.');
+        return; // 제목 또는 내용이 비어있으면 더 이상 진행하지 않음
+    }
+
     const formData = new FormData();
     formData.append('title', title);
     formData.append('content', content);

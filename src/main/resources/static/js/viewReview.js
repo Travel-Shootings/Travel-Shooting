@@ -6,7 +6,7 @@ const deleteButton = document.getElementById('delete-button'); // 삭제 버튼
 const editButton = document.getElementById('edit-button');
 // 좋아요 버튼 요소를 가져옵니다.
 const likeButton = document.getElementById('like-button');
-const likeIcon = document.getElementById('like-icon');
+
 
 // URL 경로에서 reviewPostId 추출
 const reviewPostId = window.location.pathname.split('/').pop();
@@ -79,11 +79,22 @@ async function deleteReviewPost() {
         try {
             const response = await fetch(`/api/reviewPosts/${reviewPostId}`, {
                 method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
             });
 
             if (response.ok) {
-                // 삭제 성공 시 페이지 이동
+                const data = await response.json();
+                if (data.status === 200) {
+                    alert('게시글이 삭제되었습니다.');
+
+
+                } else {
+                    alert(data.message);
+                }
                 window.location.href = '/view/reviewPost';
+
             } else {
                 console.error('Error deleting review post:', response.statusText);
             }
@@ -92,6 +103,7 @@ async function deleteReviewPost() {
         }
     }
 }
+
 
 // 좋아요 버튼 클릭 이벤트를 처리합니다.
 likeButton.addEventListener('click', async () => {
@@ -118,8 +130,6 @@ likeButton.addEventListener('click', async () => {
         console.error('Error adding like:', error);
     }
 });
-
-
 
 
 init();

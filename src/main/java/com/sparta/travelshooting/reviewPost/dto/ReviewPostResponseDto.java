@@ -20,7 +20,6 @@ public class ReviewPostResponseDto {
     private List<String> imageUrls;
     private Integer likeCounts;
     private LocalDateTime createdAt;
-    private Boolean isLiked; // 좋아요 상태 추가
 
 
     public ReviewPostResponseDto(ReviewPost reviewPost){
@@ -33,8 +32,6 @@ public class ReviewPostResponseDto {
                 .map(Image::getAccessUrl)
                 .collect(Collectors.toList());
         this.createdAt = reviewPost.getCreatedAt();
-        this.isLiked = isLiked; // 좋아요 상태 초기화
-
     }
     }
 

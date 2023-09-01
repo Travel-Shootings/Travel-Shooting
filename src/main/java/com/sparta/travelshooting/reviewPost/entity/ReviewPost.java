@@ -29,6 +29,7 @@ public class ReviewPost extends Timestamped {
     private Long id;
 
     private String title;
+
     private String content;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -57,8 +58,6 @@ public class ReviewPost extends Timestamped {
         this.user = user;
         this.nickName = user.getNickname();
         this.images = images;
-
-
     }
 
     public void updateReviewPost(String title, String content, List<Image> images) {

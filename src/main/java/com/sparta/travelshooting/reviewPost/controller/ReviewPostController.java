@@ -42,7 +42,10 @@ public class ReviewPostController {
     // 후기 게시글 수정
     @Operation(summary = "후기 게시글 수정")
     @PutMapping("/{reviewPostId}")
-    public ResponseEntity<ApiResponseDto> updateReviewPost(@PathVariable Long reviewPostId, @RequestParam(value = "images", required = false) List<MultipartFile> imageFiles, @ModelAttribute ReviewPostRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+    public ResponseEntity<ApiResponseDto> updateReviewPost(
+            @PathVariable Long reviewPostId,
+            @RequestParam(value = "images", required = false) List<MultipartFile> imageFiles,
+            @ModelAttribute ReviewPostRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         try {
             ApiResponseDto apiResponseDto = reviewPostService.updateReviewPost(reviewPostId, imageFiles, requestDto, userDetails.getUser());
             return new ResponseEntity<>(apiResponseDto, HttpStatus.OK);
