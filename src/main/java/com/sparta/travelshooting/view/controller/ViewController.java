@@ -15,8 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @AllArgsConstructor
 public class ViewController {
 
-    private ReviewPostService reviewPostService;
-
     @GetMapping("/home")
     public String home() {
         return "home";
@@ -45,9 +43,6 @@ public class ViewController {
     //후기게시판 단건조회
     @GetMapping("/reviewPost/{reviewPostId}")
     public String viewReviewPost(){
-//    (@PathVariable Long reviewPostId, Model model){
-//            ReviewPostResponseDto responseDto = reviewPostService.getReviewPost(reviewPostId);
-//            model.addAttribute("reviewPost", responseDto);
             return "viewReview";
     }
 
