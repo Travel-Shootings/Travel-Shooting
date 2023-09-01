@@ -26,20 +26,6 @@ public class NaverApiController {
 
     private final NaverApiService naverApiService;
 
-//    @GetMapping ("/naver")
-//    @ResponseBody
-//    public List<NaverAddressDto> searchAddress (@RequestParam String query, Model model) {
-//        return naverApiService.searchAddress(query);
-//    }
-
-//    @Operation(summary = "네이버 검색 API")
-//    @GetMapping("/naver")
-//    public String searchAddress(@RequestParam("query") String query, Model model) {
-//        List<NaverAddressDto> naverAddressDtoList = naverApiService.searchAddress(query);
-//        model.addAttribute("naverSearch", naverAddressDtoList);
-//        return "create-post";
-//    }
-
     @Operation(summary = "네이버 검색 API")
     @GetMapping("/naver")
     public ResponseEntity<List<NaverAddressDto>> searchAddress(@RequestParam("query") String query, Model model) {

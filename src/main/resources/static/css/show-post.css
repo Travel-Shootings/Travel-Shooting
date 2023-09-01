@@ -1,0 +1,278 @@
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:400italic,400,300,600);
+
+@import url(https://fonts.googleapis.com/css2?family=Merriweather:wght@300;700&family=Raleway:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&display=swap);
+
+body {
+    --grad100: linear-gradient(90deg, rgba(219,105,165,1) 0%, rgba(223,191,101,1) 25%, rgba(111,173,123,1) 50%, rgba(92,119,187,1) 75%, rgba(131,101,164,1) 100%);
+    --grad75: linear-gradient(90deg, rgba(219,105,165,0.75) 0%, rgba(223,191,101,0.75) 25%, rgba(111,173,123,0.75) 50%, rgba(92,119,187,0.75) 75%, rgba(131,101,164,0.75) 100%);
+    --grad50: linear-gradient(90deg, rgba(219,105,165,0.5) 0%, rgba(223,191,101,0.5) 25%, rgba(111,173,123,0.5) 50%, rgba(92,119,187,0.5) 75%, rgba(131,101,164,0.5) 100%);
+    --grad25: linear-gradient(90deg, rgba(219,105,165,0.25) 0%, rgba(223,191,101,0.25) 25%, rgba(111,173,123,0.25) 50%, rgba(92,119,187,0.25) 75%, rgba(131,101,164,0.25) 100%);
+
+    --vertgrad: linear-gradient(180deg, rgba(219,105,165,0.15) 0%, rgba(223,191,101,0.15) 25%, rgba(111,173,123,0.15) 50%, rgba(92,119,187,0.15) 75%, rgba(131,101,164,0.15) 100%);
+    --vertgrad25: linear-gradient(180deg, rgba(219,105,165,0.25) 0%, rgba(223,191,101,0.25) 25%, rgba(111,173,123,0.25) 50%, rgba(92,119,187,0.25) 75%, rgba(131,101,164,0.25) 100%);
+
+    --sans: raleway, sans-serif;
+    --serif: merriweather, serif;
+
+    background-color: #ddd;
+    color: #333;
+}
+
+::-webkit-scrollbar {
+    width: 11px;
+    height: 11px;
+    background-color: #efefef;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #ccc;
+}
+
+::-webkit-scrollbar,
+::-webkit-scrollbar-thumb {
+    border: 5px solid #fff;
+}
+
+#post {
+    margin-top: 100px;
+    margin-bottom: 50px;
+    margin-left: 50px;
+    max-width: 95%; /* 화면 너비에 맞추기 */
+    background-color: #eee;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+#post .topper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 40px;
+    border-bottom: 1px solid #ccc;
+}
+
+#post .topper ava {
+    display: block;
+    margin-right: 50px;
+    width: 120px;
+    height: 120px;
+    background-color: #fafafa;
+    border-radius: 50%;
+    border: 1px solid #ccc;
+    padding: 5px;
+}
+
+#post .topper ava img {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+#post .topper charinf {
+    display: block;
+    width: calc(100% - 165px);
+    text-align: left;
+}
+
+#post .topper charinf name {
+    display: flex;
+    align-items: center;
+}
+
+#post .topper charinf name big {
+    display: block;
+    margin-right: 15px;
+    font-family: var(--sans);
+    font-size: 35px;
+    background: var(--grad100);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+#post .topper charinf name mgn {
+    display: block;
+    margin-top: 1px;
+    background-color: #fafafa;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 5px 10px;
+    font-family: var(--sans);
+    font-size: 12px;
+    line-height: 100%;
+}
+
+#post .topper charinf detail {
+    display: flex;
+    align-items: flex-start;
+    margin-top: 15px;
+    gap: 25px;
+}
+
+#post .topper charinf detail smth {
+    display: block;
+    font-family: var(--sans);
+    font-size: 14px;
+}
+
+#post .topper charinf detail smth b {
+    font-weight: 900;
+}
+
+#post .content {
+    min-height: 600px;
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+    border-bottom: 1px solid #ccc;
+}
+
+#post .content .main {
+    display: flex;
+    flex-direction: column;
+}
+
+#post .content .main .perm {
+    padding: 15px;
+    font-family: var(--sans);
+    font-size: 12px;
+    text-transform: lowercase;
+}
+
+#post .content .main .perm b {
+    background: var(--grad75);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-size: 14px;
+}
+
+#post .content .main .title {
+    min-width: 100px;
+    padding: 25px 100px;
+    text-align: center;
+    font-family: var(--sans);
+    font-size: 26px;
+    font-weight: bold;
+    line-height: 160%;
+}
+
+#post .content .main .post {
+    min-height: 325px;
+    padding: 50px 100px;
+    text-align: justify;
+    font-family: var(--sans);
+    font-size: 20px;
+    line-height: 160%;
+}
+
+#post .content .main .btns {
+    display: flex;
+    justify-content: flex-end;
+    padding: 15px 15px 10px 15px;
+    gap: 25px;
+}
+
+#post .content .main .btns .clk {
+    display: block;
+    font-size: 22px;
+}
+
+#post .content .main .btns .clk:hover {
+    background: var(--grad75);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+#post .content .mini {
+    width: 600px;
+    height: 600px;
+    background: var(--vertgrad);
+    border-left: 1px solid #ccc;
+    padding: 5px;
+    border-radius: 10px;
+}
+
+#post .content .main temp {
+    display: block;
+    background-color: #fff;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    padding: 50px;
+}
+
+#post .content .main temp b, #title temp i {
+    background: var(--grad100);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-align: center;
+}
+
+#post .content .main temp b, #post temp i {
+    background: var(--grad100);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+#post .journeyList {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    padding: 25px 50px;
+}
+
+#post .journeyList box {
+    display: block;
+}
+
+#post .journeyList box ciro {
+    display: block;
+    width: 50px;
+    height: 50px;
+    background-color: #fafafa;
+    border: 1px solid #ccc;
+    border-radius: 50%;
+    padding: 5px;
+}
+
+#post .journeyList box circ {
+    display: block;
+    width: 50px;
+    height: 50px;
+    background: var(--vertgrad25);
+    border-radius: 50%;
+}
+
+#post .journeyList box nm {
+    display: block;
+    margin-top: 5px;
+    text-align: center;
+    font-family: var(--sans);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: lowercase;
+}
+
+#post .split {
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    padding: 10px;
+}
+
+#post .split .grad {
+    background: var(--grad75);
+    height: 10px;
+    border-radius: 10px;
+}
+
+
+.map-container #map {
+    border-radius: 15px; /* 원하는 반지름 크기로 조절 */
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5); /* 그림자 추가 */
+}
+
+/*.search {*/
+/*    margin-left: 100px;*/
+/*}*/
