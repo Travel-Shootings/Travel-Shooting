@@ -35,7 +35,7 @@ public class ReviewPostServiceImpl implements ReviewPostService {
     // 후기 게시글 생성
     @Override
     @Transactional
-    public ReviewPostResponseDto createReviewPost(List<MultipartFile> imageFiles, ReviewPostRequestDto requestDto, User user) {
+    public ApiResponseDto createReviewPost(List<MultipartFile> imageFiles, ReviewPostRequestDto requestDto, User user) {
         List<Image> images = new ArrayList<>();  // 이미지 초기화
 
         // title과 content가 모두 유효한 값인지 확인
@@ -65,8 +65,9 @@ public class ReviewPostServiceImpl implements ReviewPostService {
                 image.setReviewPost(reviewPost);
             }
         }
-        return new ReviewPostResponseDto(reviewPost);
+        return  new ApiResponseDto("게시글이 생성되었습니다.", HttpStatus.CREATED.value());
     }
+
 
 
     // 후기 게시글 수정

@@ -33,9 +33,7 @@ public class ReviewPostController {
             @RequestParam(value = "images", required = false) List<MultipartFile> imageFiles,
             @ModelAttribute ReviewPostRequestDto requestDto,
             @AuthenticationPrincipal UserDetailsImpl userDetails) {
-
-        ReviewPostResponseDto responseDto = reviewPostService.createReviewPost(imageFiles, requestDto, userDetails.getUser());
-        ApiResponseDto apiResponseDto = new ApiResponseDto("게시글이 생성되었습니다.", HttpStatus.CREATED.value());
+        ApiResponseDto apiResponseDto = reviewPostService.createReviewPost(imageFiles, requestDto, userDetails.getUser());
         return new ResponseEntity<>(apiResponseDto, HttpStatus.CREATED);
     }
 

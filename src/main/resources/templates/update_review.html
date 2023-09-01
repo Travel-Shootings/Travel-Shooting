@@ -3,11 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:,">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css'>
+    <link rel='stylesheet' href='https://fonts.googleapis.com/icon?family=Material+Icons'>
     <title>여행후기 게시글 수정</title>
     <link rel="stylesheet" href="/css/updateReview.css">
 
 </head>
 <body>
+<div class="navbar-fixed">
+    <nav class="teal">
+        <div class="container">
+            <div class="nav-wrapper">
+                <a href="/view/home" class="brand-logo">Travel Shooting</a>
+                <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+                <ul class="right hide-on-med-and-down">
+                    <li>
+                        <a href="/view/home">Home</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</div>
 <form id="reviewForm">
     <label for="title">제목:</label>
     <input type="text" id="title" name="title"><br><br>
@@ -19,6 +38,10 @@
     <button id="cancel-button" type="button">취소</button>
 </form>
 <div id="message"></div>
+<!-- Footer -->
+<footer class="section teal darken-2 white-text center">
+    <p class="flow-text">Travel Shooting </p>
+</footer>
 
 <script src="/js/update_review.js"></script>
 </body>
