@@ -66,5 +66,5 @@ reviewForm.addEventListener('submit', async (event) => {
 const cancelButton = document.getElementById('cancel-button');
 cancelButton.addEventListener('click', () => {
     // 취소 시 view/reviewPost 페이지로 리디렉션
-    window.location.href = '/view/reviewPost';
+    window.location.href = '/view/review-post';
 });
