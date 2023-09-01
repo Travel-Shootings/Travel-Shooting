@@ -7,6 +7,7 @@ import lombok.Getter;
 
 @Getter
 public class ChatMessageResponseDto {
+
     private final String senderName;
     private final String content;
     private final String simpleTime;
