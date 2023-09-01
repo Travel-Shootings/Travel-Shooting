@@ -60,4 +60,7 @@ public interface AdminService {
 
     //후기 글 삭제
     ApiResponseDto deleteReviewPost(Long reviewPostId);
+
+    //유저 정보 조회
+    UserResponseDto showUser(Long userId);
 }

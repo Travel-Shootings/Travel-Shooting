@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>관리자 페이지</title>
+    <link rel="icon" href="data:,">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css'>
+    <link rel='stylesheet' href='https://fonts.googleapis.com/icon?family=Material+Icons'>
+    <link rel="stylesheet" href="/css/admin.css">
+    <link rel="stylesheet" href="/static/css/admin.css">
+</head>
+<body>
+    <div class="navbar-fixed">
+        <nav class="teal">
+            <div class="container">
+                <div class="nav-wrapper">
+                    <a href="/view/home" class="brand-logo">Travel Shooting</a>
+                    <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+                    <ul class="right hide-on-med-and-down">
+                        <li>
+                            <a href="/view/home">Home</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </div>
+
+    <div id="info-box">
+        <div></div>
+        <div class="info-section">
+            유저 수 <div id="user-count">user count</div>
+        </div>
+        <div class="info-section">
+            게시글 수 <div id="post-count">post count</div>
+        </div >
+        <div class="info-section">
+            댓글 수 <div id="comment-count">comment count</div>
+        </div>
+        <div></div>
+    </div>
+
+    <div id="btn-box">
+        <div></div>
+        <div></div>
+        <div>
+            <button class="btn btn-dark" id="user-button" onclick="openUserBox()"><strong>유저 정보 보기</strong></button>
+            <button class="btn btn-dark" id="post-button"><strong>게시글 정보 보기</strong></button>
+        </div>
+        <div></div>
+        <div></div>
+    </div>
+
+    <div id="user-box" style="display: none">
+    </div>
+
+
+    <!-- partial -->
+    <script src='https://use.fontawesome.com/releases/v5.0.6/js/all.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js'></script>
+    <script src="/js/admin.js"></script>
+    <script src="/static/js/admin.js"></script>
+</body>
+
+</html>

@@ -34,8 +34,8 @@ public class UserInfoController {
     // 마이페이지 : 자신의 정보 수정 (nickname, region)
     @Operation(summary = "자신의 정보 수정")
     @PutMapping("/edit")
-    public ResponseEntity<UserResponseDto> editUserInfo(@AuthenticationPrincipal UserDetailsImpl userDetails, @RequestBody EditInfoRequestDto requestDto) {
-        UserResponseDto userResponseDto = userInfoService.editUserInfo(userDetails.getUser(), requestDto);
+    public ResponseEntity<ApiResponseDto> editUserInfo(@AuthenticationPrincipal UserDetailsImpl userDetails, @RequestBody EditInfoRequestDto requestDto) {
+        ApiResponseDto userResponseDto = userInfoService.editUserInfo(userDetails.getUser(), requestDto);
         return new ResponseEntity<>(userResponseDto, HttpStatus.OK);
     }
 
@@ -47,10 +47,4 @@ public class UserInfoController {
         return new ResponseEntity<>(apiResponseDto, HttpStatus.OK);
     }
 
-    // IllegalArgumentException 에 대한 예외처리
-    @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<ApiResponseDto> illegalArgumentException(IllegalArgumentException e) {
-        ApiResponseDto apiResponseDto = new ApiResponseDto(e.getMessage(), HttpStatus.BAD_REQUEST.value());
-        return new ResponseEntity<>(apiResponseDto, HttpStatus.BAD_REQUEST);
-    }
 }

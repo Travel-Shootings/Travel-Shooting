@@ -248,5 +248,11 @@ public class AdminServiceImpl implements AdminService {
         reviewPostRepository.delete(reviewPost.get());
         return new ApiResponseDto("대댓글 삭제 성공", HttpStatus.OK.value());
     }
+
+    @Override
+    public UserResponseDto showUser(Long userId) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new NullPointerException("해당 유저가 존재하지 않습니다."));
+        return new UserResponseDto(user);
+    }
 }
 
