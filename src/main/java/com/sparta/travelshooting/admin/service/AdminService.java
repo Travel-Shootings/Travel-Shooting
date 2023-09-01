@@ -45,4 +45,7 @@ public interface AdminService {
 
     //댓글 삭제
     ApiResponseDto deleteComment(Long commentId);
+
+    //유저 정보 조회
+    UserResponseDto showUser(Long userId);
 }

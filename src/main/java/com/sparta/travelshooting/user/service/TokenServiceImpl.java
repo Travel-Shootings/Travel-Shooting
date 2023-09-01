@@ -30,10 +30,7 @@ public class TokenServiceImpl implements TokenService{
     @Override
     @Transactional
     public TokenResponseDto requestRefreshToken(HttpServletResponse res, HttpServletRequest req) {
-        /**
-         * accesstoken을 이용해서 refresh 토큰을 조회하는 건 뭔가 좋은 방법이 아닌 것 같음
-         * 토큰을 탈취당한 상태에서도 제 3자가 토큰을 재발급 받을 수 있을 것 같음,,
-         */
+
         String refreshTokenUUID = jwtUtil.getUUID(req);
         RefreshToken refreshToken = refreshTokenRepository.findById(refreshTokenUUID).orElseThrow(() -> new IllegalArgumentException("Token not found"));
 

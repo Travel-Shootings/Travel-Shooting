@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping("/view")
@@ -16,6 +17,7 @@ public class ViewController {
     public String home(@AuthenticationPrincipal UserDetailsImpl userDetails, Model model) {
         if (userDetails != null) {
             model.addAttribute("nickname", userDetails.getUser().getNickname());
+            model.addAttribute("role", String.valueOf(userDetails.getUser().getRole()));
         }
         return "home";
     }
@@ -54,12 +56,26 @@ public class ViewController {
             model.addAttribute("nickname", user.getNickname());
             model.addAttribute("region", String.valueOf(user.getRegion()));
         }
-        return "editProfile";
+        return "edit_profile";
     }
 
     //비밀번호 변경 수정 페이지
     @GetMapping("/user/editPassword")
     public String editPassword() {
-        return "editPassword";
+        return "edit_password";
+    }
+
+
+    //admin 페이지
+    @GetMapping("/admin")
+    public String admin() {
+        return "admin";
+    }
+
+    @GetMapping("/admin/user-edit")
+    public String adminUserEditProfile(@RequestParam Long userId, Model model) {
+        model.addAttribute("userId", userId);
+
+        return "admin_user_edit_profile";
     }
 }

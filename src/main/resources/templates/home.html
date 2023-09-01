@@ -31,6 +31,9 @@
 </head>
 <body>
 
+<!--유저의 role 확인-->
+<div id="user-role" th:data="${role}"></div>
+
 <!--데스크탑 메뉴바-->
 <div class="navbar-fixed">
     <nav class="teal">
@@ -128,6 +131,12 @@
                     <span th:text="${nickname}">Nickname</span>
                 </div>
             </div>
+        </div>
+        <div id="admin-box" style="display: none">
+            <a href="/view/admin">
+                <button class="btn user-menu-btn" id="user-menu-admin">Admin Page</button>
+
+            </a>
         </div>
         <div>
             <a href="/view/user/profile">

@@ -1,4 +1,4 @@
-// 프로필 수정
+// 비밀번호 변경
 let idx = {
     init: function () {
         $("#edit-button").on("click", () => {

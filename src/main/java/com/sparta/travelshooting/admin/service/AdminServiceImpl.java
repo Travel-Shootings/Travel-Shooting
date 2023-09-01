@@ -155,5 +155,10 @@ public class AdminServiceImpl implements AdminService {
         return new ApiResponseDto("댓글 삭제 성공", 200);
     }
 
+    @Override
+    public UserResponseDto showUser(Long userId) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new NullPointerException("해당 유저가 존재하지 않습니다."));
+        return new UserResponseDto(user);
+    }
 }
 

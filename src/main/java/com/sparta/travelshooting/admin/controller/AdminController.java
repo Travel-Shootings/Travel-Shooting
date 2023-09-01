@@ -29,6 +29,7 @@ public class AdminController {
 
     private final AdminServiceImpl adminServiceImpl;
 
+    // 총 유저, 게시글, 댓글 수
     @GetMapping("/summary")
     public ResponseEntity<AdminSummaryResponseDto> showSummary() {
         AdminSummaryResponseDto adminSummaryResponseDto = adminServiceImpl.showSummary();
@@ -36,6 +37,7 @@ public class AdminController {
     }
 
     // 유저 전체 정보 조회
+    // TODO : 페이징 처리
     @Operation(summary = "유저 전체 정보 조회")
     @GetMapping("/users")
     public ResponseEntity<List<UserResponseDto>> showUsers() {
@@ -43,7 +45,16 @@ public class AdminController {
         return new ResponseEntity<>(userResponseDto, HttpStatus.OK);
     }
 
+    // 유저 정보 조회
+    @Operation(summary = "유저 정보 조회")
+    @GetMapping("/users/{userId}")
+    public ResponseEntity<UserResponseDto> showUser(@PathVariable Long userId) {
+        UserResponseDto userResponseDto = adminServiceImpl.showUser(userId);
+        return new ResponseEntity<>(userResponseDto, HttpStatus.OK);
+    }
+
     // 글 전체 정보 조회
+    // TODO : 페이징 처리
     @Operation(summary = "글 전체 정보 조회")
     @GetMapping("/posts")
     public ResponseEntity<List<PostResponseDto>> showPosts() {
@@ -52,6 +63,7 @@ public class AdminController {
     }
 
     //유저 프로필 수정
+    // 유저 닉네임, 권한
     @Operation(summary = "유저 프로필 수정")
     @PutMapping("/user/{userId}")
     public ResponseEntity<ApiResponseDto> updateUser(@PathVariable Long userId, @RequestBody AdminProfileRequestDto requestDto) {
@@ -59,7 +71,7 @@ public class AdminController {
         return new ResponseEntity<>(apiResponseDto, HttpStatus.OK);
     }
 
-    // 게시글 수정
+    // 게시글 수정 -> 구현 x
     @Operation(summary = "게시글 수정")
     @PutMapping("/posts/{postId}")
     public ResponseEntity<ApiResponseDto> updatePost(@PathVariable Long postId, @RequestBody PostRequestDto requestDto) {
@@ -67,7 +79,7 @@ public class AdminController {
         return new ResponseEntity<>(apiResponseDto, HttpStatus.OK);
     }
 
-    //여행 일정 수정
+    //여행 일정 수정 -> 구현 x
     @Operation(summary = "여행 일정 수정")
     @PutMapping("/journeyList/{journeyListId}")
     public ResponseEntity<ApiResponseDto> updateJourneyList (@PathVariable Long journeyListId, @RequestBody JourneyListRequestDto requestDto) {
@@ -75,7 +87,7 @@ public class AdminController {
         return new ResponseEntity<>(apiResponseDto, HttpStatus.OK);
     }
 
-    // 댓글 수정
+    // 댓글 수정  -> 구현 x
     @Operation(summary = "댓글 수정")
     @PutMapping("/comments/{commentId}")
     public ResponseEntity<ApiResponseDto> updateComment(@PathVariable Long commentId, @RequestBody AdminCommentRequestDto requestDto) {
@@ -115,4 +127,3 @@ public class AdminController {
         return new ResponseEntity<>(apiResponseDto, HttpStatus.OK);
     }
 }
-

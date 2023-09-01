@@ -45,8 +45,7 @@ public class UserAuthController {
 
     /**
      * 로그아웃 API
-     * - 로그아웃 -> 리프레시 토큰을 삭제
-     * - 남아있는 AccessToken은 어떻게 처리하는 거지..? -> 블랙리스트에 저장
+     * 리프레시 토큰을 삭제 및 엑세스 토큰 블랙리스트에 추가
      */
     @Operation(summary = "로그아웃")
     @DeleteMapping("/logout")
@@ -56,7 +55,6 @@ public class UserAuthController {
     }
 
     // 토큰 재발급 API
-    // 자동으로 호출되는 것은 아마 js로 처리해야 하는 것 같음
     @Operation(summary = "액세스 토큰 재발급")
     @PostMapping("/refresh-token")
     public ResponseEntity<TokenResponseDto> requestRefresh(HttpServletResponse res, HttpServletRequest req) {
@@ -64,12 +62,12 @@ public class UserAuthController {
         return new ResponseEntity<>(tokenResponseDto, HttpStatus.CREATED);
     }
 
-    // IllegalArgumentException 에 대한 예외처리
-    @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<ApiResponseDto> illegalArgumentException(IllegalArgumentException e) {
-        ApiResponseDto apiResponseDto = new ApiResponseDto(e.getMessage(), HttpStatus.BAD_REQUEST.value());
-        return new ResponseEntity<>(apiResponseDto, HttpStatus.BAD_REQUEST);
-    }
+//    // IllegalArgumentException 에 대한 예외처리
+//    @ExceptionHandler(IllegalArgumentException.class)
+//    public ResponseEntity<ApiResponseDto> illegalArgumentException(IllegalArgumentException e) {
+//        ApiResponseDto apiResponseDto = new ApiResponseDto(e.getMessage(), HttpStatus.BAD_REQUEST.value());
+//        return new ResponseEntity<>(apiResponseDto, HttpStatus.BAD_REQUEST);
+//    }
 
     // Access Token 블랙리스트 확인 API -> 테스트용이라서 추후에 제거 (TokenRequestDto 도 삭제)
     private final RedisUtil redisUtil;

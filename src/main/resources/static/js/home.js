@@ -1,13 +1,24 @@
+var userRoleElement = document.getElementById('user-role');
+var userRole = userRoleElement.getAttribute('data');
+
 window.onload = function() {
     var login_btn = document.getElementById("login-btn");
     var signup_btn = document.getElementById("signup-btn");
     var mypage_btn = document.getElementById("mypage-btn");
+    var admin_box = document.getElementById("admin-box");
+
 
     if (checkAuthorizationCookie()) {
-        mypage_btn.style.display = "block";
-
         login_btn.style.display = "none";
         signup_btn.style.display = "none";
+
+        mypage_btn.style.display = "block";
+    }
+
+    console.log('User Role:', userRole);
+
+    if (userRole === "ADMIN") {
+        admin_box.style.display = "block";
     }
 
     function checkAuthorizationCookie() {
