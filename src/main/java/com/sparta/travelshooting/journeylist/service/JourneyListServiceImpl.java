@@ -20,19 +20,6 @@ public class JourneyListServiceImpl implements JourneyListService {
     private final JourneyListRepository journeyListRepository;
     private final PostRepository postRepository;
 
-    // 여행 일정 (팝업창) 생성
-    @Transactional
-    @Override
-    public JourneyListResponseDto createJourney(Long postId, JourneyListRequestDto journeyListRequestDto) {
-        Optional<Post> post = postRepository.findById(postId);
-        if (post.isEmpty()) {
-            throw new NullPointerException("해당 게시글은 존재하지 않습니다.");
-        }
-        JourneyList journeyList = new JourneyList(journeyListRequestDto, post.get());
-        journeyListRepository.save(journeyList);
-        return new JourneyListResponseDto(journeyList);
-    }
-
     //여행 일정 수정
     @Transactional
     @Override

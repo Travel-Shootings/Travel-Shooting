@@ -18,7 +18,7 @@ public class Image {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "reviewPostId")
+    @JoinColumn(name = "review_post_id")
     private ReviewPost reviewPost;
 
     private String originName; // 이미지 파일의 본래 이름

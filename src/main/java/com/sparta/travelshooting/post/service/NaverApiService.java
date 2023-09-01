@@ -2,11 +2,8 @@ package com.sparta.travelshooting.post.service;
 
 
 import com.sparta.travelshooting.post.dto.NaverAddressDto;
-import lombok.RequiredArgsConstructor;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.json.JSONString;
-import org.json.JSONStringer;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.RequestEntity;

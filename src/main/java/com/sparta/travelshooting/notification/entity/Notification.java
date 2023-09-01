@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Getter
 @Table
-public class Notify {
+public class Notification {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -24,7 +24,7 @@ public class Notify {
     @JoinColumn(name = "user_id")
     private User user;
 
-    public Notify(User author, String message, boolean read) {
+    public Notification(User author, String message, boolean read) {
         this.message = message;
         this.user = author;
         this.isRead = read;

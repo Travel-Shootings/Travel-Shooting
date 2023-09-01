@@ -1,15 +1,12 @@
 package com.sparta.travelshooting.chat.service;
 
 import com.sparta.travelshooting.chat.dto.ChatMessageResponseDto;
+import com.sparta.travelshooting.chat.dto.ChatRoomResponseDto;
 import com.sparta.travelshooting.chat.entity.ChatRoom;
-import com.sparta.travelshooting.chat.entity.UserChatRoom;
 import com.sparta.travelshooting.chat.repository.ChatMessageRepository;
 import com.sparta.travelshooting.chat.repository.ChatMessageRepositoryQuery;
 import com.sparta.travelshooting.chat.repository.ChatRoomRepository;
-import com.sparta.travelshooting.chat.repository.UserChatRoomRepository;
 import com.sparta.travelshooting.common.ApiResponseDto;
-import com.sparta.travelshooting.user.entity.User;
-import com.sparta.travelshooting.user.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -25,9 +22,8 @@ public class ChatRoomServiceImpl implements ChatRoomService {
     private final ChatRoomRepository chatRoomRepository;
     private final ChatMessageRepository chatMessageRepository;
     private final ChatMessageRepositoryQuery chatMessageRepositoryQuery;
-    private final UserChatRoomRepository userChatRoomRepository;
-    private final UserRepository userRepository;
 
+    // 관리자용 메서드, 현재 미사용
     @Override
     public ApiResponseDto createChatRoom(String chatRoomName) {
         chatRoomRepository.save(
@@ -37,6 +33,7 @@ public class ChatRoomServiceImpl implements ChatRoomService {
         return new ApiResponseDto(chatRoomName + " 채팅방 개설 완료", HttpStatus.OK.value());
     }
 
+    // 관리자용 메서드, 현재 미사용
     @Override
     @Transactional
     public ApiResponseDto deleteChatRoom(Long chatRoomId) {
@@ -47,31 +44,11 @@ public class ChatRoomServiceImpl implements ChatRoomService {
     }
 
     @Override
-    public ApiResponseDto joinChatRoom(Long userId, Long chatRoomId) {
-        try {
-            findUserChatRoom(userId, chatRoomId);
-            return new ApiResponseDto("이미 채팅방에 입장하셨습니다.", HttpStatus.BAD_REQUEST.value());
-        } catch (IllegalArgumentException e) {
-            User user = findUser(userId);
-            ChatRoom chatRoom = findChatRoom(chatRoomId);
-            userChatRoomRepository.save(
-                    new UserChatRoom(user, chatRoom)
-            );
-            return new ApiResponseDto(user.getNickname() + "님이 " + chatRoom.getChatRoomName() + " 채팅방 참여 완료", HttpStatus.OK.value());
-        }
+    public List<ChatRoomResponseDto> getChatRoomList() {
+        return chatRoomRepository.findAll().stream().map(ChatRoomResponseDto::new).toList();
     }
 
-    @Override
-    @Transactional
-    public ApiResponseDto leaveChatRoom(Long userId, Long chatRoomId) {
-        User user = findUser(userId);
-        ChatRoom chatRoom = findChatRoom(chatRoomId);
-        UserChatRoom userChatRoom = findUserChatRoom(userId, chatRoomId);
-        userChatRoomRepository.delete(userChatRoom);
-
-        return new ApiResponseDto(user.getNickname() + "님이 " + chatRoom.getChatRoomName() + " 채팅방 나기기 완료", HttpStatus.OK.value());
-    }
-
+    // 관리자용 메서드, 현재 미사용
     @Override
     public List<ChatMessageResponseDto> getChatRoomChatMessage(Long chatRoomId) {
         return chatMessageRepository.findAllByChatRoomChatRoomIdOrderByTimeDesc(chatRoomId)
@@ -112,20 +89,6 @@ public class ChatRoomServiceImpl implements ChatRoomService {
     public ChatRoom findChatRoom(Long chatRoomId) {
         return chatRoomRepository.findById(chatRoomId).orElseThrow(() ->
                 new IllegalArgumentException("해당 채팅방은 존재하지 않습니다.")
-        );
-    }
-
-    @Override
-    public UserChatRoom findUserChatRoom(Long userId, Long chatRoomId) {
-        return userChatRoomRepository.findByUserIdAndChatRoomChatRoomId(userId, chatRoomId).orElseThrow(() ->
-                new IllegalArgumentException("채팅방 입장 정보가 잘못되었습니다.")
-        );
-    }
-
-    // User 기능 pr 이전 임시 메서드
-    public User findUser(Long userId) {
-        return userRepository.findById(userId).orElseThrow(() ->
-                new IllegalArgumentException("해당 유저는 존재하지 않습니다.")
         );
     }
 }

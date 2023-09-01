@@ -7,7 +7,10 @@ import com.sparta.travelshooting.common.ApiResponseDto;
 import com.sparta.travelshooting.journeylist.dto.JourneyListRequestDto;
 import com.sparta.travelshooting.post.dto.PostRequestDto;
 import com.sparta.travelshooting.post.dto.PostResponseDto;
+import com.sparta.travelshooting.reply.dto.ReplyRequestDto;
+import com.sparta.travelshooting.reviewPost.dto.ReviewPostRequestDto;
 import com.sparta.travelshooting.user.dto.UserResponseDto;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -34,6 +37,12 @@ public interface AdminService {
     // 댓글 수정
     ApiResponseDto updateComment(Long commentId, AdminCommentRequestDto requestDto);
 
+    // 대댓글 수정
+    ApiResponseDto updateReply(Long replyId, ReplyRequestDto requestDto);
+
+    //후기 게시글 수정
+    ApiResponseDto updateReviewPost(Long reviewPostId, ReviewPostRequestDto requestDto, List<MultipartFile> imageFiles);
+
     // 유저 삭제
     ApiResponseDto deleteUser(Long userId);
 
@@ -45,6 +54,12 @@ public interface AdminService {
 
     //댓글 삭제
     ApiResponseDto deleteComment(Long commentId);
+
+    //대댓글 삭제
+    ApiResponseDto deleteReply(Long replyId);
+
+    //후기 글 삭제
+    ApiResponseDto deleteReviewPost(Long reviewPostId);
 
     //유저 정보 조회
     UserResponseDto showUser(Long userId);

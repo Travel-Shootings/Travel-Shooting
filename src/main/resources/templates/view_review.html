@@ -7,9 +7,8 @@
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css'>
     <link rel='stylesheet' href='https://fonts.googleapis.com/icon?family=Material+Icons'>
-    <title>여행후기 게시글 수정</title>
-    <link rel="stylesheet" href="/css/updateReview.css">
-
+    <title>여행 후기 게시판</title>
+    <link rel="stylesheet" href="/css/viewReview.css">
 </head>
 <body>
 <div class="navbar-fixed">
@@ -17,6 +16,7 @@
         <div class="container">
             <div class="nav-wrapper">
                 <a href="/view/home" class="brand-logo">Travel Shooting</a>
+
                 <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
                 <ul class="right hide-on-med-and-down">
                     <li>
@@ -27,22 +27,26 @@
         </div>
     </nav>
 </div>
-<form id="reviewForm">
-    <label for="title">제목:</label>
-    <input type="text" id="title" name="title"><br><br>
-    <label for="content">내용:</label>
-    <textarea id="content" name="content"></textarea><br><br>
-    <input type="file" id="images" name="images" multiple><br><br>
-    <div id="selectedImageNamesContainer"></div> <!-- 이미지 파일명을 표시할 컨테이너 -->
-    <button id="submit-button" type="submit">수정</button>
-    <button id="cancel-button" type="button">취소</button>
-</form>
-<div id="message"></div>
+<h1>여행 후기 게시판</h1>
+<div id="post-container">
+    <h2 id="post-title"></h2>
+    <div id="like-info">
+        <span id="like-count">0</span> <span id="like-icon">❤️</span>
+    </div>
+
+    <div id="image-container"></div> <!-- 이미지를 표시할 컨테이너 -->
+    <p id="post-content"></p>
+    <div id="buttons-container">
+        <button id="like-button">좋아요</button>
+        <button id="edit-button">수정</button>
+        <button id="delete-button">삭제</button>
+    </div>
+</div>
 <!-- Footer -->
 <footer class="section teal darken-2 white-text center">
     <p class="flow-text">Travel Shooting </p>
 </footer>
 
-<script src="/js/updateReview.js"></script>
+<script src="/js/view_review.js"></script>
 </body>
 </html>

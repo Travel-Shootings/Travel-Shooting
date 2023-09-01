@@ -1,7 +1,9 @@
 package com.sparta.travelshooting.post.service;
 
 import com.sparta.travelshooting.common.ApiResponseDto;
+import com.sparta.travelshooting.journeylist.dto.JourneyListRequestDto;
 import com.sparta.travelshooting.journeylist.entity.JourneyList;
+import com.sparta.travelshooting.journeylist.repository.JourneyListRepository;
 import com.sparta.travelshooting.post.controller.NaverApiController;
 import com.sparta.travelshooting.post.dto.*;
 import com.sparta.travelshooting.post.entity.Post;
@@ -26,20 +28,29 @@ public class PostServiceImpl implements PostService {
     private final PostRepository postRepository;
     private final NaverApiController naverApiController;
     private final PostLikeRepository postLikeRepository;
+    private final JourneyListRepository journeyListRepository;
 
     // 게시글 생성
     @Transactional
     @Override
-    public PostResponseDto createPost(PostRequestDto postRequestDto, User user) {
-        List<JourneyList> journeyList = new ArrayList<>();
-        Post post = new Post(postRequestDto, journeyList, user);
+    public PostResponseDto createPostAndJourneyList(PostAndJourneyListDto postAndJourneyListDto, User user) {
+        // 게시글과 여행일정 생성
+        List<JourneyList> journeyLists = new ArrayList<>();
+        Post post = new Post(postAndJourneyListDto.getPostRequestDto(), journeyLists, user);
         postRepository.save(post);
+
+        // 여행 일정 생성
+        for (JourneyListRequestDto journeyListDto : postAndJourneyListDto.getJourneyListRequestDtos()) {
+            JourneyList journeyList = new JourneyList(journeyListDto, post);
+            journeyLists.add(journeyList);
+        }
+        journeyListRepository.saveAll(journeyLists);
 
         return new PostResponseDto(post);
     }
 
 
-    // 게시글 전체 조회
+    // 게시글과 여행일정 전체 조회
     @Override
     public List<PostResponseDto> getPosts() {
         List<Post> postList = postRepository.findAll();
@@ -49,7 +60,7 @@ public class PostServiceImpl implements PostService {
                 .collect(Collectors.toList());
     }
 
-    // 게시글 단건 조회
+    // 게시글과 여행일정 단건 조회
     @Override
     public PostResponseDto getPost(Long postId) {
         Optional<Post> post = postRepository.findById(postId);
@@ -59,20 +70,20 @@ public class PostServiceImpl implements PostService {
         return new PostResponseDto(post.get());
     }
 
-    //게시글 수정
+    //게시글과 여행 일정 수정
     @Transactional
     @Override
-    public PostResponseDto updatePost(PostRequestDto postRequestDto, Long postId, User user) {
+    public PostResponseDto updatePostAndJourneyList(PostAndJourneyListDto postAndJourneyListDto, Long postId, User user) {
         Optional<Post> post = postRepository.findById(postId);
         if (post.isEmpty()) {
             throw new IllegalArgumentException("해당 글은 존재하지 않습니다.");
         }
-        post.get().setTitle(postRequestDto.getTitle());
-        post.get().setContents(postRequestDto.getContents());
+        post.get().setTitle(postAndJourneyListDto.getPostRequestDto().getTitle());
+        post.get().setContents(postAndJourneyListDto.getPostRequestDto().getContents());
         return new PostResponseDto(postRepository.save(post.get()));
     }
 
-    //게시글 삭제
+    //게시글과 여행 일정 삭제
     @Transactional
     @Override
     public ApiResponseDto deletePost(Long postId, User user) {

@@ -21,7 +21,7 @@ public class ReviewPostLike extends Timestamped {
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "reviewPost_id")
+    @JoinColumn(name = "review_post_id")
     private ReviewPost reviewPost;
 
     public ReviewPostLike (User user, ReviewPost reviewPost) {

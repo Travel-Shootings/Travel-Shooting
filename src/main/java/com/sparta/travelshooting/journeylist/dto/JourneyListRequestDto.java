@@ -8,6 +8,8 @@ import java.time.LocalDateTime;
 public class JourneyListRequestDto {
     private String locations;
     private Long budget;
-    private LocalDateTime period;
+    private LocalDateTime startJourney;
+    private LocalDateTime endJourney;
     private Integer members;
+    private String placeAddress;
 }

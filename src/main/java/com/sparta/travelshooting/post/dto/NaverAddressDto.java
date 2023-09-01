@@ -17,7 +17,7 @@ public class NaverAddressDto {
         this.title = jsonObject.getString("title");
         this.address = jsonObject.getString("address");
         this.roadAddress = jsonObject.getString("roadAddress");
-        this.mapx = jsonObject.getString("mapx");
-        this.mapy = jsonObject.getString("mapy");
+//        this.mapx = jsonObject.getString("mapx");
+//        this.mapy = jsonObject.getString("mapy");
     }
 }
