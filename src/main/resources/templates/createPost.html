@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="">
+<head>
+    <title>여행 게시글 작성</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+    <script type="text/javascript"
+            src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=7u8454s6qg&submodules=geocoder"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/css/container.css">
+    <link rel="stylesheet" type="text/css" href="/css/map.css">
+    <link rel="stylesheet" type="text/css" href="/css/journeyList.css">
+
+    <style>
+        /* 전체 페이지 스타일링 */
+        body {
+            font-family: "Open Sans", Helvetica, Arial, sans-serif;
+            font-weight: 300;
+            font-size: 12px;
+            line-height: 30px;
+            color: #777;
+            background: #ffffff;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            -webkit-font-smoothing: antialiased;
+            -moz-font-smoothing: antialiased;
+            -o-font-smoothing: antialiased;
+            font-smoothing: antialiased;
+            text-rendering: optimizeLegibility;
+        }
+
+        /* 레이아웃 스타일링 */
+
+        .main-container {
+            display: flex; /* 자식 요소들을 가로로 나란히 배치 */
+            justify-content: space-between; /* 각 요소 사이의 공간을 최대로 설정 */
+            align-items: flex-start;
+            max-width: 100%; /* 화면 너비에 맞추기 */
+            padding: 20px; /* 여백 설정 (원하는 여백 크기로 조절) */
+        }
+
+        .map-container {
+            flex: 1; /* 지도가 남은 공간을 모두 차지하도록 설정 */
+            height: 500px; /* 높이 조절 (원하는 높이로 변경) */
+        }
+
+        /* 나머지 스타일 코드들 */
+
+        /* 반응형 디자인을 위한 미디어 쿼리 추가 */
+
+    </style>
+</head>
+<link rel="icon" href="data:;base64,iVBORw0KGgo=">
+
+<body>
+<!-- 여행 일정 추가 버튼 -->
+<div class="main-container">
+    <div class="map-container">
+        <div class="search">
+            <input id="add-journey" type="button" class="btn-open-modal" style="font-size: 30px;" value="여행 일정 추가">
+            <input id="address" type="hidden" placeholder="검색할 주소">
+            <input id="submit" type="hidden" value="주소검색">
+        </div>
+        <div id="map" style="width:1000px;height:1000px;"></div>
+    </div>
+
+    <!-- 여행 일정(JourneyList 내용 칸 -->
+    <div class="journey-container">
+        <form id="contact" action="">
+            <h3>여행 일정</h3>
+            <h4>당신의 여행 일정을 작성하고 사람들과 공유하세요!</h4>
+            <fieldset>
+                <input placeholder="제목을 입력하세요." id="title" type="text" tabindex="1" autofocus>
+            </fieldset>
+            <fieldset>
+                <textarea placeholder="본문을 입력하세요" id="contents" tabindex="2"></textarea>
+            </fieldset>
+            <fieldset>
+                <div id="journey-info">
+                    <table>
+                        <thead>
+                        <tr>
+                            <th class="sort" data-sort="place">여행 장소</th>
+                            <th class="sort" data-sort="budget">예상 비용</th>
+                            <th class="sort" data-sort="formattedStartJourney">여행 시작일</th>
+                            <th class="sort" data-sort="formattedEndJourney">여행 종료일</th>
+                            <th class="sort" data-sort="startJourney" style="display: none">DB 반영 여행 시작일</th>
+                            <th class="sort" data-sort="endJourney" style="display: none">DB 반영 여행 종료일</th>
+                            <th class="sort" data-sort="members">참여 인원</th>
+                            <th class="sort" data-sort="placeAddress" style="display: none;">여행지 주소</th>
+                        </tr>
+                        </thead>
+                        <tbody class="list">
+                        <tr>
+                            <td class="id" style="display:none;">4</td>
+                            <td class="place">광주</td>
+                            <td class="budget">50000</td>
+                            <td class="startJourney">""</td>
+                            <td class="endJourney">""</td>
+                            <td class="members">3</td>
+                            <td class="edit">
+                                <button class="edit-item-btn">Edit</button>
+                            </td>
+                            <td class="remove">
+                                <button class="remove-item-btn" type="button">Remove</button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </fieldset>
+            <fieldset>
+                <table class="totalSummary">
+                    <thead>
+                    <tr>
+                        <th colspan="3" class="summaryTitle">총 일정 정보</th>
+                    </tr>
+                    </thead>
+                    <tbody class="total-list">
+                    <tr>
+                        <th scope="col">총 비용</th>
+                        <th scope="col">총 기간</th>
+                        <th scope="col">총 인원</th>
+                    </tr>
+                    </tbody>
+                    <tr>
+                        <td id="totalBudget">원</td>
+                        <td id="totalDays">일</td>
+                        <td id="totalMembers">명</td>
+                    </tr>
+                </table>
+            </fieldset>
+            <fieldset>
+                <button name="submit" type="submit" style="font-size: 20px" id="addPost" data-submit="...Sending">등록
+                </button>
+                <button name="submit" type="submit" style="font-size: 20px" id="cancelPost" data-submit="...Sending">
+                    취소
+                </button>
+            </fieldset>
+        </form>
+    </div>
+</div>
+
+<!-- 첫 번째 모달 창 (여행 일정 추가)-->
+<div class="modal">
+    <form class="modal-body">
+        <h2 class="form-heading">여행 정보</h2>
+
+        <div class="modal-category">
+            <label for="location" class="sr-only">장소 검색 </label>
+            <input type="search" id="search-location" class="form-control" placeholder="검색할 장소를 입력하세요." autofocus>
+            <img src="https://i.postimg.cc/MT8tf3Qy/searchmagnifierinterfacesymbol-79894.png" id="search-icon"
+                 class="search-button" alt="검색">
+        </div>
+
+        <div class="modal-category">
+            <label for="location" class="sr-only">여행 장소 </label>
+            <input type="text" id="location" class="form-control" placeholder="여행 장소를 검색하세요." disabled>
+        </div>
+
+        <div class="modal-category">
+            <label for="budget" class="sr-only">예상 금액</label>
+            <input type="text" id="budget" class="form-control" placeholder="예상 금액을 입력하세요." required>
+        </div>
+
+        <div class="modal-category">
+            <label for="journeyStartDate" class="sr-only">시작 일정</label>
+            <input type="datetime-local" id="journeyStartDate" class="form-control" placeholder="시작 일정을 입력하세요" required>
+        </div>
+
+        <div class="modal-category">
+            <label for="journeyEndDate" class="sr-only">종료 일정</label>
+            <input type="datetime-local" id="journeyEndDate" class="form-control" placeholder="종료 일정을 입력하세요" required>
+        </div>
+
+        <div class="modal-category">
+            <label for="member" class="sr-only">여행 인원</label>
+            <input type="text" id="member" class="form-control" placeholder="여행 인원을 설정하세요." min="1" required>
+        </div>
+
+        <div class="modal-category" style="display: none;">
+            <label for="modaladdress" class="sr-only">주소지</label>
+            <input type="text" id="modaladdress" class="form-control" placeholder="주소지 숨기는 칸 입니다.">
+        </div>
+
+        <div class="add-journey">
+            <div class="col-sm-6">
+                <button class="btn btn-lg btn-primary btn-block green" id="post-journey" type="submit">일정등록</button>
+            </div>
+            <div class="col-sm-6">
+                <button class="btn btn-lg btn-cancel btn-block" id="cancel-journey" type="submit">돌아가기</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<!-- 두번 째 모달 창 (네이버 검색 결과 값)-->
+<div class="search-modal" id="second-modal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-body">
+            <!-- 백엔드에서 받아온 장소 정보를 동적으로 렌더링 -->
+            <div id="search-results" class="user-list-item"></div>
+            <button type="button" class="close-second-modal" data-dismiss="modal">닫기</button>
+        </div>
+    </div>
+</div>
+
+<!-- 네이버 검색 API -->
+<script>
+    $('#search-icon').on('click', function (e) {
+        e.preventDefault();
+        const location = $('#search-location').val();
+        searchNaver(location);
+    });
+
+    function searchNaver(location) {
+        $.ajax({
+            url: `/api/server/naver?query=${location}`,
+            type: 'GET',
+            contentType: 'application/json',
+            success: function (response) {
+                if (response.length > 0) {
+                    // 장소 검색 결과가 있는 경우
+                    const resultsContainer = $('#search-results');
+                    resultsContainer.empty(); // 결과를 표시하기 전에 컨테이너를 비웁니다.
+
+                    $.each(response, function (index, result) {
+                        // 각 장소 정보를 모달에 추가합니다.
+                        const resultDiv = $('<div class="user-list-item">');
+                        resultDiv.append('<span class="place-title">' + result.title + '</span>');
+                        resultDiv.append('<span class="place-address">' + result.address + '</span>');
+                        resultDiv.append('<span class="place-roadAddress">' + result.roadAddress + '</span>');
+                        resultDiv.append('<button class="select-place-button" type="button"> 선택</button>');
+
+                        resultsContainer.append(resultDiv);
+                    });
+
+                    // 모달을 열고 내용을 설정
+                    const modal = document.querySelector('.search-modal');
+                    modal.style.display = "flex";
+                } else {
+                    // 선택한 장소가 없는 경우
+                    alert('검색할 장소를 입력하세요.');
+                }
+            },
+            error: function () {
+                alert('검색어를 입력하세요.');
+            }
+        });
+    }
+
+
+    //지도를 그려주는 함수 실행
+    selectMapList();
+
+    //검색한 주소의 정보를 insertAddress 함수로 넘겨준다.
+    function searchAddressToCoordinate(address) {
+        naver.maps.Service.geocode({
+            query: address
+        }, function (status, response) {
+            if (status === naver.maps.Service.Status.ERROR) {
+                return alert('Something Wrong!');
+            }
+            if (response.v2.meta.totalCount === 0) {
+                return alert('올바른 주소를 입력해주세요.');
+            }
+            var htmlAddresses = [],
+                item = response.v2.addresses[0],
+                point = new naver.maps.Point(item.x, item.y);
+            if (item.roadAddress) {
+                htmlAddresses.push('[도로명 주소] ' + item.roadAddress);
+            }
+            if (item.jibunAddress) {
+                htmlAddresses.push('[지번 주소] ' + item.jibunAddress);
+            }
+            if (item.englishAddress) {
+                htmlAddresses.push('[영문명 주소] ' + item.englishAddress);
+            }
+
+            insertAddress(item.roadAddress, item.x, item.y);
+
+        });
+    }
+
+    // 주소 검색의 이벤트
+    $('#address').on('keydown', function (e) {
+        var keyCode = e.which;
+        if (keyCode === 13) { // Enter Key
+            searchAddressToCoordinate($('#address').val());
+        }
+    });
+    $('#submit').on('click', function (e) {
+        e.preventDefault();
+        searchAddressToCoordinate($('#address').val());
+    });
+    // naver.maps.Event.once(map, 'init_stylemap', initGeocoder)
+
+
+    //검색정보를 테이블로 작성해주고, 지도에 마커를 찍어준다.
+    function insertAddress(address, latitude, longitude) {
+        var mapList = "";
+        mapList += "<tr>"
+        mapList += "	<td>" + address + "</td>"
+        mapList += "	<td>" + latitude + "</td>"
+        mapList += "	<td>" + longitude + "</td>"
+        mapList += "</tr>"
+
+        $('#mapList').append(mapList);
+
+        var map = new naver.maps.Map('map', {
+            center: new naver.maps.LatLng(longitude, latitude),
+            zoom: 14
+        });
+        var marker = new naver.maps.Marker({
+            map: map,
+            position: new naver.maps.LatLng(longitude, latitude),
+        });
+    }
+
+    //지도를 그려주는 함수
+    function selectMapList() {
+
+        var map = new naver.maps.Map('map', {
+            center: new naver.maps.LatLng(37.3595704, 127.105399),
+            zoom: 10
+        });
+    }
+
+
+    // 지도를 이동하게 해주는 함수
+    function moveMap(len, lat) {
+        var mapOptions = {
+            center: new naver.maps.LatLng(len, lat),
+            zoom: 15,
+            mapTypeControl: true
+        };
+        var map = new naver.maps.Map('map', mapOptions);
+        var marker = new naver.maps.Marker({
+            position: new naver.maps.LatLng(len, lat),
+            map: map
+        });
+    }
+</script>
+
+<!-- 백엔드의 CreatePostAndJourneyList로 보내는 로직-->
+<script>
+    let idx = {
+        init: function () {
+            $("#addPost").on("click", () => {
+                this.newPost();
+            });
+        },
+
+        newPost: function () {
+
+            const title = $('#title').val();
+            const contents = $('#contents').val();
+
+            // 프론트엔드의 테이블에서 값을 가져옴
+            const journeyListRequestDtos = [];
+
+            $(".list tr").each(function () {
+                const locations = $(this).find(".place").text();
+                const budget = $(this).find(".budget").text();
+                const startJourney = $(this).find(".startJourney").text();
+                const endJourney = $(this).find(".endJourney").text();
+                const members = $(this).find(".members").text();
+                const placeAddress = $(this).find(".placeAddress").text();
+
+                const dto = {
+                    locations: locations,
+                    budget: budget,
+                    startJourney: startJourney,
+                    endJourney: endJourney,
+                    members: members,
+                    placeAddress: placeAddress
+                };
+
+                journeyListRequestDtos.push(dto);
+            });
+
+            let data = {
+                postRequestDto: {
+                    title: title,
+                    contents: contents,
+                },
+                journeyListRequestDtos: journeyListRequestDtos
+            };
+            console.log(data);
+
+            fetch(`/api/posts`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(data)
+            })
+                .then(response => response.json())
+                .then(data => {
+                    alert("글 작성 성공");
+                    location.href = "/view/home"
+                })
+                .catch(error => {
+                    alert("글 작성 실패")
+                    console.error("댓글 작성 실패:", error);
+                }); //ajax 통신을 이용해서 파라미터를 json으로 변경하여 insert 요청
+        }
+    }
+    idx.init();
+
+    // 취소 버튼 누를시 메인 페이지로 이동
+    $(document).ready(function () {
+        $("#cancelPost").click(function (e) {
+            e.preventDefault(); // 폼의 기본 동작(페이지 새로고침)을 막음
+            window.location.href = "http://localhost:8080/view/home"; // 메인 페이지로 이동
+        });
+    });
+</script>
+
+<script>
+    // 모달 열기 버튼 클릭 시
+    const btnOpenModal = document.querySelector('.btn-open-modal');
+    btnOpenModal.addEventListener("click", () => {
+        // 모달 열기
+        const modal = document.querySelector('.modal');
+        modal.style.display = "flex";
+    });
+
+    // 모달 닫기 버튼 클릭 시
+    const btnCloseModal = document.querySelector('#cancel-journey');
+    btnCloseModal.addEventListener('click', function (e) {
+        e.preventDefault();
+
+        // 모달 닫기
+        const modal = document.querySelector('.modal');
+        modal.style.display = 'none';
+    });
+</script>
+
+<script>
+    $(document).ready(function () {
+        $("#post-journey").click(function (e) {
+            e.preventDefault(); // 폼의 기본 동작(페이지 새로고침)을 막음
+
+            // 여행 정보 입력 폼에서 값을 가져옴
+            const location = $("#location").val();
+            const budget = $("#budget").val();
+            const startJourney = $("#journeyStartDate").val();
+            const endJourney = $("#journeyEndDate").val();
+            const members = $("#member").val();
+            const modaladdress = $("#modaladdress").val();
+
+            const formattedStartJourney = formatDateToCustomFormat(startJourney);
+            const formattedEndJourney = formatDateToCustomFormat(endJourney);
+
+            // 날짜 차이 계산
+            const startJourneyHandler = new Date($("#journeyStartDate").val());
+            const endJourneyHandler = new Date($("#journeyEndDate").val());
+            const timeDiff = Math.abs(endJourneyHandler - startJourneyHandler);
+            const daysHandler = Math.floor(timeDiff / (1000 * 60 * 60 * 24)); // 일자 계산
+
+            const budgetHandler = parseInt($("#budget").val()) || 0;
+            const membersHandler = parseInt($("#member").val()) || 0;
+
+            // 기존 총 일정 정보를 가져옴
+            let totalBudget = parseInt($("#totalBudget").text().split('원')[0]) || 0;
+            let totalDays = parseInt($("#totalDays").text().split('일')[0]) || 0;
+            let totalMembers = parseInt($("#totalMembers").text().split('명')[0]) || 0;
+
+            // 계산 결과를 업데이트
+            totalBudget += budgetHandler;
+            totalDays += daysHandler;
+            totalMembers += membersHandler;
+
+            // 업데이트된 결과를 HTML에 반영
+            $("#totalBudget").text(totalBudget + "원");
+            $("#totalDays").text(totalDays + "일");
+            $("#totalMembers").text(totalMembers + "명");
+
+            console.log(totalBudget)
+            console.log(totalDays)
+            console.log(totalMembers)
+
+            // 새로운 일정 정보를 추가할 HTML 생성
+            const newRow = `<tr>
+            <td class="id" style="display:none;"></td>
+            <td class="place">${location}</td>
+            <td class="budget">${budget}</td>
+            <td class="formattedStartJourney">${formattedStartJourney}</td>
+            <td class="formattedEndJourney">${formattedEndJourney}</td>
+            <td class="members">${members}</td>
+            <td class="startJourney" style="display: none;">${startJourney}</td>
+            <td class="endJourney" style="display: none;">${endJourney}</td>
+            <td class="placeAddress" style="display: none;">${modaladdress}</td>
+            <td class="edit">
+                <button class="edit-item-btn" type="button" style="font-size: 15px">Edit</button>
+            </td>
+            <td class="remove">
+                <button class="remove-item-btn" type="button" style="font-size: 15px">Remove</button>
+            </td>
+        </tr>`;
+
+            // HTML을 목록에 추가
+            $(".list").append(newRow);
+
+            // 입력 필드 초기화
+            $("#location").val('');
+            $("#budget").val('');
+            $("#journeyStartDate").val('');
+            $("#journeyEndDate").val('');
+            $("#member").val('');
+            $("#modaladdress").val('');
+
+            // "id='post-journey'" 버튼을 클릭하면 주소값 설정 및 검색 버튼(id='submit')을 클릭
+            $("#address").val(modaladdress);
+            $("#submit").click();
+
+            const modal = document.querySelector('.modal');
+            modal.style.display = 'none';
+        });
+    });
+
+    // 여행 시작일 & 여행 종료일 포멧 형식 변환 (YYYY년-MM월-DD일-HH시-MM분)
+    function formatDateToCustomFormat(dateString) {
+        const dateObj = new Date(dateString);
+
+        const year = dateObj.getFullYear();
+        const month = String(dateObj.getMonth() + 1).padStart(2, '0'); // 월은 0부터 시작하므로 1을 더하고 두 자리로 포맷팅
+        const day = String(dateObj.getDate()).padStart(2, '0'); // 일도 두 자리로 포맷팅
+        const hours = String(dateObj.getHours()).padStart(2, '0');
+        const minutes = String(dateObj.getMinutes()).padStart(2, '0');
+
+        const formattedDate = `${year}년 ${month}월 ${day}일 ${hours}시 ${minutes}분`;
+
+        return formattedDate;
+    }
+
+
+</script>
+
+<script>
+    /* 여행 리스트 프론트단 삭제 기능 */
+    $(document).ready(function () {
+        // 삭제 버튼에 대한 클릭 이벤트 핸들러 설정
+        $(".list").on("click", ".remove-item-btn", function () {
+            // 클릭한 삭제 버튼이 속한 행을 찾아서 삭제
+            $(this).closest("tr").remove();
+        });
+    });
+
+    // 현재 문제가 있어서 주석 처리 중
+    // $(document).ready(function () {
+    //     // 편집 버튼에 대한 클릭 이벤트 핸들러 설정
+    //     $(".list").on("click", ".edit-item-btn", function (e) {
+    //         e.preventDefault(); // 폼의 기본 동작(페이지 새로고침)을 막음
+    //
+    //         // 클릭한 편집 버튼이 속한 행을 찾습니다.
+    //         const row = $(this).closest("tr");
+    //
+    //         // 해당 행의 값을 가져와서 모달에 채웁니다.
+    //         const location = row.find(".place").text();
+    //         const budget = row.find(".budget").text();
+    //         const startJourney = row.find(".startJourney").text();
+    //         const endJourney = row.find(".endJourney").text();
+    //         const members = row.find(".members").text();
+    //         const placeAddress = row.find(".placeAddress").text();
+    //
+    //         // 모달에 값을 채웁니다.
+    //         $("#location").val(location);
+    //         $("#budget").val(budget);
+    //         $("#journeyStartDate").val(startJourney);
+    //         $("#journeyEndDate").val(endJourney);
+    //         $("#member").val(members);
+    //         $("#modaladdress").val(placeAddress);
+    //
+    //         // 모달을 엽니다.
+    //         const modal = document.querySelector('.modal');
+    //         modal.style.display = 'flex';
+    //
+    //         // 저장 버튼에 클릭 이벤트 핸들러를 추가하여 변경된 내용을 테이블에 반영합니다.
+    //         $("#post-journey").off("click"); // 이전에 등록된 클릭 핸들러 제거
+    //         $("#post-journey").on("click", function (e) {
+    //             e.preventDefault();
+    //
+    //             // 모달에서 변경된 값을 가져옵니다.
+    //             const editedLocation = $("#location").val();
+    //             const editedBudget = $("#budget").val();
+    //             const editedStartJourney = $("#journeyStartDate").val();
+    //             const editedEndJourney = $("#journeyEndDate").val();
+    //             const editedMembers = $("#member").val();
+    //             const editedPlaceAddress = $("#modaladdress").val();
+    //
+    //             // 테이블에 변경된 값을 반영합니다.
+    //             row.find(".place").text(editedLocation);
+    //             row.find(".budget").text(editedBudget);
+    //             row.find(".startJourney").text(editedStartJourney);
+    //             row.find(".endJourney").text(editedEndJourney);
+    //             row.find(".members").text(editedMembers);
+    //             row.find(".placeAddress").text(editedPlaceAddress);
+    //
+    //             // 모달을 닫습니다.
+    //             modal.style.display = 'none';
+    //         });
+    //     });
+    // });
+</script>
+
+
+<script>
+    // 2번째 모달 닫기 버튼 클릭 시
+    const btnCloseSecondModal = document.querySelector('.close-second-modal');  /*  '.search-modal' 설정할 경우 클래스 어디를 눌러도 모달 닫힘 발동 */
+    btnCloseSecondModal.addEventListener('click', function () {
+        const modal = document.querySelector('.search-modal');
+        modal.style.display = 'none';
+    });
+
+    // 선택창을 눌렀을 때 이벤트 핸들러 등록
+    $(document).on('click', '.select-place-button', function () {
+        // 선택한 장소 정보 가져오기
+        const selectedPlace = $(this).closest('.user-list-item').find('.place-title').text();
+        const selectedAddress = $(this).closest('.user-list-item').find('.place-address').text();
+
+        // id가 "location"인 입력란에 선택한 장소 정보 설정 & id가 "modaladdress"인 입력란에 선택한 주소 정보 설정
+        $('#location').val(selectedPlace);
+        $('#modaladdress').val(selectedAddress);
+
+        // 모달 닫기 (선택한 정보를 입력란에 설정한 후 모달을 닫을 수 있음)
+        const modal = document.querySelector('.search-modal');
+        modal.style.display = 'none';
+    });
+</script>
+
+<script>
+
+</script>
+
+</body>
+
+
+</html>

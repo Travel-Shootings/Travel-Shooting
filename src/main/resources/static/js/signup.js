@@ -52,7 +52,6 @@ let idx = {
         };
 
         $.ajax({
-            // 로그인 수행 요청
             type: "POST",
             url:"/api/user/signup",
             data: JSON.stringify(data), // http body data
@@ -64,13 +63,12 @@ let idx = {
             if (res.statusCode === 201) {
                 alert(res.message)
                 window.location.href = "/view/user/login"
-            } else if (res.statusCode === 400) {
-                alert(res.message)
             }
-        }).fail(function (request, status, error){
+        }).fail(function (response, status, error){
             console.log(status)
             console.log(error)
-            alert("회원 가입에 실패했습니다.");
+            console.log(response)
+            alert(response.responseJSON.message);
         });
     }
 }

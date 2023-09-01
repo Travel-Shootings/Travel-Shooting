@@ -33,7 +33,7 @@ public class ReviewPostResponseDto {
                 .collect(Collectors.toList());
         this.createdAt = reviewPost.getCreatedAt();
     }
-    }
+}
 
 
 

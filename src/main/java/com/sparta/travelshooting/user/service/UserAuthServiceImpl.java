@@ -99,7 +99,6 @@ public class UserAuthServiceImpl implements UserAuthService {
     /**
      * 1. Refresh Token 삭제
      * 2. Access Token 블랙리스트에 추가
-     *      -> 만료기한이 지난 AccessToken 데이터 정리는 스케줄링을 이용해보자
      * 3. 쿠키 삭제
      */
     @Override

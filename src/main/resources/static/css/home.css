@@ -58,3 +58,10 @@
 .user-menu-btn {
     margin: 5px;
 }
+
+#nickname-box {
+    margin-top: 25px;
+    margin-bottom: 10px;
+    margin-left: 10px;
+    font-size: 25px;
+}

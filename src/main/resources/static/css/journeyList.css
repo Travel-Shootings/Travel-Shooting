@@ -92,20 +92,17 @@ body {
 }
 
 .search-button {
-    width: 50px; /* 버튼의 너비를 설정하세요. */
-    height: 25px; /* 버튼의 높이를 설정하세요. */
-    /*background-image: url('/static/images/zoom-lens.png'); !* 이미지 경로를 설정하세요. *!*/
-    background-size: cover; /* 배경 이미지를 버튼 크기에 맞게 조절합니다. */
-    /*border: none; !* 버튼 스타일링을 제거합니다. *!*/
+    width: 30px; /* 버튼의 너비를 설정하세요. */
+    height: 30px; /* 버튼의 높이를 설정하세요. */
     cursor: pointer; /* 커서를 포인터로 변경하여 클릭 가능한 버튼으로 만듭니다. */
 }
 
-.modal-body {
+.modal-body, .modal-dialog {
     position: absolute;
     top: 50%; /* 모달을 화면가운데 놓기위함. */
 
     width: 600px; /* 모달의 가로크기  */
-    height: 800px; /* 모달의 세로크기 */
+    height: 850px; /* 모달의 세로크기 */
 
     padding: 40px;
 
@@ -142,11 +139,8 @@ body {
     z-index: 2;
 }
 
-.modal-body .modal-category{
-    margin-bottom: 20px;
-}
 
-.add-journey {
+.add-journey, .btn-open-modal {
     width: 100%; /* 가로 폭을 100%로 설정하여 부모 요소에 맞춤 */
     height: auto; /* 높이를 자동으로 설정하여 내용에 따라 조정 */
     border-radius: 20px;
@@ -160,9 +154,11 @@ body {
     padding: 20px;
 }
 
+.add-journey {
+    margin-bottom: 300px;
+}
 
-
-.modal {
+.modal, .search-modal {
     position: absolute;
     display: none;
 
@@ -176,4 +172,24 @@ body {
     background-color: rgba(0, 0, 0, 0.4);
 }
 
+.show-details-button {
+    width: 50px;
+    height: 25px;
+    text-align: right;
+}
 
+.close-second-modal {
+    width: 100px;
+    height: 50px;
+    text-align: center;
+}
+
+.modal-category {
+    font-size: 15px;
+    font-family: "Open Sans", Helvetica, Arial, sans-serif;
+    font-weight: bold;
+}
+
+table td, table th {
+    padding:5px;
+}
