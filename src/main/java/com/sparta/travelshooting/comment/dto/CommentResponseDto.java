@@ -10,14 +10,11 @@ public class CommentResponseDto {
     private Long id;
     private String nickName;
     private String content;
-    private LocalDateTime createdAt;
-    private LocalDateTime modifiedAt;
+
 
     public CommentResponseDto(Comment comment) {
         this.id = comment.getCommentId();
         this.nickName = comment.getNickName();
         this.content = comment.getContent();
-        this.createdAt = comment.getCreatedAt();
-        this.modifiedAt = comment.getModifiedAt();
     }
 }
