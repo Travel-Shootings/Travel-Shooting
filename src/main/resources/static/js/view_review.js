@@ -240,7 +240,7 @@ function openEditForm(commentId, content) {
     commentEditForm.style.display = 'block';
 
     const editCommentContent = document.getElementById('edit-comment-content');
-    editCommentContent.value = content;
+    editCommentContent.value = '';
 
     const saveEditButton = document.getElementById('save-edit-button');
     saveEditButton.addEventListener('click', () => {
@@ -276,16 +276,18 @@ async function saveEditedComment(commentId) {
             const responseData = await response.json();
             if (responseData.status === 200) {
                 alert('댓글이 수정되었습니다.');
-                location.reload();
-                closeEditForm();
-                fetchComments();
 
             } else {
                 alert(responseData.message);
             }
+
         } else {
             console.error('Error updating comment:', response.statusText);
         }
+
+        fetchComments();
+        location.reload(); // 페이지 리로드
+
     } catch (error) {
         console.error('Error updating comment:', error);
     }
@@ -312,9 +314,6 @@ async function deleteComment(commentId) {
                 const data = await response.json();
                 if (data.status === 200) {
                     alert('댓글이 삭제되었습니다.');
-                    location.reload();
-                    fetchComments();
-
 
                 } else {
                     alert(data.message);
@@ -322,6 +321,9 @@ async function deleteComment(commentId) {
             } else {
                 console.error('Error deleting comment:', response.statusText);
             }
+
+            fetchComments();
+            location.reload(); // 페이지 리로드
         } catch (error) {
             console.error('Error deleting comment:', error);
         }

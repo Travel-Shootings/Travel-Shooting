@@ -86,6 +86,16 @@ public class CommentServiceImpl implements CommentService {
     }
 
 
+    // 여행 계획 게시물의 댓글 조회 메서드
+    public List<CommentResponseDto> getCommentsForPost(Long postId) {
+        // 여행 계획 게시물에 대한 댓글을 데이터베이스에서 조회
+        List<Comment> comments = commentRepository.findByPostId(postId);
+        return  comments.stream()
+                .map(comment -> new CommentResponseDto(comment))
+                .collect(Collectors.toList());
+    }
+
+
     // 리뷰 게시물의 댓글 조회 메서드
     public List<CommentResponseDto> getCommentsForReviewPost(Long reviewPostId) {
         // 리뷰 게시물에 대한 댓글을 데이터베이스에서 조회

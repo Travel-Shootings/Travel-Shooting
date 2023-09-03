@@ -27,8 +27,8 @@ public class CommentController {
 
     // 여행 계획 게시판 댓글 생성
     @Operation(summary = "여행 계획 게시판 댓글 생성")
-    @PostMapping("/post")
-    public ResponseEntity<CommentResponseDto> createComment(@RequestParam Long postId, @RequestBody CommentRequestDto commentRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+    @PostMapping("/post/{postId}")
+    public ResponseEntity<CommentResponseDto> createComment(@PathVariable Long postId, @RequestBody CommentRequestDto commentRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         CommentResponseDto responseDto = commentService.createComment(postId, commentRequestDto, userDetails.getUser());
         return new ResponseEntity<>(responseDto, HttpStatus.CREATED);
     }
@@ -61,6 +61,13 @@ public class CommentController {
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
 
+
+    //여행 계획 게시판 댓글 조회
+    @GetMapping("/post/{postId}")
+    public ResponseEntity<List<CommentResponseDto>> getCommentsForPost(@PathVariable Long postId) {
+        List<CommentResponseDto> comments = commentService.getCommentsForPost(postId);
+        return new ResponseEntity<>(comments, HttpStatus.OK);
+    }
 
     //여행 후기 게시판 댓글 조회
     @GetMapping("/reviewPost/{reviewPostId}")
