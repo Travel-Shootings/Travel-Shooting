@@ -23,12 +23,12 @@ body {
 }
 
 .journey-container {
-    max-width: 1100px;
+    max-width: 1400px;
     width: 100%;
     max-height: 1100px; /* 원하는 높이 값으로 변경 */
     height: 100%;
     position: relative;
-    margin-left: 100px;
+    margin-left: 50px;
     margin-right: 100px;
     margin-bottom: 50px;
 }

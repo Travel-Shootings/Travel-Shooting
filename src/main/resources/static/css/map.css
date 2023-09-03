@@ -1,12 +1,27 @@
+.main-container {
+    display: flex; /* 자식 요소들을 가로로 나란히 배치 */
+    justify-content: space-between; /* 각 요소 사이의 공간을 최대로 설정 */
+    align-items: flex-start;
+    max-width: 100%; /* 화면 너비에 맞추기 */
+    padding: 20px; /* 여백 설정 (원하는 여백 크기로 조절) */
+    flex: 1; /* 지도가 남은 공간을 모두 차지하도록 설정 */
+    height: 500px; /* 높이 조절 (원하는 높이로 변경) */
+}
+
+.map-container {
+    margin-top: 50px;
+    margin-left: 50px;
+}
+
+
 .map-container #map {
     border-radius: 15px; /* 원하는 반지름 크기로 조절 */
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5); /* 그림자 추가 */
-    margin-left: 100px;
     margin-top: 15px;
 }
 
 .search {
-    margin-left: 100px;
+    margin-right: 10px;
 }
 
 

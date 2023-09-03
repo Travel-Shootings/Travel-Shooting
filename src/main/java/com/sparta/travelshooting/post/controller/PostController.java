@@ -1,9 +1,9 @@
 package com.sparta.travelshooting.post.controller;
 
 import com.sparta.travelshooting.common.ApiResponseDto;
-import com.sparta.travelshooting.post.dto.*;
+import com.sparta.travelshooting.post.dto.PostAndJourneyListDto;
+import com.sparta.travelshooting.post.dto.PostResponseDto;
 import com.sparta.travelshooting.post.service.PostService;
-import com.sparta.travelshooting.post.service.PostServiceImpl;
 import com.sparta.travelshooting.security.UserDetailsImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;

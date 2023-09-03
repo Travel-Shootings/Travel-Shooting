@@ -1,5 +1,6 @@
 package com.sparta.travelshooting.post.service;
 
+import com.sparta.travelshooting.comment.entity.Comment;
 import com.sparta.travelshooting.common.ApiResponseDto;
 import com.sparta.travelshooting.journeylist.dto.JourneyListRequestDto;
 import com.sparta.travelshooting.journeylist.entity.JourneyList;
@@ -36,7 +37,8 @@ public class PostServiceImpl implements PostService {
     public PostResponseDto createPostAndJourneyList(PostAndJourneyListDto postAndJourneyListDto, User user) {
         // 게시글과 여행일정 생성
         List<JourneyList> journeyLists = new ArrayList<>();
-        Post post = new Post(postAndJourneyListDto.getPostRequestDto(), journeyLists, user);
+        List<Comment> commentList = new ArrayList<>();
+        Post post = new Post(postAndJourneyListDto.getPostRequestDto(), journeyLists, commentList, user);
         postRepository.save(post);
 
         // 여행 일정 생성

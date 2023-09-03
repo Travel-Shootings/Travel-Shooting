@@ -1,5 +1,4 @@
 @import url(https://fonts.googleapis.com/css?family=Open+Sans:400italic,400,300,600);
-
 @import url(https://fonts.googleapis.com/css2?family=Merriweather:wght@300;700&family=Raleway:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&display=swap);
 
 body {
@@ -10,10 +9,9 @@ body {
 
     --vertgrad: linear-gradient(180deg, rgba(219,105,165,0.15) 0%, rgba(223,191,101,0.15) 25%, rgba(111,173,123,0.15) 50%, rgba(92,119,187,0.15) 75%, rgba(131,101,164,0.15) 100%);
     --vertgrad25: linear-gradient(180deg, rgba(219,105,165,0.25) 0%, rgba(223,191,101,0.25) 25%, rgba(111,173,123,0.25) 50%, rgba(92,119,187,0.25) 75%, rgba(131,101,164,0.25) 100%);
-
+    font-family: "Open Sans", Helvetica, Arial, sans-serif;
     --sans: raleway, sans-serif;
     --serif: merriweather, serif;
-
     background-color: #ddd;
     color: #333;
 }
@@ -35,7 +33,7 @@ body {
 
 #post {
     margin-top: 100px;
-    margin-bottom: 50px;
+    margin-bottom: 200px;
     margin-left: 50px;
     max-width: 95%; /* 화면 너비에 맞추기 */
     background-color: #eee;
@@ -46,11 +44,16 @@ body {
 }
 
 #post .topper {
+    font-family: "Open Sans", Helvetica, Arial, sans-serif;
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 40px;
     border-bottom: 1px solid #ccc;
+}
+
+#Post .topper name {
+
 }
 
 #post .topper ava {
@@ -61,7 +64,6 @@ body {
     background-color: #fafafa;
     border-radius: 50%;
     border: 1px solid #ccc;
-    padding: 5px;
 }
 
 #post .topper ava img {
@@ -100,15 +102,30 @@ body {
     border-radius: 5px;
     padding: 5px 10px;
     font-family: var(--sans);
-    font-size: 12px;
+    font-size: 20px;
+    font-weight: bolder;
     line-height: 100%;
 }
+
 
 #post .topper charinf detail {
     display: flex;
     align-items: flex-start;
     margin-top: 15px;
     gap: 25px;
+}
+
+#post .topper charinf detail mgn2 {
+    display: block;
+    margin-top: 1px;
+    background-color: #fafafa;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 5px 10px;
+    font-family: var(--sans);
+    font-size: 16px;
+    font-weight: bolder;
+    line-height: 100%;
 }
 
 #post .topper charinf detail smth {
@@ -125,7 +142,7 @@ body {
     min-height: 600px;
     display: flex;
     justify-content: space-between;
-    align-items: stretch;
+    align-items: center;
     border-bottom: 1px solid #ccc;
 }
 
@@ -137,7 +154,7 @@ body {
 #post .content .main .perm {
     padding: 15px;
     font-family: var(--sans);
-    font-size: 12px;
+    font-size: 17px;
     text-transform: lowercase;
 }
 
@@ -150,26 +167,37 @@ body {
 
 #post .content .main .title {
     min-width: 100px;
-    padding: 25px 100px;
+    padding: 25px 50px;
     text-align: center;
     font-family: var(--sans);
-    font-size: 26px;
+    font-size: 28px;
     font-weight: bold;
     line-height: 160%;
 }
 
 #post .content .main .post {
     min-height: 325px;
-    padding: 50px 100px;
+    padding: 25px 50px;
+    text-align: justify;
+    font-family: var(--sans);
+    font-size: 24px;
+    line-height: 160%; /* 줄 높이를 정하는 속성 -> 윗줄 글과 아랫줄 글간의 간격 */
+}
+
+#post .content .main .comment {
+    min-height: 125px;
+    padding: 10px 50px;
+    border-radius: 50px;
     text-align: justify;
     font-family: var(--sans);
     font-size: 20px;
-    line-height: 160%;
+    line-height: 160%; /* 줄 높이를 정하는 속성 -> 윗줄 글과 아랫줄 글간의 간격 */
 }
 
 #post .content .main .btns {
     display: flex;
     justify-content: flex-end;
+    margin-right: 35px; /* 새로 추가함*/
     padding: 15px 15px 10px 15px;
     gap: 25px;
 }
@@ -190,14 +218,15 @@ body {
     height: 600px;
     background: var(--vertgrad);
     border-left: 1px solid #ccc;
-    padding: 5px;
     border-radius: 10px;
+    margin-right: 50px;
+    box-shadow: 0 0 10px rgba(0, 150, 136, 0.7); /* 그림자 색상 및 크기 조절 */
 }
 
 #post .content .main temp {
     display: block;
     background-color: #fff;
-    border-radius: 5px;
+    border-radius: 25px;
     border: 1px solid #ccc;
     padding: 50px;
 }
@@ -215,6 +244,14 @@ body {
     -webkit-text-fill-color: transparent;
 }
 
+#post .content .main temp b, #comment temp i {
+    display: flex;
+    background: var(--grad100);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-align: left;
+}
+
 #post .journeyList {
     display: flex;
     justify-content: space-evenly;
@@ -223,17 +260,24 @@ body {
 }
 
 #post .journeyList box {
+    text-align: center;
     display: block;
+    font-family: var(--sans);
+    font-weight: bolder;
+    font-size: 12px;
+    box-shadow: 0 0 10px rgba(0, 150, 136, 0.2); /* 그림자 색상 및 크기 조절 */
+    border-radius: 10px;
 }
 
 #post .journeyList box ciro {
+    text-align: right;
     display: block;
     width: 50px;
     height: 50px;
+    margin-left: 20px;
     background-color: #fafafa;
     border: 1px solid #ccc;
     border-radius: 50%;
-    padding: 5px;
 }
 
 #post .journeyList box circ {
@@ -246,10 +290,10 @@ body {
 
 #post .journeyList box nm {
     display: block;
-    margin-top: 5px;
-    text-align: center;
+    margin: 10px 10px 10px 10px;
+    text-align: left;
     font-family: var(--sans);
-    font-size: 12px;
+    font-size: 10px;
     font-weight: 700;
     letter-spacing: 0.5px;
     text-transform: lowercase;
@@ -266,13 +310,3 @@ body {
     height: 10px;
     border-radius: 10px;
 }
-
-
-.map-container #map {
-    border-radius: 15px; /* 원하는 반지름 크기로 조절 */
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5); /* 그림자 추가 */
-}
-
-/*.search {*/
-/*    margin-left: 100px;*/
-/*}*/
