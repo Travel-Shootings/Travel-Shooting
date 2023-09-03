@@ -15,6 +15,8 @@ public interface PostService {
      // 게시글 작성
      PostResponseDto createPostAndJourneyList(PostAndJourneyListDto postAndJourneyListDto, User user);
 
+     List<PostListResponseDto> getThreePosts();
+
      //게시글 전체 조회
      List<PostListResponseDto> getPosts();
 

@@ -12,6 +12,7 @@ public class PostListResponseDto {
     private Long id;
     private String nickName;
     private String title;
+    private String contents;
     private Integer likeCounts;
     private LocalDateTime createdAt;
 
@@ -19,6 +20,7 @@ public class PostListResponseDto {
         this.id = post.getId();
         this.nickName = post.getUser().getNickname();
         this.title = post.getTitle();
+        this.contents = post.getContents();
         this.likeCounts = post.getLikeCounts();
         this.createdAt = post.getCreatedAt();
     }

@@ -337,7 +337,7 @@ let idx = {
         })
             .done(function () {
                 alert("글 작성 성공");
-                window.location.href = "/view/post/create";
+                window.location.href = "/view/post";
             })
             .fail(function (response) {
                 console.log(response);

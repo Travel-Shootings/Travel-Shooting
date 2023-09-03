@@ -33,6 +33,13 @@ public class PostController {
         return new ResponseEntity<>(postResponseDto, HttpStatus.CREATED);
     }
 
+    // 3개 게시글 조회(Home 화면)
+    @Operation(summary = "메인 페이지 게시글 3개 출력")
+    @GetMapping("/three")
+    public ResponseEntity<List<PostListResponseDto>> getThreePosts() {
+        List<PostListResponseDto> postResponseDto = postService.getThreePosts();
+        return new ResponseEntity<>(postResponseDto, HttpStatus.OK);
+    }
 
     // 전체 게시글 조회
     @Operation(summary = "전체 게시글과 여행일정 조회")

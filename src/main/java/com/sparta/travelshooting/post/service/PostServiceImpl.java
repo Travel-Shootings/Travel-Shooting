@@ -52,6 +52,17 @@ public class PostServiceImpl implements PostService {
     }
 
 
+    // 메인 페이지 게시글 3개 조회
+    @Override
+    public List<PostListResponseDto> getThreePosts() {
+        List<Post> postList = postRepository.findTop3ByOrderByCreatedAtDesc();
+
+        return postList.stream()
+                .map(PostListResponseDto::new)
+                .collect(Collectors.toList());
+    }
+
+
     // 게시글과 여행일정 전체 조회
     @Override
     public List<PostListResponseDto> getPosts() {
