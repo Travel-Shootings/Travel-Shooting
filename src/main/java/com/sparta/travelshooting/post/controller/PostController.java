@@ -2,6 +2,7 @@ package com.sparta.travelshooting.post.controller;
 
 import com.sparta.travelshooting.common.ApiResponseDto;
 import com.sparta.travelshooting.post.dto.PostAndJourneyListDto;
+import com.sparta.travelshooting.post.dto.PostListResponseDto;
 import com.sparta.travelshooting.post.dto.PostResponseDto;
 import com.sparta.travelshooting.post.service.PostService;
 import com.sparta.travelshooting.security.UserDetailsImpl;
@@ -36,8 +37,8 @@ public class PostController {
     // 전체 게시글 조회
     @Operation(summary = "전체 게시글과 여행일정 조회")
     @GetMapping()
-    public ResponseEntity<List<PostResponseDto>> getPosts() {
-        List<PostResponseDto> postResponseDto = postService.getPosts();
+    public ResponseEntity<List<PostListResponseDto>> getPosts() {
+        List<PostListResponseDto> postResponseDto = postService.getPosts();
         return new ResponseEntity<>(postResponseDto, HttpStatus.OK);
     }
 

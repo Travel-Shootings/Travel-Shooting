@@ -54,11 +54,11 @@ public class PostServiceImpl implements PostService {
 
     // 게시글과 여행일정 전체 조회
     @Override
-    public List<PostResponseDto> getPosts() {
+    public List<PostListResponseDto> getPosts() {
         List<Post> postList = postRepository.findAllByOrderByCreatedAtDesc();
 
         return postList.stream()
-                .map(PostResponseDto::new)
+                .map(PostListResponseDto::new)
                 .collect(Collectors.toList());
     }
 

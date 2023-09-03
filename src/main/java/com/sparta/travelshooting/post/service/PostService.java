@@ -2,6 +2,7 @@ package com.sparta.travelshooting.post.service;
 
 import com.sparta.travelshooting.common.ApiResponseDto;
 import com.sparta.travelshooting.post.dto.PostAndJourneyListDto;
+import com.sparta.travelshooting.post.dto.PostListResponseDto;
 import com.sparta.travelshooting.post.dto.PostRequestDto;
 import com.sparta.travelshooting.post.dto.PostResponseDto;
 import com.sparta.travelshooting.user.entity.User;
@@ -15,7 +16,7 @@ public interface PostService {
      PostResponseDto createPostAndJourneyList(PostAndJourneyListDto postAndJourneyListDto, User user);
 
      //게시글 전체 조회
-     List<PostResponseDto> getPosts();
+     List<PostListResponseDto> getPosts();
 
      //게시글 단건 조회
      PostResponseDto getPost(Long postId);
