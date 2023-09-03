@@ -12,7 +12,13 @@ function loadPostData() {
         method: 'GET',
         headers: {'Content-Type': 'application/json'}
     })
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) {
+                alert('해당 게시물은 존재하지 않습니다.');
+                window.location.href = "/view/post"
+            }
+            return response.json();
+        })
         .then(data => {
             let nickName = data.nickName;
             let livingPlace = data.region;
@@ -89,8 +95,41 @@ function loadPostData() {
                 $('.journeyList').html(journeyListHtml); // .journeyList 요소 안에 journeyList 데이터 추가
             }
         })
+        .catch(error => {
+            // 네트워크 오류나 서버 응답 오류 등을 처리
+            alert(error.message);
+            window.location.href = "/view/post"
+        });
 }
 
+const deletePostButton = document.getElementById("deletePost");
+deletePostButton.addEventListener("click", deletePost);
+    function deletePost() {
+        fetch('/api/posts/' + postId, {
+            method: 'DELETE',
+            headers: {'Content-Type': 'application/json'}
+        })
+            .then(response => {
+                if (response.status === 200) {
+                    // 게시글 삭제 성공
+                    alert("게시글 삭제 완료");
+                    window.location.href = "/view/post"
+                } else if (response.status === 404) {
+                    // 해당 글이 존재하지 않음
+                    alert("해당 글은 존재하지 않습니다");
+                    window.location.href = "/view/post/" + postId
+                } else {
+                    // 기타 오류 처리
+                    alert("기타 오류 발생");
+                    window.location.href = "/view/post/" + postId
+                }
+            })
+            .catch(error => {
+                // 네트워크 오류 등 예외 처리
+                alert(error.message);
+                window.location.href = "/view/post/" + postId
+            });
+}
 
 // 네이버 지도 API 함수
 selectMapList();

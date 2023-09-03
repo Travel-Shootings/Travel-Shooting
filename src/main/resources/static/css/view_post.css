@@ -2,13 +2,13 @@
 @import url(https://fonts.googleapis.com/css2?family=Merriweather:wght@300;700&family=Raleway:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&display=swap);
 
 body {
-    --grad100: linear-gradient(90deg, rgba(219,105,165,1) 0%, rgba(223,191,101,1) 25%, rgba(111,173,123,1) 50%, rgba(92,119,187,1) 75%, rgba(131,101,164,1) 100%);
-    --grad75: linear-gradient(90deg, rgba(219,105,165,0.75) 0%, rgba(223,191,101,0.75) 25%, rgba(111,173,123,0.75) 50%, rgba(92,119,187,0.75) 75%, rgba(131,101,164,0.75) 100%);
-    --grad50: linear-gradient(90deg, rgba(219,105,165,0.5) 0%, rgba(223,191,101,0.5) 25%, rgba(111,173,123,0.5) 50%, rgba(92,119,187,0.5) 75%, rgba(131,101,164,0.5) 100%);
-    --grad25: linear-gradient(90deg, rgba(219,105,165,0.25) 0%, rgba(223,191,101,0.25) 25%, rgba(111,173,123,0.25) 50%, rgba(92,119,187,0.25) 75%, rgba(131,101,164,0.25) 100%);
+    --grad100: linear-gradient(90deg, rgba(219, 105, 165, 1) 0%, rgba(223, 191, 101, 1) 25%, rgba(111, 173, 123, 1) 50%, rgba(92, 119, 187, 1) 75%, rgba(131, 101, 164, 1) 100%);
+    --grad75: linear-gradient(90deg, rgba(219, 105, 165, 0.75) 0%, rgba(223, 191, 101, 0.75) 25%, rgba(111, 173, 123, 0.75) 50%, rgba(92, 119, 187, 0.75) 75%, rgba(131, 101, 164, 0.75) 100%);
+    --grad50: linear-gradient(90deg, rgba(219, 105, 165, 0.5) 0%, rgba(223, 191, 101, 0.5) 25%, rgba(111, 173, 123, 0.5) 50%, rgba(92, 119, 187, 0.5) 75%, rgba(131, 101, 164, 0.5) 100%);
+    --grad25: linear-gradient(90deg, rgba(219, 105, 165, 0.25) 0%, rgba(223, 191, 101, 0.25) 25%, rgba(111, 173, 123, 0.25) 50%, rgba(92, 119, 187, 0.25) 75%, rgba(131, 101, 164, 0.25) 100%);
 
-    --vertgrad: linear-gradient(180deg, rgba(219,105,165,0.15) 0%, rgba(223,191,101,0.15) 25%, rgba(111,173,123,0.15) 50%, rgba(92,119,187,0.15) 75%, rgba(131,101,164,0.15) 100%);
-    --vertgrad25: linear-gradient(180deg, rgba(219,105,165,0.25) 0%, rgba(223,191,101,0.25) 25%, rgba(111,173,123,0.25) 50%, rgba(92,119,187,0.25) 75%, rgba(131,101,164,0.25) 100%);
+    --vertgrad: linear-gradient(180deg, rgba(219, 105, 165, 0.15) 0%, rgba(223, 191, 101, 0.15) 25%, rgba(111, 173, 123, 0.15) 50%, rgba(92, 119, 187, 0.15) 75%, rgba(131, 101, 164, 0.15) 100%);
+    --vertgrad25: linear-gradient(180deg, rgba(219, 105, 165, 0.25) 0%, rgba(223, 191, 101, 0.25) 25%, rgba(111, 173, 123, 0.25) 50%, rgba(92, 119, 187, 0.25) 75%, rgba(131, 101, 164, 0.25) 100%);
     font-family: "Open Sans", Helvetica, Arial, sans-serif;
     --sans: raleway, sans-serif;
     --serif: merriweather, serif;
@@ -50,6 +50,25 @@ body {
     align-items: center;
     padding: 40px;
     border-bottom: 1px solid #ccc;
+}
+
+#post .btns {
+    display: flex;
+    justify-content: flex-end;
+    padding: 15px 15px 10px 15px;
+    margin-right: 50px;
+    gap: 25px;
+}
+
+#post .btns .clk {
+    display: block;
+    font-size: 22px;
+}
+
+#post .btns .clk:hover {
+    background: var(--grad75);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
 #Post .topper name {
@@ -166,7 +185,6 @@ body {
 }
 
 #post .content .main .title {
-    min-width: 100px;
     padding: 25px 50px;
     text-align: center;
     font-family: var(--sans);
@@ -176,7 +194,7 @@ body {
 }
 
 #post .content .main .post {
-    min-height: 325px;
+    width: 100%;
     padding: 25px 50px;
     text-align: justify;
     font-family: var(--sans);
@@ -194,25 +212,6 @@ body {
     line-height: 160%; /* 줄 높이를 정하는 속성 -> 윗줄 글과 아랫줄 글간의 간격 */
 }
 
-#post .content .main .btns {
-    display: flex;
-    justify-content: flex-end;
-    margin-right: 35px; /* 새로 추가함*/
-    padding: 15px 15px 10px 15px;
-    gap: 25px;
-}
-
-#post .content .main .btns .clk {
-    display: block;
-    font-size: 22px;
-}
-
-#post .content .main .btns .clk:hover {
-    background: var(--grad75);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-}
-
 #post .content .mini {
     width: 600px;
     height: 600px;
@@ -225,6 +224,7 @@ body {
 
 #post .content .main temp {
     display: block;
+    min-width: 1000px;
     background-color: #fff;
     border-radius: 25px;
     border: 1px solid #ccc;
