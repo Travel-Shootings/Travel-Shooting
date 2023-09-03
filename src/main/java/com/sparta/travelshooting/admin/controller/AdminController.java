@@ -65,36 +65,20 @@ public class AdminController {
         return new ResponseEntity<>(postResponseDto, HttpStatus.OK);
     }
 
+    // 후기 게시글 정보 조회
+    @Operation(summary = "후기 게시글 전체 정보 조회")
+    @GetMapping("/review-posts")
+    public ResponseEntity<List<PostResponseDto>> showReviewPosts() {
+        List<PostResponseDto> reviewPostResponseDto = adminService.showReviewPosts();
+        return new ResponseEntity<>(reviewPostResponseDto, HttpStatus.OK);
+    }
+
     //유저 프로필 수정
     // 유저 닉네임, 권한
     @Operation(summary = "유저 프로필 수정")
     @PutMapping("/user/{userId}")
     public ResponseEntity<ApiResponseDto> updateUser(@PathVariable Long userId, @RequestBody AdminProfileRequestDto requestDto) {
         ApiResponseDto apiResponseDto = adminService.updateUser(userId, requestDto);
-        return new ResponseEntity<>(apiResponseDto, HttpStatus.OK);
-    }
-
-    // 게시글 수정 -> 구현 x
-    @Operation(summary = "게시글 수정")
-    @PutMapping("/posts/{postId}")
-    public ResponseEntity<ApiResponseDto> updatePost(@PathVariable Long postId, @RequestBody PostRequestDto requestDto) {
-        ApiResponseDto apiResponseDto = adminService.updatePost(postId, requestDto);
-        return new ResponseEntity<>(apiResponseDto, HttpStatus.OK);
-    }
-
-    //여행 일정 수정 -> 구현 x
-    @Operation(summary = "여행 일정 수정")
-    @PutMapping("/journeyList/{journeyListId}")
-    public ResponseEntity<ApiResponseDto> updateJourneyList (@PathVariable Long journeyListId, @RequestBody JourneyListRequestDto requestDto) {
-        ApiResponseDto apiResponseDto = adminService.updateJourneyList(journeyListId, requestDto);
-        return new ResponseEntity<>(apiResponseDto, HttpStatus.OK);
-    }
-
-    // 댓글 수정  -> 구현 x
-    @Operation(summary = "댓글 수정")
-    @PutMapping("/comments/{commentId}")
-    public ResponseEntity<ApiResponseDto> updateComment(@PathVariable Long commentId, @RequestBody AdminCommentRequestDto requestDto) {
-        ApiResponseDto apiResponseDto = adminService.updateComment(commentId, requestDto);
         return new ResponseEntity<>(apiResponseDto, HttpStatus.OK);
     }
 
@@ -154,9 +138,37 @@ public class AdminController {
 
     // 후기 글 삭제
     @Operation(summary = "리뷰 글 삭제")
-    @DeleteMapping("/reviewPosts/{reviewPostId}")
+    @DeleteMapping("/review-posts/{reviewPostId}")
     public ResponseEntity<ApiResponseDto> deleteReviewPost(@PathVariable Long reviewPostId) {
         ApiResponseDto apiResponseDto = adminService.deleteReviewPost(reviewPostId);
+        return new ResponseEntity<>(apiResponseDto, HttpStatus.OK);
+    }
+
+    /**
+     * 백오피스에서 굳이 필요한 기능인지 몰라서 일단 보류하는 기능들
+     */
+
+    // 게시글 수정 -> 구현 x
+    @Operation(summary = "게시글 수정")
+    @PutMapping("/posts/{postId}")
+    public ResponseEntity<ApiResponseDto> updatePost(@PathVariable Long postId, @RequestBody PostRequestDto requestDto) {
+        ApiResponseDto apiResponseDto = adminService.updatePost(postId, requestDto);
+        return new ResponseEntity<>(apiResponseDto, HttpStatus.OK);
+    }
+
+    //여행 일정 수정 -> 구현 x
+    @Operation(summary = "여행 일정 수정")
+    @PutMapping("/journeyList/{journeyListId}")
+    public ResponseEntity<ApiResponseDto> updateJourneyList (@PathVariable Long journeyListId, @RequestBody JourneyListRequestDto requestDto) {
+        ApiResponseDto apiResponseDto = adminService.updateJourneyList(journeyListId, requestDto);
+        return new ResponseEntity<>(apiResponseDto, HttpStatus.OK);
+    }
+
+    // 댓글 수정  -> 구현 x
+    @Operation(summary = "댓글 수정")
+    @PutMapping("/comments/{commentId}")
+    public ResponseEntity<ApiResponseDto> updateComment(@PathVariable Long commentId, @RequestBody AdminCommentRequestDto requestDto) {
+        ApiResponseDto apiResponseDto = adminService.updateComment(commentId, requestDto);
         return new ResponseEntity<>(apiResponseDto, HttpStatus.OK);
     }
 }

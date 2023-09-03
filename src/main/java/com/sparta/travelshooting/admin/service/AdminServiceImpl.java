@@ -52,7 +52,10 @@ public class AdminServiceImpl implements AdminService {
     //총 유저 수, 총 게시글 수 , 총 댓글 수 조회
     @Override
     public AdminSummaryResponseDto showSummary() {
-        return new AdminSummaryResponseDto(userRepository.count(), postRepository.count(), commentRepository.count());
+        return new AdminSummaryResponseDto(userRepository.count(),
+                postRepository.count() + reviewPostRepository.count(),
+                commentRepository.count()
+        );
     }
 
     // 전체 유저 정보 조회 -> 추후 QueryDsl로 수정 예정
@@ -71,6 +74,13 @@ public class AdminServiceImpl implements AdminService {
         return posts.stream()
                 .map(PostResponseDto::new)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<PostResponseDto> showReviewPosts() {
+        return reviewPostRepository.findAll().stream()
+                .map(PostResponseDto::new)
+                .toList();
     }
 
     // 유저 정보 수정
@@ -246,7 +256,7 @@ public class AdminServiceImpl implements AdminService {
         images.clear();
 
         reviewPostRepository.delete(reviewPost.get());
-        return new ApiResponseDto("대댓글 삭제 성공", HttpStatus.OK.value());
+        return new ApiResponseDto("게시글 삭제 성공", HttpStatus.OK.value());
     }
 
     @Override

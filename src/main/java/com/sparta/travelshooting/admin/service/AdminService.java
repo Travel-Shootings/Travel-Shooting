@@ -25,6 +25,8 @@ public interface AdminService {
     // 글 전체 조회
     List<PostResponseDto> showPosts();
 
+    List<PostResponseDto> showReviewPosts();
+
     // 유저 정보 수정
     ApiResponseDto updateUser(Long userId, AdminProfileRequestDto requestDto);
 
