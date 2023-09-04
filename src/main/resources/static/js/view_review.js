@@ -1,16 +1,11 @@
-const urlParams = new URLSearchParams(window.location.search);
 const postTitleElement = document.getElementById('post-title');
 const postContentElement = document.getElementById('post-content');
-const imageContainer = document.getElementById('image-container'); // 이미지를 표시할 컨테이너
-const deleteButton = document.getElementById('delete-button'); // 삭제 버튼
+const imageContainer = document.getElementById('image-container');
+const deleteButton = document.getElementById('delete-button');
 const editButton = document.getElementById('edit-button');
-// 좋아요 버튼 요소를 가져옵니다.
 const likeButton = document.getElementById('like-button');
-
-// URL 경로에서 reviewPostId 추출
 const reviewPostId = window.location.pathname.split('/').pop();
 
-// 서버에서 게시물 데이터 조회
 async function fetchPostData() {
     try {
         const response = await fetch(`/api/review-posts/${reviewPostId}`);
@@ -23,17 +18,48 @@ async function fetchPostData() {
     }
 }
 
-// 이미지 데이터를 화면에 표시하는 함수
 function renderImages(imageUrls) {
     for (const imageUrl of imageUrls) {
         const imageElement = document.createElement('img');
         imageElement.src = imageUrl;
-        imageElement.classList.add('post-image'); // 이미지 스타일을 위한 클래스 추가
+        imageElement.classList.add('post-image');
         imageContainer.appendChild(imageElement);
     }
 }
 
-// 페이지 로드 시 게시물 데이터 조회 및 화면에 표시
+function renderComments(comments) {
+    const commentList = document.getElementById('comment-list');
+    commentList.innerHTML = '';
+
+    for (const comment of comments) {
+        const commentElement = document.createElement('li');
+        commentElement.classList.add('comment');
+
+        const authorElement = document.createElement('div');
+        authorElement.textContent = `작성자: ${comment.nickName}`;
+        commentElement.appendChild(authorElement);
+
+        const contentElement = document.createElement('div');
+        contentElement.textContent = comment.content;
+        commentElement.appendChild(contentElement);
+
+        const editButton = document.createElement('button');
+        editButton.textContent = '수정';
+        editButton.classList.add('edit-comment-button');
+        editButton.setAttribute('data-comment-id', comment.id);
+        editButton.setAttribute('data-comment-content', comment.content);
+        commentElement.appendChild(editButton);
+
+        const deleteButton = document.createElement('button');
+        deleteButton.textContent = '삭제';
+        deleteButton.classList.add('delete-comment-button');
+        deleteButton.setAttribute('data-comment-id', comment.id);
+        commentElement.appendChild(deleteButton);
+
+        commentList.appendChild(commentElement);
+    }
+}
+
 async function init() {
     const postData = await fetchPostData();
 
@@ -41,27 +67,21 @@ async function init() {
         postTitleElement.textContent = postData.title;
         postContentElement.textContent = postData.content;
 
-        // 이미지 URL 정보를 이용해 이미지를 화면에 표시
         renderImages(postData.imageUrls);
 
-        // 좋아요 수를 가져와서 UI에 표시
         const likeCountElement = document.getElementById('like-count');
         likeCountElement.textContent = postData.likeCounts;
 
-        const imageElements = document.querySelectorAll('.post-image');
-        for (const imageElement of imageElements) {
-            imageElement.style.width = '300px';
-            imageElement.style.height = '200px';
-            imageElement.style.marginBottom = '20px';
-        }
+        updateLikeButton(postData.isLiked);
 
-        // 삭제 버튼 이벤트 핸들러 등록
         deleteButton.addEventListener('click', deleteReviewPost);
 
-        // 수정 버튼 이벤트 핸들러 등록
         editButton.addEventListener('click', () => {
             window.location.href = `/view/review-post/update/${reviewPostId}`;
         });
+
+        // 댓글 정보 표시
+        renderComments(postData.commentList);
 
     } else {
         postTitleElement.textContent = 'Error';
@@ -86,10 +106,10 @@ async function deleteReviewPost() {
                 const data = await response.json();
                 if (data.status === 200) {
                     alert('게시글이 삭제되었습니다.');
-                    window.location.href = '/view/review-post';
                 } else {
                     alert(data.message);
                 }
+                window.location.href = '/view/review-post';
             } else {
                 console.error('Error deleting review post:', response.statusText);
             }
@@ -98,36 +118,13 @@ async function deleteReviewPost() {
         }
     }
 }
+
 // 좋아요 버튼의 텍스트를 업데이트하는 함수
 function updateLikeButton(isLiked) {
     if (isLiked) {
         likeButton.textContent = '좋아요 취소';
     } else {
         likeButton.textContent = '좋아요';
-    }
-}
-// 페이지 로드 시 게시물 데이터 조회 및 화면에 표시
-async function init() {
-    const postData = await fetchPostData();
-
-    if (postData) {
-        postTitleElement.textContent = postData.title;
-        postContentElement.textContent = postData.content;
-
-        // 이미지 URL 정보를 이용해 이미지를 화면에 표시
-        renderImages(postData.imageUrls);
-
-        // 좋아요 수를 가져와서 UI에 표시
-        const likeCountElement = document.getElementById('like-count');
-        likeCountElement.textContent = postData.likeCounts;
-
-        // 버튼 업데이트
-        updateLikeButton(postData.isLiked); // postData에서 좋아요 상태를 가져와 업데이트
-
-        // ...
-    } else {
-        postTitleElement.textContent = 'Error';
-        postContentElement.textContent = 'Failed to load post data.';
     }
 }
 
@@ -233,38 +230,6 @@ commentForm.addEventListener('submit', async (e) => {
 
 const commentsApiUrl = `/api/comments/reviewPost/${reviewPostId}`;
 
-function renderComments(comments) {
-    const commentList = document.getElementById('comment-list');
-    commentList.innerHTML = '';
-
-    for (const comment of comments) {
-        const commentElement = document.createElement('li');
-        commentElement.classList.add('comment');
-
-        const authorElement = document.createElement('div');
-        authorElement.textContent = `작성자: ${comment.nickName}`;
-        commentElement.appendChild(authorElement);
-
-        const contentElement = document.createElement('div');
-        contentElement.textContent = comment.content;
-        commentElement.appendChild(contentElement);
-
-        const editButton = document.createElement('button');
-        editButton.textContent = '수정';
-        editButton.classList.add('edit-comment-button');
-        editButton.setAttribute('data-comment-id', comment.id);
-        editButton.setAttribute('data-comment-content', comment.content);
-        commentElement.appendChild(editButton);
-
-        const deleteButton = document.createElement('button');
-        deleteButton.textContent = '삭제'; // 삭제 버튼 추가
-        deleteButton.classList.add('delete-comment-button'); // 삭제 버튼 클래스 추가
-        deleteButton.setAttribute('data-comment-id', comment.id); // 삭제 버튼에 댓글 ID 속성 추가
-        commentElement.appendChild(deleteButton);
-
-        commentList.appendChild(commentElement);
-    }
-}
 
 async function fetchComments() {
     try {

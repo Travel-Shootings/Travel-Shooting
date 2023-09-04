@@ -21,16 +21,16 @@ public class NotificationController {
     private final NotificationService notificationService;
 
     // 확인하지 않은 알림 조회 API
-    @GetMapping("/uncheck")
-    public ResponseEntity<List<NotificationResponseDto>> uncheckedNotifications(@AuthenticationPrincipal UserDetailsImpl userDetails) {
-        List<NotificationResponseDto> notifications = notificationService.getUncheckedNotifications(userDetails.getUser());
+    @GetMapping("/{userId}/uncheck")
+    public ResponseEntity<List<NotificationResponseDto>> uncheckedNotifications(@PathVariable Long userId) {
+        List<NotificationResponseDto> notifications = notificationService.getUncheckedNotifications(userId);
         return new ResponseEntity<>(notifications, HttpStatus.OK);
     }
 
     // 확인한 알림 조회 API
-    @GetMapping("/check")
-    public ResponseEntity<List<NotificationResponseDto>> checkedNotifications(@AuthenticationPrincipal UserDetailsImpl userDetails) {
-        List<NotificationResponseDto> notifications = notificationService.getCheckedNotifications(userDetails.getUser());
+    @GetMapping("/{userId}/check")
+    public ResponseEntity<List<NotificationResponseDto>> checkedNotifications(@PathVariable Long userId) {
+        List<NotificationResponseDto> notifications = notificationService.getCheckedNotifications(userId);
         return new ResponseEntity<>(notifications, HttpStatus.OK);
     }
 
@@ -42,9 +42,9 @@ public class NotificationController {
     }
 
     // 확인한 알림 삭제 API
-    @DeleteMapping("/check/delete")
-    public ResponseEntity<ApiResponseDto> deleteNotification(@AuthenticationPrincipal UserDetailsImpl userDetails) {
-        ApiResponseDto apiResponseDto = notificationService.deleteNotification(userDetails.getUser());
+    @DeleteMapping("/{userId}/check/delete")
+    public ResponseEntity<ApiResponseDto> deleteNotification(@PathVariable Long userId) {
+        ApiResponseDto apiResponseDto = notificationService.deleteNotification(userId);
         return new ResponseEntity<>(apiResponseDto, HttpStatus.OK);
     }
 }

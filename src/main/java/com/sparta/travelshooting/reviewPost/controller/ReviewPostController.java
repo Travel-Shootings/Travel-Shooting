@@ -1,6 +1,7 @@
 package com.sparta.travelshooting.reviewPost.controller;
 
 import com.sparta.travelshooting.common.ApiResponseDto;
+import com.sparta.travelshooting.reviewPost.dto.ReviewPostListResponseDto;
 import com.sparta.travelshooting.reviewPost.dto.ReviewPostRequestDto;
 import com.sparta.travelshooting.reviewPost.dto.ReviewPostResponseDto;
 import com.sparta.travelshooting.reviewPost.service.ReviewPostService;
@@ -67,8 +68,8 @@ public class ReviewPostController {
 
     // 후기 게시글 전체 조회
     @GetMapping
-    public ResponseEntity<List<ReviewPostResponseDto>> getAllReviewPosts() {
-        List<ReviewPostResponseDto> responseDto = reviewPostService.getAllReviewPosts();
+    public ResponseEntity<List<ReviewPostListResponseDto>> getAllReviewPosts() {
+        List<ReviewPostListResponseDto> responseDto = reviewPostService.getAllReviewPosts();
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
 

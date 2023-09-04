@@ -9,10 +9,17 @@ import java.util.List;
 public interface NotificationService {
     /**
      * 읽지않은 알림 조회 API
-     * @param user 로그인 된 유저 정보
+     * @param userId 유저 정보
      * @return 읽지않은 알림 List
      */
-    List<NotificationResponseDto> getUncheckedNotifications(User user);
+    List<NotificationResponseDto> getUncheckedNotifications(Long userId);
+
+    /**
+     * 읽은 알림 조회 API
+     * @param userId 유저 정보
+     * @return 읽은 알림 List
+     */
+    List<NotificationResponseDto> getCheckedNotifications(Long userId);
 
     /**
      * 알림 확인 API
@@ -22,16 +29,9 @@ public interface NotificationService {
     ApiResponseDto readNotification(Long notificationId);
 
     /**
-     * 읽은 알림 조회 API
-     * @param user 로그인 된 유저 정보
-     * @return 읽은 알림 List
-     */
-    List<NotificationResponseDto> getCheckedNotifications(User user);
-
-    /**
      * 읽은 알림 삭제 API
-     * @param user 로그인 된 유저 정보
+     * @param userId 유저 정보
      * @return 알림 삭제
      */
-    ApiResponseDto deleteNotification(User user);
+    ApiResponseDto deleteNotification(Long userId);
 }

@@ -22,7 +22,4 @@ public interface CommentService {
     //댓글 삭제
     ApiResponseDto deleteComment(Long id, User user);
 
-    List<CommentResponseDto> getCommentsForReviewPost(Long reviewPostId);
-
-    List<CommentResponseDto> getCommentsForPost(Long postId);
 }

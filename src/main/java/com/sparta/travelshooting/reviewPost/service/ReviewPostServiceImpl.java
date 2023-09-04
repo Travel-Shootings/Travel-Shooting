@@ -4,6 +4,7 @@ import com.sparta.travelshooting.S3Image.entity.Image;
 import com.sparta.travelshooting.S3Image.repository.ImageRepository;
 import com.sparta.travelshooting.S3Image.service.ImageService;
 import com.sparta.travelshooting.common.ApiResponseDto;
+import com.sparta.travelshooting.reviewPost.dto.ReviewPostListResponseDto;
 import com.sparta.travelshooting.reviewPost.dto.ReviewPostRequestDto;
 import com.sparta.travelshooting.reviewPost.dto.ReviewPostResponseDto;
 import com.sparta.travelshooting.reviewPost.entity.ReviewPost;
@@ -158,10 +159,10 @@ public class ReviewPostServiceImpl implements ReviewPostService {
 
     //게시글 전체 조회
     @Override
-    public List<ReviewPostResponseDto> getAllReviewPosts() {
+    public List<ReviewPostListResponseDto> getAllReviewPosts() {
         List<ReviewPost> reviewPosts = reviewPostRepository.findAll();
         return reviewPosts.stream()
-                .map(ReviewPostResponseDto::new)
+                .map(ReviewPostListResponseDto::new)
                 .collect(Collectors.toList());
     }
 

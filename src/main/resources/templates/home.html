@@ -33,6 +33,7 @@
 
 <!--유저의 role 확인-->
 <div id="user-role" th:data="${role}"></div>
+<div id="user-id" th:data="${userId}"></div>
 
 <!--데스크탑 메뉴바-->
 <div class="navbar-fixed">
@@ -49,11 +50,10 @@
                         <a href="#search">Search</a>
                     </li>
                     <li>
-                        <a href="#popular">Popular Places</a>
+                        <a href="#popular">Plan</a>
                     </li>
                     <li>
-                        <a href="/view/review-post">Gallery</a>
-
+                        <a href="#gallery">Reviews</a>
                     </li>
                     <li>
                         <a href="#contact">Contact</a>
@@ -75,6 +75,23 @@
                            aria-controls="offcanvasUser">
                             My Profile
                         </a>
+                    </li>
+                    <li>
+                    <li id="notification-btn" style="display: none">
+                        <a href="#">
+                            <i class="fas fa-bell"></i>
+                        </a>
+                        <div id="notification-popup" class="popup">
+                            <!-- 팝업 내용을 이곳에 추가하세요 -->
+                            <div id="notification-box">
+                                <div><a href="#">알림 1</a></div>
+                                <div><a href="#">알림 2</a></div>
+                                <div><a href="#">알림 3</a></div>
+                            </div>
+                            <a href="/view/notifications">
+                                <button class="btn user-menu-btn" id="notification-detail-btn">알림 상세</button>
+                            </a>
+                        </div>
                     </li>
                 </ul>
             </div>
@@ -222,30 +239,35 @@
         <li>
             <img src="https://image.ibb.co/hbEMux/resort1.jpg" alt="">
             <div class="caption center-align">
-                <h2>Take Your Dream Vacation</h2>
-                <h5 class="light grey-text text-lighten-3 hide-on-small-only">Lorem ipsum dolor sit amet consectetur
-                    adipisicing elit. Veniam non illo earum cumque id est!</h5>
-                <a href="#" class="btn btn-large">Learn More</a>
+                <h2>환영합니다!</h2>
+                <h5 class="light grey-text text-lighten-3 hide-on-small-only">
+                    Travel-Shooting에서 국내 여행의 모든 것을 느껴보세요!
+                </h5>
             </div>
         </li>
-        <li>
-            <img src="https://image.ibb.co/mn1egc/resort2.jpg" alt="">
-            <div class="caption left-align">
-                <h2>We Work With All Budgets</h2>
-                <h5 class="light grey-text text-lighten-3 hide-on-small-only">Lorem ipsum dolor sit amet consectetur
-                    adipisicing elit. Veniam non illo earum cumque id est!</h5>
-                <a href="#" class="btn btn-large">Learn More</a>
-            </div>
-        </li>
+        <!--여행 계획 페이지로 이동하기 -->
         <li>
             <img src="https://image.ibb.co/mbCVnH/resort3.jpg" alt="">
             <div class="caption right-align">
-                <h2>Group & Individual Getaways</h2>
-                <h5 class="light grey-text text-lighten-3 hide-on-small-only">Lorem ipsum dolor sit amet consectetur
-                    adipisicing elit. Veniam non illo earum cumque id est!</h5>
-                <a href="#" class="btn btn-large">Learn More</a>
+                <h2>여행 일정 공유</h2>
+                <h5 class="light grey-text text-lighten-3 hide-on-small-only">
+                    자신의 여행 일정을 공유하고 피드백을 받고 싶으면 계획 게시판을 이용하세요!
+                </h5>
+                <a href="#" class="btn btn-large">계획 게시판</a>
             </div>
         </li>
+        <!--여행 후기 페이지로 이동하기-->
+        <li>
+            <img src="https://image.ibb.co/mn1egc/resort2.jpg" alt="">
+            <div class="caption left-align">
+                <h2>여행 후기</h2>
+                <h5 class="light grey-text text-lighten-3 hide-on-small-only">
+                    국내 여행의 생생한 후기들을 알아보고 싶으면 후기 게시판을 이용하세요!
+                </h5>
+                <a href="/view/review-post" class="btn btn-large">후기 게시판</a>
+            </div>
+        </li>
+
     </ul>
 </section>
 
@@ -264,89 +286,70 @@
     </div>
 </section>
 
-<!-- Section: Icon Boxes -->
-<section class="section section-icons grey lighten-4 center">
-    <div class="container">
-        <div class="row">
-            <div class="col s12 m4">
-                <div class="card-panel">
+<!--&lt;!&ndash; Section: Icon Boxes &ndash;&gt;-->
+<!--<section class="section section-icons grey lighten-4 center">-->
+<!--    <div class="container">-->
+<!--        <div class="row">-->
+<!--            <div class="col s12 m4">-->
+<!--                <div class="card-panel">-->
 <!--                    <i class="material-icons large teal-text">room</i>-->
-                    <h4>Pick Where</h4>
-                    <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quidem, velit.</p>
-                </div>
-            </div>
-            <div class="col s12 m4">
-                <div class="card-panel">
+<!--                    <h4>Pick Where</h4>-->
+<!--                    <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quidem, velit.</p>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div class="col s12 m4">-->
+<!--                <div class="card-panel">-->
 <!--                    <i class="material-icons large teal-text">store</i>-->
-                    <h4>Travel Shop</h4>
-                    <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quidem, velit.</p>
-                </div>
-            </div>
-            <div class="col s12 m4">
-                <div class="card-panel">
+<!--                    <h4>Travel Shop</h4>-->
+<!--                    <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quidem, velit.</p>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div class="col s12 m4">-->
+<!--                <div class="card-panel">-->
 <!--                    <i class="material-icons large teal-text">airplanemode_active</i>-->
-                    <h4>Fly Cheap</h4>
-                    <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quidem, velit.</p>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
+<!--                    <h4>Fly Cheap</h4>-->
+<!--                    <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quidem, velit.</p>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</section>-->
 
 <!-- Section: Popular -->
 <section id="popular" class="section section-popular scrollspy">
     <div class="container">
         <div class="row">
             <h4 class="center">
-                <span class="teal-text">Popular</span> Places</h4>
-            <div class="col s12 m4">
-                <div class="card">
-                    <div class="card-image">
-                        <img src="https://image.ibb.co/hbEMux/resort1.jpg" alt="">
-                        <span class="card-title">Cancun, Mexico</span>
-                    </div>
-                    <div class="card-content">
-                        <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptas aliquid fugiat corporis
-                            laudantium, architecto
-                            delectus?
-                        </p>
-                    </div>
-                </div>
-            </div>
-            <div class="col s12 m4">
-                <div class="card">
-                    <div class="card-image">
-                        <img src="https://image.ibb.co/mn1egc/resort2.jpg" alt="">
-                        <span class="card-title">The Bahamas</span>
-                    </div>
-                    <div class="card-content">
-                        <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptas aliquid fugiat corporis
-                            laudantium, architecto
-                            delectus?
-                        </p>
-                    </div>
-                </div>
-            </div>
-            <div class="col s12 m4">
-                <div class="card">
-                    <div class="card-image">
-                        <img src="https://image.ibb.co/mbCVnH/resort3.jpg" alt="">
-                        <span class="card-title">Nova Scotia</span>
-                    </div>
-                    <div class="card-content">
-                        <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptas aliquid fugiat corporis
-                            laudantium, architecto
-                            delectus?
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col s12 center">
-                <a href="#contact" class="btn btn-large grey darken-3">
-                    <i class="material-icons left">send</i> Contact For Booking
+                <a href="/view/post">
+                    <span class="teal-text">Plan</span>
                 </a>
+            </h4>
+            <div class="col s12 m4">
+                <div class="card">
+                    <div class="card-panel">
+                        <i class="material-icons large teal-text">room</i>
+                        <h4>Pick Where</h4>
+                        <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quidem, velit.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col s12 m4">
+                <div class="card">
+                    <div class="card-panel">
+                        <i class="material-icons large teal-text">store</i>
+                        <h4>Travel Shop</h4>
+                        <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quidem, velit.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col s12 m4">
+                <div class="card">
+                    <div class="card-panel">
+                        <i class="material-icons large teal-text">airplanemode_active</i>
+                        <h4>Fly Cheap</h4>
+                        <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quidem, velit.</p>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -383,7 +386,9 @@
 <section id="gallery" class="section section-gallery scrollspy">
     <div class="container">
         <h4 class="center">
-            <span class="teal-text">Photo </span> Gallery
+            <a href="/view/review-post">
+                <span class="teal-text">Reviews</span>
+            </a>
         </h4>
         <div class="row">
             <div class="col s12 m3">
@@ -434,53 +439,53 @@
     </div>
 </section>
 
-<!--&lt;!&ndash; Section: Contact &ndash;&gt;-->
-<!--<section id="contact" class="section section-contact scrollspy">-->
-<!--    <div class="container">-->
-<!--        <div class="row">-->
-<!--            <div class="col s12 m6">-->
-<!--                <div class="card-panel teal white-text center">-->
-<!--                    <i class="material-icons medium">email</i>-->
-<!--                    <h5>Contact Us For Booking</h5>-->
-<!--                    <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Repellendus sed praesentium delectus.-->
-<!--                        Sit, mollitia-->
-<!--                        quo. Veniam repellat voluptas ipsum doloremque?</p>-->
-<!--                </div>-->
-<!--                <ul class="collection with-header">-->
-<!--                    <li class="collection-header">-->
-<!--                        <h4>Location</h4>-->
-<!--                    </li>-->
-<!--                    <li class="collection-item">Travel-Shooting Agency</li>-->
-<!--                    <li class="collection-item">555 Beach rd, Suite 33</li>-->
-<!--                    <li class="collection-item">Miami FL, 55555</li>-->
-<!--                </ul>-->
-<!--            </div>-->
-<!--            <div class="col s12 m6">-->
-<!--                <div class="card-panel grey lighten-3">-->
-<!--                    <h5>Please fill out this form</h5>-->
-<!--                    <div class="input-field">-->
-<!--                        <input type="text" placeholder="Name" id="name">-->
-<!--                        <label for="name">Name</label>-->
-<!--                    </div>-->
-<!--                    <div class="input-field">-->
-<!--                        <input type="email" placeholder="Email" id="email">-->
-<!--                        <label for="email">Email</label>-->
-<!--                    </div>-->
-<!--                    <div class="input-field">-->
-<!--                        <input type="text" placeholder="Phone" id="phone">-->
-<!--                        <label for="phone">Phone</label>-->
-<!--                    </div>-->
-<!--                    <div class="input-field">-->
-<!--                        <textarea class="materialize-textarea" placeholder="Enter Contact Message"-->
-<!--                                  id="contact-message"></textarea>-->
-<!--                        <label for="contact-message">Contact Message</label>-->
-<!--                    </div>-->
-<!--                    <input type="submit" value="Submit" class="btn">-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--</section>-->
+<!-- Section: Contact -->
+<section id="contact" class="section section-contact scrollspy">
+    <div class="container">
+        <div class="row">
+            <div class="col s12 m6">
+                <div class="card-panel teal white-text center">
+                    <i class="material-icons medium">email</i>
+                    <h5>Contact Us For Booking</h5>
+                    <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Repellendus sed praesentium delectus.
+                        Sit, mollitia
+                        quo. Veniam repellat voluptas ipsum doloremque?</p>
+                </div>
+                <ul class="collection with-header">
+                    <li class="collection-header">
+                        <h4>Location</h4>
+                    </li>
+                    <li class="collection-item">Travel-Shooting Agency</li>
+                    <li class="collection-item">555 Beach rd, Suite 33</li>
+                    <li class="collection-item">Miami FL, 55555</li>
+                </ul>
+            </div>
+            <div class="col s12 m6">
+                <div class="card-panel grey lighten-3">
+                    <h5>Please fill out this form</h5>
+                    <div class="input-field">
+                        <input type="text" placeholder="Name" id="name">
+                        <label for="name">Name</label>
+                    </div>
+                    <div class="input-field">
+                        <input type="email" placeholder="Email" id="email">
+                        <label for="email">Email</label>
+                    </div>
+                    <div class="input-field">
+                        <input type="text" placeholder="Phone" id="phone">
+                        <label for="phone">Phone</label>
+                    </div>
+                    <div class="input-field">
+                        <textarea class="materialize-textarea" placeholder="Enter Contact Message"
+                                  id="contact-message"></textarea>
+                        <label for="contact-message">Contact Message</label>
+                    </div>
+                    <input type="submit" value="Submit" class="btn">
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 
 <!-- Footer -->
 <footer class="section teal darken-2 white-text center">
@@ -497,5 +502,5 @@
 <script src="/js/chat.js"></script>
 
 <!--live server JS-->
-<!--<script src="/static/js/home.js"></script>-->
+<script src="/static/js/home.js"></script>
 </html>
