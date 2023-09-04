@@ -2,6 +2,7 @@ package com.sparta.travelshooting.reviewPost.dto;
 
 
 import com.sparta.travelshooting.S3Image.entity.Image;
+import com.sparta.travelshooting.comment.dto.CommentResponseDto;
 import com.sparta.travelshooting.reviewPost.entity.ReviewPost;
 import lombok.Getter;
 import lombok.Setter;
@@ -20,6 +21,7 @@ public class ReviewPostResponseDto {
     private List<String> imageUrls;
     private Integer likeCounts;
     private LocalDateTime createdAt;
+    private List<CommentResponseDto> commentList;
 
 
     public ReviewPostResponseDto(ReviewPost reviewPost){
@@ -32,6 +34,9 @@ public class ReviewPostResponseDto {
                 .map(Image::getAccessUrl)
                 .collect(Collectors.toList());
         this.createdAt = reviewPost.getCreatedAt();
+        this.commentList = reviewPost.getComments().stream()
+                .map(CommentResponseDto::new)
+                .toList();
     }
 }
 
