@@ -1,6 +1,7 @@
 package com.sparta.travelshooting.reviewPost.service;
 
 import com.sparta.travelshooting.common.ApiResponseDto;
+import com.sparta.travelshooting.reviewPost.dto.ReviewPostListResponseDto;
 import com.sparta.travelshooting.reviewPost.dto.ReviewPostRequestDto;
 import com.sparta.travelshooting.reviewPost.dto.ReviewPostResponseDto;
 import com.sparta.travelshooting.user.entity.User;
@@ -22,7 +23,7 @@ public interface ReviewPostService {
     ReviewPostResponseDto getReviewPost(Long reviewPostId);
 
     //후기 게시글 전체 조회
-    List<ReviewPostResponseDto> getAllReviewPosts();
+    List<ReviewPostListResponseDto> getAllReviewPosts();
 
     //후기 게시글 좋아요
     ApiResponseDto addLike(Long reviewPostId, User user);
