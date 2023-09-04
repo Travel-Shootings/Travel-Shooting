@@ -15,6 +15,8 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/api/comments")
@@ -25,8 +27,8 @@ public class CommentController {
 
     // 여행 계획 게시판 댓글 생성
     @Operation(summary = "여행 계획 게시판 댓글 생성")
-    @PostMapping("/post")
-    public ResponseEntity<CommentResponseDto> createComment(@RequestParam Long postId, @RequestBody CommentRequestDto commentRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+    @PostMapping("/post/{postId}")
+    public ResponseEntity<CommentResponseDto> createComment(@PathVariable Long postId, @RequestBody CommentRequestDto commentRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         CommentResponseDto responseDto = commentService.createComment(postId, commentRequestDto, userDetails.getUser());
         return new ResponseEntity<>(responseDto, HttpStatus.CREATED);
     }
@@ -34,8 +36,8 @@ public class CommentController {
 
     // 여행 후기 게시판 댓글 생성
     @Operation(summary = "여행 후기 게시판 댓글 생성")
-    @PostMapping("/reviewPost")
-    public ResponseEntity<CommentResponseDto> createCommentReview(@RequestParam Long reviewPostId, @RequestBody CommentRequestDto commentRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+    @PostMapping("/reviewPost/{reviewPostId}")
+    public ResponseEntity<CommentResponseDto> createCommentReview(@PathVariable Long reviewPostId, @RequestBody CommentRequestDto commentRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         CommentResponseDto responseDto = commentService.createCommentReview(reviewPostId, commentRequestDto, userDetails.getUser());
         return new ResponseEntity<>(responseDto, HttpStatus.CREATED);
     }
@@ -58,4 +60,20 @@ public class CommentController {
         ApiResponseDto responseDto = commentService.deleteComment(commentId, userDetails.getUser());
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
+
+
+    //여행 계획 게시판 댓글 조회
+    @GetMapping("/post/{postId}")
+    public ResponseEntity<List<CommentResponseDto>> getCommentsForPost(@PathVariable Long postId) {
+        List<CommentResponseDto> comments = commentService.getCommentsForPost(postId);
+        return new ResponseEntity<>(comments, HttpStatus.OK);
+    }
+
+    //여행 후기 게시판 댓글 조회
+    @GetMapping("/reviewPost/{reviewPostId}")
+    public ResponseEntity<List<CommentResponseDto>> getCommentsForReviewPost(@PathVariable Long reviewPostId) {
+        List<CommentResponseDto> comments = commentService.getCommentsForReviewPost(reviewPostId);
+        return new ResponseEntity<>(comments, HttpStatus.OK);
+    }
+
 }

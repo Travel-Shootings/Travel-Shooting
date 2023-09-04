@@ -148,3 +148,21 @@ button:hover {
 .comment p {
     margin: 0;
 }
+
+/* 댓글 컨테이너 스타일 */
+#comments-container {
+    max-height: 300px; /* 원하는 높이로 설정 */
+    overflow-y: auto;
+    padding: 20px; /* 댓글 목록에 패딩을 추가하여 간격을 확보합니다. */
+}
+
+/* 댓글 입력 창 스타일 */
+#comment-form {
+    margin-top: 20px;
+    margin-bottom: 0; /* 댓글 입력 창과 댓글 목록 사이 간격 조절 */
+    padding: 20px; /* 댓글 입력 창에 패딩을 추가하여 간격을 확보합니다. */
+    background-color: #f0f8ea;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
