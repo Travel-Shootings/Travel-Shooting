@@ -1,3 +1,55 @@
+const postId = window.location.pathname.split('/').pop();
+$(document).ready(function () {
+    loadPostandJourneyList()
+});
+
+function loadPostandJourneyList () {
+    fetch('/api/posts/' + postId, {
+        method: 'GET',
+        headers: {'Content-Type': 'application/json'}
+    })
+        .then(response => {
+            if (!response.ok) {
+                alert('해당 게시물은 존재하지 않습니다.');
+                window.location.href = "/view/post"
+            }
+            return response.json();
+        })
+        .then(data => {
+            // title과 contents 업데이트
+            $('#title').val(data.title);
+            $('#contents').val(data.contents);
+
+            // 이하 JourneyList 데이터를 업데이트
+            data.journeyList.forEach(journey => {
+                const newRow = `<tr>
+                    <td class="id" style="display:none;"></td>
+                    <td class="place">${journey.locations}</td>
+                    <td class="budget">${journey.budget}</td>
+                    <td class="formattedStartJourney">${journey.startJourney}</td>
+                    <td class="formattedEndJourney">${journey.endJourney}</td>
+                    <td class="members">${journey.members}</td>
+                    <td class="startJourney" style="display: none;">${journey.startJourney}</td>
+                    <td class="endJourney" style="display: none;">${journey.endJourney}</td>
+                    <td class="placeAddress" style="display: none;">${journey.placeAddress}</td>
+                    <td class="edit">
+                        <button class="edit-item-btn" type="button" style="font-size: 15px">Edit</button>
+                    </td>
+                    <td class="remove">
+                        <button class="remove-item-btn" type="button" style="font-size: 15px">Remove</button>
+                    </td>
+                </tr>`;
+
+                // 새로운 행을 추가
+                $('.list').append(newRow);
+            });
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+}
+
+
 $('#search-icon').on('click', function (e) {
     e.preventDefault();
     const location = $('#search-location').val();
@@ -40,8 +92,6 @@ function searchNaver(location) {
     });
 }
 
-
-//지도를 그려주는 함수 실행
 selectMapList();
 
 //검색한 주소의 정보를 insertAddress 함수로 넘겨준다.
@@ -130,7 +180,6 @@ function moveMap(len, lat) {
         map: map
     });
 }
-
 
 // 모달 열기 버튼 클릭시 이벤트 발생
 const btnOpenModal = document.querySelector('.create-journey');
@@ -280,10 +329,6 @@ $(document).on('click', '.select-place-button', function () {
     modal.style.display = 'none';
 });
 
-
-
-
-
 // 최종 게시글 작성 버튼 눌렀을 때 백엔드의 CreatePostAndJourneyList로 보내는 로직
 let idx = {
     init: function () {
@@ -331,18 +376,18 @@ let idx = {
         console.log(data);
 
         $.ajax({
-            type: "POST",
-            url: "/api/posts",
+            type: "PUT",
+            url: "/api/posts/" + postId,
             contentType: "application/json; charset=utf-8",
             data: JSON.stringify(data)
         })
             .done(function () {
-                alert("글 작성 성공");
+                alert("여행 일정 수정 성공");
                 window.location.href = "/view/post";
             })
             .fail(function (response) {
                 console.log(response);
-                alert("글 작성 실패");
+                alert("여행 일정 수정 실패");
             })
     }
 }
@@ -352,63 +397,6 @@ idx.init();
 $(document).ready(function () {
     $("#cancelPost").click(function (e) {
         e.preventDefault(); // 폼의 기본 동작(페이지 새로고침)을 막음
-        window.location.href = "http://localhost:8080/view/home"; // 메인 페이지로 이동
+        window.location.href = "http://localhost:8080/view/post/" + postId; // 메인 페이지로 이동
     });
 });
-
-
-// 현재 문제가 있어서 주석 처리 중
-// $(document).ready(function () {
-//     // 편집 버튼에 대한 클릭 이벤트 핸들러 설정
-//     $(".list").on("click", ".edit-item-btn", function (e) {
-//         e.preventDefault(); // 폼의 기본 동작(페이지 새로고침)을 막음
-//
-//         // 클릭한 편집 버튼이 속한 행을 찾습니다.
-//         const row = $(this).closest("tr");
-//
-//         // 해당 행의 값을 가져와서 모달에 채웁니다.
-//         const location = row.find(".place").text();
-//         const budget = row.find(".budget").text();
-//         const startJourney = row.find(".startJourney").text();
-//         const endJourney = row.find(".endJourney").text();
-//         const members = row.find(".members").text();
-//         const placeAddress = row.find(".placeAddress").text();
-//
-//         // 모달에 값을 채웁니다.
-//         $("#location").val(location);
-//         $("#budget").val(budget);
-//         $("#journeyStartDate").val(startJourney);
-//         $("#journeyEndDate").val(endJourney);
-//         $("#member").val(members);
-//         $("#modaladdress").val(placeAddress);
-//
-//         // 모달을 엽니다.
-//         const modal = document.querySelector('.modal');
-//         modal.style.display = 'flex';
-//
-//         // 저장 버튼에 클릭 이벤트 핸들러를 추가하여 변경된 내용을 테이블에 반영합니다.
-//         $("#post-journey").off("click"); // 이전에 등록된 클릭 핸들러 제거
-//         $("#post-journey").on("click", function (e) {
-//             e.preventDefault();
-//
-//             // 모달에서 변경된 값을 가져옵니다.
-//             const editedLocation = $("#location").val();
-//             const editedBudget = $("#budget").val();
-//             const editedStartJourney = $("#journeyStartDate").val();
-//             const editedEndJourney = $("#journeyEndDate").val();
-//             const editedMembers = $("#member").val();
-//             const editedPlaceAddress = $("#modaladdress").val();
-//
-//             // 테이블에 변경된 값을 반영합니다.
-//             row.find(".place").text(editedLocation);
-//             row.find(".budget").text(editedBudget);
-//             row.find(".startJourney").text(editedStartJourney);
-//             row.find(".endJourney").text(editedEndJourney);
-//             row.find(".members").text(editedMembers);
-//             row.find(".placeAddress").text(editedPlaceAddress);
-//
-//             // 모달을 닫습니다.
-//             modal.style.display = 'none';
-//         });
-//     });
-// });

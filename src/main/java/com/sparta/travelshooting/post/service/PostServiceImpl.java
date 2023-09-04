@@ -85,18 +85,31 @@ public class PostServiceImpl implements PostService {
     @Transactional
     @Override
     public PostResponseDto updatePostAndJourneyList(PostAndJourneyListDto postAndJourneyListDto, Long postId, User user) {
-        Optional<Post> post = postRepository.findById(postId);
-        if (post.isEmpty()) {
+        Optional<Post> findPost = postRepository.findById(postId);
+        if (findPost.isEmpty()) {
             throw new IllegalArgumentException("해당 글은 존재하지 않습니다.");
         }
 
-        if (!post.get().getUser().getId().equals(user.getId())) {
+        if (!findPost.get().getUser().getId().equals(user.getId())) {
             throw new RejectedExecutionException("작성자만 수정 가능합니다");
         }
 
-        post.get().setTitle(postAndJourneyListDto.getPostRequestDto().getTitle());
-        post.get().setContents(postAndJourneyListDto.getPostRequestDto().getContents());
-        return new PostResponseDto(postRepository.save(post.get()));
+        Post post = findPost.get();
+        post.update(postAndJourneyListDto.getPostRequestDto());
+
+        // 기존 여행 일정 데이터 삭제
+        List<JourneyList> journeyList = journeyListRepository.findAllByPostId(postId);
+        journeyListRepository.deleteAll(journeyList);
+
+        // 새로운 여행 일정 데이터 생성 및 저장
+        List<JourneyList> newJourneyList = new ArrayList<>();
+        for (JourneyListRequestDto journeyListDto : postAndJourneyListDto.getJourneyListRequestDtos()) {
+            JourneyList journeyListItem = new JourneyList(journeyListDto, post);
+            newJourneyList.add(journeyListItem);
+        }
+        journeyListRepository.saveAll(newJourneyList);
+
+        return new PostResponseDto(postRepository.save(post));
     }
 
     //게시글과 여행 일정 삭제
