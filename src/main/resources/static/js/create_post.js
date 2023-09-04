@@ -136,7 +136,7 @@ function moveMap(len, lat) {
 const btnOpenModal = document.querySelector('.create-journey');
 btnOpenModal.addEventListener("click", () => {
     // 모달 열기
-    const modal = document.querySelector('.modal');
+    const modal = document.querySelector('.first-modal');
     modal.style.display = "flex";
 });
 
@@ -146,7 +146,7 @@ btnCloseModal.addEventListener('click', function (e) {
     e.preventDefault();
 
     // 모달 닫기
-    const modal = document.querySelector('.modal');
+    const modal = document.querySelector('.first-modal');
     modal.style.display = 'none';
 });
 
@@ -228,7 +228,7 @@ $(document).ready(function () {
         $("#address").val(modaladdress);
         $("#submit").click();
 
-        const modal = document.querySelector('.modal');
+        const modal = document.querySelector('.first-modal');
         modal.style.display = 'none';
     });
 });
