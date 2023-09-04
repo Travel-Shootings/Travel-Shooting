@@ -30,4 +30,7 @@ public interface ReviewPostService {
     //후기 게시글 좋아요 취소
     ApiResponseDto deleteLike(Long ReviewPostId, User user);
 
+    //좋아요 여부 조회
+    boolean hasLiked(Long reviewPostId, Long userId);
+
 }

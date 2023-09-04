@@ -42,6 +42,20 @@
         <button id="delete-button">삭제</button>
     </div>
 </div>
+<div id="comments-container">
+    <h3>댓글</h3>
+    <form id="comment-form">
+        <textarea id="comment-content" placeholder="댓글을 입력하세요..." required></textarea>
+        <button type="submit">댓글 남기기</button>
+    </form>
+    <ul id="comment-list"></ul>
+</div>
+<!-- 댓글 수정 폼 -->
+<div id="comment-edit-form" style="display: none;">
+    <textarea id="edit-comment-content"></textarea>
+    <button id="save-edit-button">저장</button>
+    <button id="cancel-edit-button">취소</button>
+</div>
 <!-- Footer -->
 <footer class="section teal darken-2 white-text center">
     <p class="flow-text">Travel Shooting </p>
