@@ -213,6 +213,11 @@ public class ReviewPostServiceImpl implements ReviewPostService {
 
         return new ApiResponseDto("좋아요 취소 성공", 200);
     }
+
+    //좋아요 여부 조회
+    public boolean hasLiked(Long reviewPostId, Long userId) {
+        return reviewPostLikeRepository.findByReviewPostIdAndUserId(reviewPostId, userId).isPresent();
+    }
 }
 
 

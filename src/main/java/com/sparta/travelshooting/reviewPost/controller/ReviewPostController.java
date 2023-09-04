@@ -85,4 +85,13 @@ public class ReviewPostController {
         ApiResponseDto apiResponseDto = reviewPostService.deleteLike(reviewPostId, userDetails.getUser());
         return new ResponseEntity<>(apiResponseDto, HttpStatus.OK);
     }
+
+    //좋아요 여부 조회
+    @GetMapping("/like/{reviewPostId}")
+    public ResponseEntity<ApiResponseDto> checkLikeStatus(@PathVariable Long reviewPostId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        Long userId = userDetails.getUser().getId();
+        boolean isLiked = reviewPostService.hasLiked(reviewPostId, userId);
+        if (isLiked) {return new ResponseEntity<>(new ApiResponseDto("이미 좋아요를 누른 상태입니다.", 200), HttpStatus.OK);
+        } else {return new ResponseEntity<>(new ApiResponseDto("아직 좋아요를 누르지 않은 상태입니다.", 200), HttpStatus.OK);}
+    }
 }

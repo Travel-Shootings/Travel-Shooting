@@ -98,32 +98,92 @@ async function deleteReviewPost() {
         }
     }
 }
+// 좋아요 버튼의 텍스트를 업데이트하는 함수
+function updateLikeButton(isLiked) {
+    if (isLiked) {
+        likeButton.textContent = '좋아요 취소';
+    } else {
+        likeButton.textContent = '좋아요';
+    }
+}
+// 페이지 로드 시 게시물 데이터 조회 및 화면에 표시
+async function init() {
+    const postData = await fetchPostData();
+
+    if (postData) {
+        postTitleElement.textContent = postData.title;
+        postContentElement.textContent = postData.content;
+
+        // 이미지 URL 정보를 이용해 이미지를 화면에 표시
+        renderImages(postData.imageUrls);
+
+        // 좋아요 수를 가져와서 UI에 표시
+        const likeCountElement = document.getElementById('like-count');
+        likeCountElement.textContent = postData.likeCounts;
+
+        // 버튼 업데이트
+        updateLikeButton(postData.isLiked); // postData에서 좋아요 상태를 가져와 업데이트
+
+        // ...
+    } else {
+        postTitleElement.textContent = 'Error';
+        postContentElement.textContent = 'Failed to load post data.';
+    }
+}
+
 
 // 좋아요 버튼 클릭 이벤트를 처리합니다.
 likeButton.addEventListener('click', async () => {
     try {
-        const response = await fetch(`/api/review-posts/like/${reviewPostId}`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        });
+        const response = await fetch(`/api/review-posts/like/${reviewPostId}`);
+        const data = await response.json();
 
-        if (response.ok) {
-            const data = await response.json();
-            if (data.status === 200) {
-                alert('좋아요가 등록되었습니다.');
+        if (data.message === '이미 좋아요를 누른 상태입니다.') {
+            // 이미 좋아요를 누른 상태이므로 좋아요 취소 요청을 보냅니다.
+            const cancelResponse = await fetch(`/api/review-posts/like/${reviewPostId}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+
+            if (cancelResponse.ok) {
+                const cancelData = await cancelResponse.json();
+                if (cancelData.status === 200) {
+                    alert('좋아요가 취소되었습니다.');
+                } else {
+                    alert(cancelData.message);
+                }
+                window.location.reload();
             } else {
-                alert(data.message);
+                console.error('Error canceling like:', cancelResponse.statusText);
             }
-            window.location.reload();
         } else {
-            console.error('Error adding like:', response.statusText);
+            // 아직 좋아요를 누르지 않은 상태이므로 좋아요 요청을 보냅니다.
+            const likeResponse = await fetch(`/api/review-posts/like/${reviewPostId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+
+            if (likeResponse.ok) {
+                const likeData = await likeResponse.json();
+                if (likeData.status === 200) {
+                    alert('좋아요가 등록되었습니다.');
+                } else {
+                    alert(likeData.message);
+                }
+                window.location.reload();
+            } else {
+                console.error('Error adding like:', likeResponse.statusText);
+            }
         }
     } catch (error) {
-        console.error('Error adding like:', error);
+        console.error('Error handling like:', error);
     }
 });
+
 
 // 리뷰 포스트 댓글 생성 API 엔드포인트
 const apiUrl = `/api/comments/reviewPost/${reviewPostId}`;
