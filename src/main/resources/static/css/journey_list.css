@@ -65,7 +65,20 @@ body {
 
 .btn {
     margin: 10px;
-    min-width: 90px;
+    border-radius: 30px;
+}
+
+.btn.create-journey{
+    margin: 0px;
+    text-align: center;
+    border-radius: 15px;
+    justify-content: center; /* 가로 중앙 정렬 */
+    align-items: center; /* 세로 중앙 정렬 */
+    max-width: 100%;
+    font-weight: bold;
+    font-size: 20px;
+    width: 800px;
+    height: 100px;
 }
 
 .btn.gold {
@@ -140,7 +153,7 @@ body {
 }
 
 
-.add-journey, .btn-open-modal {
+.submit-journey, .btn-open-modal {
     width: 100%; /* 가로 폭을 100%로 설정하여 부모 요소에 맞춤 */
     height: auto; /* 높이를 자동으로 설정하여 내용에 따라 조정 */
     border-radius: 20px;
@@ -154,7 +167,7 @@ body {
     padding: 20px;
 }
 
-.add-journey {
+.submit-journey {
     margin-bottom: 300px;
 }
 

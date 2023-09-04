@@ -81,17 +81,25 @@ public class ViewController {
         return "admin_user_edit_profile";
     }
 
+    //게시글 전체 목록 페이지 이동
+    @GetMapping("/post")
+    public String viewAllPosts() {
+        return "post";
+    }
+
+    //게시글 단건 조회(상세보기) 이동
+    @GetMapping("/post/{postId}")
+    public String showPost () {
+        return "view_post";
+    }
+
     //게시글 작성 페이지로 이동
     @GetMapping("/post/create")
     public String createPost () {
         return "create_post";
     }
 
-    //게시글 단건 조회 페이지로 이동
-    @GetMapping("/post/view")
-    public String showPost () {
-        return "view_post";
-    }
+
 
     //후기게시판 전체조회
     @GetMapping("/review-post")

@@ -106,3 +106,48 @@ let idx = {
 }
 idx.init();
 
+$(document).ready(function () {
+    loadThreePosts()
+});
+
+// JavaScript
+$(document).ready(function () {
+    loadThreePosts();
+});
+
+function loadThreePosts() {
+    fetch('/api/posts/three', {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' }
+    })
+        .then(response => {
+            if (!response.ok) {
+                alert("게시글을 불러오는데 오류가 발생했습니다.");
+                window.location.href = "/view/post";
+            }
+            return response.json();
+        })
+        .then(data => {
+            const cardPanels = document.querySelectorAll('.card-panel');
+
+            // 가져온 데이터를 반복하며 각 요소에 값을 설정합니다.
+            data.forEach((post, index) => {
+                const cardPanel = cardPanels[index];
+                const titleElement = document.querySelectorAll('.card-panel h4')[index];
+                const contentElement = document.querySelectorAll('.card-panel p')[index];
+
+                // titleElement와 contentElement에 데이터를 설정합니다.
+                titleElement.textContent = post.title;
+                contentElement.textContent = post.contents;
+
+                // card-panel을 클릭할 때 상세 페이지로 이동하도록 이벤트 리스너를 추가합니다.
+                cardPanel.addEventListener('click', function () {
+                    window.location.href = `/view/post/${post.id}`;
+                });
+            });
+        })
+        .catch(error => {
+            alert(error.message)
+            console.error('데이터를 불러오는 중 오류 발생:', error);
+        });
+}

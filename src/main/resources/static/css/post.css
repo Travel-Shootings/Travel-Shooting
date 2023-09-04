@@ -7,7 +7,7 @@ section.notice {
     padding: 80px 0;
 }
 
-#create-review-button {
+#create-post-button {
     position: fixed;
     bottom: 200px;
     right: 200px;
@@ -18,12 +18,12 @@ section.notice {
     text-decoration: none;
 }
 
-#create-review-button a {
+#create-post-button a {
     color: white;
     text-decoration: none;
 }
 
-#create-review-button:hover {
+#create-post-button:hover {
     background-color: #2980b9;
 }
 
@@ -67,7 +67,7 @@ section.notice {
 
 /* [여행 후기] 텍스트 스타일 조정 */
 .board-table th.th-title a::before {
-    content: "[여행 후기] "; /* 텍스트 앞에 추가될 내용 */
+    content: "[여행 계획] "; /* 텍스트 앞에 추가될 내용 */
     margin-right: 5px; /* 우측 여백 조정 */
 }
 

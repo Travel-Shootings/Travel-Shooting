@@ -1,9 +1,10 @@
 package com.sparta.travelshooting.post.controller;
 
 import com.sparta.travelshooting.common.ApiResponseDto;
-import com.sparta.travelshooting.post.dto.*;
+import com.sparta.travelshooting.post.dto.PostAndJourneyListDto;
+import com.sparta.travelshooting.post.dto.PostListResponseDto;
+import com.sparta.travelshooting.post.dto.PostResponseDto;
 import com.sparta.travelshooting.post.service.PostService;
-import com.sparta.travelshooting.post.service.PostServiceImpl;
 import com.sparta.travelshooting.security.UserDetailsImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -32,12 +33,19 @@ public class PostController {
         return new ResponseEntity<>(postResponseDto, HttpStatus.CREATED);
     }
 
+    // 3개 게시글 조회(Home 화면)
+    @Operation(summary = "메인 페이지 게시글 3개 출력")
+    @GetMapping("/three")
+    public ResponseEntity<List<PostListResponseDto>> getThreePosts() {
+        List<PostListResponseDto> postResponseDto = postService.getThreePosts();
+        return new ResponseEntity<>(postResponseDto, HttpStatus.OK);
+    }
 
     // 전체 게시글 조회
     @Operation(summary = "전체 게시글과 여행일정 조회")
     @GetMapping()
-    public ResponseEntity<List<PostResponseDto>> getPosts() {
-        List<PostResponseDto> postResponseDto = postService.getPosts();
+    public ResponseEntity<List<PostListResponseDto>> getPosts() {
+        List<PostListResponseDto> postResponseDto = postService.getPosts();
         return new ResponseEntity<>(postResponseDto, HttpStatus.OK);
     }
 
