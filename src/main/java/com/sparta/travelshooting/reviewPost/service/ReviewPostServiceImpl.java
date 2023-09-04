@@ -128,7 +128,7 @@ public class ReviewPostServiceImpl implements ReviewPostService {
         }
         ReviewPost reviewPost = optionalReviewPost.get();
 
-        if (!reviewPost.getUser().getId().equals(user.getId())) {
+        if (!reviewPost.getUser().getId().equals(user.getId()) && String.valueOf(user.getRole()).equals("USER")) {
             return new ApiResponseDto("게시글 작성자만 삭제할 수 있습니다.", HttpStatus.FORBIDDEN.value());
         }
 

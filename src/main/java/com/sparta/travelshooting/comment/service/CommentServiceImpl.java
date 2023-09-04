@@ -103,7 +103,7 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public ApiResponseDto deleteComment(Long id, User user) {
         Comment comment = commentRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 댓글을 찾을 수 없습니다"));
-        if (!comment.getUser().getId().equals(user.getId())) {
+        if (!comment.getUser().getId().equals(user.getId()) && String.valueOf(user.getRole()).equals("USER")) {
             throw new RejectedExecutionException("작성자만 삭제 가능합니다");
         }
         commentRepository.delete(comment);
