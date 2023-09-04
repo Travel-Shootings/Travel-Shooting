@@ -18,8 +18,16 @@ public class NotificationServiceImpl implements NotificationService {
     private final NotificationRepository notificationRepository;
 
     @Override
-    public List<NotificationResponseDto> getUncheckedNotifications(User user) {
-        return notificationRepository.findAllByUserIdAndIsReadFalse(user.getId())
+    public List<NotificationResponseDto> getUncheckedNotifications(Long userId) {
+        return notificationRepository.findAllByUserIdAndIsReadFalse(userId)
+                .stream()
+                .map(NotificationResponseDto::new)
+                .toList();
+    }
+
+    @Override
+    public List<NotificationResponseDto> getCheckedNotifications(Long userId) {
+        return notificationRepository.findAllByUserIdAndIsReadTrue(userId)
                 .stream()
                 .map(NotificationResponseDto::new)
                 .toList();
@@ -35,17 +43,9 @@ public class NotificationServiceImpl implements NotificationService {
     }
 
     @Override
-    public List<NotificationResponseDto> getCheckedNotifications(User user) {
-        return notificationRepository.findAllByUserIdAndIsReadTrue(user.getId())
-                .stream()
-                .map(NotificationResponseDto::new)
-                .toList();
-    }
-
-    @Override
     @Transactional
-    public ApiResponseDto deleteNotification(User user) {
-        notificationRepository.deleteAllByUserIdAndIsReadTrue(user.getId());
+    public ApiResponseDto deleteNotification(Long userId) {
+        notificationRepository.deleteAllByUserIdAndIsReadTrue(userId);
 
         return new ApiResponseDto("알림 삭제", HttpStatus.OK.value());
     }

@@ -9,6 +9,7 @@ import com.sparta.travelshooting.post.dto.PostRequestDto;
 import com.sparta.travelshooting.post.dto.PostResponseDto;
 import com.sparta.travelshooting.reply.dto.ReplyRequestDto;
 import com.sparta.travelshooting.reviewPost.dto.ReviewPostRequestDto;
+import com.sparta.travelshooting.reviewPost.dto.ReviewPostResponseDto;
 import com.sparta.travelshooting.user.dto.UserResponseDto;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -25,7 +26,7 @@ public interface AdminService {
     // 글 전체 조회
     List<PostResponseDto> showPosts();
 
-    List<PostResponseDto> showReviewPosts();
+    List<ReviewPostResponseDto> showReviewPosts();
 
     // 유저 정보 수정
     ApiResponseDto updateUser(Long userId, AdminProfileRequestDto requestDto);

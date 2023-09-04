@@ -47,6 +47,8 @@ async function renderReviewPosts(reviewPosts) {
         titleCell.appendChild(titleLink);
         row.appendChild(titleCell);
 
+        console.log(post);
+
         const nicknameCell = document.createElement('td');
         nicknameCell.textContent = post.nickName;
         row.appendChild(nicknameCell);

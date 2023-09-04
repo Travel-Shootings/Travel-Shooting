@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -18,6 +19,7 @@ public class ViewController {
     @GetMapping("/home")
     public String home(@AuthenticationPrincipal UserDetailsImpl userDetails, Model model) {
         if (userDetails != null) {
+            model.addAttribute("userId", userDetails.getUser().getId());
             model.addAttribute("nickname", userDetails.getUser().getNickname());
             model.addAttribute("role", String.valueOf(userDetails.getUser().getRole()));
         }
@@ -88,8 +90,10 @@ public class ViewController {
     }
 
     //게시글 단건 조회 페이지로 이동
-    @GetMapping("/post/view")
-    public String showPost () {
+    @GetMapping("/post/{postId}")
+    public String showPost (@PathVariable Long postId, Model model) {
+        model.addAttribute("postId", postId);
+
         return "view_post";
     }
 
@@ -118,5 +122,13 @@ public class ViewController {
     }
 
 
+    //알림 상세 페이지 이동
+    @GetMapping("/notifications")
+    public String notificationsDetail(@AuthenticationPrincipal UserDetailsImpl userDetails, Model model) {
+        if (userDetails != null) {
+            model.addAttribute("userId", userDetails.getUser().getId());
+        }
 
+        return "notification_detail";
+    }
 }

@@ -90,3 +90,7 @@ VALUES
     ('안녕하세요~ 스트레스 없는 하루 되세요!', '보낸이 18', '2023-08-01 00:18:00', 18, 1),
     ('안녕하세요~ 행복한 하루 보내세요!', '보낸이 19', '2023-08-01 00:19:00', 19, 1),
     ('안녕하세요~ 마음 편히 쉬세요!', '보낸이 20', '2023-08-01 00:20:00', 20, 1);
+
+-- 비밀번호는 1234입니다.
+INSERT INTO users (email, password, username, nickname, region, role)
+values ('admin@email.com', '$2a$10$oUcs64mK8NfUJphC91QpfeC/Ujsyx6fMqEMypWmTktLQGX0tEsvTS', 'admin', '관리자', '서울', 'ADMIN')

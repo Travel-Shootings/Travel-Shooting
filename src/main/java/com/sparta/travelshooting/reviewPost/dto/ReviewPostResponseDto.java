@@ -26,7 +26,7 @@ public class ReviewPostResponseDto {
         this.id = reviewPost.getId();
         this.title = reviewPost.getTitle();
         this.content = reviewPost.getContent();
-        this.nickName= reviewPost.getNickName();
+        this.nickName= reviewPost.getUser().getNickname();
         this.likeCounts = reviewPost.getLikeCounts();
         this.imageUrls = reviewPost.getImages().stream()
                 .map(Image::getAccessUrl)

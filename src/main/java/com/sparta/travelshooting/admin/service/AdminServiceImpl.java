@@ -20,6 +20,7 @@ import com.sparta.travelshooting.reply.dto.ReplyRequestDto;
 import com.sparta.travelshooting.reply.entity.Reply;
 import com.sparta.travelshooting.reply.repository.ReplyRepository;
 import com.sparta.travelshooting.reviewPost.dto.ReviewPostRequestDto;
+import com.sparta.travelshooting.reviewPost.dto.ReviewPostResponseDto;
 import com.sparta.travelshooting.reviewPost.entity.ReviewPost;
 import com.sparta.travelshooting.reviewPost.repository.ReviewPostRepository;
 import com.sparta.travelshooting.user.dto.UserResponseDto;
@@ -77,9 +78,9 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public List<PostResponseDto> showReviewPosts() {
+    public List<ReviewPostResponseDto> showReviewPosts() {
         return reviewPostRepository.findAll().stream()
-                .map(PostResponseDto::new)
+                .map(ReviewPostResponseDto::new)
                 .toList();
     }
 

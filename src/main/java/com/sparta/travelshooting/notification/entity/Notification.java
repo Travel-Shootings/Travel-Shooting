@@ -20,14 +20,22 @@ public class Notification {
     @Column
     private Boolean isRead;
 
+    @Column
+    private Long postId;
+
+    @Column
+    private Long reviewPostId;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 
-    public Notification(User author, String message, boolean read) {
+    public Notification(User author, String message, boolean read, Long postId, Long reviewPostId) {
         this.message = message;
         this.user = author;
         this.isRead = read;
+        this.postId = postId;
+        this.reviewPostId = reviewPostId;
     }
 
     public void read() {
