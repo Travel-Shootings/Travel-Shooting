@@ -11,9 +11,10 @@
 #btn-box {
     margin-top: 10px;
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    grid-template-columns:1fr 1fr 1fr;
     gap: 25px;
 
+    text-align: center;
 
     padding-top: 10px;
 }

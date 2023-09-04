@@ -1,0 +1,31 @@
+.noti-title {
+    border-bottom: solid 3px #009688;
+    padding-bottom: 10px;
+    margin-bottom: 30px;
+}
+
+#delete-btn {
+    margin-top: 10px;
+    margin-right: 10px;
+    float: right;
+}
+
+#check-notifications, #uncheck-notifications {
+    margin-top: 50px;
+    width: 80%;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+#notification {
+    width: 90%;
+    border-bottom: solid 1px #009688;
+    padding-bottom: 10px;
+    padding-top: 10px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#notification a {
+    color: black !important;
+}

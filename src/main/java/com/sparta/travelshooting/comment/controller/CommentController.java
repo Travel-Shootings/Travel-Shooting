@@ -61,19 +61,4 @@ public class CommentController {
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
 
-
-    //여행 계획 게시판 댓글 조회
-    @GetMapping("/post/{postId}")
-    public ResponseEntity<List<CommentResponseDto>> getCommentsForPost(@PathVariable Long postId) {
-        List<CommentResponseDto> comments = commentService.getCommentsForPost(postId);
-        return new ResponseEntity<>(comments, HttpStatus.OK);
-    }
-
-    //여행 후기 게시판 댓글 조회
-    @GetMapping("/reviewPost/{reviewPostId}")
-    public ResponseEntity<List<CommentResponseDto>> getCommentsForReviewPost(@PathVariable Long reviewPostId) {
-        List<CommentResponseDto> comments = commentService.getCommentsForReviewPost(reviewPostId);
-        return new ResponseEntity<>(comments, HttpStatus.OK);
-    }
-
 }

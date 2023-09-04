@@ -2,8 +2,8 @@ package com.sparta.travelshooting.view.controller;
 
 import com.sparta.travelshooting.security.UserDetailsImpl;
 import com.sparta.travelshooting.user.entity.User;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import lombok.AllArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +18,7 @@ public class ViewController {
     @GetMapping("/home")
     public String home(@AuthenticationPrincipal UserDetailsImpl userDetails, Model model) {
         if (userDetails != null) {
+            model.addAttribute("userId", userDetails.getUser().getId());
             model.addAttribute("nickname", userDetails.getUser().getNickname());
             model.addAttribute("role", String.valueOf(userDetails.getUser().getRole()));
         }
@@ -100,7 +101,6 @@ public class ViewController {
     }
 
 
-
     //후기게시판 전체조회
     @GetMapping("/review-post")
     public String viewAllReviewPost(){
@@ -126,5 +126,13 @@ public class ViewController {
     }
 
 
+    //알림 상세 페이지 이동
+    @GetMapping("/notifications")
+    public String notificationsDetail(@AuthenticationPrincipal UserDetailsImpl userDetails, Model model) {
+        if (userDetails != null) {
+            model.addAttribute("userId", userDetails.getUser().getId());
+        }
 
+        return "notification_detail";
+    }
 }

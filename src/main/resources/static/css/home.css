@@ -111,3 +111,42 @@
     margin-left: 10px;
     font-size: 25px;
 }
+
+
+.popup {
+    display: none;
+    position: absolute;
+    background-color: #faf5f5;
+    border: 1px solid #009688;
+    z-index: 1;
+    /* 원하는 스타일을 적용하세요 */
+    left : 100px;
+    width: 100%;
+}
+
+.popup ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.popup li {
+    padding: 10px;
+}
+
+.popup a {
+    text-decoration: none;
+    color: #333;
+}
+
+.popup a:hover {
+    background-color: #9ed7d0;
+}
+
+#notification-detail-btn {
+    float: right;
+}
+
+#notification {
+    border-bottom: solid 1px #009688;
+}
