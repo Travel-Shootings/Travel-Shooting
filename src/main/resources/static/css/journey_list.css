@@ -110,22 +110,34 @@ body {
     cursor: pointer; /* 커서를 포인터로 변경하여 클릭 가능한 버튼으로 만듭니다. */
 }
 
-.modal-body, .modal-dialog {
-    position: absolute;
-    top: 50%; /* 모달을 화면가운데 놓기위함. */
+.first-modal, .search-modal {
+    position: relative;
+    display: none;
 
-    width: 600px; /* 모달의 가로크기  */
-    height: 850px; /* 모달의 세로크기 */
+    justify-content: center;
+    top: 50%;
 
+    width: 100%;
+    height: 100%;
+    min-height: 70%;
+
+    transform: translateY(-50%); /* 모듈창 열렸을 때 위치 설정 가운데로  */
+    background-color: rgba(0, 0, 0, 0.7); /* 반투명한 어두운 배경 색상 */
+}
+
+.modal-body {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    /* 나머지 스타일 속성들은 그대로 유지합니다. */
+    width: 900px;
     padding: 40px;
-
     text-align: left;
-
-    background-color: rgb(255, 255, 255); /* 모달창 배경(흰색) */
-    border-radius: 10px; /* */
-    box-shadow: 0 2px 3px 0 rgba(34, 36, 38, 0.15); /* 테두리 그림자  */
-
-    transform: translateY(-50%); /* 모듈창열었을때 위치설정 가운데로  */
+    background-color: rgb(255, 255, 255);
+    border-radius: 10px;
+    box-shadow: 0 2px 3px 0 rgba(34, 36, 38, 0.15);
+    z-index: 3;
 }
 
 .modal-body .form-heading {
@@ -165,24 +177,6 @@ body {
     align-items: center; /* 세로 중앙 정렬 */
     max-width: 100%;
     padding: 20px;
-}
-
-.submit-journey {
-    margin-bottom: 300px;
-}
-
-.modal, .search-modal {
-    position: absolute;
-    display: none;
-
-    justify-content: center;
-    top: 0;
-    left: 0;
-
-    width: 100%;
-    height: 100%;
-
-    background-color: rgba(0, 0, 0, 0.4);
 }
 
 .show-details-button {

@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="">
+<html lang="en">
 <head>
-    <title>여행 게시글 작성</title>
     <meta charset="UTF-8">
+    <title>게시글 수정</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
@@ -16,15 +16,10 @@
     <link rel='stylesheet' href='https://fonts.googleapis.com/icon?family=Material+Icons'>
     <link rel="stylesheet" href="/css/home.css">
 </head>
-<link rel="icon" href="data:;base64,iVBORw0KGgo=">
-
-
-<!-- 여행 일정 추가 버튼 -->
 <body>
 <div class="main-container">
     <div class="map-container">
         <div class="search">
-<!--            <input id="add-journey" type="button" class="btn-open-modal" style="font-size: 30px;" value="여행 일정 추가">-->
             <a href="#" id="add-journey" type="button" class="btn create-journey">여행 일정 추가</a>
             <input id="address" type="hidden" placeholder="검색할 주소">
             <input id="submit" type="hidden" value="주소검색">
@@ -86,7 +81,7 @@
                 </table>
             </fieldset>
             <fieldset>
-                <button name="submit" type="button" id="addPost">등록</button>
+                <button name="submit" type="button" id="addPost">수정</button>
                 <button name="submit" type="button" id="cancelPost">취소</button>
             </fieldset>
         </form>
@@ -158,10 +153,9 @@
 </div>
 
 <!--JS 파일 -->
-<script src="/js/create_post.js"></script>
+<script src="/js/edit_post.js"></script>
 </body>
 
-<!--JS-->
 
 
 </html>

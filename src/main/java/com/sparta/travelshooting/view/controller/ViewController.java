@@ -100,6 +100,11 @@ public class ViewController {
         return "create_post";
     }
 
+    // 게시글 수정 페이지 이동
+    @GetMapping("/post/edit/{postId}")
+    public String editPost () {
+        return "edit_post";
+    }
 
     //후기게시판 전체조회
     @GetMapping("/review-post")
