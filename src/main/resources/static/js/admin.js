@@ -167,7 +167,7 @@ fetch('/api/admin/posts') // GET 요청으로 JSON 데이터 가져오기
     .then(jsonData => {
         const listContainer = document.getElementById('post-box');
 
-        console.log('계획 게시판 : ' + jsonData);
+        console.log(jsonData);
         jsonData.forEach(dataItem => {
             const listItem = document.createElement('div');
             listItem.className = 'user-item'; // CSS 클래스 추가
@@ -189,7 +189,7 @@ fetch('/api/admin/posts') // GET 요청으로 JSON 데이터 가져오기
             listItem.appendChild(likeElement);
 
             const commentElement = document.createElement('div');
-            commentElement.textContent = "Comment Count : " + dataItem.comments.length;
+            commentElement.textContent = "Comment Count : " + dataItem.commentList.length;
             listItem.appendChild(commentElement);
 
             const editButton = document.createElement('button');
@@ -248,7 +248,7 @@ fetch('/api/admin/review-posts') // GET 요청으로 JSON 데이터 가져오기
     .then(jsonData => {
         const listContainer = document.getElementById('review-post-box');
 
-        console.log('후기 게시판 : ' + jsonData);
+        console.log(jsonData);
         jsonData.forEach(dataItem => {
             const listItem = document.createElement('div');
             listItem.className = 'user-item'; // CSS 클래스 추가

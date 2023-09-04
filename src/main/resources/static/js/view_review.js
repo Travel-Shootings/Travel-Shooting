@@ -98,6 +98,7 @@ async function deleteReviewPost() {
         }
     }
 }
+
 // 좋아요 버튼의 텍스트를 업데이트하는 함수
 function updateLikeButton(isLiked) {
     if (isLiked) {

@@ -82,7 +82,6 @@ public class CommentServiceImpl implements CommentService {
 
             Notification notification = new Notification(author, message, read, null, reviewPost.getId());
             notificationRepository.save(notification);
-            log.info("알림 저장 완료");
         }
 
         return new CommentResponseDto(comment);

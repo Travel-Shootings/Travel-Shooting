@@ -10,6 +10,7 @@ import com.sparta.travelshooting.post.dto.PostRequestDto;
 import com.sparta.travelshooting.post.dto.PostResponseDto;
 import com.sparta.travelshooting.reply.dto.ReplyRequestDto;
 import com.sparta.travelshooting.reviewPost.dto.ReviewPostRequestDto;
+import com.sparta.travelshooting.reviewPost.dto.ReviewPostResponseDto;
 import com.sparta.travelshooting.user.dto.UserResponseDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -68,8 +69,8 @@ public class AdminController {
     // 후기 게시글 정보 조회
     @Operation(summary = "후기 게시글 전체 정보 조회")
     @GetMapping("/review-posts")
-    public ResponseEntity<List<ReviewPostRequestDto>> showReviewPosts() {
-        List<ReviewPostRequestDto> reviewPostResponseDto = adminService.showReviewPosts();
+    public ResponseEntity<List<ReviewPostResponseDto>> showReviewPosts() {
+        List<ReviewPostResponseDto> reviewPostResponseDto = adminService.showReviewPosts();
         return new ResponseEntity<>(reviewPostResponseDto, HttpStatus.OK);
     }
 
