@@ -48,12 +48,8 @@ async function init() {
         const likeCountElement = document.getElementById('like-count');
         likeCountElement.textContent = postData.likeCounts;
 
-        const imageElements = document.querySelectorAll('.post-image');
-        for (const imageElement of imageElements) {
-            imageElement.style.width = '300px';
-            imageElement.style.height = '200px';
-            imageElement.style.marginBottom = '20px';
-        }
+        // 버튼 업데이트
+        updateLikeButton(postData.isLiked); // postData에서 좋아요 상태를 가져와 업데이트
 
         // 삭제 버튼 이벤트 핸들러 등록
         deleteButton.addEventListener('click', deleteReviewPost);
@@ -86,10 +82,10 @@ async function deleteReviewPost() {
                 const data = await response.json();
                 if (data.status === 200) {
                     alert('게시글이 삭제되었습니다.');
-                    window.location.href = '/view/review-post';
                 } else {
                     alert(data.message);
                 }
+                window.location.href = '/view/review-post';
             } else {
                 console.error('Error deleting review post:', response.statusText);
             }
@@ -105,30 +101,6 @@ function updateLikeButton(isLiked) {
         likeButton.textContent = '좋아요 취소';
     } else {
         likeButton.textContent = '좋아요';
-    }
-}
-// 페이지 로드 시 게시물 데이터 조회 및 화면에 표시
-async function init() {
-    const postData = await fetchPostData();
-
-    if (postData) {
-        postTitleElement.textContent = postData.title;
-        postContentElement.textContent = postData.content;
-
-        // 이미지 URL 정보를 이용해 이미지를 화면에 표시
-        renderImages(postData.imageUrls);
-
-        // 좋아요 수를 가져와서 UI에 표시
-        const likeCountElement = document.getElementById('like-count');
-        likeCountElement.textContent = postData.likeCounts;
-
-        // 버튼 업데이트
-        updateLikeButton(postData.isLiked); // postData에서 좋아요 상태를 가져와 업데이트
-
-        // ...
-    } else {
-        postTitleElement.textContent = 'Error';
-        postContentElement.textContent = 'Failed to load post data.';
     }
 }
 
