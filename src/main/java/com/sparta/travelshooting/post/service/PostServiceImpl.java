@@ -38,14 +38,13 @@ public class PostServiceImpl implements PostService {
         // 게시글과 여행일정 생성
         Post post = new Post(postAndJourneyListDto.getPostRequestDto(), user);
         postRepository.save(post);
-
+        List<JourneyList> postJourneyList = post.getJourneyLists();
         // 여행 일정 생성
         for (JourneyListRequestDto journeyListDto : postAndJourneyListDto.getJourneyListRequestDtos()) {
             JourneyList journeyList = new JourneyList(journeyListDto, post);
-            post.getJourneyLists().add(journeyList);
+            postJourneyList.add(journeyList);
         }
-        journeyListRepository.saveAll(post.getJourneyLists());
-
+        journeyListRepository.saveAll(postJourneyList);
         return new PostResponseDto(post);
     }
 
