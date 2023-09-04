@@ -382,12 +382,12 @@ let idx = {
             data: JSON.stringify(data)
         })
             .done(function () {
-                alert("글 작성 성공");
+                alert("여행 일정 수정 성공");
                 window.location.href = "/view/post";
             })
             .fail(function (response) {
                 console.log(response);
-                alert("글 작성 실패");
+                alert("여행 일정 수정 실패");
             })
     }
 }
