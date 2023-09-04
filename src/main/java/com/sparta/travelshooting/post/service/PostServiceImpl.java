@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.RejectedExecutionException;
 import java.util.stream.Collectors;
 
 @Service
@@ -88,6 +89,11 @@ public class PostServiceImpl implements PostService {
         if (post.isEmpty()) {
             throw new IllegalArgumentException("해당 글은 존재하지 않습니다.");
         }
+
+        if (!post.get().getUser().getId().equals(user.getId())) {
+            throw new RejectedExecutionException("작성자만 수정 가능합니다");
+        }
+
         post.get().setTitle(postAndJourneyListDto.getPostRequestDto().getTitle());
         post.get().setContents(postAndJourneyListDto.getPostRequestDto().getContents());
         return new PostResponseDto(postRepository.save(post.get()));
@@ -101,6 +107,11 @@ public class PostServiceImpl implements PostService {
         if (post.isEmpty()) {
             throw new IllegalArgumentException("해당 글은 존재하지 않습니다.");
         }
+
+        if (!post.get().getUser().getId().equals(user.getId()) && String.valueOf(user.getRole()).equals("USER")) {
+            throw new RejectedExecutionException("작성자만 삭제 가능합니다");
+        }
+
         postRepository.deleteById(postId);
         return new ApiResponseDto("게시글 삭제 성공", 200);
     }
