@@ -310,3 +310,10 @@ body {
     height: 10px;
     border-radius: 10px;
 }
+
+footer{
+    height: 120px;
+    width: 100%;
+    position : relative;
+    transform : translateY(-100%);
+}
