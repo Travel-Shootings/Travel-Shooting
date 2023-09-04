@@ -46,11 +46,9 @@ public class Post extends Timestamped {
     @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Comment> commentList = new ArrayList<>();
 
-    public Post (PostRequestDto postRequestDto, List<JourneyList> journeyList, List<Comment> commentList, User user) {
+    public Post (PostRequestDto postRequestDto, User user) {
         this.title = postRequestDto.getTitle();
         this.contents = postRequestDto.getContents();
-        this.journeyLists = journeyList;
-        this.commentList = commentList;
         this.user = user;
     }
 
