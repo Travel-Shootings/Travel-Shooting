@@ -177,7 +177,7 @@ fetch('/api/admin/posts') // GET 요청으로 JSON 데이터 가져오기
             listItem.appendChild(titleElement);
 
             const authorElement = document.createElement('div');
-            authorElement.textContent = "Author : " + dataItem.author;
+            authorElement.textContent = "Author : " + dataItem.nickName;
             listItem.appendChild(authorElement);
 
             const contentsElement = document.createElement('div');
@@ -258,11 +258,11 @@ fetch('/api/admin/review-posts') // GET 요청으로 JSON 데이터 가져오기
             listItem.appendChild(titleElement);
 
             const authorElement = document.createElement('div');
-            authorElement.textContent = "Author : " + dataItem.author;
+            authorElement.textContent = "Author : " + dataItem.nickName;
             listItem.appendChild(authorElement);
 
             const contentsElement = document.createElement('div');
-            contentsElement.textContent = "Contents : " + dataItem.contents;
+            contentsElement.textContent = "Contents : " + dataItem.content;
             listItem.appendChild(contentsElement);
 
             const likeElement = document.createElement('div');
@@ -270,7 +270,7 @@ fetch('/api/admin/review-posts') // GET 요청으로 JSON 데이터 가져오기
             listItem.appendChild(likeElement);
 
             const commentElement = document.createElement('div');
-            commentElement.textContent = "Comment Count : " + dataItem.comments.length;
+            commentElement.textContent = "Comment Count : " + dataItem.commentList.length;
             listItem.appendChild(commentElement);
 
             const moveButton = document.createElement('button');

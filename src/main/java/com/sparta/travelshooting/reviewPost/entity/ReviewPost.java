@@ -21,7 +21,7 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 @EntityListeners(AuditingEntityListener.class)
-@Table(name ="ReviewPost")
+@Table(name = "ReviewPost")
 
 public class ReviewPost extends Timestamped {
 
@@ -52,7 +52,7 @@ public class ReviewPost extends Timestamped {
     @OneToMany(mappedBy = "reviewPost", cascade = CascadeType.REMOVE)
     private List<ReviewPostLike> reviewPostLikes = new ArrayList<>();
 
-    public ReviewPost(String title, String content, User user,List<Image> images) {
+    public ReviewPost(String title, String content, User user, List<Image> images) {
 
         this.title = title;
         this.content = content;
