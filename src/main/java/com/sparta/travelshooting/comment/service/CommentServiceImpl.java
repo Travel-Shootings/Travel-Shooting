@@ -13,15 +13,16 @@ import com.sparta.travelshooting.reviewPost.entity.ReviewPost;
 import com.sparta.travelshooting.reviewPost.repository.ReviewPostRepository;
 import com.sparta.travelshooting.user.entity.User;
 import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.concurrent.RejectedExecutionException;
+
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
-@Slf4j
 public class CommentServiceImpl implements CommentService {
 
     private final CommentRepository commentRepository;
@@ -70,12 +71,7 @@ public class CommentServiceImpl implements CommentService {
         // 알림 보내기 (게시글 작성자와 다른 사람이 댓글을 달았을 경우에만 게시글 작성자에게 알림)
         User author = reviewPost.getUser(); // review post 작성자
 
-        log.info(author.getNickname());
-        log.info(user.getNickname());
-
         if (!author.getNickname().equals(user.getNickname())) {
-            log.info("알림 저장 시도");
-
             String comment_content = comment.getContent();
             if (comment_content.length() > 20) {
                 comment_content = comment_content.substring(0, 20) + "...";
@@ -115,4 +111,29 @@ public class CommentServiceImpl implements CommentService {
         return new ApiResponseDto("댓글 삭제 완료", HttpStatus.OK.value());
     }
 
+
+    // 여행 계획 게시물의 댓글 조회 메서드
+    public List<CommentResponseDto> getCommentsForPost(Long postId) {
+        // 여행 계획 게시물에 대한 댓글을 데이터베이스에서 조회
+        List<Comment> comments = commentRepository.findByPostId(postId);
+        return  comments.stream()
+                .map(comment -> new CommentResponseDto(comment))
+                .collect(Collectors.toList());
+    }
+
+
+    // 리뷰 게시물의 댓글 조회 메서드
+    public List<CommentResponseDto> getCommentsForReviewPost(Long reviewPostId) {
+        // 리뷰 게시물에 대한 댓글을 데이터베이스에서 조회
+        List<Comment> comments = commentRepository.findByReviewPostId(reviewPostId);
+        // Comment 엔티티를 CommentResponseDto로 변환
+        return  comments.stream()
+                .map(comment -> new CommentResponseDto(comment))
+                .collect(Collectors.toList());
+
+    }
+
+
 }
+
+

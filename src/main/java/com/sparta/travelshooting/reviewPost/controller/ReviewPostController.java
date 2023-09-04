@@ -33,9 +33,7 @@ public class ReviewPostController {
             @RequestParam(value = "images", required = false) List<MultipartFile> imageFiles,
             @ModelAttribute ReviewPostRequestDto requestDto,
             @AuthenticationPrincipal UserDetailsImpl userDetails) {
-
-        ReviewPostResponseDto responseDto = reviewPostService.createReviewPost(imageFiles, requestDto, userDetails.getUser());
-        ApiResponseDto apiResponseDto = new ApiResponseDto("게시글이 생성되었습니다.", HttpStatus.CREATED.value());
+        ApiResponseDto apiResponseDto = reviewPostService.createReviewPost(imageFiles, requestDto, userDetails.getUser());
         return new ResponseEntity<>(apiResponseDto, HttpStatus.CREATED);
     }
 
@@ -86,5 +84,14 @@ public class ReviewPostController {
     public ResponseEntity<ApiResponseDto> deleteLike(@PathVariable Long reviewPostId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         ApiResponseDto apiResponseDto = reviewPostService.deleteLike(reviewPostId, userDetails.getUser());
         return new ResponseEntity<>(apiResponseDto, HttpStatus.OK);
+    }
+
+    //좋아요 여부 조회
+    @GetMapping("/like/{reviewPostId}")
+    public ResponseEntity<ApiResponseDto> checkLikeStatus(@PathVariable Long reviewPostId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        Long userId = userDetails.getUser().getId();
+        boolean isLiked = reviewPostService.hasLiked(reviewPostId, userId);
+        if (isLiked) {return new ResponseEntity<>(new ApiResponseDto("이미 좋아요를 누른 상태입니다.", 200), HttpStatus.OK);
+        } else {return new ResponseEntity<>(new ApiResponseDto("아직 좋아요를 누르지 않은 상태입니다.", 200), HttpStatus.OK);}
     }
 }

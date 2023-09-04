@@ -61,3 +61,10 @@ reviewForm.addEventListener('submit', async (event) => {
         messageElement.textContent = '게시글 작성 중 오류가 발생했습니다.';
     }
 });
+
+// 취소 버튼 클릭 시 처리
+const cancelButton = document.getElementById('cancel-button');
+cancelButton.addEventListener('click', () => {
+    // 취소 시 view/reviewPost 페이지로 리디렉션
+    window.location.href = '/view/review-post';
+});

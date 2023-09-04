@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface ReviewPostService {
     //후기 게시글 작성
-    ReviewPostResponseDto createReviewPost(List<MultipartFile> imageFiles, ReviewPostRequestDto requestDto, User user);
+    ApiResponseDto createReviewPost(List<MultipartFile> imageFiles, ReviewPostRequestDto requestDto, User user);
 
     //후기 게시글 수정
     ApiResponseDto updateReviewPost(Long ReviewPostId, List<MultipartFile> imageFiles, ReviewPostRequestDto requestDto, User user);
@@ -29,5 +29,8 @@ public interface ReviewPostService {
 
     //후기 게시글 좋아요 취소
     ApiResponseDto deleteLike(Long ReviewPostId, User user);
+
+    //좋아요 여부 조회
+    boolean hasLiked(Long reviewPostId, Long userId);
 
 }

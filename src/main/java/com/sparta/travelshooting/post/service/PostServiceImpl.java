@@ -1,5 +1,6 @@
 package com.sparta.travelshooting.post.service;
 
+import com.sparta.travelshooting.comment.entity.Comment;
 import com.sparta.travelshooting.common.ApiResponseDto;
 import com.sparta.travelshooting.journeylist.dto.JourneyListRequestDto;
 import com.sparta.travelshooting.journeylist.entity.JourneyList;
@@ -35,28 +36,37 @@ public class PostServiceImpl implements PostService {
     @Override
     public PostResponseDto createPostAndJourneyList(PostAndJourneyListDto postAndJourneyListDto, User user) {
         // 게시글과 여행일정 생성
-        List<JourneyList> journeyLists = new ArrayList<>();
-        Post post = new Post(postAndJourneyListDto.getPostRequestDto(), journeyLists, user);
+        Post post = new Post(postAndJourneyListDto.getPostRequestDto(), user);
         postRepository.save(post);
-
+        List<JourneyList> postJourneyList = post.getJourneyLists();
         // 여행 일정 생성
         for (JourneyListRequestDto journeyListDto : postAndJourneyListDto.getJourneyListRequestDtos()) {
             JourneyList journeyList = new JourneyList(journeyListDto, post);
-            journeyLists.add(journeyList);
+            postJourneyList.add(journeyList);
         }
-        journeyListRepository.saveAll(journeyLists);
-
+        journeyListRepository.saveAll(postJourneyList);
         return new PostResponseDto(post);
+    }
+
+
+    // 메인 페이지 게시글 3개 조회
+    @Override
+    public List<PostListResponseDto> getThreePosts() {
+        List<Post> postList = postRepository.findTop3ByOrderByCreatedAtDesc();
+
+        return postList.stream()
+                .map(PostListResponseDto::new)
+                .collect(Collectors.toList());
     }
 
 
     // 게시글과 여행일정 전체 조회
     @Override
-    public List<PostResponseDto> getPosts() {
-        List<Post> postList = postRepository.findAll();
+    public List<PostListResponseDto> getPosts() {
+        List<Post> postList = postRepository.findAllByOrderByCreatedAtDesc();
 
         return postList.stream()
-                .map(PostResponseDto::new)
+                .map(PostListResponseDto::new)
                 .collect(Collectors.toList());
     }
 

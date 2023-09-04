@@ -2,12 +2,11 @@ package com.sparta.travelshooting.view.controller;
 
 import com.sparta.travelshooting.security.UserDetailsImpl;
 import com.sparta.travelshooting.user.entity.User;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import lombok.AllArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -83,19 +82,24 @@ public class ViewController {
         return "admin_user_edit_profile";
     }
 
+    //게시글 전체 목록 페이지 이동
+    @GetMapping("/post")
+    public String viewAllPosts() {
+        return "post";
+    }
+
+    //게시글 단건 조회(상세보기) 이동
+    @GetMapping("/post/{postId}")
+    public String showPost () {
+        return "view_post";
+    }
+
     //게시글 작성 페이지로 이동
     @GetMapping("/post/create")
     public String createPost () {
         return "create_post";
     }
 
-    //게시글 단건 조회 페이지로 이동
-    @GetMapping("/post/{postId}")
-    public String showPost (@PathVariable Long postId, Model model) {
-        model.addAttribute("postId", postId);
-
-        return "view_post";
-    }
 
     //후기게시판 전체조회
     @GetMapping("/review-post")
