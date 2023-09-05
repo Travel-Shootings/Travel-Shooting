@@ -2,7 +2,6 @@ package com.sparta.travelshooting.journeylist.controller;
 
 import com.sparta.travelshooting.common.ApiResponseDto;
 import com.sparta.travelshooting.journeylist.dto.JourneyListRequestDto;
-import com.sparta.travelshooting.journeylist.dto.JourneyListResponseDto;
 import com.sparta.travelshooting.journeylist.service.JourneyListServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;

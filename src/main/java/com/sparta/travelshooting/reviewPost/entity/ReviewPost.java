@@ -3,8 +3,6 @@ package com.sparta.travelshooting.reviewPost.entity;
 import com.sparta.travelshooting.S3Image.entity.Image;
 import com.sparta.travelshooting.comment.entity.Comment;
 import com.sparta.travelshooting.common.Timestamped;
-import com.sparta.travelshooting.post.entity.PostLike;
-import com.sparta.travelshooting.reply.entity.Reply;
 import com.sparta.travelshooting.reviewPost.dto.ReviewPostRequestDto;
 import com.sparta.travelshooting.user.entity.User;
 import jakarta.persistence.*;

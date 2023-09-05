@@ -2,7 +2,6 @@ package com.sparta.travelshooting.journeylist.dto;
 
 import com.sparta.travelshooting.journeylist.entity.JourneyList;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDateTime;
 

@@ -3,8 +3,6 @@ package com.sparta.travelshooting.comment.dto;
 import com.sparta.travelshooting.comment.entity.Comment;
 import lombok.Getter;
 
-import java.time.LocalDateTime;
-
 @Getter
 public class CommentResponseDto {
     private Long id;
