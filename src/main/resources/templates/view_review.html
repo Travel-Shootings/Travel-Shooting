@@ -48,7 +48,39 @@
         <textarea id="comment-content" placeholder="댓글을 입력하세요..." required></textarea>
         <button type="submit">댓글 남기기</button>
     </form>
-    <ul id="comment-list"></ul>
+    <ul id="comment-list" class="collection">
+        <!-- 댓글 1 -->
+        <li class="collection-item comment">
+            <!-- 댓글 내용 -->
+            <div class="comment-content">
+                댓글 내용 1
+            </div>
+            <!-- 대댓글 목록 -->
+            <ul class="collection reply-list">
+                <!-- 대댓글 1 -->
+                <li class="collection-item comment">
+                    <!-- 대댓글 내용 -->
+                    <div class="comment-content">
+                        대댓글 내용 1
+                    </div>
+                </li>
+                <!-- 대댓글 2 -->
+                <li class="collection-item comment">
+                    <!-- 대댓글 내용 -->
+                    <div class="comment-content">
+                        대댓글 내용 2
+                    </div>
+                </li>
+            </ul>
+        </li>
+        <!-- 댓글 2 -->
+        <li class="collection-item comment">
+            <!-- 댓글 내용 -->
+            <div class="comment-content">
+                댓글 내용 2
+            </div>
+        </li>
+    </ul>
 </div>
 
 <!-- 대댓글 입력창 -->
@@ -64,6 +96,13 @@
     <textarea id="edit-comment-content"></textarea>
     <button id="save-edit-button">저장</button>
     <button id="cancel-edit-button">취소</button>
+</div>
+
+<!-- 대댓글 수정 폼 -->
+<div id="reply-edit-form" style="display: none;">
+    <textarea id="edit-reply-content"></textarea>
+    <button id="save-edit-reply-button">저장</button>
+    <button id="cancel-edit-reply-button">취소</button>
 </div>
 <!-- Footer -->
 <footer class="section teal darken-2 white-text center">

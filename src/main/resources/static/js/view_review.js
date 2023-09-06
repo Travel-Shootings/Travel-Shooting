@@ -70,12 +70,34 @@ function renderComments(comments) {
 
             for (const reply of comment.replyList) {
                 const replyElement = document.createElement('li');
-                replyElement.textContent = `대댓글 작성자: ${reply.nickName}, 내용: ${reply.content}`;
+                replyElement.classList.add('comment');
+
+                const replyContentElement = document.createElement('div');
+                replyContentElement.classList.add('comment-content');
+                replyContentElement.textContent = `${reply.nickName}: ${reply.content}`;
+                replyElement.appendChild(replyContentElement);
+
                 replyListElement.appendChild(replyElement);
+
+                // Reply edit button
+                const editReplyButton = document.createElement('button');
+                editReplyButton.textContent = '수정';
+                editReplyButton.classList.add('edit-reply-button');
+                editReplyButton.setAttribute('data-reply-id', reply.id);
+                editReplyButton.setAttribute('data-reply-content', reply.content);
+                replyElement.appendChild(editReplyButton);
+
+                // Reply delete button
+                const deleteReplyButton = document.createElement('button');
+                deleteReplyButton.textContent = '삭제';
+                deleteReplyButton.classList.add('delete-reply-button');
+                deleteReplyButton.setAttribute('data-reply-id', reply.id);
+                replyElement.appendChild(deleteReplyButton);
             }
 
             commentElement.appendChild(replyListElement);
         }
+
         commentList.appendChild(commentElement);
     }
 }
@@ -283,14 +305,27 @@ document.getElementById('comment-list').addEventListener('click', (e) => {
         const commentId = e.target.getAttribute('data-comment-id');
         openReplyForm(commentId); // 대댓글 입력 창 열기
     }
+
+    // 대댓글 수정 및 삭제 버튼 이벤트 처리
+    if (e.target.classList.contains('edit-reply-button')) {
+        const replyId = e.target.getAttribute('data-reply-id');
+        const replyContent = e.target.getAttribute('data-reply-content');
+        openReplyEditForm(replyId); // 수정 폼 열기
+    }
+
+    if (e.target.classList.contains('delete-reply-button')) {
+        const replyId = e.target.getAttribute('data-reply-id');
+        deleteReply(replyId);
+    }
 });
 
-function openEditForm(commentId, content) {
+// 수정 폼 열기 함수
+function openEditForm(commentId) {
     const commentEditForm = document.getElementById('comment-edit-form');
     commentEditForm.style.display = 'block';
 
     const editCommentContent = document.getElementById('edit-comment-content');
-    editCommentContent.value = '';
+    editCommentContent.value = ''; // 수정 내용 초기화
 
     const saveEditButton = document.getElementById('save-edit-button');
     saveEditButton.addEventListener('click', () => {
@@ -393,7 +428,7 @@ function openReplyForm(commentId) {
 
     replyForm.style.display = 'block';
     replyContent.value = '';
-    replyForm.setAttribute('data-comment-id', commentId);
+    replyForm.setAttribute('data-comment-id');
 }
 
 // 대댓글 폼 닫기
@@ -457,6 +492,105 @@ replyForm.addEventListener('submit', async (e) => {
     }
 });
 
-init();
+function openReplyEditForm(replyId) {
+    const replyEditForm = document.getElementById('reply-edit-form');
+    replyEditForm.style.display = 'block';
+
+    const editReplyContent = document.getElementById('edit-reply-content');
+    editReplyContent.value = "";
+
+    const saveEditButton = document.getElementById('save-edit-reply-button');
+    saveEditButton.addEventListener('click', () => {
+        saveEditedReply(replyId);
+    });
+
+    const cancelEditButton = document.getElementById('cancel-edit-reply-button');
+    cancelEditButton.addEventListener('click', cancelEditReply);
+}
+
+
+async function saveEditedReply(replyId) {
+    const editReplyContent = document.getElementById('edit-reply-content').value;
+
+    if (!editReplyContent) {
+        alert('대댓글 내용을 입력하세요.');
+        return;
+    }
+
+    const requestData = {
+        content: editReplyContent
+    };
+
+    try {
+        const response = await fetch(`/api/replies/${replyId}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(requestData)
+        });
+
+        if (response.ok) {
+            const responseData = await response.json();
+            if (responseData.status === 200) {
+                alert('대댓글이 수정되었습니다.');
+            } else {
+                alert(responseData.message);
+            }
+            location.reload();
+        } else {
+            console.error('Error updating reply:', response.statusText);
+        }
+
+        fetchReplies(); // 대댓글 목록 다시 불러오기
+
+    } catch (error) {
+        console.error('Error updating reply:', error);
+    } finally {
+        closeReplyEditForm(); // 수정 폼 닫기
+    }
+}
+
+// 대댓글 삭제 함수
+async function deleteReply(replyId) {
+    const confirmation = confirm('대댓글을 삭제하시겠습니까?');
+
+    if (confirmation) {
+        try {
+            const response = await fetch(`/api/replies/${replyId}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                if (data.status === 200) {
+                    alert('대댓글이 삭제되었습니다.');
+                } else {
+                    alert(data.message);
+                }
+                location.reload();
+            } else {
+                console.error('Error deleting reply:', response.statusText);
+            }
+
+            fetchReplies(); // 대댓글 목록 다시 불러오기
+
+        } catch (error) {
+            console.error('Error deleting reply:', error);
+        } finally {
+            closeReplyEditForm(); // 수정 폼 닫기
+        }
+    }
+}
+
+
+function closeReplyEditForm() {
+    const replyEditForm = document.getElementById('reply-edit-form');
+    replyEditForm.style.display = 'none';
+}
+
 
 init();
