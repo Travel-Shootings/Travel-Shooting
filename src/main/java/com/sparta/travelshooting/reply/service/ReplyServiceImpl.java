@@ -40,7 +40,7 @@ public class ReplyServiceImpl implements ReplyService {
                 .orElseThrow(() -> new EntityNotFoundException("대댓글을 찾을 수 없습니다."));
 
         if (!reply.getUser().getId().equals(user.getId())) {
-            throw new AccessDeniedException("대댓글 수정 권한이 없습니다.");
+            return new ApiResponseDto("작성자만 수정할 수 있습니다.", HttpStatus.FORBIDDEN.value());
         }
 
         reply.setContent(replyRequestDto.getContent());
@@ -56,7 +56,7 @@ public class ReplyServiceImpl implements ReplyService {
                 .orElseThrow(() -> new EntityNotFoundException("대댓글을 찾을 수 없습니다."));
 
         if (!reply.getUser().getId().equals(user.getId())) {
-            throw new AccessDeniedException("대댓글 삭제 권한이 없습니다.");
+            return new ApiResponseDto("작성자만 삭제할 수 있습니다.", HttpStatus.FORBIDDEN.value());
         }
 
         replyRepository.delete(reply);

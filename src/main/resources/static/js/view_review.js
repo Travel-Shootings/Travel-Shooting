@@ -151,7 +151,7 @@ async function deleteReviewPost() {
                 } else {
                     alert(data.message);
                 }
-                window.location.href = `/view/review-post/${reviewPostId}`;
+                location.reload();
             } else {
                 console.error('Error deleting review post:', response.statusText);
             }
@@ -361,18 +361,14 @@ async function saveEditedComment(commentId) {
             const responseData = await response.json();
             if (responseData.status === 200) {
                 alert('댓글이 수정되었습니다.');
-
             } else {
+                // 댓글 수정에 실패한 경우
                 alert(responseData.message);
             }
-
+            location.reload(); // 페이지 리로드
         } else {
             console.error('Error updating comment:', response.statusText);
         }
-
-        fetchComments();
-        location.reload(); // 페이지 리로드
-
     } catch (error) {
         console.error('Error updating comment:', error);
     }
@@ -428,7 +424,7 @@ function openReplyForm(commentId) {
 
     replyForm.style.display = 'block';
     replyContent.value = '';
-    replyForm.setAttribute('data-comment-id');
+    replyForm.setAttribute('data-comment-id', commentId);
 }
 
 // 대댓글 폼 닫기
@@ -480,19 +476,22 @@ replyForm.addEventListener('submit', async (e) => {
             if (responseData) {
                 alert('대댓글이 성공적으로 생성되었습니다.');
                 closeReplyForm();
-                location.reload();
             } else {
                 console.error('대댓글 생성 실패');
             }
+
         } else {
             console.error('대댓글 생성 요청 실패:', response.statusText);
         }
+
     } catch (error) {
         console.error('대댓글 생성 요청 에러:', error);
     }
+    location.reload();
+
 });
 
-function openReplyEditForm(replyId) {
+function openReplyEditForm(replyId, replyContent) {
     const replyEditForm = document.getElementById('reply-edit-form');
     replyEditForm.style.display = 'block';
 
