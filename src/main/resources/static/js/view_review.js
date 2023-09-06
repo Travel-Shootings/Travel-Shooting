@@ -56,6 +56,26 @@ function renderComments(comments) {
         deleteButton.setAttribute('data-comment-id', comment.id);
         commentElement.appendChild(deleteButton);
 
+        const replyButton = document.createElement('button'); // 대댓글 버튼 생성
+        replyButton.textContent = '대댓글';
+        replyButton.classList.add('reply-comment-button');
+        replyButton.setAttribute('data-comment-id', comment.id);
+        commentElement.appendChild(replyButton); // 대댓글 버튼을 댓글 요소에 추가
+
+
+        // 대댓글 목록을 표시
+        if (comment.replyList && comment.replyList.length > 0) {
+            const replyListElement = document.createElement('ul');
+            replyListElement.classList.add('reply-list');
+
+            for (const reply of comment.replyList) {
+                const replyElement = document.createElement('li');
+                replyElement.textContent = `대댓글 작성자: ${reply.nickName}, 내용: ${reply.content}`;
+                replyListElement.appendChild(replyElement);
+            }
+
+            commentElement.appendChild(replyListElement);
+        }
         commentList.appendChild(commentElement);
     }
 }
@@ -258,6 +278,11 @@ document.getElementById('comment-list').addEventListener('click', (e) => {
         const commentId = e.target.getAttribute('data-comment-id');
         deleteComment(commentId);
     }
+
+    if (e.target.classList.contains('reply-comment-button')) {
+        const commentId = e.target.getAttribute('data-comment-id');
+        openReplyForm(commentId); // 대댓글 입력 창 열기
+    }
 });
 
 function openEditForm(commentId, content) {
@@ -322,6 +347,11 @@ function cancelEditComment() {
     closeEditForm();
 }
 
+function closeEditForm() {
+    const commentEditForm = document.getElementById('comment-edit-form');
+    commentEditForm.style.display = 'none';
+}
+
 // 댓글 삭제 함수
 async function deleteComment(commentId) {
     const confirmation = confirm('댓글을 삭제하시겠습니까?');
@@ -354,5 +384,79 @@ async function deleteComment(commentId) {
         }
     }
 }
+
+// 대댓글 폼 열기
+function openReplyForm(commentId) {
+    const replyFormContainer = document.getElementById('reply-form-container');
+    const replyForm = document.getElementById('reply-form');
+    const replyContent = document.getElementById('reply-content');
+
+    replyForm.style.display = 'block';
+    replyContent.value = '';
+    replyForm.setAttribute('data-comment-id', commentId);
+}
+
+// 대댓글 폼 닫기
+function closeReplyForm() {
+    const replyFormContainer = document.getElementById('reply-form-container');
+    const replyForm = document.getElementById('reply-form');
+    const replyContent = document.getElementById('reply-content');
+
+    // 대댓글 입력창을 숨기도록 변경
+    replyFormContainer.style.display = 'none';
+    replyForm.removeAttribute('data-comment-id');
+
+    // 대댓글 내용을 비우기
+    replyContent.value = '';
+}
+
+// 취소 버튼 클릭 이벤트 처리
+const cancelReplyButton = document.getElementById('cancel-reply-button');
+cancelReplyButton.addEventListener('click', closeReplyForm);
+
+// 대댓글 폼 제출 이벤트
+const replyForm = document.getElementById('reply-form');
+replyForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const content = document.getElementById('reply-content').value;
+    const commentId = replyForm.getAttribute('data-comment-id');
+
+    if (!content) {
+        alert('대댓글 내용을 입력하세요.');
+        return;
+    }
+
+    const requestData = {
+        content: content
+    };
+
+    try {
+        const response = await fetch(`/api/replies/${commentId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(requestData)
+        });
+
+        if (response.ok) {
+            const responseData = await response.json();
+            if (responseData) {
+                alert('대댓글이 성공적으로 생성되었습니다.');
+                closeReplyForm();
+                location.reload();
+            } else {
+                console.error('대댓글 생성 실패');
+            }
+        } else {
+            console.error('대댓글 생성 요청 실패:', response.statusText);
+        }
+    } catch (error) {
+        console.error('대댓글 생성 요청 에러:', error);
+    }
+});
+
+init();
 
 init();

@@ -149,6 +149,28 @@ button:hover {
     margin: 0;
 }
 
+.comment {
+    position: relative;
+}
+
+.edit-comment-button,
+.delete-comment-button,
+.reply-comment-button{
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 5px;
+}
+
+.edit-comment-button {
+    right: 80px; /* Adjust the right position for the delete button to come after the edit button */
+}
+
+.reply-comment-button{
+    right: 160px; /* Adjust the right position for the delete button to come after the edit button */
+}
+
+
 /* 댓글 컨테이너 스타일 */
 #comments-container {
     max-height: 1000px; /* 원하는 높이로 설정 */
@@ -165,4 +187,3 @@ button:hover {
     border-radius: 5px;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
 }
-
