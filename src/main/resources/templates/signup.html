@@ -9,6 +9,7 @@
     <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css'>
     <link rel='stylesheet' href='https://fonts.googleapis.com/icon?family=Material+Icons'>
     <link rel="stylesheet" href="/css/signup.css">
+    <link rel="stylesheet" href="/static/css/signup.css">
 
 </head>
 <body>
@@ -39,22 +40,34 @@
     <form class="form-horizontal container justify-content-end" style="width: 450px;">
         <div class="form-group">
             <div class="col-sm-10">
-                <input type="text" class="form-control" id="inputEmail" placeholder="이메일">
+                <div class="text-name" id="email">이메일</div>
+                <input type="text" class="form-control" id="inputEmail" placeholder="이메일을 입력해주세요.">
+            </div>
+        </div>
+        <div class="form-group">
+
+            <div class="col-sm-10">
+                <div class="text-name">비밀번호 (대소문자, 특수문자 포함 8자 이상)</div>
+                <input type="password" class="form-control" id="inputPassword" placeholder="대소문자, 특수문자 포함 8자 이상">
             </div>
         </div>
         <div class="form-group">
             <div class="col-sm-10">
-                <input type="password" class="form-control" id="inputPassword" placeholder="비밀번호">
+                <div class="text-name">비밀번호 확인</div>
+                <input type="password" class="form-control" id="inputPasswordConfirm" placeholder="비밀번호 확인">
+                <div id="passwordMatchIndicator">✓</div>
             </div>
         </div>
         <div class="form-group">
             <div class="col-sm-10">
-                <input type="text" class="form-control" id="inputName" placeholder="사용자 이름">
+                <div class="text-name">사용자 이름</div>
+                <input type="text" class="form-control" id="inputName" placeholder="이름을 입력해주세요.">
             </div>
         </div>
         <div class="form-group">
             <div class="col-sm-10">
-                <input type="text" class="form-control" id="inputNickname" placeholder="닉네임">
+                <div class="text-name">닉네임 (특수문자 제외)</div>
+                <input type="text" class="form-control" id="inputNickname" placeholder="특수문자 제외">
             </div>
         </div>
         <div class="form-group">

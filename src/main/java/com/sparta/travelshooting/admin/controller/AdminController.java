@@ -14,6 +14,7 @@ import com.sparta.travelshooting.reviewPost.dto.ReviewPostResponseDto;
 import com.sparta.travelshooting.user.dto.UserResponseDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -78,7 +79,7 @@ public class AdminController {
     // 유저 닉네임, 권한
     @Operation(summary = "유저 프로필 수정")
     @PutMapping("/user/{userId}")
-    public ResponseEntity<ApiResponseDto> updateUser(@PathVariable Long userId, @RequestBody AdminProfileRequestDto requestDto) {
+    public ResponseEntity<ApiResponseDto> updateUser(@PathVariable Long userId, @Valid @RequestBody AdminProfileRequestDto requestDto) {
         ApiResponseDto apiResponseDto = adminService.updateUser(userId, requestDto);
         return new ResponseEntity<>(apiResponseDto, HttpStatus.OK);
     }
