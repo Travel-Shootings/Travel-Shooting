@@ -8,6 +8,7 @@ import com.sparta.travelshooting.user.dto.UserResponseDto;
 import com.sparta.travelshooting.user.service.UserInfoService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,7 +35,7 @@ public class UserInfoController {
     // 마이페이지 : 자신의 정보 수정 (nickname, region)
     @Operation(summary = "자신의 정보 수정")
     @PutMapping("/edit")
-    public ResponseEntity<ApiResponseDto> editUserInfo(@AuthenticationPrincipal UserDetailsImpl userDetails, @RequestBody EditInfoRequestDto requestDto) {
+    public ResponseEntity<ApiResponseDto> editUserInfo(@AuthenticationPrincipal UserDetailsImpl userDetails, @Valid @RequestBody EditInfoRequestDto requestDto) {
         ApiResponseDto userResponseDto = userInfoService.editUserInfo(userDetails.getUser(), requestDto);
         return new ResponseEntity<>(userResponseDto, HttpStatus.OK);
     }
@@ -42,7 +43,7 @@ public class UserInfoController {
     // 마이페이지 : 비밀번호 수정
     @Operation(summary = "비밀번호 수정")
     @PutMapping("/edit/password")
-    public ResponseEntity<ApiResponseDto> editUserPassword(@AuthenticationPrincipal UserDetailsImpl userDetails, @RequestBody PasswordRequestDto requestDto) {
+    public ResponseEntity<ApiResponseDto> editUserPassword(@AuthenticationPrincipal UserDetailsImpl userDetails, @Valid @RequestBody PasswordRequestDto requestDto) {
         ApiResponseDto apiResponseDto = userInfoService.editUserPassword(userDetails.getUser(), requestDto);
         return new ResponseEntity<>(apiResponseDto, HttpStatus.OK);
     }
