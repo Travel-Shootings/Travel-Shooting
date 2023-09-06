@@ -11,14 +11,18 @@ import com.sparta.travelshooting.user.entity.RoleEnum;
 import com.sparta.travelshooting.user.entity.User;
 import com.sparta.travelshooting.user.repository.RefreshTokenRepository;
 import com.sparta.travelshooting.user.repository.UserRepository;
+import jakarta.mail.MessagingException;
+import jakarta.mail.internet.MimeMessage;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.UUID;
@@ -40,7 +44,6 @@ public class UserAuthServiceImpl implements UserAuthService {
         String password = passwordEncoder.encode(requestDto.getPassword());
         String nickname = requestDto.getNickname();
         RegionEnum region = RegionEnum.valueOf(requestDto.getRegion());
-        log.info("region : " + region);
 
         // 가입된 정보 확인 -> email과 nickname은 중복 x
         if (userRepository.findByEmail(email).isPresent()) {
@@ -125,4 +128,46 @@ public class UserAuthServiceImpl implements UserAuthService {
 
         return new ApiResponseDto("로그아웃 성공", HttpStatus.OK.value());
     }
+
+    // email 인증
+    private final JavaMailSender javaMailSender;
+    private static final String senderMail = "TravelShooting";
+    private static final Long expAuthNumber = 10 * 60 * 1000L; //10분
+    @Override
+    @Transactional(timeout = 15)
+    public ApiResponseDto sendMail(String email) {
+        int authNumber = (int)(Math.random() * (90000)) + 10000; // (int) Math.random() * (최댓값-최소값+1) + 최소값
+
+        // 메일 메세지
+        MimeMessage message = javaMailSender.createMimeMessage();
+        try {
+            message.setFrom(senderMail);
+            message.setRecipients(MimeMessage.RecipientType.TO, email);
+            message.setSubject("Travel-Shooting 이메일 인증");
+            String body = "";
+            body += "<h3>" + "안녕하세요. Travel-Shooting 입니다." + "</h3>";
+            body += "<h3>" + "요청하신 인증 번호입니다." + "</h3>";
+            body += "<h1>" + authNumber + "</h1>";
+            body += "<h3>" + "위의 인증 번호를 입력해주세요." + "</h3>";
+            message.setText(body,"UTF-8", "html");
+            javaMailSender.send(message);
+
+            log.info("메일 전송 후");
+            redisUtil.setAuthNumber(authNumber, "AuthNumber", expAuthNumber);
+
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
+
+        return new ApiResponseDto("인증 메일을 보냈습니다. 10분 안에 인증을 완료해주세요.", HttpStatus.OK.value());
+    }
+
+    @Override
+    public ApiResponseDto confirmAuthNumber(String authNumber) {
+        if (redisUtil.hasAuthNumber(authNumber)) {
+            return new ApiResponseDto("인증에 성공했습니다.", HttpStatus.OK.value());
+        }
+        return new ApiResponseDto("인증에 실패했습니다. 다시 시도해주세요.", HttpStatus.BAD_REQUEST.value());
+    }
+
 }
