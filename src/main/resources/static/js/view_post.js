@@ -34,14 +34,10 @@ function loadPostData() {
             $('.title temp').text(title); // .title 요소 안의 temp 클래스를 가진 요소에 title 값을 설정합니다.
             $('.post temp').text(contents); // .post 요소 안의 temp 클래스를 가진 요소에 contents 값을 설정합니다.
 
-            if (commentList && commentList.length > 0) {
-                let commentListHtml = '';
-                journeyList.forEach(item => {
-                    const nickName = item.nickName;
-                    const content = item.content;
 
-                    commentListHtml += $('.comment temp').text(nickName + ": " + content);
-                })
+            if (commentList && commentList.length > 0) {
+                // 댓글 데이터를 renderComments 함수로 전달하여 추가합니다.
+                loadComments(commentList);
             }
 
             // 프론트엔드에서 journeyList 데이터를 반복하며 표시
@@ -141,6 +137,169 @@ deletePostButton.addEventListener("click", deletePost);
                 window.location.href = "/view/post/" + postId
             });
 }
+
+// 기존 댓글 DB에서 불러오기
+function createCommentElement(comment) {
+    const commentElement = document.createElement('li');
+    commentElement.classList.add('comment');
+
+    const authorElement = document.createElement('div');
+    authorElement.textContent = `작성자: ${comment.nickName}`;
+    authorElement.classList.add('comment-author');
+    commentElement.appendChild(authorElement);
+
+    // 댓글 내용과 버튼을 감싸는 div를 생성합니다.
+    const commentContentWrapper = document.createElement('div');
+    commentContentWrapper.classList.add('comment-content-wrapper');
+
+    const contentElement = document.createElement('div');
+    contentElement.textContent = comment.content;
+    commentContentWrapper.appendChild(contentElement);
+
+    const editButton = document.createElement('button');
+    editButton.textContent = '수정';
+    editButton.classList.add('edit-comment-button');
+    editButton.setAttribute('data-comment-id', comment.id);
+    editButton.setAttribute('data-comment-content', comment.content);
+    commentContentWrapper.appendChild(editButton);
+
+    const deleteButton = document.createElement('button');
+    deleteButton.textContent = '삭제';
+    deleteButton.classList.add('delete-comment-button');
+    deleteButton.setAttribute('data-comment-id', comment.id);
+    commentContentWrapper.appendChild(deleteButton);
+
+    commentElement.appendChild(commentContentWrapper);
+
+    return commentElement;
+}
+
+//댓글 추가 반영
+function loadComments(comments) {
+    const commentList = document.getElementById('comment-list');
+    commentList.innerHTML = '';
+
+    for (const comment of comments) {
+        const commentElement = createCommentElement(comment);
+        commentList.appendChild(commentElement);
+    }
+}
+
+// 댓글 생성
+document.addEventListener('DOMContentLoaded', function () {
+    const commentForm = document.getElementById('comment-form');
+
+    commentForm.addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        const commentContent = document.getElementById('comment-content').value;
+
+        // AJAX를 사용하여 댓글 생성 요청을 보냅니다.
+        fetch(`/api/comments/posts/` + postId, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ content: commentContent }),
+        })
+            .then(response => response.json())
+            .then(data => {
+                // 댓글 생성이 성공한 경우, 화면에 댓글을 추가합니다.
+                const commentList = document.getElementById('comment-list');
+                const commentElement = createCommentElement(data);
+                commentList.appendChild(commentElement);
+
+                // 댓글 입력 필드를 비웁니다.
+                document.getElementById('comment-content').value = '';
+            })
+            .catch(error => {
+                console.error('댓글 생성 에러:', error);
+            });
+    });
+});
+
+document.addEventListener('DOMContentLoaded', function () {
+    const commentList = document.getElementById('comment-list');
+
+    commentList.addEventListener('click', function (e) {
+        const target = e.target;
+
+        // 수정 버튼 클릭 시
+        if (target.classList.contains('edit-comment-button')) {
+            const commentId = target.getAttribute('data-comment-id');
+            const commentContent = target.getAttribute('data-comment-content');
+
+            // TODO: 수정 모달창을 열고 commentContent를 표시하세요.
+            const editModal = document.getElementById('comment-edit-form');
+            const editCommentContent = document.getElementById('edit-comment-content');
+            editCommentContent.value = commentContent;
+            editModal.style.display = 'block';
+
+            // TODO: 수정 모달창에서 수정 내용을 입력받고, API를 호출하여 댓글을 수정하세요.
+            const saveEditButton = document.getElementById('save-edit-button');
+            saveEditButton.addEventListener('click', function () {
+                const editedContent = editCommentContent.value;
+
+                console.log(commentId);
+
+                // AJAX를 사용하여 댓글 수정 요청을 보냅니다.
+                fetch(`/api/comments/` + commentId, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ content: editedContent }),
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        // 댓글 수정이 성공한 경우, 화면에서 댓글 내용을 업데이트합니다.
+                        const commentElement = target.closest('.comment');
+                        const contentElement = commentElement.querySelector('.comment-content-wrapper div');
+                        contentElement.textContent = editedContent;
+
+                        //수정 후 페이지 새로고침
+                        location.reload();
+                        // 수정 모달창 닫기
+                        // editModal.style.display = 'none';
+
+                    })
+                    .catch(error => {
+                        console.error('댓글 수정 에러:', error);
+                    });
+            });
+
+            // 취소 버튼을 클릭할 때 수정 모달 창을 닫습니다.
+            const cancelEditButton = document.getElementById('cancel-edit-button');
+            cancelEditButton.addEventListener('click', function () {
+                editModal.style.display = 'none';
+                location.reload();
+            });
+        }
+
+        // 삭제 버튼 클릭 시
+        if (target.classList.contains('delete-comment-button')) {
+            const commentId = target.getAttribute('data-comment-id');
+
+            if (confirm('댓글을 삭제하시겠습니까?')) {
+                // AJAX를 사용하여 댓글 삭제 요청을 보냅니다.
+                fetch(`/api/comments/` + commentId, {
+                    method: 'DELETE',
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        // 댓글 삭제가 성공한 경우, 화면에서 댓글을 제거합니다.
+                        const commentElement = target.closest('.comment');
+                        commentElement.remove();
+                    })
+                    .catch(error => {
+                        console.error('댓글 삭제 에러:', error);
+                    });
+            }
+        }
+    });
+});
+
+
 
 // 네이버 지도 API 함수
 selectMapList();

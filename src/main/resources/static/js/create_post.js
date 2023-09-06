@@ -178,38 +178,31 @@ $(document).ready(function () {
         // 기존 총 일정 정보를 가져옴
         let totalBudget = parseInt($("#totalBudget").text().split('원')[0]) || 0;
         let totalDays = parseInt($("#totalDays").text().split('일')[0]) || 0;
-        let totalMembers = parseInt($("#totalMembers").text().split('명')[0]) || 0;
 
         // 계산 결과를 업데이트
         totalBudget += budgetHandler;
         totalDays += daysHandler;
-        totalMembers += membersHandler;
 
         // 업데이트된 결과를 HTML에 반영
         $("#totalBudget").text(totalBudget + "원");
         $("#totalDays").text(totalDays + "일");
-        $("#totalMembers").text(totalMembers + "명");
-
-        console.log(totalBudget)
-        console.log(totalDays)
-        console.log(totalMembers)
 
         // 새로운 일정 정보를 추가할 HTML 생성
         const newRow = `<tr>
             <td class="id" style="display:none;"></td>
-            <td class="place">${location}</td>
-            <td class="budget">${budget}</td>
+            <td class="place" style="text-align: center;">${location}</td>
+            <td class="budget" style="text-align: center;">${budget}</td>
             <td class="formattedStartJourney">${formattedStartJourney}</td>
             <td class="formattedEndJourney">${formattedEndJourney}</td>
-            <td class="members">${members}</td>
+            <td class="members" style="text-align: center;">${members}</td>
             <td class="startJourney" style="display: none;">${startJourney}</td>
             <td class="endJourney" style="display: none;">${endJourney}</td>
             <td class="placeAddress" style="display: none;">${modaladdress}</td>
-            <td class="edit">
-                <button class="edit-item-btn" type="button" style="font-size: 15px">Edit</button>
-            </td>
+<!--            <td class="edit">-->
+<!--                <button class="edit-item-btn" type="button" style="font-size: 15px">수정</button>-->
+<!--            </td>-->
             <td class="remove">
-                <button class="remove-item-btn" type="button" style="font-size: 15px">Remove</button>
+                <button class="remove-item-btn" type="button" style="font-size: 15px">삭제</button>
             </td>
         </tr>`;
 
@@ -217,6 +210,7 @@ $(document).ready(function () {
         $(".list").append(newRow);
 
         // 입력 필드 초기화
+        $("#search-location").val('');
         $("#location").val('');
         $("#budget").val('');
         $("#journeyStartDate").val('');
@@ -230,6 +224,35 @@ $(document).ready(function () {
 
         const modal = document.querySelector('.first-modal');
         modal.style.display = 'none';
+    });
+});
+
+document.addEventListener('DOMContentLoaded', function () {
+    const postJourneyButton = document.getElementById('post-journey');
+
+    // 입력 필드 값 변경 감시
+    const modalCategoryWrapper = document.querySelector('.modal-category-wrapper');
+    const inputs = modalCategoryWrapper.querySelectorAll('input');
+
+    function handleInputChange() {
+        // 입력 필드가 비어 있는지 확인
+        let isEmpty = false;
+        inputs.forEach(function (input) {
+            if (input.value === '') {
+                isEmpty = true;
+            }
+        });
+
+        // 모든 필드가 채워져 있으면 버튼 활성화
+        postJourneyButton.disabled = isEmpty;
+    }
+
+    modalCategoryWrapper.addEventListener('input', handleInputChange);
+
+    // 여행일정 추가 버튼 클릭 시
+    const addButton = document.getElementById('add-journey');
+    addButton.addEventListener('click', function () {
+        // 이벤트 리스너는 여기에서 다시 할당하지 않습니다.
     });
 });
 
@@ -279,9 +302,6 @@ $(document).on('click', '.select-place-button', function () {
     const modal = document.querySelector('.search-modal');
     modal.style.display = 'none';
 });
-
-
-
 
 
 // 최종 게시글 작성 버튼 눌렀을 때 백엔드의 CreatePostAndJourneyList로 보내는 로직
@@ -355,60 +375,3 @@ $(document).ready(function () {
         window.location.href = "http://localhost:8080/view/home"; // 메인 페이지로 이동
     });
 });
-
-
-// 현재 문제가 있어서 주석 처리 중
-// $(document).ready(function () {
-//     // 편집 버튼에 대한 클릭 이벤트 핸들러 설정
-//     $(".list").on("click", ".edit-item-btn", function (e) {
-//         e.preventDefault(); // 폼의 기본 동작(페이지 새로고침)을 막음
-//
-//         // 클릭한 편집 버튼이 속한 행을 찾습니다.
-//         const row = $(this).closest("tr");
-//
-//         // 해당 행의 값을 가져와서 모달에 채웁니다.
-//         const location = row.find(".place").text();
-//         const budget = row.find(".budget").text();
-//         const startJourney = row.find(".startJourney").text();
-//         const endJourney = row.find(".endJourney").text();
-//         const members = row.find(".members").text();
-//         const placeAddress = row.find(".placeAddress").text();
-//
-//         // 모달에 값을 채웁니다.
-//         $("#location").val(location);
-//         $("#budget").val(budget);
-//         $("#journeyStartDate").val(startJourney);
-//         $("#journeyEndDate").val(endJourney);
-//         $("#member").val(members);
-//         $("#modaladdress").val(placeAddress);
-//
-//         // 모달을 엽니다.
-//         const modal = document.querySelector('.modal');
-//         modal.style.display = 'flex';
-//
-//         // 저장 버튼에 클릭 이벤트 핸들러를 추가하여 변경된 내용을 테이블에 반영합니다.
-//         $("#post-journey").off("click"); // 이전에 등록된 클릭 핸들러 제거
-//         $("#post-journey").on("click", function (e) {
-//             e.preventDefault();
-//
-//             // 모달에서 변경된 값을 가져옵니다.
-//             const editedLocation = $("#location").val();
-//             const editedBudget = $("#budget").val();
-//             const editedStartJourney = $("#journeyStartDate").val();
-//             const editedEndJourney = $("#journeyEndDate").val();
-//             const editedMembers = $("#member").val();
-//             const editedPlaceAddress = $("#modaladdress").val();
-//
-//             // 테이블에 변경된 값을 반영합니다.
-//             row.find(".place").text(editedLocation);
-//             row.find(".budget").text(editedBudget);
-//             row.find(".startJourney").text(editedStartJourney);
-//             row.find(".endJourney").text(editedEndJourney);
-//             row.find(".members").text(editedMembers);
-//             row.find(".placeAddress").text(editedPlaceAddress);
-//
-//             // 모달을 닫습니다.
-//             modal.style.display = 'none';
-//         });
-//     });
-// });

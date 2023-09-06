@@ -24,19 +24,19 @@ function loadPostandJourneyList () {
             data.journeyList.forEach(journey => {
                 const newRow = `<tr>
                     <td class="id" style="display:none;"></td>
-                    <td class="place">${journey.locations}</td>
-                    <td class="budget">${journey.budget}</td>
+                    <td class="place" style="text-align: center">${journey.locations}</td>
+                    <td class="budget" style="text-align: center">${journey.budget}</td>
                     <td class="formattedStartJourney">${journey.startJourney}</td>
                     <td class="formattedEndJourney">${journey.endJourney}</td>
-                    <td class="members">${journey.members}</td>
+                    <td class="members" style="text-align: center">${journey.members}</td>
                     <td class="startJourney" style="display: none;">${journey.startJourney}</td>
                     <td class="endJourney" style="display: none;">${journey.endJourney}</td>
                     <td class="placeAddress" style="display: none;">${journey.placeAddress}</td>
-                    <td class="edit">
-                        <button class="edit-item-btn" type="button" style="font-size: 15px">Edit</button>
-                    </td>
+<!--                    <td class="edit">-->
+<!--                        <button class="edit-item-btn" type="button" style="font-size: 15px">수정</button>-->
+<!--                    </td>-->
                     <td class="remove">
-                        <button class="remove-item-btn" type="button" style="font-size: 15px">Remove</button>
+                        <button class="remove-item-btn" type="button" style="font-size: 15px">삭제</button>
                     </td>
                 </tr>`;
 
@@ -199,6 +199,10 @@ btnCloseModal.addEventListener('click', function (e) {
     modal.style.display = 'none';
 });
 
+
+
+
+
 // 첫번째 모달 입력값 -> 게시글 작성의 JourneyList로 옮기는 매서드
 $(document).ready(function () {
     $("#post-journey").click(function (e) {
@@ -227,38 +231,34 @@ $(document).ready(function () {
         // 기존 총 일정 정보를 가져옴
         let totalBudget = parseInt($("#totalBudget").text().split('원')[0]) || 0;
         let totalDays = parseInt($("#totalDays").text().split('일')[0]) || 0;
-        let totalMembers = parseInt($("#totalMembers").text().split('명')[0]) || 0;
 
         // 계산 결과를 업데이트
         totalBudget += budgetHandler;
         totalDays += daysHandler;
-        totalMembers += membersHandler;
 
         // 업데이트된 결과를 HTML에 반영
         $("#totalBudget").text(totalBudget + "원");
         $("#totalDays").text(totalDays + "일");
-        $("#totalMembers").text(totalMembers + "명");
 
         console.log(totalBudget)
         console.log(totalDays)
-        console.log(totalMembers)
 
         // 새로운 일정 정보를 추가할 HTML 생성
         const newRow = `<tr>
             <td class="id" style="display:none;"></td>
-            <td class="place">${location}</td>
-            <td class="budget">${budget}</td>
-            <td class="formattedStartJourney">${formattedStartJourney}</td>
-            <td class="formattedEndJourney">${formattedEndJourney}</td>
-            <td class="members">${members}</td>
+            <td class="place" style="text-align: center">${location}</td>
+            <td class="budget" style="text-align: center">${budget}</td>
+            <td class="formattedStartJourney" style="text-align: center">${formattedStartJourney}</td>
+            <td class="formattedEndJourney" style="text-align: center">${formattedEndJourney}</td>
+            <td class="members" style="text-align: center">${members}</td>
             <td class="startJourney" style="display: none;">${startJourney}</td>
             <td class="endJourney" style="display: none;">${endJourney}</td>
             <td class="placeAddress" style="display: none;">${modaladdress}</td>
-            <td class="edit">
-                <button class="edit-item-btn" type="button" style="font-size: 15px">Edit</button>
-            </td>
+<!--            <td class="edit">-->
+<!--                <button class="edit-item-btn" type="button" style="font-size: 15px">수정</button>-->
+<!--            </td>-->
             <td class="remove">
-                <button class="remove-item-btn" type="button" style="font-size: 15px">Remove</button>
+                <button class="remove-item-btn" type="button" style="font-size: 15px">삭제</button>
             </td>
         </tr>`;
 
@@ -279,6 +279,35 @@ $(document).ready(function () {
 
         const modal = document.querySelector('.first-modal');
         modal.style.display = 'none';
+    });
+});
+
+document.addEventListener('DOMContentLoaded', function () {
+    const postJourneyButton = document.getElementById('post-journey');
+
+    // 입력 필드 값 변경 감시
+    const modalCategoryWrapper = document.querySelector('.modal-category-wrapper');
+    const inputs = modalCategoryWrapper.querySelectorAll('input');
+
+    function handleInputChange() {
+        // 입력 필드가 비어 있는지 확인
+        let isEmpty = false;
+        inputs.forEach(function (input) {
+            if (input.value === '') {
+                isEmpty = true;
+            }
+        });
+
+        // 모든 필드가 채워져 있으면 버튼 활성화
+        postJourneyButton.disabled = isEmpty;
+    }
+
+    modalCategoryWrapper.addEventListener('input', handleInputChange);
+
+    // 여행일정 추가 버튼 클릭 시
+    const addButton = document.getElementById('add-journey');
+    addButton.addEventListener('click', function () {
+        // 이벤트 리스너는 여기에서 다시 할당하지 않습니다.
     });
 });
 
