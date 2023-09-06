@@ -35,7 +35,6 @@ public class ImageServiceImpl implements ImageService {
             String value = saveImage(multipartFile);
             resultList.add(value);
         }
-
         return resultList;
     }
 
@@ -57,7 +56,8 @@ public class ImageServiceImpl implements ImageService {
             String accessUrl = amazonS3Client.getUrl(bucketName, filename).toString();
             image.setAccessUrl(accessUrl);
         } catch(IOException e) {
-
+            e.printStackTrace();
+            throw new RuntimeException("이미지 업로드 중 오류가 발생했습니다.");
         }
         return image.getAccessUrl();
     }
@@ -72,7 +72,6 @@ public class ImageServiceImpl implements ImageService {
 
         // S3에서 이미지 삭제 로직
         deleteImageFromS3(image.getAccessUrl());
-
         // 데이터베이스에서 이미지 삭제
         imageRepository.delete(image);
     }
