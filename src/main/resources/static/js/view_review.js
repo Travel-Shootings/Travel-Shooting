@@ -109,7 +109,7 @@ async function deleteReviewPost() {
                 } else {
                     alert(data.message);
                 }
-                window.location.href = '/view/review-post';
+                window.location.href = `/view/review-post/${reviewPostId}`;
             } else {
                 console.error('Error deleting review post:', response.statusText);
             }
@@ -183,7 +183,7 @@ likeButton.addEventListener('click', async () => {
 
 
 // 리뷰 포스트 댓글 생성 API 엔드포인트
-const apiUrl = `/api/comments/reviewPost/${reviewPostId}`;
+const apiUrl = `/api/comments/review-posts/${reviewPostId}`;
 const commentForm = document.getElementById('comment-form');
 const commentContent = document.getElementById('comment-content');
 
@@ -228,7 +228,7 @@ commentForm.addEventListener('submit', async (e) => {
     }
 });
 
-const commentsApiUrl = `/api/comments/reviewPost/${reviewPostId}`;
+const commentsApiUrl = `/api/comments/review-posts/${reviewPostId}`;
 
 
 async function fetchComments() {
