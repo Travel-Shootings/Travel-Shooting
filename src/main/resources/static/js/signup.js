@@ -34,11 +34,39 @@ M.Autocomplete.init(ac, {
     }
 });
 
+// 비밀번호 확인
+
+const passwordConfirmInput = document.getElementById('inputPasswordConfirm');
+const passwordInput = document.getElementById('inputPassword');
+const passwordMatchIndicator = document.getElementById('passwordMatchIndicator');
+
+passwordConfirmInput.addEventListener('input', () => {
+    // 비밀번호 입력란의 값과 비밀번호 확인 입력란의 값을 비교하여 일치 여부 확인
+    const password = passwordInput.value;
+    const confirmPassword = passwordConfirmInput.value;
+
+    // 비밀번호 일치 여부에 따라 아이콘 변경
+    if (password === confirmPassword) {
+        passwordMatchIndicator.textContent = '✓';
+        passwordMatchIndicator.style.color = 'green';
+    } else {
+        passwordMatchIndicator.textContent = '✗';
+        passwordMatchIndicator.style.color = 'red';
+    }
+});
+
 // signup
 let idx = {
     init: function (){
         $("#btn-signup").on("click", () => {
-            this.signup();
+            const password = passwordInput.value;
+            const confirmPassword = passwordConfirmInput.value;
+
+            if (password === confirmPassword) {
+                this.signup();
+            } else {
+                alert("비밀번호를 다시 확인해주세요.")
+            }
         });
     },
 
