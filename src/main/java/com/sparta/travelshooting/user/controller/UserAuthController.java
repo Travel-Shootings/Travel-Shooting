@@ -2,10 +2,7 @@ package com.sparta.travelshooting.user.controller;
 
 import com.sparta.travelshooting.common.ApiResponseDto;
 import com.sparta.travelshooting.redis.RedisUtil;
-import com.sparta.travelshooting.user.dto.LoginRequestDto;
-import com.sparta.travelshooting.user.dto.SignupRequestDto;
-import com.sparta.travelshooting.user.dto.TokenRequestDto;
-import com.sparta.travelshooting.user.dto.TokenResponseDto;
+import com.sparta.travelshooting.user.dto.*;
 import com.sparta.travelshooting.user.service.TokenService;
 import com.sparta.travelshooting.user.service.UserAuthService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -24,15 +21,15 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @Tag(name = "사용자 인증 관련 API")
 public class UserAuthController {
-    private final UserAuthService userService;
+    private final UserAuthService userAuthService;
     private final TokenService tokenService;
-
+    private final RedisUtil redisUtil;
 
     // 회원가입 API
     @Operation(summary = "회원가입")
     @PostMapping("/signup")
     public ResponseEntity<ApiResponseDto> signup(@Valid @RequestBody SignupRequestDto requestDto) {
-        ApiResponseDto apiResponseDto = userService.signup(requestDto);
+        ApiResponseDto apiResponseDto = userAuthService.signup(requestDto);
         return new ResponseEntity<>(apiResponseDto, HttpStatus.CREATED);
     }
 
@@ -40,7 +37,7 @@ public class UserAuthController {
     @Operation(summary = "로그인")
     @PostMapping("/login")
     public ResponseEntity<ApiResponseDto> login(@RequestBody LoginRequestDto requestDto, HttpServletResponse res) {
-        ApiResponseDto apiResponseDto = userService.login(requestDto, res);
+        ApiResponseDto apiResponseDto = userAuthService.login(requestDto, res);
         return new ResponseEntity<>(apiResponseDto, HttpStatus.OK);
     }
 
@@ -51,7 +48,7 @@ public class UserAuthController {
     @Operation(summary = "로그아웃")
     @DeleteMapping("/logout")
     public ResponseEntity<ApiResponseDto> logout(HttpServletRequest req, HttpServletResponse res) {
-        ApiResponseDto apiResponseDto = userService.logout(req, res);
+        ApiResponseDto apiResponseDto = userAuthService.logout(req, res);
         return new ResponseEntity<>(apiResponseDto, HttpStatus.OK);
     }
 
@@ -63,8 +60,23 @@ public class UserAuthController {
         return new ResponseEntity<>(tokenResponseDto, HttpStatus.CREATED);
     }
 
+    // email 인증
+    @Operation(summary = "email 인증")
+    @PostMapping("/mail")
+    public ResponseEntity<ApiResponseDto> sendMail(@RequestBody MailRequestDto mailRequestDto) {
+        ApiResponseDto mailResponseDto = userAuthService.sendMail(mailRequestDto.getEmail());
+        return new ResponseEntity<>(mailResponseDto, HttpStatus.OK);
+    }
+
+    // email 인증번호 확인
+    @Operation(summary = "인증번호 확인")
+    @PostMapping("/mail/confirm")
+    public ResponseEntity<ApiResponseDto> confirmAuthNumber(@RequestBody AuthNumberRequestDto authNumberRequestDto) {
+        ApiResponseDto mailResponseDto = userAuthService.confirmAuthNumber(authNumberRequestDto.getAuthNumber());
+        return new ResponseEntity<>(mailResponseDto, HttpStatus.OK);
+    }
+
     // Access Token 블랙리스트 확인 API -> 테스트용이라서 추후에 제거 (TokenRequestDto 도 삭제)
-    private final RedisUtil redisUtil;
 
     @Operation(summary = "액세스 토큰 블랙리스트 확인")
     @PostMapping("/black-list")
