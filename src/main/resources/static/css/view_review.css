@@ -138,6 +138,17 @@ button:hover {
     border-top: 1px solid #ccc;
 }
 
+.comments-container {
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #f0f0f0;
+    border-radius: 5px;
+}
+
+.comments-container p {
+    margin: 0;
+}
+
 .comment {
     margin-top: 10px;
     padding: 10px;
@@ -169,6 +180,10 @@ button:hover {
     right: 160px; /* Adjust the right position for the delete button to come after the edit button */
 }
 
+
+.contents-wrapper {
+    display: flex;
+}
 
 /* 댓글 컨테이너 스타일 */
 #comments-container {

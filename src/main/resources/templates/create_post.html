@@ -24,17 +24,18 @@
 <div class="main-container">
     <div class="map-container">
         <div class="search">
-<!--            <input id="add-journey" type="button" class="btn-open-modal" style="font-size: 30px;" value="여행 일정 추가">-->
-            <a href="#" id="add-journey" type="button" class="btn create-journey">여행 일정 추가</a>
+            <a href="#" id="add-journey" type="button" class="btn create-journey">
+    <span style="display: flex; justify-content: center; align-items: center; height: 100%;">
+        여행 일정 추가 </span> </a>
             <input id="address" type="hidden" placeholder="검색할 주소">
             <input id="submit" type="hidden" value="주소검색">
         </div>
-        <div id="map" style="width:800px;height:800px;"></div>
+        <div id="map" style="width:800px;height:750px;"></div>
     </div>
 
     <!-- 여행 일정(JourneyList 내용 칸 -->
     <div class="journey-container">
-        <form id="contact" action="">
+        <form class="journey-info" id="contact" action="">
             <h3>여행 일정</h3>
             <h4>당신의 여행 일정을 작성하고 사람들과 공유하세요!</h4>
             <fieldset>
@@ -75,13 +76,11 @@
                     <tr>
                         <th scope="col">총 비용</th>
                         <th scope="col">총 기간</th>
-                        <th scope="col">총 인원</th>
                     </tr>
                     </tbody>
                     <tr>
-                        <td id="totalBudget">원</td>
-                        <td id="totalDays">일</td>
-                        <td id="totalMembers">명</td>
+                        <td id="totalBudget" style="text-align: center;">원</td>
+                        <td id="totalDays" style="text-align: center;">일</td>
                     </tr>
                 </table>
             </fieldset>
@@ -97,14 +96,15 @@
 <div class="first-modal">
     <form class="modal-body">
         <h2 class="form-heading">여행 정보</h2>
-
         <div class="modal-category">
             <label for="location" class="sr-only">장소 검색 </label>
-            <input type="search" id="search-location" class="form-control" placeholder="검색할 장소를 입력하세요." autofocus>
-            <img src="https://i.postimg.cc/MT8tf3Qy/searchmagnifierinterfacesymbol-79894.png" id="search-icon"
-                 class="search-button" alt="검색">
+            <div class="search-icon-wrapper">
+                <input type="search" id="search-location" class="form-control" placeholder="검색할 장소를 입력하세요." autofocus>
+                <img src="https://i.postimg.cc/MT8tf3Qy/searchmagnifierinterfacesymbol-79894.png" id="search-icon"
+                     class="search-button" alt="검색">
+            </div>
         </div>
-
+        <div class="modal-category-wrapper">
         <div class="modal-category">
             <label for="location" class="sr-only">여행 장소 </label>
             <input type="text" id="location" class="form-control" placeholder="여행 장소를 검색하세요." disabled>
@@ -129,7 +129,7 @@
             <label for="member" class="sr-only">여행 인원</label>
             <input type="text" id="member" class="form-control" placeholder="여행 인원을 설정하세요." min="1" required>
         </div>
-
+        </div>
         <div class="modal-category" style="display: none;">
             <label for="modaladdress" class="sr-only">주소지</label>
             <input type="text" id="modaladdress" class="form-control" placeholder="주소지 숨기는 칸 입니다.">
@@ -137,7 +137,7 @@
 
         <div class="submit-journey">
             <div class="col-sm-6">
-                <button class="btn btn-lg btn-primary btn-block green" id="post-journey" type="submit">일정등록</button>
+                <button class="btn btn-lg btn-primary btn-block green" id="post-journey" type="submit" disabled>일정등록</button>
             </div>
             <div class="col-sm-6">
                 <button class="btn btn-lg btn-cancel btn-block" id="cancel-journey" type="submit">돌아가기</button>
