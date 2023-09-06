@@ -138,15 +138,19 @@ button:hover {
     border-top: 1px solid #ccc;
 }
 
-.comment {
+.comments-container {
     margin-top: 10px;
     padding: 10px;
     background-color: #f0f0f0;
     border-radius: 5px;
 }
 
-.comment p {
+.comments-container p {
     margin: 0;
+}
+
+.contents-wrapper {
+    display: flex;
 }
 
 /* 댓글 컨테이너 스타일 */

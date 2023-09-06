@@ -68,8 +68,7 @@ body {
     border-radius: 30px;
 }
 
-.btn.create-journey{
-    margin: 0px;
+.btn.create-journey {
     text-align: center;
     border-radius: 15px;
     justify-content: center; /* 가로 중앙 정렬 */
@@ -164,6 +163,63 @@ body {
     z-index: 2;
 }
 
+.user-list-item {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 10px;
+    border: 1px solid #ccc;
+    margin-bottom: 5px; /* 간격을 줄임 */
+    width: 100%; /* 모달 내에서 가로로 꽉 차게 설정 */
+}
+
+.place-title::before {
+    content: "[장소명] "; /* 텍스트 앞에 추가될 내용 */
+    font-weight: bold;
+    font-size: 16px; /* 제목 크기 조절 */
+}
+
+
+.place-roadAddress::before {
+    content: "[도로명주소] "; /* 텍스트 앞에 추가될 내용 */
+    font-size: 12px; /* 주소 크기 조절 */
+    margin-top: 3px; /* 간격을 줄임 */
+}
+
+.place-address::before {
+    content: "[주소] "; /* 텍스트 앞에 추가될 내용 */
+    font-size: 12px; /* 주소 크기 조절 */
+    margin-top: 3px; /* 간격을 줄임 */
+}
+
+.select-place-button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    margin-top: 5px; /* 위쪽 간격을 작게 설정 */
+    cursor: pointer;
+    align-self: flex-start; /* 버튼을 왼쪽으로 정렬 */
+}
+
+.select-place-button:hover {
+    background-color: #0056b3;
+}
+
+.close-second-modal {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    margin-top: 10px; /* 위쪽 간격을 크게 설정 */
+    cursor: pointer;
+    align-self: center; /* 닫기 버튼을 중앙으로 정렬 */
+}
+
+.close-second-modal:hover {
+    background-color: #0056b3;
+}
+
 
 .submit-journey, .btn-open-modal {
     width: 100%; /* 가로 폭을 100%로 설정하여 부모 요소에 맞춤 */
@@ -197,6 +253,14 @@ body {
     font-weight: bold;
 }
 
+.search-icon-wrapper {
+    display: flex;
+}
+
+.form-control {
+    width: 90%;
+}
+
 table td, table th {
-    padding:5px;
+    padding: 5px;
 }

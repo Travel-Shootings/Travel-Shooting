@@ -27,7 +27,7 @@ public class CommentController {
 
     // 여행 계획 게시판 댓글 생성
     @Operation(summary = "여행 계획 게시판 댓글 생성")
-    @PostMapping("/post/{postId}")
+    @PostMapping("/posts/{postId}")
     public ResponseEntity<CommentResponseDto> createComment(@PathVariable Long postId, @RequestBody CommentRequestDto commentRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         CommentResponseDto responseDto = commentService.createComment(postId, commentRequestDto, userDetails.getUser());
         return new ResponseEntity<>(responseDto, HttpStatus.CREATED);
