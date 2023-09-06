@@ -36,7 +36,7 @@ public class CommentController {
 
     // 여행 후기 게시판 댓글 생성
     @Operation(summary = "여행 후기 게시판 댓글 생성")
-    @PostMapping("/reviewPost/{reviewPostId}")
+    @PostMapping("/review-posts/{reviewPostId}")
     public ResponseEntity<CommentResponseDto> createCommentReview(@PathVariable Long reviewPostId, @RequestBody CommentRequestDto commentRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         CommentResponseDto responseDto = commentService.createCommentReview(reviewPostId, commentRequestDto, userDetails.getUser());
         return new ResponseEntity<>(responseDto, HttpStatus.CREATED);
