@@ -78,14 +78,15 @@ async function updateReviewPost() {
             body: formData,
         });
 
-        if (response.status === 200) {
-            // 수정 성공 시 처리
-            const confirmation = confirm('게시글이 수정되었습니다. 확인을 누르면 목록으로 이동합니다.');
-
-            if (confirmation) {
-                // 확인을 누를 경우 /view/reviewPost 페이지로 리디렉션
-                window.location.href = '/view/review-post';
+        if (response.ok) {
+            const data = await response.json();
+            if (data.status === 200) {
+                alert('게시글이 수정되었습니다.');
+            } else {
+                alert(data.message);
             }
+                window.location.href = `/view/review-post/${reviewPostId}`;
+
         } else {
             console.error('Error updating review post:', response.statusText);
         }

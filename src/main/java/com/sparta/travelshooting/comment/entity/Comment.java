@@ -45,7 +45,7 @@ public class Comment extends Timestamped {
     private User user;
 
     @OneToMany(mappedBy = "comment", cascade = CascadeType.REMOVE, orphanRemoval = true)
-    private List<Reply> replies = new ArrayList<>();
+    private List<Reply> replyList = new ArrayList<>();
 
 
     public Comment(CommentRequestDto commentRequestDto, Post post, ReviewPost reviewPost, User user) {

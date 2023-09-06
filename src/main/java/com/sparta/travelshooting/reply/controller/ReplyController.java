@@ -27,8 +27,8 @@ public class ReplyController {
 
     //대댓글 생성
     @Operation(summary = "대댓글 생성")
-    @PostMapping
-    public ResponseEntity<ReplyResponseDto> createReply(@RequestParam Long commentId, @RequestBody ReplyRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+    @PostMapping("/{commentId}")
+    public ResponseEntity<ReplyResponseDto> createReply(@PathVariable Long commentId, @RequestBody ReplyRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         ReplyResponseDto replyResponseDto = replyService.createReply(commentId, requestDto, userDetails.getUser());
         return new ResponseEntity<>(replyResponseDto, HttpStatus.CREATED);
     }

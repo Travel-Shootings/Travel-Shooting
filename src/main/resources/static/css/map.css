@@ -10,6 +10,7 @@
 
 .map-container {
     margin-top: 50px;
+    margin-bottom: 50px;
     margin-left: 50px;
 }
 
@@ -21,7 +22,8 @@
 }
 
 .search {
-    margin-right: 10px;
+    text-align: justify;
+    align-items: flex-start;
 }
 
 
