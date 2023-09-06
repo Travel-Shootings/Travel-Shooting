@@ -61,11 +61,10 @@ let idx = {
                 console.log(res.statusCode)
                 if (res.statusCode === 200) {
                     alert(res.message)
-                    window.location.href = "/view/home";
                 }
             })
             .fail(function (request, status, error, response) {
-                console.log(status)
+                console.log(response)
                 console.log(error)
                 alert(response.responseJSON.message);
             });
