@@ -4,7 +4,6 @@ import com.sparta.travelshooting.common.ApiResponseDto;
 import com.sparta.travelshooting.jwt.JwtUtil;
 import com.sparta.travelshooting.redis.RedisUtil;
 import com.sparta.travelshooting.user.dto.LoginRequestDto;
-import com.sparta.travelshooting.user.dto.MailResponseDto;
 import com.sparta.travelshooting.user.dto.SignupRequestDto;
 import com.sparta.travelshooting.user.entity.RefreshToken;
 import com.sparta.travelshooting.user.entity.RegionEnum;

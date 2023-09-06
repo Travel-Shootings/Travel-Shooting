@@ -39,8 +39,6 @@ public class ReviewPostResponseDto {
                 .map(CommentResponseDto::new)
                 .collect(Collectors.toList());
     }
-
-
 }
 
 
