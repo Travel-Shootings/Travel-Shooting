@@ -151,7 +151,8 @@ async function deleteReviewPost() {
                 } else {
                     alert(data.message);
                 }
-                location.reload();
+                window.location.href = '/view/review-post';
+
             } else {
                 console.error('Error deleting review post:', response.statusText);
             }
