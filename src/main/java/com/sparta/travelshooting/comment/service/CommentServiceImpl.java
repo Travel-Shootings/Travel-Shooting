@@ -90,8 +90,7 @@ public class CommentServiceImpl implements CommentService {
     public ApiResponseDto updateComment(Long commentId, CommentRequestDto requestDto, User user) {
         Comment comment = commentRepository.findById(commentId).orElseThrow();
         if (!comment.getUser().getId().equals(user.getId())) {
-            throw new RejectedExecutionException("작성자만 수정 가능합니다");
-//            return new ApiResponseDto("작성자만 수정할 수 있습니다.", HttpStatus.FORBIDDEN.value());
+            throw new RejectedExecutionException("댓글 수정 권한이 없습니다");
         }
         comment.setContent(requestDto.getContent());
         commentRepository.save(comment);
@@ -103,8 +102,7 @@ public class CommentServiceImpl implements CommentService {
     public ApiResponseDto deleteComment(Long id, User user) {
         Comment comment = commentRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 댓글을 찾을 수 없습니다"));
         if (!comment.getUser().getId().equals(user.getId())&& String.valueOf(user.getRole()).equals("USER")) {
-            throw new RejectedExecutionException("작성자만 삭제 가능합니다");
-//            return new ApiResponseDto("작성자만 삭제할 수 있습니다.", HttpStatus.FORBIDDEN.value());
+            throw new RejectedExecutionException("댓글 삭제 권한이 없습니다");
         }
         commentRepository.delete(comment);
         return new ApiResponseDto("댓글 삭제 완료", HttpStatus.OK.value());

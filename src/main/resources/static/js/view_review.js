@@ -271,24 +271,6 @@ commentForm.addEventListener('submit', async (e) => {
     }
 });
 
-const commentsApiUrl = `/api/comments/review-posts/${reviewPostId}`;
-
-
-async function fetchComments() {
-    try {
-        const response = await fetch(commentsApiUrl);
-        const comments = await response.json();
-
-        renderComments(comments);
-
-        const commentsContainer = document.getElementById('comments-container');
-        commentsContainer.scrollTop = commentsContainer.scrollHeight;
-    } catch (error) {
-        console.error('Error fetching comments:', error);
-    }
-}
-
-fetchComments();
 
 document.getElementById('comment-list').addEventListener('click', (e) => {
     if (e.target.classList.contains('edit-comment-button')) {
@@ -358,22 +340,20 @@ async function saveEditedComment(commentId) {
             body: JSON.stringify(requestData)
         });
 
+        const data = await response.json();
+
         if (response.ok) {
-            const responseData = await response.json();
-            if (responseData.status === 200) {
                 alert('댓글이 수정되었습니다.');
-            } else {
-                // 댓글 수정에 실패한 경우
-                alert(responseData.message);
+                location.reload(); // 페이지 리로드
+            }else {
+                alert(data.message);
             }
-            location.reload(); // 페이지 리로드
-        } else {
-            console.error('Error updating comment:', response.statusText);
-        }
+
     } catch (error) {
         console.error('Error updating comment:', error);
     }
 }
+
 
 function cancelEditComment() {
     closeEditForm();
@@ -397,25 +377,20 @@ async function deleteComment(commentId) {
                 },
             });
 
+            const data = await response.json();
+
             if (response.ok) {
-                const data = await response.json();
-                if (data.status === 200) {
-                    alert('댓글이 삭제되었습니다.');
-
-                } else {
-                    alert(data.message);
-                }
+                alert('댓글이 삭제되었습니다.');
+                location.reload(); // 페이지 리로드
             } else {
-                console.error('Error deleting comment:', response.statusText);
+                alert(data.message);
             }
-
-            fetchComments();
-            location.reload(); // 페이지 리로드
         } catch (error) {
             console.error('Error deleting comment:', error);
         }
     }
 }
+
 
 // 대댓글 폼 열기
 function openReplyForm(commentId) {
@@ -430,16 +405,9 @@ function openReplyForm(commentId) {
 
 // 대댓글 폼 닫기
 function closeReplyForm() {
-    const replyFormContainer = document.getElementById('reply-form-container');
     const replyForm = document.getElementById('reply-form');
-    const replyContent = document.getElementById('reply-content');
+    replyForm.style.display = 'none';
 
-    // 대댓글 입력창을 숨기도록 변경
-    replyFormContainer.style.display = 'none';
-    replyForm.removeAttribute('data-comment-id');
-
-    // 대댓글 내용을 비우기
-    replyContent.value = '';
 }
 
 // 취소 버튼 클릭 이벤트 처리
@@ -505,7 +473,7 @@ function openReplyEditForm(replyId, replyContent) {
     });
 
     const cancelEditButton = document.getElementById('cancel-edit-reply-button');
-    cancelEditButton.addEventListener('click', cancelEditReply);
+    cancelEditButton.addEventListener('click', closeReplyEditForm);
 }
 
 
@@ -530,19 +498,14 @@ async function saveEditedReply(replyId) {
             body: JSON.stringify(requestData)
         });
 
-        if (response.ok) {
-            const responseData = await response.json();
-            if (responseData.status === 200) {
-                alert('대댓글이 수정되었습니다.');
-            } else {
-                alert(responseData.message);
-            }
-            location.reload();
-        } else {
-            console.error('Error updating reply:', response.statusText);
-        }
+        const data = await response.json();
 
-        fetchReplies(); // 대댓글 목록 다시 불러오기
+        if (response.ok) {
+            alert('대댓글이 수정되었습니다.');
+            location.reload(); // 페이지 리로드
+        } else {
+            alert(data.message);
+        }
 
     } catch (error) {
         console.error('Error updating reply:', error);
@@ -564,20 +527,14 @@ async function deleteReply(replyId) {
                 },
             });
 
+            const data = await response.json();
+
             if (response.ok) {
-                const data = await response.json();
-                if (data.status === 200) {
-                    alert('대댓글이 삭제되었습니다.');
-                } else {
-                    alert(data.message);
-                }
-                location.reload();
+                alert('대댓글이 삭제되었습니다.');
+                location.reload(); // 페이지 리로드
             } else {
-                console.error('Error deleting reply:', response.statusText);
+                alert(data.message);
             }
-
-            fetchReplies(); // 대댓글 목록 다시 불러오기
-
         } catch (error) {
             console.error('Error deleting reply:', error);
         } finally {
