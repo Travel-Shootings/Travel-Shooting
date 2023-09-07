@@ -1,16 +1,13 @@
-// 비밀번호 변경
-let idx = {
-    init: function () {
-        $("#edit-button").on("click", () => {
-            this.editPassword();
-        });
-    },
+function editPassword() {
+    const confirmResult = confirm("수정하시겠습니까? 확인을 누르시면 재로그인 해야 합니다.");
 
-    editPassword: function () {
+    if (confirmResult) {
         let data = {
             oldPassword: $('#inputOldPassword').val(),
             newPassword: $('#inputNewPassword').val()
         };
+
+        console.log(data.oldPassword);
 
         $.ajax({
             type: "PUT",
@@ -25,14 +22,18 @@ let idx = {
                 if (res.statusCode === 200) {
                     alert(res.message)
                     window.close(); // 팝업 창 닫기
-                    window.opener.location.reload(); // 부모 창 새로고침
+                    window.opener.logout();
                 }
             })
-            .fail(function (request, status, error, response) {
-                console.log(status)
-                console.log(error)
-                alert(response.responseJSON.message);
+            .fail(function (jqXHR, textStatus, errorThrown) {
+                console.log("Request failed:");
+                console.log("Status: " + textStatus);
+                console.log("Error thrown: " + errorThrown);
+                if (jqXHR.responseJSON) {
+                    console.log("Response: " + JSON.stringify(jqXHR.responseJSON));
+                }
+                alert(JSON.stringify(jqXHR.responseJSON.message))
             });
     }
 }
-idx.init();
+

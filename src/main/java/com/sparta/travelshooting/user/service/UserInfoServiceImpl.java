@@ -44,7 +44,7 @@ public class UserInfoServiceImpl implements UserInfoService{
     public ApiResponseDto editUserPassword(User user, PasswordRequestDto requestDto) {
         // 기존 비밀번호 매치
         if (!passwordEncoder.matches(requestDto.getOldPassword(), user.getPassword())) {
-            throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
+            throw new IllegalArgumentException("기존 비밀번호가 일치하지 않습니다.");
         }
 
         // 현재 사용중인 비밀번호, 가장 최근 비밀번호와 매치
