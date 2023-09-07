@@ -1,3 +1,12 @@
+document.addEventListener("keydown", function(event) {
+    if (event.key === "Enter") {
+        // 엔터 키를 눌렀을 때 실행할 동작
+        event.preventDefault(); // 폼 제출 방지
+        document.getElementById("btn-login").click(); // 원하는 버튼 클릭
+    }
+});
+
+
 // Side Menu
 const sideNav = document.querySelector('.sidenav');
 M.Sidenav.init(sideNav, {});
@@ -53,7 +62,7 @@ let idx = {
             type: "POST",
             url: "/api/user/login",
             data: JSON.stringify(data), // http body data
-            contentType: "application/json; charset=urf-8",
+            contentType: "application/json; charset=utf-8",
             dataType: "json"
         })
             .done(function (res) {
@@ -64,10 +73,14 @@ let idx = {
                     window.location.href = '/view/home';
                 }
             })
-            .fail(function (request, status, error, response) {
-                console.log(response)
-                console.log(error)
-                alert(response.responseJSON.message);
+            .fail(function (jqXHR, textStatus, errorThrown) {
+                console.log("Request failed:");
+                console.log("Status: " + textStatus);
+                console.log("Error thrown: " + errorThrown);
+                if (jqXHR.responseJSON) {
+                    console.log("Response: " + JSON.stringify(jqXHR.responseJSON));
+                }
+                alert(JSON.stringify(jqXHR.responseJSON.message))
             });
     }
 }
