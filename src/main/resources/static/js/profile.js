@@ -70,3 +70,25 @@ document.getElementById('user-menu-password').addEventListener('click', function
 
     window.open(popupUrl, '비밀번호 변경', popupFeatures);
 });
+
+function logout() {
+    $.ajax({
+        type: "DELETE",
+        url: "/api/user/logout",
+        contentType: "application/json; charset=urf-8",
+        dataType: "json"
+    })
+        .done(function (res) {
+            console.log(res)
+            console.log(res.statusCode)
+            if (res.statusCode === 200) {
+                alert(res.message)
+                window.location.href = "/view/user/login";
+            }
+        })
+        .fail(function (request, status, error) {
+            console.log(status)
+            console.log(error)
+            alert("로그아웃에 실패했습니다.");
+        });
+}

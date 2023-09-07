@@ -83,4 +83,9 @@ public class UserAuthController {
     public ResponseEntity<Boolean> checkBlackList(@RequestBody TokenRequestDto token) {
         return new ResponseEntity<>(redisUtil.hasKeyBlackList(token.getToken()), HttpStatus.OK);
     }
+
+    @ExceptionHandler({IllegalArgumentException.class})
+    public ResponseEntity<ApiResponseDto> handleNotFoundException(IllegalArgumentException e) {
+        return new ResponseEntity<>(new ApiResponseDto(e.getMessage(), HttpStatus.BAD_REQUEST.value()), HttpStatus.BAD_REQUEST);
+    }
 }
