@@ -1,17 +1,42 @@
 // review_post.js
+document.addEventListener('DOMContentLoaded', () => {
+    const prevPageButton = document.getElementById('prevPage');
+    const nextPageButton = document.getElementById('nextPage');
+    let currentPage = 1;
 
-const reviewListElement = document.getElementById('reviewList');
+    async function init() {
+        await fetchDataAndRender(currentPage);
+    }
 
-// 서버에서 후기 게시글 조회
-async function fetchReviewPosts() {
+    init();
+
+    prevPageButton.addEventListener('click', async () => {
+        if (currentPage > 1) {
+            currentPage--;
+            await fetchDataAndRender(currentPage);
+            console.log('이전 페이지 버튼 클릭됨');
+        }
+    });
+
+    nextPageButton.addEventListener('click', async () => {
+        currentPage++;
+        await fetchDataAndRender(currentPage);
+        console.log('다음 페이지 버튼 클릭됨');
+    });
+
+// 페이지에 맞는 데이터를 서버에서 요청하고 렌더링하는 함수
+async function fetchDataAndRender(page) {
     try {
-        const response = await fetch('/api/review-posts'); // 수정된 API 엔드포인트를 사용하도록 수정
+        // 서버에서 데이터를 가져올 때 페이지 정보를 전달해야 합니다.
+        const response = await fetch(`/api/review-posts/page?page=${page}&size=6`);
         const data = await response.json();
 
-        return data;
+        // 가져온 데이터를 renderReviewPosts 함수로 전달하여 화면에 렌더링합니다.
+        renderReviewPosts(data.content); // "content"는 페이지 내용입니다.
+
+        // 여기에서 페이징 컨트롤을 업데이트할 수 있습니다.
     } catch (error) {
         console.error('Error fetching review posts:', error);
-        return [];
     }
 }
 
@@ -32,6 +57,9 @@ async function fetchPostLikes(postId) {
 async function renderReviewPosts(reviewPosts) {
     const tableBody = document.querySelector('.board-table tbody');
 
+    // 테이블 내용 초기화
+    tableBody.innerHTML = '';
+
     for (const [index, post] of reviewPosts.entries()) {
         const row = document.createElement('tr');
 
@@ -47,8 +75,6 @@ async function renderReviewPosts(reviewPosts) {
         titleCell.appendChild(titleLink);
         row.appendChild(titleCell);
 
-        console.log(post);
-
         const nicknameCell = document.createElement('td');
         nicknameCell.textContent = post.nickName;
         row.appendChild(nicknameCell);
@@ -59,7 +85,7 @@ async function renderReviewPosts(reviewPosts) {
 
         const dateCell = document.createElement('td');
 
-// 날짜 정보가 유효한 경우에만 포맷팅 수행
+        // 날짜 정보가 유효한 경우에만 포맷팅 수행
         if (new Date(post.createdAt).getTime()) {
             const formattedDate = new Date(post.createdAt).toLocaleDateString('en-US', {
                 year: 'numeric',
@@ -76,11 +102,4 @@ async function renderReviewPosts(reviewPosts) {
         tableBody.appendChild(row);
     }
 }
-// 페이지 로드 시 후기 게시글 조회 및 렌더링
-async function init() {
-    const reviewPosts = await fetchReviewPosts();
-    renderReviewPosts(reviewPosts);
-}
-
-init();
-
+});

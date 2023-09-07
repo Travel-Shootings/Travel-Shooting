@@ -189,3 +189,9 @@ footer {
     position: absolute;
     bottom: 0;
 }
+
+#prevPage, #nextPage {
+    display: block;
+    margin: 20px auto;
+    font-size: 20px;
+}
