@@ -20,7 +20,7 @@ public class GlobalControllerAdvice {
 
     @ExceptionHandler({IllegalArgumentException.class})
     public ResponseEntity<ApiResponseDto> handleNotFoundException(Exception e) {
-        return new ResponseEntity<>(new ApiResponseDto(e.getMessage(), HttpStatus.NOT_FOUND.value()), HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(new ApiResponseDto(e.getMessage(), HttpStatus.BAD_REQUEST.value()), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler({MethodArgumentNotValidException.class})
