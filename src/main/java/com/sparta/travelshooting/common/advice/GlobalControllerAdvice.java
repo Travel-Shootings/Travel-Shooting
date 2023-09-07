@@ -13,7 +13,7 @@ import java.util.concurrent.RejectedExecutionException;
 
 @ControllerAdvice
 public class GlobalControllerAdvice {
-    @ExceptionHandler({AccessDeniedException.class, IndexOutOfBoundsException.class, RejectedExecutionException.class})
+    @ExceptionHandler({AccessDeniedException.class, IndexOutOfBoundsException.class, RejectedExecutionException.class, RuntimeException.class})
     public ResponseEntity<ApiResponseDto> handleBadRequestException(Exception e) {
         return new ResponseEntity<>(new ApiResponseDto(e.getMessage(), HttpStatus.BAD_REQUEST.value()), HttpStatus.BAD_REQUEST);
     }
