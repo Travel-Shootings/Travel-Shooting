@@ -40,17 +40,12 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
 
-    // 페이지에 맞는 데이터를 서버에서 요청하고 렌더링하는 함수
     async function fetchDataAndRender(page) {
         try {
-            // 서버에서 데이터를 가져올 때 페이지 정보를 전달해야 합니다.
             const response = await fetch(`/api/review-posts/page?page=${page}&size=6`);
             const data = await response.json();
-
-            // 가져온 데이터를 renderReviewPosts 함수로 전달하여 화면에 렌더링합니다.
-            renderReviewPosts(data.content); // "content"는 페이지 내용입니다.
-
-            // 여기에서 페이징 컨트롤을 업데이트할 수 있습니다.
+            const reversedData = data.content; // 원본 데이터를 복사하고 역순으로 정렬
+            renderReviewPosts(reversedData);
         } catch (error) {
             console.error('Error fetching review posts:', error);
         }
@@ -80,7 +75,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const row = document.createElement('tr');
 
             const numCell = document.createElement('td');
-            numCell.textContent = index + 1;
+            numCell.textContent = (currentPage * 6) + index + 1;
             row.appendChild(numCell);
 
             const titleCell = document.createElement('th');
