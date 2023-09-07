@@ -304,6 +304,8 @@ document.getElementById('comment-list').addEventListener('click', (e) => {
 
 // 수정 폼 열기 함수
 function openEditForm(commentId) {
+    closeReplyForm();
+    closeReplyEditForm();
     const commentEditForm = document.getElementById('comment-edit-form');
     commentEditForm.style.display = 'block';
 
@@ -397,6 +399,8 @@ function openReplyForm(commentId) {
     const replyFormContainer = document.getElementById('reply-form-container');
     const replyForm = document.getElementById('reply-form');
     const replyContent = document.getElementById('reply-content');
+    closeEditForm(); // 다른 폼이 열려있으면 닫기
+    closeReplyEditForm();
 
     replyForm.style.display = 'block';
     replyContent.value = '';
@@ -461,6 +465,8 @@ replyForm.addEventListener('submit', async (e) => {
 });
 
 function openReplyEditForm(replyId, replyContent) {
+    closeEditForm();
+    closeReplyForm();
     const replyEditForm = document.getElementById('reply-edit-form');
     replyEditForm.style.display = 'block';
 
