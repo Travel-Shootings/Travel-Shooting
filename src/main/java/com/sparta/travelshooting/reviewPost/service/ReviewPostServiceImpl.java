@@ -13,6 +13,8 @@ import com.sparta.travelshooting.reviewPost.repository.ReviewPostLikeRepository;
 import com.sparta.travelshooting.reviewPost.repository.ReviewPostRepository;
 import com.sparta.travelshooting.user.entity.User;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -166,6 +168,12 @@ public class ReviewPostServiceImpl implements ReviewPostService {
                 .collect(Collectors.toList());
     }
 
+
+    @Override
+    public Page<ReviewPostListResponseDto> getPageReviewPosts(Pageable pageable) {
+        Page<ReviewPost> reviewPosts = reviewPostRepository.findAll(pageable);
+        return reviewPosts.map(ReviewPostListResponseDto::new);
+    }
 
     //좋아요 기능
     @Override
