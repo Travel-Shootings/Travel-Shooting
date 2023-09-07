@@ -9,6 +9,9 @@ import com.sparta.travelshooting.security.UserDetailsImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -71,6 +74,14 @@ public class ReviewPostController {
         List<ReviewPostListResponseDto> responseDto = reviewPostService.getAllReviewPosts();
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
+
+    // 후기 게시글을 페이징하여 조회
+    @GetMapping("/page")
+    public ResponseEntity<Page<ReviewPostListResponseDto>> getPageReviewPosts(@PageableDefault(size = 6) Pageable pageable) {
+        Page<ReviewPostListResponseDto> responseDto = reviewPostService.getPageReviewPosts(pageable);
+        return new ResponseEntity<>(responseDto, HttpStatus.OK);
+    }
+
 
     //좋아요 기능
     @PostMapping("/like/{reviewPostId}")
