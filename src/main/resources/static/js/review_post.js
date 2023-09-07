@@ -5,6 +5,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const nextPageButtonPagination = document.getElementById('nextPage');
 
     let currentPage = 0;
+    let totalPage = 0; // totalPage 변수를 추가
+
     async function init() {
         await fetchDataAndRender(currentPage);
         updateTotalPages(); // 추가된 부분
@@ -29,11 +31,29 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+// updateTotalPages 함수 내부를 수정
     async function updateTotalPages() {
         try {
             const response = await fetch(`/api/review-posts`);
             const data = await response.json();
             totalPage = Math.ceil(data.length / 6);
+
+            // 페이지 숫자를 렌더링
+            const paginationContainer = document.querySelector('.pagination');
+            paginationContainer.innerHTML = '';
+
+            for (let i = 1; i <= totalPage; i++) {
+                const pageButton = document.createElement('button');
+                pageButton.textContent = i;
+                pageButton.classList.add('page-number');
+
+                pageButton.addEventListener('click', async () => {
+                    currentPage = i - 1;
+                    await fetchDataAndRender(currentPage);
+                });
+
+                paginationContainer.appendChild(pageButton);
+            }
         } catch (error) {
             console.error('Error fetching total pages:', error);
         }
