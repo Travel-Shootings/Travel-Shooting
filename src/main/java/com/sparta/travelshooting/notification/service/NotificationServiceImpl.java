@@ -4,7 +4,6 @@ import com.sparta.travelshooting.common.ApiResponseDto;
 import com.sparta.travelshooting.notification.dto.NotificationResponseDto;
 import com.sparta.travelshooting.notification.entity.Notification;
 import com.sparta.travelshooting.notification.repository.NotificationRepository;
-import com.sparta.travelshooting.user.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;

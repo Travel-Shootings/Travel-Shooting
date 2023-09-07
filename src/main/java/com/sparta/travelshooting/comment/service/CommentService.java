@@ -6,8 +6,6 @@ import com.sparta.travelshooting.comment.dto.CommentResponseDto;
 import com.sparta.travelshooting.common.ApiResponseDto;
 import com.sparta.travelshooting.user.entity.User;
 
-import java.util.List;
-
 public interface CommentService {
 
     //여행 계획 게시판 댓글 생성

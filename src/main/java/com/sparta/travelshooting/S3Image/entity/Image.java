@@ -2,7 +2,10 @@ package com.sparta.travelshooting.S3Image.entity;
 
 import com.sparta.travelshooting.reviewPost.entity.ReviewPost;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.util.UUID;
 

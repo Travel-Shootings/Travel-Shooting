@@ -2,7 +2,6 @@ package com.sparta.travelshooting.journeylist.service;
 
 import com.sparta.travelshooting.common.ApiResponseDto;
 import com.sparta.travelshooting.journeylist.dto.JourneyListRequestDto;
-import com.sparta.travelshooting.journeylist.dto.JourneyListResponseDto;
 import com.sparta.travelshooting.journeylist.entity.JourneyList;
 import com.sparta.travelshooting.journeylist.repository.JourneyListRepository;
 import com.sparta.travelshooting.post.entity.Post;
