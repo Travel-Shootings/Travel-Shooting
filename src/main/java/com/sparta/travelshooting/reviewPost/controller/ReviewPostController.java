@@ -114,8 +114,7 @@ public class ReviewPostController {
 
     //작성자 확인
     @GetMapping("/check-user/{reviewPostId}")
-    public ResponseEntity<Map<String, Boolean>> reviewPostCheckUser(@AuthenticationPrincipal UserDetailsImpl userDetails, @PathVariable Long reviewPostId) {
+    public ResponseEntity<Boolean> reviewPostCheckUser(@AuthenticationPrincipal UserDetailsImpl userDetails, @PathVariable Long reviewPostId) {
         boolean isAuthor = reviewPostService.reviewPostCheckUser(userDetails, reviewPostId);
-        Map<String, Boolean> response = Collections.singletonMap("isAuthor", isAuthor);
-        return ResponseEntity.ok(response);}
+        return ResponseEntity.ok(isAuthor);}
 }

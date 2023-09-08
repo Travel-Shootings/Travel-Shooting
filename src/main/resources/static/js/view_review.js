@@ -122,8 +122,9 @@ async function init() {
             try {
                 const response = await fetch(`/api/review-posts/check-user/${reviewPostId}`);
                 const data = await response.json();
+
                 if (response.ok) {
-                    if (data.isAuthor) {
+                    if (data) {
                         // 작성자일 경우에만 수정 페이지로 이동
                         window.location.href = `/view/review-post/update/${reviewPostId}`;
                     } else {
