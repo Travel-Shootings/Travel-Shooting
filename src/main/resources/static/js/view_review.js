@@ -118,8 +118,23 @@ async function init() {
 
         deleteButton.addEventListener('click', deleteReviewPost);
 
-        editButton.addEventListener('click', () => {
-            window.location.href = `/view/review-post/update/${reviewPostId}`;
+        editButton.addEventListener('click', async () => {
+            try {
+                const response = await fetch(`/api/review-posts/check-user/${reviewPostId}`);
+                const data = await response.json();
+                if (response.ok) {
+                    if (data.isAuthor) {
+                        // 작성자일 경우에만 수정 페이지로 이동
+                        window.location.href = `/view/review-post/update/${reviewPostId}`;
+                    } else {
+                        alert('게시글 작성자만 수정할 수 있습니다.');
+                    }
+                } else {
+                    console.error('Error checking user:', data.message);
+                }
+            } catch (error) {
+                console.error('Error checking user:', error);
+            }
         });
 
         // 댓글 정보 표시
