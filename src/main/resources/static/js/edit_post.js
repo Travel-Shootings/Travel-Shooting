@@ -92,7 +92,44 @@ function searchNaver(location) {
     });
 }
 
-selectMapList();
+// 주소 검색의 이벤트
+$('#address').on('keydown', function (e) {
+    var keyCode = e.which;
+    if (keyCode === 13) { // Enter Key
+        searchAddressToCoordinate($('#address').val());
+    }
+});
+
+// 전역 변수로 infoWindow 객체를 정의하고 초기화
+var infoWindow = new naver.maps.InfoWindow({
+    maxWidth: 300,
+    backgroundColor: "#ffffff",
+    borderColor: "#5347aa",
+    borderWidth: 2,
+    anchorSize: new naver.maps.Size(0, 0),
+    anchorColor: "transparent",
+    pixelOffset: new naver.maps.Point(20, -35)
+})
+
+// 전역 변수로 지도를 초기화
+var map = new naver.maps.Map('map', {
+    center: new naver.maps.LatLng(37.3595704, 127.105399),
+    zoom: 10
+});
+
+// 전역 변수로 polyline 객체를 정의하고 초기화
+var polyline = new naver.maps.Polyline({
+    map: map,
+    path: [],
+    strokeColor: '#5347AA',
+    strokeWeight: 2
+});
+
+// #submit 버튼 클릭 이벤트 핸들러
+$('#submit').on('click', function (e) {
+    e.preventDefault();
+    searchAddressToCoordinate($('#address').val());
+});
 
 //검색한 주소의 정보를 insertAddress 함수로 넘겨준다.
 function searchAddressToCoordinate(address) {
@@ -118,66 +155,42 @@ function searchAddressToCoordinate(address) {
             htmlAddresses.push('[영문명 주소] ' + item.englishAddress);
         }
 
-        insertAddress(item.roadAddress, item.x, item.y);
+        // 정보 창을 열고 내용을 설정하여 지도에 표시
+        infoWindow.setContent([
+            '<div style="padding:10px;min-width:200px;line-height:150%;">',
+            '<h5 style="margin-top:5px;">검색 주소 : ' + address + '</h5><br />',
+            htmlAddresses.join('<br />'),
+            '</div>'
+        ].join('\n'));
 
+        // 정보 창을 열 위치 설정
+        infoWindow.open(map, point);
+
+        // 지도 중심 이동
+        map.setCenter(point);
+
+        // 주소 정보를 표시하고 지도에 추가
+        insertAddress(item.roadAddress, item.x, item.y);
     });
 }
 
-// 주소 검색의 이벤트
-$('#address').on('keydown', function (e) {
-    var keyCode = e.which;
-    if (keyCode === 13) { // Enter Key
-        searchAddressToCoordinate($('#address').val());
-    }
-});
-$('#submit').on('click', function (e) {
-    e.preventDefault();
-    searchAddressToCoordinate($('#address').val());
-});
-// naver.maps.Event.once(map, 'init_stylemap', initGeocoder)
-
-
-//검색정보를 테이블로 작성해주고, 지도에 마커를 찍어준다.
+// 주소 정보를 표시하고 지도에 추가하는 함수
 function insertAddress(address, latitude, longitude) {
-    var mapList = "";
-    mapList += "<tr>"
-    mapList += "	<td>" + address + "</td>"
-    mapList += "	<td>" + latitude + "</td>"
-    mapList += "	<td>" + longitude + "</td>"
-    mapList += "</tr>"
+    var mapList = "<tr>" +
+        "    <td>" + address + "</td>" +
+        "    <td>" + latitude + "</td>" +
+        "    <td>" + longitude + "</td>" +
+        "</tr>";
 
     $('#mapList').append(mapList);
 
-    var map = new naver.maps.Map('map', {
-        center: new naver.maps.LatLng(longitude, latitude),
-        zoom: 14
-    });
-    var marker = new naver.maps.Marker({
+    var newPosition = new naver.maps.LatLng(longitude, latitude);
+    polyline.getPath().push(newPosition);
+
+    var point = new naver.maps.LatLng(longitude, latitude);
+    new naver.maps.Marker({
         map: map,
-        position: new naver.maps.LatLng(longitude, latitude),
-    });
-}
-
-//지도를 그려주는 함수
-function selectMapList() {
-
-    var map = new naver.maps.Map('map', {
-        center: new naver.maps.LatLng(37.3595704, 127.105399),
-        zoom: 10
-    });
-}
-
-// 지도를 이동하게 해주는 함수
-function moveMap(len, lat) {
-    var mapOptions = {
-        center: new naver.maps.LatLng(len, lat),
-        zoom: 15,
-        mapTypeControl: true
-    };
-    var map = new naver.maps.Map('map', mapOptions);
-    var marker = new naver.maps.Marker({
-        position: new naver.maps.LatLng(len, lat),
-        map: map
+        position: point
     });
 }
 

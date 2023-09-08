@@ -7,7 +7,6 @@ import lombok.Setter;
 import java.util.List;
 
 @Getter
-@Setter
 public class PostAndJourneyListDto {
     private PostRequestDto postRequestDto;
     private List<JourneyListRequestDto> journeyListRequestDtos;
