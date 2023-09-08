@@ -4,6 +4,7 @@ import com.sparta.travelshooting.common.ApiResponseDto;
 import com.sparta.travelshooting.reviewPost.dto.ReviewPostListResponseDto;
 import com.sparta.travelshooting.reviewPost.dto.ReviewPostRequestDto;
 import com.sparta.travelshooting.reviewPost.dto.ReviewPostResponseDto;
+import com.sparta.travelshooting.security.UserDetailsImpl;
 import com.sparta.travelshooting.user.entity.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -37,5 +38,6 @@ public interface ReviewPostService {
 
     //좋아요 여부 조회
     boolean hasLiked(Long reviewPostId, Long userId);
-
+    //작성자 확인
+    boolean reviewPostCheckUser(UserDetailsImpl currentUser, Long reviewPostId);
 }

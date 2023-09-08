@@ -12,7 +12,6 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-@Setter
 public class ImageSaveDto {
     private List<MultipartFile> images = new ArrayList<>();
 }
