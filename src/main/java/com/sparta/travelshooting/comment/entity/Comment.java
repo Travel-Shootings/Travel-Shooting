@@ -11,14 +11,12 @@ import com.sparta.travelshooting.user.entity.User;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Getter
-@Setter
 @NoArgsConstructor
 public class Comment extends Timestamped {
 
@@ -55,6 +53,13 @@ public class Comment extends Timestamped {
         this.post = post;
         this.reviewPost = reviewPost;
     }
+
+
+    public void updateContent(String content) {
+        this.content = content;
+    }
+
+
 
     public void updateByAdmin(AdminCommentRequestDto commentRequestDto) {
         this.nickName = commentRequestDto.getNickname();

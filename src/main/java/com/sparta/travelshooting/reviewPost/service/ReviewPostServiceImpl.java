@@ -11,6 +11,7 @@ import com.sparta.travelshooting.reviewPost.entity.ReviewPost;
 import com.sparta.travelshooting.reviewPost.entity.ReviewPostLike;
 import com.sparta.travelshooting.reviewPost.repository.ReviewPostLikeRepository;
 import com.sparta.travelshooting.reviewPost.repository.ReviewPostRepository;
+import com.sparta.travelshooting.security.UserDetailsImpl;
 import com.sparta.travelshooting.user.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -24,6 +25,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.RejectedExecutionException;
 import java.util.stream.Collectors;
 
 @Service
@@ -230,8 +232,16 @@ public class ReviewPostServiceImpl implements ReviewPostService {
     }
 
     //좋아요 여부 조회
+    @Override
     public boolean hasLiked(Long reviewPostId, Long userId) {
         return reviewPostLikeRepository.findByReviewPostIdAndUserId(reviewPostId, userId).isPresent();
+    }
+    //작성자 확인
+    @Override
+    public boolean reviewPostCheckUser(UserDetailsImpl currentUser, Long reviewPostId) {
+        Optional<ReviewPost> optionalReviewPost = reviewPostRepository.findById(reviewPostId);
+        return optionalReviewPost.map(reviewPost -> reviewPost.getUser().getId().equals(currentUser.getUser().getId()))
+                .orElse(false);
     }
 }
 

@@ -2,7 +2,10 @@
 let authCookie = Cookies.get("Authorization");
 
 const stompClient = new StompJs.Client({
-    brokerURL: 'ws://localhost:8080/travel-shooting-websocket',
+    // local websocket
+    // brokerURL: 'ws://localhost:8080/travel-shooting-websocket',
+    // 배포 websocket
+    brokerURL: 'ws://travel-shooting.site:8080/travel-shooting-websocket',
 });
 
 let chatRoomId = null;
@@ -167,5 +170,8 @@ $($.ajax({
         })
         .fail(function (response) {
             console.log(response);
+            $(".button-wrapper").html('<p>로그인 후 채팅이 가능합니다.</p>');
+            $("#connect").prop("disabled", true);
+            $("#send").prop("disabled", true);
         })
 )

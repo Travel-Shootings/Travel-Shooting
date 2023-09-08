@@ -92,7 +92,7 @@ public class CommentServiceImpl implements CommentService {
         if (!comment.getUser().getId().equals(user.getId())) {
             throw new RejectedExecutionException("댓글 수정 권한이 없습니다");
         }
-        comment.setContent(requestDto.getContent());
+        comment.updateContent(requestDto.getContent());
         commentRepository.save(comment);
         return new ApiResponseDto("댓글 수정 완료", HttpStatus.OK.value());
     }
