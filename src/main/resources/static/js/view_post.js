@@ -101,7 +101,7 @@ $(document).ready(function () {
     // id=editPost를 클릭했을 때의 동작을 정의합니다.
     $('#editPost').click(function () {
         // editPost 클릭 시 해당 URL로 이동합니다.
-        window.location.href = 'http://localhost:8080/view/post/edit/' + postId;
+        window.location.href = '/view/post/edit/' + postId;
     });
 });
 

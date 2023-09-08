@@ -3,8 +3,6 @@ package com.sparta.travelshooting.reviewPost.entity;
 import com.sparta.travelshooting.S3Image.entity.Image;
 import com.sparta.travelshooting.comment.entity.Comment;
 import com.sparta.travelshooting.common.Timestamped;
-import com.sparta.travelshooting.post.entity.PostLike;
-import com.sparta.travelshooting.reply.entity.Reply;
 import com.sparta.travelshooting.reviewPost.dto.ReviewPostRequestDto;
 import com.sparta.travelshooting.user.entity.User;
 import jakarta.persistence.*;
@@ -17,7 +15,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Getter
-@Setter
 @NoArgsConstructor
 @Entity
 @EntityListeners(AuditingEntityListener.class)
@@ -33,7 +30,7 @@ public class ReviewPost extends Timestamped {
 
     private String content;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "userId")
     private User user;
 
@@ -72,6 +69,11 @@ public class ReviewPost extends Timestamped {
         this.content = requestDto.getContent();
         this.images = images;
     }
+
+    public void setLikeCounts(Integer likeCounts) {
+        this.likeCounts = likeCounts;
+    }
+
 
 
 }

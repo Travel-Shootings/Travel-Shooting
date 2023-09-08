@@ -1,7 +1,7 @@
 package com.sparta.travelshooting.user.controller;
 
-import com.sparta.travelshooting.security.UserDetailsImpl;
 import com.sparta.travelshooting.common.ApiResponseDto;
+import com.sparta.travelshooting.security.UserDetailsImpl;
 import com.sparta.travelshooting.user.dto.EditInfoRequestDto;
 import com.sparta.travelshooting.user.dto.PasswordRequestDto;
 import com.sparta.travelshooting.user.dto.UserResponseDto;
@@ -14,7 +14,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/api/my-page")

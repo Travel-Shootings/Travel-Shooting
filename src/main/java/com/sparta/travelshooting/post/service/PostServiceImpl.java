@@ -1,12 +1,13 @@
 package com.sparta.travelshooting.post.service;
 
-import com.sparta.travelshooting.comment.entity.Comment;
 import com.sparta.travelshooting.common.ApiResponseDto;
 import com.sparta.travelshooting.journeylist.dto.JourneyListRequestDto;
 import com.sparta.travelshooting.journeylist.entity.JourneyList;
 import com.sparta.travelshooting.journeylist.repository.JourneyListRepository;
 import com.sparta.travelshooting.post.controller.NaverApiController;
-import com.sparta.travelshooting.post.dto.*;
+import com.sparta.travelshooting.post.dto.PostAndJourneyListDto;
+import com.sparta.travelshooting.post.dto.PostListResponseDto;
+import com.sparta.travelshooting.post.dto.PostResponseDto;
 import com.sparta.travelshooting.post.entity.Post;
 import com.sparta.travelshooting.post.entity.PostLike;
 import com.sparta.travelshooting.post.repository.PostLikeRepository;
@@ -14,8 +15,6 @@ import com.sparta.travelshooting.post.repository.PostRepository;
 import com.sparta.travelshooting.user.entity.User;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.sql.ast.tree.expression.Over;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;

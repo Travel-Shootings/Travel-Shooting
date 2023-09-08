@@ -1,7 +1,6 @@
 package com.sparta.travelshooting.reviewPost.entity;
 
 import com.sparta.travelshooting.common.Timestamped;
-import com.sparta.travelshooting.post.entity.Post;
 import com.sparta.travelshooting.user.entity.User;
 import jakarta.persistence.*;
 import lombok.Getter;

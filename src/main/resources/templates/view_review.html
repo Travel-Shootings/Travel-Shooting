@@ -16,11 +16,16 @@
         <div class="container">
             <div class="nav-wrapper">
                 <a href="/view/home" class="brand-logo">Travel Shooting</a>
-
                 <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
                 <ul class="right hide-on-med-and-down">
                     <li>
                         <a href="/view/home">Home</a>
+                    </li>
+                    <li>
+                        <a href="/view/post">Plan</a>
+                    </li>
+                    <li>
+                        <a href="/view/review-post">Reviews</a>
                     </li>
                 </ul>
             </div>
@@ -29,13 +34,17 @@
 </div>
 <h1>여행 후기 게시판</h1>
 <div id="post-container">
-    <h2 id="post-title"></h2>
-    <div id="like-info">
-        <span id="like-count">0</span> <span id="like-icon">❤️</span>
+    <div>
+        <h2 id="post-title"></h2>
+        <div id="like-info">
+            <span id="like-count">0</span> <span id="like-icon">❤️</span>
+        </div>
     </div>
 
-    <div id="image-container"></div> <!-- 이미지를 표시할 컨테이너 -->
-    <p id="post-content"></p>
+    <div id="image-container">
+    </div> <!-- 이미지를 표시할 컨테이너 -->
+    <div id="post-content">
+    </div>
     <div id="buttons-container">
         <button id="like-button">좋아요</button>
         <button id="edit-button">수정</button>

@@ -1,15 +1,10 @@
 package com.sparta.travelshooting.reviewPost.dto;
 
-import com.sparta.travelshooting.comment.dto.CommentResponseDto;
 import com.sparta.travelshooting.reviewPost.entity.ReviewPost;
 import lombok.Getter;
-import lombok.Setter;
-
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Getter
-@Setter
 public class ReviewPostListResponseDto {
 
 

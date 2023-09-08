@@ -41,10 +41,9 @@ public class ReplyServiceImpl implements ReplyService {
 
         if (!reply.getUser().getId().equals(user.getId())) {
             throw new AccessDeniedException("대댓글 수정 권한이 없습니다.");
-//            return new ApiResponseDto("작성자만 수정할 수 있습니다.", HttpStatus.FORBIDDEN.value());
         }
 
-        reply.setContent(replyRequestDto.getContent());
+        reply.updateContent(replyRequestDto.getContent());
 
         replyRepository.save(reply);
         return new ApiResponseDto("대댓글 수정 완료", HttpStatus.OK.value());
@@ -58,7 +57,6 @@ public class ReplyServiceImpl implements ReplyService {
 
         if (!reply.getUser().getId().equals(user.getId())) {
             throw new AccessDeniedException("대댓글 삭제 권한이 없습니다.");
-//            return new ApiResponseDto("작성자만 삭제할 수 있습니다.", HttpStatus.FORBIDDEN.value());
         }
 
         replyRepository.delete(reply);

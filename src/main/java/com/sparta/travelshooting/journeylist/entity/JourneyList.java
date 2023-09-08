@@ -5,7 +5,6 @@ import com.sparta.travelshooting.post.entity.Post;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 
 import java.time.LocalDateTime;
 

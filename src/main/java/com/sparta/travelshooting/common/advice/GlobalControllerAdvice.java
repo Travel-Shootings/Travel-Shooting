@@ -13,14 +13,10 @@ import java.util.concurrent.RejectedExecutionException;
 
 @ControllerAdvice
 public class GlobalControllerAdvice {
-    @ExceptionHandler({AccessDeniedException.class, IndexOutOfBoundsException.class, RejectedExecutionException.class})
+    @ExceptionHandler({AccessDeniedException.class, IndexOutOfBoundsException.class, RejectedExecutionException.class,
+            RuntimeException.class, IllegalArgumentException.class})
     public ResponseEntity<ApiResponseDto> handleBadRequestException(Exception e) {
         return new ResponseEntity<>(new ApiResponseDto(e.getMessage(), HttpStatus.BAD_REQUEST.value()), HttpStatus.BAD_REQUEST);
-    }
-
-    @ExceptionHandler({IllegalArgumentException.class})
-    public ResponseEntity<ApiResponseDto> handleNotFoundException(Exception e) {
-        return new ResponseEntity<>(new ApiResponseDto(e.getMessage(), HttpStatus.NOT_FOUND.value()), HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler({MethodArgumentNotValidException.class})
@@ -31,6 +27,4 @@ public class GlobalControllerAdvice {
                 , HttpStatus.BAD_REQUEST
         );
     }
-
-
 }

@@ -11,8 +11,12 @@ import com.sparta.travelshooting.reviewPost.entity.ReviewPost;
 import com.sparta.travelshooting.reviewPost.entity.ReviewPostLike;
 import com.sparta.travelshooting.reviewPost.repository.ReviewPostLikeRepository;
 import com.sparta.travelshooting.reviewPost.repository.ReviewPostRepository;
+import com.sparta.travelshooting.security.UserDetailsImpl;
 import com.sparta.travelshooting.user.entity.User;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -167,6 +171,17 @@ public class ReviewPostServiceImpl implements ReviewPostService {
     }
 
 
+    @Override
+    public Page<ReviewPostListResponseDto> getPageReviewPosts(Pageable pageable) {
+        List<ReviewPost> reviewPosts = reviewPostRepository.findAllByOrderByCreatedAtDesc();
+        int start = (int) pageable.getOffset();
+        int end = Math.min((start + pageable.getPageSize()), reviewPosts.size());
+
+        Page<ReviewPost> pageReviewPosts = new PageImpl<>(reviewPosts.subList(start, end), pageable, reviewPosts.size());
+
+        return pageReviewPosts.map(ReviewPostListResponseDto::new);
+    }
+
     //좋아요 기능
     @Override
     @Transactional
@@ -216,8 +231,16 @@ public class ReviewPostServiceImpl implements ReviewPostService {
     }
 
     //좋아요 여부 조회
+    @Override
     public boolean hasLiked(Long reviewPostId, Long userId) {
         return reviewPostLikeRepository.findByReviewPostIdAndUserId(reviewPostId, userId).isPresent();
+    }
+    //작성자 확인
+    @Override
+    public boolean reviewPostCheckUser(UserDetailsImpl currentUser, Long reviewPostId) {
+        Optional<ReviewPost> optionalReviewPost = reviewPostRepository.findById(reviewPostId);
+        return optionalReviewPost.map(reviewPost -> reviewPost.getUser().getId().equals(currentUser.getUser().getId()))
+                .orElse(false);
     }
 }
 

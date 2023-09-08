@@ -25,13 +25,17 @@ h1 {
 #post-content {
     background-color: white; /* 흰 박스 배경 색상 설정 */
     width: 700px; /* 고정된 가로 크기 */
-    height: 600px; /* 고정된 세로 크기 */
-    overflow: hidden; /* 내용이 영역을 넘어갈 경우 가려지도록 설정 */
+    max-height: 300px; /* 고정된 세로 크기 */
+    overflow: auto;
     padding: 20px; /* 내용과 박스 경계 사이의 간격 설정 */
     box-sizing: border-box; /* 패딩까지 포함한 크기 계산 */
 }
 
 #post-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
     max-width: 800px;
     margin: 0 auto;
     padding: 40px;
@@ -42,14 +46,14 @@ h1 {
 
 #image-container {
     display: flex;
-    flex-wrap: wrap;
     justify-content: center;
-    text-align: center; /* 이미지 가운데 정렬 */
+    align-items: center;
+    flex-direction: column;
 }
 
 .post-image {
-    width: 600px; /* 이미지 가로 크기 설정 */
-    height: 400px; /* 이미지 세로 크기 설정 */
+    max-width: 600px; /* 이미지 가로 크기 설정 */
+    max-height: 200px; /* 이미지 세로 크기 설정 */
     margin: 10px; /* 이미지 간격 설정 */
     object-fit: cover; /* 이미지 비율 유지하며 크롭 */
 }

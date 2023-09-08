@@ -3,7 +3,6 @@ package com.sparta.travelshooting.post.service;
 import com.sparta.travelshooting.common.ApiResponseDto;
 import com.sparta.travelshooting.post.dto.PostAndJourneyListDto;
 import com.sparta.travelshooting.post.dto.PostListResponseDto;
-import com.sparta.travelshooting.post.dto.PostRequestDto;
 import com.sparta.travelshooting.post.dto.PostResponseDto;
 import com.sparta.travelshooting.user.entity.User;
 

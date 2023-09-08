@@ -1,7 +1,7 @@
 package com.sparta.travelshooting.user.entity;
 
-import com.sparta.travelshooting.notification.entity.Notification;
 import com.sparta.travelshooting.admin.dto.AdminProfileRequestDto;
+import com.sparta.travelshooting.notification.entity.Notification;
 import com.sparta.travelshooting.post.entity.Post;
 import com.sparta.travelshooting.post.entity.PostLike;
 import com.sparta.travelshooting.user.dto.SignupRequestDto;
