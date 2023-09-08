@@ -60,7 +60,7 @@ body {
 
 #post .btns .clk {
     display: block;
-    font-size: 22px;
+    font-size: 30px;
 }
 
 #post .btns .clk:hover {
@@ -98,6 +98,7 @@ body {
 
 #post .topper charinf name {
     display: flex;
+    width: 100%;
     align-items: center;
 }
 
@@ -113,6 +114,7 @@ body {
 
 #post .topper charinf name mgn {
     display: block;
+    width: 155px;
     margin-top: 1px;
     background-color: #fafafa;
     border: 1px solid #ccc;
