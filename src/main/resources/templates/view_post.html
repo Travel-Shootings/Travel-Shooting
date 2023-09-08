@@ -80,26 +80,19 @@
             </div>
 
 
-            <div class="comments-container">
-                <ul id="comment-list"></ul>
-                <div id="comment-edit-form" style="display: none;">
-                    <textarea id="edit-comment-content"></textarea>
-                    <button id="save-edit-button">저장</button>
-                    <button id="cancel-edit-button">취소</button>
-                </div>
-                <h5>댓글</h5>
-                <form id="comment-form">
-                    <textarea id="comment-content" placeholder="댓글을 입력하세요." required></textarea>
-                    <button type="submit">댓글 남기기</button>
-                </form>
-            </div>
+<!--            <div class="comments-container">-->
+
+
+
+<!--            </div>-->
+
         </div>
+
 
         <div class="mini">
-            <div class="map" id="map" style="width:600px;height:600px; border-radius: 10px"></div>
+            <div class="map" id="map" style="width:650px;height:600px; border-radius: 10px"></div>
         </div>
     </div>
-
     <div class="journeyList">
         <box>
             <ciro>
@@ -142,6 +135,43 @@
             <nm>6번째 여행지</nm>
         </box>
     </div>
+
+    <h5 class="comment-title">댓글</h5>
+    <form id="comment-form">
+        <textarea id="comment-content" placeholder="댓글을 입력하세요." required></textarea>
+        <button type="submit">댓글 남기기</button>
+    </form>
+    <ul id="comment-list">
+        <!--                    <li class="comment" id="comment">-->
+        <!--                    <div class="comment-author">작성자: 댓글 작성자</div>-->
+        <!--                    <div class="comment-content-wrapper">-->
+        <!--                        <div class="comment-content"> 댓글 내용</div>-->
+        <!--                        <button class="create-reply-button" data-comment-id="2" data-comment-content="댓글 내용">대댓글</button>-->
+        <!--                        <button class="edit-comment-button" data-comment-id="2" data-comment-content="댓글 내용">수정</button>-->
+        <!--                        <button class="delete-comment-button" data-comment-id="2"> 삭제</button>-->
+        <!--                    </div>-->
+        <!--                        <div id="comment-edit-form-{commentId}">-->
+        <!--                            <textarea id="edit-comment-content">댓글 수정 칸</textarea>-->
+        <!--                            <button id="save-comment-button">저장</button>-->
+        <!--                            <button id="cancel-comment-button">취소</button>-->
+        <!--                        </div>-->
+        <!--                    </li>-->
+        <!--                    <li class="reply-list">-->
+        <!--                        <div class="reply-wrapper">-->
+        <!--                            <div class="reply-author">작성자: 대댓글 작성자</div>-->
+        <!--                            <div class="reply-content-wrapper">-->
+        <!--                                <div>대댓글 예시입니다.</div>-->
+        <!--                                <button class="edit-reply-button" data-comment-id="2" data-comment-content="대댓글 예시입니다.">수정</button>-->
+        <!--                                <button class="delete-reply-button" data-comment-id="2">삭제</button>-->
+        <!--                            </div>-->
+        <!--                        </div>-->
+        <!--                        <div id="reply-edit-form" style="display: none;">-->
+        <!--                            <textarea id="edit-reply-content"></textarea>-->
+        <!--                            <button id="save-reply-button">저장</button>-->
+        <!--                            <button id="cancel-reply-button">취소</button>-->
+        <!--                        </div>-->
+        <!--                    </li>-->
+    </ul>
 </div>
 
 

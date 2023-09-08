@@ -26,5 +26,5 @@ public class CommentResponseDto {
                 .map(ReplyResponseDto::new)
                 .collect(Collectors.toList());
     }
-    }
+}
 

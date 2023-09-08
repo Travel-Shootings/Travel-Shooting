@@ -1,7 +1,6 @@
 package com.sparta.travelshooting.post.dto;
 
 import com.sparta.travelshooting.comment.dto.CommentResponseDto;
-import com.sparta.travelshooting.comment.entity.Comment;
 import com.sparta.travelshooting.journeylist.dto.JourneyListResponseDto;
 import com.sparta.travelshooting.post.entity.Post;
 import com.sparta.travelshooting.user.entity.RegionEnum;

@@ -33,7 +33,7 @@ public class Post extends Timestamped {
     @Column
     private Integer likeCounts = 0;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
     private User user;
 
