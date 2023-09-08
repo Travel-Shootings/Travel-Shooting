@@ -167,5 +167,8 @@ $($.ajax({
         })
         .fail(function (response) {
             console.log(response);
+            $(".button-wrapper").html('<p>로그인 후 채팅이 가능합니다.</p>');
+            $("#connect").prop("disabled", true);
+            $("#send").prop("disabled", true);
         })
 )
