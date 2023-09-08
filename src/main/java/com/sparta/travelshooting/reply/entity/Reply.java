@@ -7,11 +7,9 @@ import com.sparta.travelshooting.user.entity.User;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Entity
 @Getter
-@Setter
 @NoArgsConstructor
 public class Reply extends Timestamped {
 
@@ -34,6 +32,11 @@ public class Reply extends Timestamped {
         this.user = user;
         this.comment = comment;
         this.content = replyRequestDto.getContent();
+    }
+
+
+    public void updateContent(String content) {
+        this.content = content;
     }
 
     public void updateByAdmin (ReplyRequestDto replyRequestDto) {
