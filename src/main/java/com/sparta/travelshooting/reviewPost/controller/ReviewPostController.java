@@ -4,8 +4,10 @@ import com.sparta.travelshooting.common.ApiResponseDto;
 import com.sparta.travelshooting.reviewPost.dto.ReviewPostListResponseDto;
 import com.sparta.travelshooting.reviewPost.dto.ReviewPostRequestDto;
 import com.sparta.travelshooting.reviewPost.dto.ReviewPostResponseDto;
+import com.sparta.travelshooting.reviewPost.entity.ReviewPost;
 import com.sparta.travelshooting.reviewPost.service.ReviewPostService;
 import com.sparta.travelshooting.security.UserDetailsImpl;
+import com.sparta.travelshooting.user.entity.User;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +21,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.RejectedExecutionException;
 
 @Controller
 @RequiredArgsConstructor
@@ -105,4 +110,11 @@ public class ReviewPostController {
         if (isLiked) {return new ResponseEntity<>(new ApiResponseDto("이미 좋아요를 누른 상태입니다.", 200), HttpStatus.OK);
         } else {return new ResponseEntity<>(new ApiResponseDto("아직 좋아요를 누르지 않은 상태입니다.", 200), HttpStatus.OK);}
     }
+
+
+    //작성자 확인
+    @GetMapping("/check-user/{reviewPostId}")
+    public ResponseEntity<Boolean> reviewPostCheckUser(@AuthenticationPrincipal UserDetailsImpl userDetails, @PathVariable Long reviewPostId) {
+        boolean isAuthor = reviewPostService.reviewPostCheckUser(userDetails, reviewPostId);
+        return ResponseEntity.ok(isAuthor);}
 }

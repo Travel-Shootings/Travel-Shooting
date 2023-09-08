@@ -1,5 +1,4 @@
 // review_post.js
-// review_post.js
 document.addEventListener('DOMContentLoaded', () => {
     const prevPageButtonPagination = document.getElementById('prevPage');
     const nextPageButtonPagination = document.getElementById('nextPage');
@@ -13,21 +12,21 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     init();
 
+    // 이전 페이지 버튼 클릭 이벤트
     prevPageButtonPagination.addEventListener('click', async () => {
-        if (currentPage === 0) {
-            alert('첫 페이지입니다.');
-        } else {
+        if (currentPage > 0) {
             currentPage--;
             await fetchDataAndRender(currentPage);
+            updateTotalPages();
         }
     });
 
+// 다음 페이지 버튼 클릭 이벤트
     nextPageButtonPagination.addEventListener('click', async () => {
-        if (currentPage +1 === totalPage) {
-            alert('마지막 페이지입니다.');
-        } else {
+        if (currentPage < totalPage - 1) {
             currentPage++;
             await fetchDataAndRender(currentPage);
+            updateTotalPages();
         }
     });
 
@@ -42,22 +41,32 @@ document.addEventListener('DOMContentLoaded', () => {
             const paginationContainer = document.querySelector('.pagination');
             paginationContainer.innerHTML = '';
 
-            for (let i = 1; i <= totalPage; i++) {
+            const startPage = Math.max(currentPage - 2, 0);
+            const endPage = Math.min(startPage + 4, totalPage - 1);
+
+            for (let i = startPage; i <= endPage; i++) {
                 const pageButton = document.createElement('button');
-                pageButton.textContent = i;
+                pageButton.textContent = i + 1;
                 pageButton.classList.add('page-number');
 
+                if (i === currentPage) {
+                    pageButton.classList.add('active'); // 현재 페이지 표시
+                }
+
                 pageButton.addEventListener('click', async () => {
-                    currentPage = i - 1;
+                    currentPage = i;
                     await fetchDataAndRender(currentPage);
+                    updateTotalPages();
                 });
 
                 paginationContainer.appendChild(pageButton);
             }
+
         } catch (error) {
             console.error('Error fetching total pages:', error);
         }
     }
+
 
 
     async function fetchDataAndRender(page) {
