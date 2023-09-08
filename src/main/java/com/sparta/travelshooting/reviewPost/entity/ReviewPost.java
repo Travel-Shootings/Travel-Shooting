@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Getter
-@Setter
 @NoArgsConstructor
 @Entity
 @EntityListeners(AuditingEntityListener.class)
@@ -31,7 +30,7 @@ public class ReviewPost extends Timestamped {
 
     private String content;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "userId")
     private User user;
 
@@ -70,6 +69,11 @@ public class ReviewPost extends Timestamped {
         this.content = requestDto.getContent();
         this.images = images;
     }
+
+    public void setLikeCounts(Integer likeCounts) {
+        this.likeCounts = likeCounts;
+    }
+
 
 
 }
