@@ -70,9 +70,8 @@ public class ReviewPostServiceImpl implements ReviewPostService {
                 image.setReviewPost(reviewPost);
             }
         }
-        return  new ApiResponseDto("게시글이 생성되었습니다.", HttpStatus.CREATED.value());
+        return new ApiResponseDto("게시글이 생성되었습니다.", HttpStatus.CREATED.value());
     }
-
 
 
     // 후기 게시글 수정
@@ -119,7 +118,6 @@ public class ReviewPostServiceImpl implements ReviewPostService {
 
         return new ApiResponseDto("게시글 수정 완료", HttpStatus.OK.value());
     }
-
 
 
     // 후기 게시글 삭제
@@ -235,6 +233,7 @@ public class ReviewPostServiceImpl implements ReviewPostService {
     public boolean hasLiked(Long reviewPostId, Long userId) {
         return reviewPostLikeRepository.findByReviewPostIdAndUserId(reviewPostId, userId).isPresent();
     }
+
     //작성자 확인
     @Override
     public boolean reviewPostCheckUser(UserDetailsImpl currentUser, Long reviewPostId) {
