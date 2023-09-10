@@ -126,16 +126,14 @@ document.addEventListener('DOMContentLoaded', () => {
             const dateCell = document.createElement('td');
 
             // 날짜 정보가 유효한 경우에만 포맷팅 수행
+            const options = { year: 'numeric', month: 'numeric', day: 'numeric' };
             if (new Date(post.createdAt).getTime()) {
-                const formattedDate = new Date(post.createdAt).toLocaleDateString('en-US', {
-                    year: 'numeric',
-                    month: 'short',
-                    day: 'numeric',
-                });
+                const formattedDate = new Date(post.createdAt).toLocaleDateString('ko-KR', options).replace(/\./g, '.');
                 dateCell.textContent = formattedDate;
             } else {
                 dateCell.textContent = 'Invalid Date';
             }
+
 
             row.appendChild(dateCell);
 
