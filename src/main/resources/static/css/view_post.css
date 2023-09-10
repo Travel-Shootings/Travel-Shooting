@@ -60,7 +60,7 @@ body {
 
 #post .btns .clk {
     display: block;
-    font-size: 22px;
+    font-size: 30px;
 }
 
 #post .btns .clk:hover {
@@ -98,6 +98,7 @@ body {
 
 #post .topper charinf name {
     display: flex;
+    width: 100%;
     align-items: center;
 }
 
@@ -113,6 +114,7 @@ body {
 
 #post .topper charinf name mgn {
     display: block;
+    width: 155px;
     margin-top: 1px;
     background-color: #fafafa;
     border: 1px solid #ccc;
@@ -163,7 +165,6 @@ body {
 #post .content {
     min-height: 600px;
     display: flex;
-    justify-content: space-between;
     align-items: center;
     border-bottom: 1px solid #ccc;
 }
@@ -217,16 +218,15 @@ body {
 }
 
 #post .content .mini {
-    width: 600px;
+    width: 650px;
     height: 600px;
     background: var(--vertgrad);
     border-left: 1px solid #ccc;
     border-radius: 10px;
-    margin-right: 50px;
     box-shadow: 0 0 10px rgba(0, 150, 136, 0.7); /* 그림자 색상 및 크기 조절 */
 }
 
-#post .content .main temp {
+#post .main temp {
     display: block;
     min-width: 1000px;
     background-color: #fff;
@@ -234,6 +234,11 @@ body {
     border: 1px solid #ccc;
     padding: 25px;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+#post .content .main .post temp {
+    height: 450px;
+    max-height: 450px;
 }
 
 #post .content .main temp b, #title temp i {
@@ -259,6 +264,7 @@ body {
 
 #post .journeyList {
     display: flex;
+    width: auto;
     justify-content: space-evenly;
     align-items: center;
     padding: 25px 50px;
@@ -355,8 +361,20 @@ body {
 
 
 #comment-list {
-    border-top: 1px solid #ccc;
+    width: 95%;
+    margin: 30px auto;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #fff;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    padding: 10px;
 }
+
+
+/*.comment {*/
+/*    border-bottom: 1px solid #ccc;*/
+/*    border-radius: 5px;*/
+/*}*/
 
 .comments-container {
     padding: 10px;
@@ -373,29 +391,78 @@ body {
     font-weight: bold;
 }
 
+.reply-wrapper {
+    margin-left: 60px;
+    font-family: var(--sans);
+    justify-content: start;
+}
+
 .comment-content-wrapper {
     font-family: var(--sans);
-    display: flex;
     justify-content: start;
     align-items: center; /* 내용과 버튼을 수직으로 가운데 정렬합니다. */
     gap: 5px;
 }
 
 .comment-content-wrapper button {
-    background-color: #007bff; /* 버튼 배경색을 설정합니다. */
-    color: #fff; /* 버튼 텍스트 색상을 설정합니다. */
-    border: none; /* 버튼 테두리를 없앱니다. */
-    padding: 5px 10px; /* 버튼 안의 여백을 조절합니다. */
-    cursor: pointer; /* 커서 모양을 포인터로 설정하여 버튼을 클릭할 수 있게 합니다. */
+    background-color: #007bff;
+    color: #fff;
+    border: none; /* 기본값이므로 제거 */
+    padding: 5px 10px;
+    cursor: pointer;
     border-radius: 5px;
+    margin-right: 5px; /* 간격을 설정 */
 }
 
 .comment-content-wrapper button:hover {
     background-color: #0056b3; /* 마우스 호버 시 버튼 배경색을 변경합니다. */
 }
 
-#comment-edit-form {
+.replies-list {
+    margin-left: 50px;
+}
 
+/* 모달창 컨테이너 스타일 */
+#comment-edit-form {
+    position: fixed; /* 고정 위치로 설정 */
+    top: 50%; /* 화면 위 아래 중앙에 위치 */
+    left: 50%; /* 화면 좌우 중앙에 위치 */
+    transform: translate(-50%, -50%); /* 수평, 수직 정렬 */
+    background-color: #fff; /* 배경색 지정 */
+    border: 1px solid #ccc; /* 테두리 스타일 */
+    padding: 20px; /* 안쪽 여백 설정 */
+    width: 300px; /* 너비 설정 */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* 그림자 효과 추가 */
+    z-index: 5; /* 다른 요소 위에 나타나도록 z-index 설정 */
+    display: none; /* 처음에는 숨겨진 상태로 시작 */
+}
+
+/* 모달창 내부 컨텐츠 스타일 */
+#comment-edit-form textarea {
+    width: 100%; /* 전체 너비로 확장 */
+    padding: 10px; /* 안쪽 여백 설정 */
+    margin-bottom: 10px; /* 하단 여백 추가 */
+}
+
+/* 저장 및 취소 버튼 스타일 */
+#comment-edit-form button {
+    padding: 10px 20px; /* 안쪽 여백 설정 */
+    margin-right: 10px; /* 우측 여백 추가 */
+    cursor: pointer; /* 마우스 커서를 포인터로 변경 */
+}
+
+/* 취소 버튼에 더하기 버튼 스타일 */
+#comment-edit-form #cancel-comment-button {
+    background-color: #ccc; /* 배경색 설정 */
+    border: none; /* 테두리 없음 */
+    color: #fff; /* 글자색 설정 */
+}
+
+/* 저장 버튼에 저장 버튼 스타일 */
+#comment-edit-form #save-comment-button {
+    background-color: #007bff; /* 배경색 설정 */
+    border: none; /* 테두리 없음 */
+    color: #fff; /* 글자색 설정 */
 }
 
 /* 댓글 컨테이너 스타일 */
@@ -405,17 +472,33 @@ body {
     padding: 20px; /* 댓글 목록에 패딩을 추가하여 간격을 확보합니다. */
 }
 
+.comment-title {
+    margin-left: 45px;
+}
+
 /* 댓글 입력 창 스타일 */
 #comment-form {
-    margin-bottom: 0; /* 댓글 입력 창과 댓글 목록 사이 간격 조절 */
-    padding: 20px; /* 댓글 입력 창에 패딩을 추가하여 간격을 확보합니다. */
+    width: 95%;
+    margin: 0 auto; /* 가로 중앙 정렬을 위한 속성 */
+    padding: 20px;
     background-color: #ffffff;
     border-radius: 5px;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
 }
 
-footer{
+.comment-edit-form-container {
+    width: 300px;
+    border-radius: 5px;
+    margin-top: 5px;
+    border: 1px black; /* 테두리 두께와 색상 설정 */
+}
+
+.comment-edit-form-content {
+    border-radius: 5px;
+}
+
+footer {
     height: 120px;
     width: 100%;
-    position : relative;
+    position: relative;
 }
