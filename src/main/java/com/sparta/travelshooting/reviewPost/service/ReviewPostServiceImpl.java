@@ -4,6 +4,8 @@ import com.sparta.travelshooting.S3Image.entity.Image;
 import com.sparta.travelshooting.S3Image.repository.ImageRepository;
 import com.sparta.travelshooting.S3Image.service.ImageService;
 import com.sparta.travelshooting.common.ApiResponseDto;
+import com.sparta.travelshooting.notification.entity.Notification;
+import com.sparta.travelshooting.notification.repository.NotificationRepository;
 import com.sparta.travelshooting.reviewPost.dto.ReviewPostListResponseDto;
 import com.sparta.travelshooting.reviewPost.dto.ReviewPostRequestDto;
 import com.sparta.travelshooting.reviewPost.dto.ReviewPostResponseDto;
@@ -35,6 +37,7 @@ public class ReviewPostServiceImpl implements ReviewPostService {
     private final ImageService imageService;
     private final ImageRepository imageRepository;
     private final ReviewPostLikeRepository reviewPostLikeRepository;
+    private final NotificationRepository notificationRepository;
 
 
     // 후기 게시글 생성
@@ -196,6 +199,12 @@ public class ReviewPostServiceImpl implements ReviewPostService {
         } else if (findReviewPostLike.isPresent()) {
             return new ApiResponseDto("이미 좋아요를 한 상태입니다.", 400);
         }
+
+        // 좋아요 알림 보내기
+        String message = "여행후기 게시글 : " + reviewPost.getTitle() + " 에 " +user.getNickname() + "님이 좋아요를 눌렀습니다.";
+        boolean read = false; // 알림 확인 여부
+        Notification notification = new Notification(reviewPost.getUser(), message, read, null, reviewPostId);
+        notificationRepository.save(notification);
 
         ReviewPostLike newReviewPostLike = new ReviewPostLike(user, reviewPost);
         reviewPostLikeRepository.save(newReviewPostLike);
