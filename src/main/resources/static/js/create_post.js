@@ -297,7 +297,7 @@ idx.init();
 $(document).ready(function () {
     $("#cancelPost").click(function (e) {
         e.preventDefault(); // 폼의 기본 동작(페이지 새로고침)을 막음
-        window.location.href = "http://localhost:8080/view/post"; // 게시글 목록으로 이동
+        window.location.href = "/view/post"; // 게시글 목록으로 이동
     });
 });
 

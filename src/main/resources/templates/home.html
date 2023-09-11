@@ -24,6 +24,9 @@
 
     <!--JS Cookie-->
     <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js"></script>
+
+    <!--http->https redirect mixed content 에러 해결-->
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
 </head>
 <body>
 
@@ -103,12 +106,6 @@
             Chat
         </a>
     </li>
-    <li>
-        <a type="btn" data-bs-toggle="offcanvas" href="#offcanvasUser"
-           aria-controls="offcanvasUser">
-            My Profile
-        </a>
-    </li>
 </ul>
 
 <!--사용자 메뉴 오프캔버스-->
@@ -124,7 +121,7 @@
         <div class="circle-container">
             <div class="circle">
                 <img class="profile-img"
-                     src="https://t4.ftcdn.net/jpg/02/15/84/43/360_F_215844325_ttX9YiIIyeaR7Ne6EaLLjMAmy4GvPC69.jpg">
+                     src="https://t4.ftcdn.net/jpg/02/15/84/43/360_F_215844325_ttX9YiIIyeaR7Ne6EaLLjMAmy4GvPC69.jpg" alt="">
                 <div id="nickname-box">
                     <span th:text="${nickname}">Nickname</span>
                 </div>
