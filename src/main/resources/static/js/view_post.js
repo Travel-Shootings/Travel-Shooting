@@ -228,6 +228,7 @@ function createCommentElement(comment) {
 
 // 수정 폼 요소 생성 함수
 function createEditFormElement(commentId, commentContent) {
+
     const editFormContainer = document.createElement('div');
     editFormContainer.id = `comment-edit-form-${commentId}`;
     editFormContainer.classList.add('comment-edit-form-container')
@@ -339,6 +340,11 @@ document.addEventListener('DOMContentLoaded', function () {
     let editingCommentElement = null; // 현재 수정 중인 댓글을 추적
 
     commentList.addEventListener('click', function (e) {
+        if(!checkAuthorizationCookie()) {
+            alert('로그인 후 이용해주세요');
+            return
+        }
+
         const target = e.target;
 
         // 수정 버튼 클릭 시
