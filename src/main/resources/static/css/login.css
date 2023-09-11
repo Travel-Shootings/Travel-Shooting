@@ -17,12 +17,16 @@
   margin-bottom: 30px;
 }
 
-#btn-login {
+#btn-login, #btn-signup {
   width: 355px;
   margin-top: 30px;
   margin-bottom: 200px;
   height: 50px;
   display :inline-block;
+}
+
+#btn-signup {
+  margin: auto;
 }
 
 #inputUsername {
@@ -41,8 +45,9 @@
   text-align: center
 }
 
-#login-button {
+#login-button, #signup-button {
   text-align: center;
+  height: 100px;
 }
 
 #wrapper{
