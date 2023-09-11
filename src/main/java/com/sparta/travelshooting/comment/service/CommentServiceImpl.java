@@ -42,22 +42,11 @@ public class CommentServiceImpl implements CommentService {
         // 알림 보내기 (게시글 작성자와 다른 사람이 댓글을 달았을 경우에만 게시글 작성자에게 알림)
         User author = post.getUser(); // post 작성자
         if (!author.getNickname().equals(user.getNickname())) {
-
-            String comment_content = comment.getContent();
-            if (comment_content.length() > 20) {
-                comment_content = comment_content.substring(0, 20) + "...";
-            }
-
-            String message = "여행계획 게시글 : " + post.getTitle() + " 에 " + user.getNickname() + COMMENT_CREATE_MESSAGE + COMMENT_MESSAGE + comment_content; // 알림 메세지
-            boolean read = false; // 알림 확인 여부
-
-            Notification notification = new Notification(author, message, read, post.getId(), null);
-            notificationRepository.save(notification);
+            sendNotification(post, null, user, comment.getContent(), "여행계획 게시글 : ");
         }
 
         return new CommentResponseDto(comment);
     }
-
 
     //후기 게시판 댓글 생성
     @Override
@@ -68,18 +57,8 @@ public class CommentServiceImpl implements CommentService {
 
         // 알림 보내기 (게시글 작성자와 다른 사람이 댓글을 달았을 경우에만 게시글 작성자에게 알림)
         User author = reviewPost.getUser(); // review post 작성자
-
         if (!author.getNickname().equals(user.getNickname())) {
-            String comment_content = comment.getContent();
-            if (comment_content.length() > 20) {
-                comment_content = comment_content.substring(0, 20) + "...";
-            }
-
-            String message = "여행후기 게시글 : " + reviewPost.getTitle() + " 에 " + user.getNickname() + COMMENT_CREATE_MESSAGE + COMMENT_MESSAGE + comment_content; // 알림 메세지
-            boolean read = false; // 알림 확인 여부
-
-            Notification notification = new Notification(author, message, read, null, reviewPost.getId());
-            notificationRepository.save(notification);
+            sendNotification(null, reviewPost, user, comment.getContent(), "여행후기 게시글 : ");
         }
 
         return new CommentResponseDto(comment);
@@ -106,6 +85,31 @@ public class CommentServiceImpl implements CommentService {
         }
         commentRepository.delete(comment);
         return new ApiResponseDto("댓글 삭제 완료", HttpStatus.OK.value());
+    }
+
+    // 댓글 작성 알림 보내기
+    public void sendNotification(Post post, ReviewPost reviewPost, User user, String content, String idx) {
+        if (content.length() > 20) {
+            content = content.substring(0, 20) + "...";
+        }
+
+        String title;
+        if (post == null) {
+            title = reviewPost.getTitle();
+        } else {
+            title = post.getTitle();
+        }
+
+        String message = idx + title + " 에 " + user.getNickname() + COMMENT_CREATE_MESSAGE + COMMENT_MESSAGE + content; // 알림 메세지
+        boolean read = false; // 알림 확인 여부
+
+        Notification notification;
+        if (post != null) {
+            notification = new Notification(post.getUser(), message, read, post.getId(), null);
+        } else {
+            notification = new Notification(reviewPost.getUser(), message, read, null, reviewPost.getId());
+        }
+        notificationRepository.save(notification);
     }
 }
 

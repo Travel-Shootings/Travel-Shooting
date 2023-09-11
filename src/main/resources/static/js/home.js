@@ -163,6 +163,52 @@ function loadThreePosts() {
         });
 }
 
+$(document).ready(function () {
+    loadSixReviewPosts();
+});
+
+function loadSixReviewPosts() {
+    fetch('/api/review-posts/six', {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' }
+    })
+        .then(response => {
+            if (!response.ok) {
+                alert("리뷰를 불러오는데 오류가 발생했습니다.");
+                window.location.href = "/view/review-post";
+            }
+            return response.json();
+        })
+        .then(data => {
+            const cardPanels = document.querySelectorAll('.review-card .card-panel2');
+
+            // 가져온 데이터를 반복하며 각 요소에 값을 설정합니다.
+            data.forEach((review, index) => {
+                const cardPanel = cardPanels[index];
+                const contentElement = cardPanel.querySelector('p');
+
+                // contentElement에 이미지 URL이 있는지 확인하고, 없을 경우 기본 이미지를 설정합니다.
+                if (review.imageUrls && review.imageUrls.length > 0) {
+                    contentElement.innerHTML = `<img src="${review.imageUrls[0]}" alt="Review Image" style="max-width: 100%;">`;
+                } else {
+                    contentElement.innerHTML = `<img src="https://travelshooting.s3.ap-northeast-2.amazonaws.com/Travel+-+Shooting.jpg" alt="Review Image" style="max-width: 100%;">`;
+
+                }
+
+                // card-panel을 클릭할 때 상세 페이지로 이동하도록 이벤트 리스너를 추가합니다.
+                cardPanel.addEventListener('click', function () {
+                    window.location.href = `/view/review-post/${review.id}`;
+                });
+            });
+        })
+        .catch(error => {
+            alert(error.message)
+            console.error('데이터를 불러오는 중 오류 발생:', error);
+        });
+}
+
+
+
 
 
 document.getElementById('notification-btn').addEventListener('click', function () {

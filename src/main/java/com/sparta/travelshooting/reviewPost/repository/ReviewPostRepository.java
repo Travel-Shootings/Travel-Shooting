@@ -14,4 +14,5 @@ public interface ReviewPostRepository extends JpaRepository<ReviewPost,Long> {
 
     List<ReviewPost> findAllByOrderByCreatedAtDesc();
 
+    List<ReviewPost> findTop6ByOrderByCreatedAtDesc();
 }

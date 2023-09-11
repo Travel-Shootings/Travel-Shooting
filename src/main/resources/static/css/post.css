@@ -183,4 +183,6 @@ section.notice {
 footer {
     height: 120px;
     width: 100%;
+    position: fixed;
+    bottom: 0;
 }

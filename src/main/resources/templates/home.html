@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Main Page Title</title>
+    <title>Travel Shooting</title>
 
     <!--stylesheet-->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -24,6 +24,9 @@
 
     <!--JS Cookie-->
     <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js"></script>
+
+    <!--http->https redirect mixed content 에러 해결-->
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
 </head>
 <body>
 
@@ -40,30 +43,27 @@
                 <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
                 <ul class="right hide-on-med-and-down">
                     <li>
-                        <a href="#search">Search</a>
+                        <a href="/view/post">여행 계획 게시판</a>
                     </li>
                     <li>
-                        <a href="/view/post">Plan</a>
-                    </li>
-                    <li>
-                        <a href="/view/review-post">Reviews</a>
+                        <a href="/view/review-post">여행 후기 게시판</a>
                     </li>
                     <li>
                         <a type="btn" data-bs-toggle="offcanvas" href="#offcanvasChat"
                            aria-controls="offcanvasChat">
-                            Chat
+                            채팅방
                         </a>
                     </li>
                     <li id="login-btn">
-                        <a href="/view/user/login">Log In</a>
+                        <a href="/view/user/login">로그인</a>
                     </li>
                     <li id="signup-btn">
-                        <a href="/view/user/signup">Sign Up</a>
+                        <a href="/view/user/signup">회원가입</a>
                     </li>
                     <li id="mypage-btn" style="display: none">
                         <a type="btn" data-bs-toggle="offcanvas" href="#offcanvasUser"
                            aria-controls="offcanvasUser">
-                            My Profile
+                            마이페이지
                         </a>
                     </li>
                     <li>
@@ -95,9 +95,6 @@
         <a href="#home">Home</a>
     </li>
     <li>
-        <a href="#search">Search</a>
-    </li>
-    <li>
         <a href="/view/post">Plan</a>
     </li>
     <li>
@@ -107,12 +104,6 @@
         <a type="btn" data-bs-toggle="offcanvas" href="#offcanvasChat"
            aria-controls="offcanvasChat">
             Chat
-        </a>
-    </li>
-    <li>
-        <a type="btn" data-bs-toggle="offcanvas" href="#offcanvasUser"
-           aria-controls="offcanvasUser">
-            My Profile
         </a>
     </li>
 </ul>
@@ -130,7 +121,7 @@
         <div class="circle-container">
             <div class="circle">
                 <img class="profile-img"
-                     src="https://t4.ftcdn.net/jpg/02/15/84/43/360_F_215844325_ttX9YiIIyeaR7Ne6EaLLjMAmy4GvPC69.jpg">
+                     src="https://t4.ftcdn.net/jpg/02/15/84/43/360_F_215844325_ttX9YiIIyeaR7Ne6EaLLjMAmy4GvPC69.jpg" alt="">
                 <div id="nickname-box">
                     <span th:text="${nickname}">Nickname</span>
                 </div>
@@ -278,7 +269,7 @@
         <div class="row">
             <h4 class="center">
                 <a href="/view/post">
-                    <span class="teal-text">Plan</span>
+                    <span class="teal-text">여행 계획 게시판</span>
                 </a>
             </h4>
             <div class="col s12 m4">
@@ -334,61 +325,53 @@
 </section>
 
 <!-- Section: Reviews -->
-<section id="gallery" class="section section-gallery scrollspy">
+<section class="section section-icons grey lighten-4 center">
     <div class="container">
-        <h4 class="center">
-            <a href="/view/review-post">
-                <span class="teal-text">Reviews</span>
-            </a>
-        </h4>
         <div class="row">
-            <div class="col s12 m3">
-                <img class="materialboxed responsive-img" src="https://source.unsplash.com/1600x900/?beach" alt="">
+            <h4 class="center">
+                <a href="/view/review-posts">
+                    <span class="teal-text">여행 후기 게시판</span>
+                </a>
+            </h4>
+            <div class="col s12 m4 review-card">
+                <div class="card-panel2">
+                    <p></p>
+                </div>
             </div>
-            <div class="col s12 m3">
-                <img class="materialboxed responsive-img" src="https://source.unsplash.com/1600x900/?travel" alt="">
+            <div class="col s12 m4 review-card">
+                <div class="card-panel2">
+                    <p></p>
+                </div>
             </div>
-            <div class="col s12 m3">
-                <img class="materialboxed responsive-img" src="https://source.unsplash.com/1600x900/?nature" alt="">
-            </div>
-            <div class="col s12 m3">
-                <img class="materialboxed responsive-img" src="https://source.unsplash.com/1600x900/?beach, travel"
-                     alt="">
+            <div class="col s12 m4 review-card">
+                <div class="card-panel2">
+                    <p></p>
+                </div>
             </div>
         </div>
-
+        <!-- 추가된 줄 -->
         <div class="row">
-            <div class="col s12 m3">
-                <img class="materialboxed responsive-img" src="https://source.unsplash.com/1600x900/?beaches" alt="">
+            <div class="col s12 m4 review-card">
+                <div class="card-panel2">
+                    <p></p>
+                </div>
             </div>
-            <div class="col s12 m3">
-                <img class="materialboxed responsive-img" src="https://source.unsplash.com/1600x900/?traveling" alt="">
+            <div class="col s12 m4 review-card">
+                <div class="card-panel2">
+                    <p></p>
+                </div>
             </div>
-            <div class="col s12 m3">
-                <img class="materialboxed responsive-img" src="https://source.unsplash.com/1600x900/?bridge" alt="">
-            </div>
-            <div class="col s12 m3">
-                <img class="materialboxed responsive-img" src="https://source.unsplash.com/1600x900/?boat, travel"
-                     alt="">
+            <div class="col s12 m4 review-card">
+                <div class="card-panel2">
+                    <p></p>
+                </div>
             </div>
         </div>
-
-        <div class="row">
-            <div class="col s12 m3">
-                <img class="materialboxed responsive-img" src="https://source.unsplash.com/1600x900/?water" alt="">
-            </div>
-            <div class="col s12 m3">
-                <img class="materialboxed responsive-img" src="https://source.unsplash.com/1600x900/?building" alt="">
-            </div>
-            <div class="col s12 m3">
-                <img class="materialboxed responsive-img" src="https://source.unsplash.com/1600x900/?trees" alt="">
-            </div>
-            <div class="col s12 m3">
-                <img class="materialboxed responsive-img" src="https://source.unsplash.com/1600x900/?cruise" alt="">
-            </div>
-        </div>
+        <!-- 추가된 줄 끝 -->
     </div>
 </section>
+
+
 
 <!-- Footer -->
 <footer class="section teal darken-2 white-text center">
