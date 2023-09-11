@@ -96,13 +96,21 @@ public class ViewController {
 
     //게시글 작성 페이지로 이동
     @GetMapping("/post/create")
-    public String createPost () {
+    public String createPost (@AuthenticationPrincipal UserDetailsImpl userDetails) {
+        if(userDetails == null) {
+            return "login";
+        }
+
         return "create_post";
     }
 
     // 게시글 수정 페이지 이동
     @GetMapping("/post/edit/{postId}")
-    public String editPost () {
+    public String editPost (@AuthenticationPrincipal UserDetailsImpl userDetails) {
+        if(userDetails == null) {
+            return "login";
+        }
+
         return "edit_post";
     }
 
