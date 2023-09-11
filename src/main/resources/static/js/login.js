@@ -73,13 +73,7 @@ let idx = {
                     window.location.href = '/view/home';
                 }
             })
-            .fail(function (jqXHR, textStatus, errorThrown) {
-                console.log("Request failed:");
-                console.log("Status: " + textStatus);
-                console.log("Error thrown: " + errorThrown);
-                if (jqXHR.responseJSON) {
-                    console.log("Response: " + JSON.stringify(jqXHR.responseJSON));
-                }
+            .fail(function (jqXHR) {
                 alert(JSON.stringify(jqXHR.responseJSON.message))
             });
     }

@@ -8,7 +8,7 @@ import lombok.Getter;
 public class EditInfoRequestDto {
 
     @NotBlank
-    @Pattern(regexp = "^(?=.*[a-zA-Z가-힣])(?!.*[!@#$%^&*()_+{}\\[\\]:;<>,.?~\\-]).*$",
+    @Pattern(regexp = "^(?=.*[a-zA-Z가-힣1-9])(?!.*[!@#$%^&*()_+{}\\[\\]:;<>,.?~\\-]).*$",
             message = "닉네임에 특수문자는 포함되면 안됩니다.")
     private String nickname;
 
