@@ -5,7 +5,7 @@ const stompClient = new StompJs.Client({
     // local websocket
     // brokerURL: 'ws://localhost:8080/travel-shooting-websocket',
     // 배포 websocket
-    brokerURL: 'ws://travel-shooting.site:8080/travel-shooting-websocket',
+    brokerURL: 'ws://travel-shooting.site/travel-shooting-websocket',
 });
 
 let chatRoomId = null;
