@@ -104,7 +104,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const row = document.createElement('tr');
 
             const numCell = document.createElement('td');
-            numCell.textContent = (currentPage * 6) + index + 1;
+            numCell.textContent = post.id;
             row.appendChild(numCell);
 
             const titleCell = document.createElement('th');
