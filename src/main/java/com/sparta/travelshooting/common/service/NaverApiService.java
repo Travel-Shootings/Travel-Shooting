@@ -1,4 +1,4 @@
-package com.sparta.travelshooting.post.service;
+package com.sparta.travelshooting.common.service;
 
 
 import com.sparta.travelshooting.post.dto.NaverAddressDto;

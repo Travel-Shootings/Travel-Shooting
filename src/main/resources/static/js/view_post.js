@@ -143,7 +143,7 @@ deletePostButton.addEventListener("click", deletePost);
 
 function deletePost() {
     if(!checkAuthorizationCookie()) {
-        alert('로그인이 필요합니다.');
+        alert('작성자만 게시글을 삭제할 수 있습니다.');
         return
     }
 
@@ -367,7 +367,6 @@ document.addEventListener('click', function (e) {
         const replyId = target.getAttribute('data-reply-id');
         const editModal = document.getElementById(`reply-edit-form-${replyId}`);
         const editReplyContent = editModal.querySelector('textarea');
-
         // 대댓글 내용을 가져와서 수정 폼의 textarea에 설정합니다.
         editReplyContent.value = target.getAttribute('data-reply-content');
 

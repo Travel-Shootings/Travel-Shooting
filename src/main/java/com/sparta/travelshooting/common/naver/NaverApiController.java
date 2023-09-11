@@ -1,7 +1,7 @@
-package com.sparta.travelshooting.post.controller;
+package com.sparta.travelshooting.common.naver;
 
 import com.sparta.travelshooting.post.dto.NaverAddressDto;
-import com.sparta.travelshooting.post.service.NaverApiService;
+import com.sparta.travelshooting.common.service.NaverApiService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
