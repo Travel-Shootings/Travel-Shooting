@@ -151,6 +151,10 @@
     border-bottom: solid 1px #009688;
 }
 
+.card-panel{
+    cursor: pointer;
+}
+
 .card-panel2 {
     width: 400px;
     height: 400px;
@@ -166,4 +170,6 @@
     max-height: 100%;
     object-fit: cover; /* 이미지가 올바르게 조정되도록 설정 */
     object-position: center; /* 이미지가 가운데 정렬되도록 설정 */
+    cursor: pointer; /* 마우스 포인터를 손모양으로 변경 */
+
 }
