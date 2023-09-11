@@ -1,5 +1,6 @@
 // 글 데이터 가져오기
 const postId = window.location.pathname.split('/').pop();
+// const replyId = window.location.pathname.split(`${postId}` + '/').pop();
 
 $(document).ready(function () {
     loadPostData()
@@ -50,6 +51,10 @@ function loadPostData() {
                     const endJourney = new Date(item.endJourney);
                     const placeAddress = item.placeAddress;
 
+                    // DB에서 받아온 주소 값을 지도에 찍기
+                    $("#address").val(placeAddress);
+                    $("#submit").click();
+
                     // 날짜를 YYYY년 MM월 DD일 HH시 MM분으로 표기하는 함수
                     const startFormatted = startJourney.toLocaleString('ko-KR', {
                         year: 'numeric',
@@ -76,9 +81,7 @@ function loadPostData() {
 
                     // HTML에 동적으로 추가
                     journeyListHtml += `<box> ${index + 1 + "번째 여행지"}
-            <ciro>
-                <circ></circ>
-            </ciro>
+            
             <nm>장소명: ${location}</nm>
             <nm>예산: ${budget}원</nm>
             <nm>인원: ${members}</nm>
@@ -140,7 +143,7 @@ deletePostButton.addEventListener("click", deletePost);
 
 function deletePost() {
     if(!checkAuthorizationCookie()) {
-        alert('로그인이 필요합니다.');
+        alert('작성자만 게시글을 삭제할 수 있습니다.');
         return
     }
 
@@ -171,6 +174,7 @@ function deletePost() {
 }
 
 
+// 댓글 요소 생성 함수
 function createCommentElement(comment) {
     const commentElement = document.createElement('li');
     commentElement.setAttribute('commentId', comment.id);
@@ -193,7 +197,7 @@ function createCommentElement(comment) {
 
     const replyButton = document.createElement('button');
     replyButton.textContent = '대댓글';
-    replyButton.classList.add('create-reply-button');
+    replyButton.classList.add('add-reply-button');
     replyButton.setAttribute('data-comment-id', comment.id);
     replyButton.setAttribute('data-comment-content', comment.content);
     commentContentWrapper.appendChild(replyButton);
@@ -214,6 +218,10 @@ function createCommentElement(comment) {
     // 생성된 댓글에 수정 폼 요소도 추가합니다.
     const editFormContainer = createEditFormElement(comment.id, comment.content);
     commentContentWrapper.appendChild(editFormContainer);
+
+    // 대댓글을 누르면 생성할 수 있는 폼 요소도 추가합니다.
+    const createReplyFormContainer = createReplyFormElement(comment.id);
+    commentContentWrapper.appendChild(createReplyFormContainer);
 
     // 대댓글을 불러오고 해당 댓글 하위에 추가합니다.
     if (comment.replyList && comment.replyList.length > 0) {
@@ -254,6 +262,211 @@ function createEditFormElement(commentId, commentContent) {
     return editFormContainer;
 }
 
+// 댓글의 대댓글 생성 함수
+function createReplyFormElement(commentId) {
+    const replyFormContainer = document.createElement('div');
+    replyFormContainer.id = `reply-form-container-${commentId}`;
+    replyFormContainer.classList.add('reply-form-container');
+    replyFormContainer.style.display = 'none'; // 초기에는 숨김 상태
+
+    const replyContentInput = document.createElement('textarea');
+    replyContentInput.classList.add('reply-content-input');
+    replyContentInput.placeholder = '대댓글을 작성하세요';
+    replyFormContainer.appendChild(replyContentInput);
+
+    const createReplyButton = document.createElement('button');
+    createReplyButton.textContent = '대댓글 작성';
+    createReplyButton.classList.add('create-reply-button');
+    replyFormContainer.appendChild(createReplyButton);
+
+    const cancelReplyButton = document.createElement('button');
+    cancelReplyButton.textContent = '취소';
+    cancelReplyButton.classList.add('cancel-reply-button');
+    replyFormContainer.appendChild(cancelReplyButton);
+
+    // 대댓글 작성 버튼 클릭할 때
+    createReplyButton.addEventListener('click', function (e) {
+        e.preventDefault();
+        const replyContent = replyContentInput.value;
+
+        // AJAX를 사용하여 대댓글 생성 요청을 보냅니다.
+        fetch(`/api/replies/${commentId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ content: replyContent }),
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('대댓글 생성 실패.');
+                }
+                return response.json();
+            })
+            .then(data => {
+                // 대댓글 생성이 성공한 경우, 화면에 대댓글을 추가합니다.
+                addReplyToComment(commentId, data);
+
+                // 대댓글 입력 폼을 숨깁니다.
+                replyFormContainer.style.display = 'none';
+
+                // 입력 내용을 지웁니다.
+                replyContentInput.value = '';
+            })
+            .catch(error => {
+                console.error('대댓글 생성 에러:', error);
+            });
+    });
+
+    // 취소 버튼 클릭할 때
+    cancelReplyButton.addEventListener('click', function () {
+        // 대댓글 입력 폼을 숨깁니다.
+        replyFormContainer.style.display = 'none';
+
+        // 입력 내용을 지웁니다.
+        replyContentInput.value = '';
+    });
+
+    return replyFormContainer;
+}
+
+// 대댓글 수정 폼 요소 생성 함수
+function createEditReplyFormElement(replyId, replyContent) {
+    const editFormContainer = document.createElement('div');
+    editFormContainer.id = `reply-edit-form-${replyId}`;
+    editFormContainer.classList.add('reply-edit-form-container');
+    editFormContainer.style.display = 'none'; // 초기에는 숨김 상태
+
+    const textarea = document.createElement('textarea');
+    textarea.id = `edit-reply-content-${replyId}`;
+    textarea.classList.add('reply-edit-form-content');
+    textarea.value = replyContent;
+
+    const saveButton = document.createElement('button');
+    saveButton.id = `save-reply-button-${replyId}`;
+    saveButton.classList.add('save-reply-button');
+    saveButton.textContent = '대댓글 수정';
+
+    const cancelButton = document.createElement('button');
+    cancelButton.id = `cancel-reply-button-${replyId}`;
+    cancelButton.classList.add('cancel-reply-button');
+    cancelButton.textContent = '취소';
+
+    editFormContainer.appendChild(textarea);
+    editFormContainer.appendChild(saveButton);
+    editFormContainer.appendChild(cancelButton);
+
+    return editFormContainer;
+}
+
+// 대댓글 수정 버튼 클릭 시
+document.addEventListener('click', function (e) {
+    const target = e.target;
+
+    if (target.classList.contains('edit-reply-button')) {
+        const replyId = target.getAttribute('data-reply-id');
+        const editModal = document.getElementById(`reply-edit-form-${replyId}`);
+        const editReplyContent = editModal.querySelector('textarea');
+        // 대댓글 내용을 가져와서 수정 폼의 textarea에 설정합니다.
+        editReplyContent.value = target.getAttribute('data-reply-content');
+
+        // 저장 버튼 클릭 이벤트 리스너 등록
+        const saveEditReplyButton = editModal.querySelector(`#save-reply-button-${replyId}`);
+        saveEditReplyButton.addEventListener('click', function () {
+            const editedContent = editReplyContent.value;
+
+            // AJAX를 사용하여 대댓글 수정 요청을 보냅니다.
+            fetch(`/api/replies/` + replyId, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ content: editedContent }),
+            })
+                .then(response => response.json())
+                .then(data => {
+                    // 대댓글 수정 모달창 닫기
+                    editModal.style.display = 'none';
+
+                    // 서버 응답에서 수정된 내용을 받아옵니다.
+                    const updatedContent = data.content;
+
+                    // 수정된 내용을 대댓글 요소에 반영
+                    const replyElement = document.querySelector(`li[data-reply-id="${replyId}"]`);
+                    if (replyElement) {
+                        const replyContentElement = replyElement.querySelector('.edit-reply-content');
+                        if (replyContentElement) {
+                            replyContentElement.textContent = updatedContent;
+                        }
+                    }
+                    alert("대댓글 수정 완료");
+                    location.reload() // 해당 새로고침은 추후 수정
+                })
+                .catch(error => {
+                    console.error('대댓글 수정 에러:', error);
+                });
+        });
+
+        // 취소 버튼 클릭 이벤트 리스너 등록
+        const cancelEditReplyButton = editModal.querySelector(`#cancel-reply-button-${replyId}`);
+        cancelEditReplyButton.addEventListener('click', function () {
+            // 대댓글 수정 모달창 닫기
+            editModal.style.display = 'none';
+        });
+
+        // 대댓글 수정 폼을 보이게 설정
+        editModal.style.display = 'block';
+    }
+});
+
+// 대댓글 삭제 기능
+document.addEventListener('click', function (e) {
+    const target = e.target;
+
+    // 대댓글 삭제 버튼 클릭 시
+    if (target.classList.contains('delete-reply-button')) {
+        const replyId = target.getAttribute('data-reply-id');
+
+        if (confirm('대댓글을 삭제하시겠습니까?')) {
+            // AJAX를 사용하여 대댓글 삭제 요청을 보냅니다.
+            fetch(`/api/replies/` + replyId, {
+                method: 'DELETE',
+            })
+                .then(response => response.json())
+                .then(data => {
+                    // 대댓글 삭제가 성공한 경우, 화면에서 대댓글을 제거합니다.
+                    const replyElement = target.closest('.reply-list');
+                    replyElement.remove();
+                })
+                .catch(error => {
+                    console.error('대댓글 삭제 에러:', error);
+                });
+        }
+    }
+});
+
+document.addEventListener('DOMContentLoaded', function () {
+    const commentList = document.getElementById('comment-list');
+
+    // 댓글 목록에서 클릭 이벤트 처리
+    commentList.addEventListener('click', function (e) {
+        const target = e.target;
+
+        // 대댓글 버튼 클릭 시
+        if (target.classList.contains('add-reply-button')) {
+            const commentElement = target.closest('.comment'); // 대댓글 버튼이 있는 댓글 요소
+
+            if (commentElement) {
+                const commentId = target.getAttribute('data-comment-id');
+                const replyFormContainer = commentElement.querySelector(`#reply-form-container-${commentId}`); // 수정된 부분
+
+                // 현재 display 상태를 확인하고 반대로 토글
+                replyFormContainer.style.display = replyFormContainer.style.display === 'none' ? 'block' : 'none';
+            }
+        }
+    });
+});
+
 // 대댓글 DB에서 불러오기
 function createReplyElement(reply) {
     const replyElement = document.createElement('li');
@@ -273,6 +486,7 @@ function createReplyElement(reply) {
     replyWrapper.appendChild(replyContentWrapper);
 
     const contentElement = document.createElement('div');
+    contentElement.classList.add('edit-reply-content');
     contentElement.textContent = reply.content;
     replyContentWrapper.appendChild(contentElement);
 
@@ -288,7 +502,20 @@ function createReplyElement(reply) {
     deleteButton.setAttribute('data-reply-id', reply.id);
     replyContentWrapper.appendChild(deleteButton);
 
+    const editReplyContainer = createEditReplyFormElement(reply.id, reply.content)
+    replyContentWrapper.appendChild(editReplyContainer);
+
     return replyElement;
+}
+
+
+// 대댓글 추가 함수
+function addReplyToComment(commentId, reply) {
+    const commentElement = document.querySelector(`li[commentId="${commentId}"]`);
+    if (commentElement) {
+        const replyElement = createReplyElement(reply);
+        commentElement.appendChild(replyElement);
+    }
 }
 
 // 댓글 추가 반영
@@ -335,6 +562,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 
+// 댓글의 수정과 삭제 기능
 document.addEventListener('DOMContentLoaded', function () {
     const commentList = document.getElementById('comment-list');
     let editingCommentElement = null; // 현재 수정 중인 댓글을 추적
@@ -447,7 +675,6 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 
-
 // 주소 검색의 이벤트
 $('#address').on('keydown', function (e) {
     var keyCode = e.which;
@@ -470,7 +697,7 @@ var infoWindow = new naver.maps.InfoWindow({
 // 전역 변수로 지도를 초기화
 var map = new naver.maps.Map('map', {
     center: new naver.maps.LatLng(37.3595704, 127.105399),
-    zoom: 10
+    zoom: 6
 });
 
 // 전역 변수로 polyline 객체를 정의하고 초기화
@@ -519,8 +746,8 @@ function searchAddressToCoordinate(address) {
             '</div>'
         ].join('\n'));
 
-        // 정보 창을 열 위치 설정
-        infoWindow.open(map, point);
+        // // 정보 창을 열 위치 설정
+        // infoWindow.open(map, point);
 
         // 지도 중심 이동
         map.setCenter(point);

@@ -4,7 +4,7 @@ import com.sparta.travelshooting.common.ApiResponseDto;
 import com.sparta.travelshooting.journeylist.dto.JourneyListRequestDto;
 import com.sparta.travelshooting.journeylist.entity.JourneyList;
 import com.sparta.travelshooting.journeylist.repository.JourneyListRepository;
-import com.sparta.travelshooting.post.controller.NaverApiController;
+import com.sparta.travelshooting.common.naver.NaverApiController;
 import com.sparta.travelshooting.post.dto.PostAndJourneyListDto;
 import com.sparta.travelshooting.post.dto.PostListResponseDto;
 import com.sparta.travelshooting.post.dto.PostResponseDto;

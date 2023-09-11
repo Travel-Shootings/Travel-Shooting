@@ -261,6 +261,39 @@ body {
     width: 90%;
 }
 
+/* 등록 버튼 */
+#addPost {
+    font-size: 15px;
+    font-family: "Open Sans", Helvetica, Arial, sans-serif;
+    background-color: #26a69a;
+    color: #fff;
+    border: none;
+    padding: 10px 50px;
+    border-radius: 10px; /* 둥글게 만듭니다. */
+    cursor: pointer;
+    margin-right: 10px; /* 버튼 간격 조절 */
+}
+
+#addPost:hover {
+    background-color: #499d8c;
+}
+
+/* 취소 버튼 */
+#cancelPost {
+    font-size: 15px;
+    font-family: "Open Sans", Helvetica, Arial, sans-serif;
+    background-color: #ccc;
+    color: #fff;
+    border: none;
+    padding: 10px 50px;
+    border-radius: 10px; /* 둥글게 만듭니다. */
+    cursor: pointer;
+}
+
+#cancelPost:hover {
+    background-color: #999;
+}
+
 table td, table th {
     padding: 5px;
 }
