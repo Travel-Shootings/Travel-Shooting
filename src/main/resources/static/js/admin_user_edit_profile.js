@@ -46,10 +46,8 @@ let idx = {
                     window.opener.location.reload(); // 부모 창 새로고침
                 }
             })
-            .fail(function (request, status, error, response) {
-                console.log(status)
-                console.log(error)
-                alert(response.responseJSON.message);
+            .fail(function () {
+                alert("유저 정보 수정 실패. 모든 항목을 입력했는지 확인해주세요.")
             });
     }
 }

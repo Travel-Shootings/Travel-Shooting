@@ -96,10 +96,39 @@ function loadPostData() {
         });
 }
 
+
+function checkAuthorizationCookie() {
+    var cookies = document.cookie.split(";");
+
+    for (var i = 0; i < cookies.length; i++) {
+        var cookie = cookies[i].split('=');
+
+        // "Authorization" 쿠키가 존재하는 경우 true 반환
+        if (cookie[0] === "Authorization") {
+            return true;
+        }
+    }
+    // "Authorization" 쿠키가 존재하지 않는 경우 false 반환
+    return false;
+}
+
+window.onload = function() {
+    var comment_form = document.getElementById("comment-form");
+
+    if (!checkAuthorizationCookie()) {
+        comment_form.style.display = 'none';
+    }
+}
+
 // 수정 기능
 $(document).ready(function () {
     // id=editPost를 클릭했을 때의 동작을 정의합니다.
     $('#editPost').click(function () {
+        if(!checkAuthorizationCookie()) {
+            alert('로그인이 필요합니다.');
+            return
+        }
+
         // editPost 클릭 시 해당 URL로 이동합니다.
         window.location.href = '/view/post/edit/' + postId;
     });
@@ -110,6 +139,11 @@ const deletePostButton = document.getElementById("deletePost");
 deletePostButton.addEventListener("click", deletePost);
 
 function deletePost() {
+    if(!checkAuthorizationCookie()) {
+        alert('로그인이 필요합니다.');
+        return
+    }
+
     fetch('/api/posts/' + postId, {
         method: 'DELETE',
         headers: {'Content-Type': 'application/json'}
@@ -194,6 +228,7 @@ function createCommentElement(comment) {
 
 // 수정 폼 요소 생성 함수
 function createEditFormElement(commentId, commentContent) {
+
     const editFormContainer = document.createElement('div');
     editFormContainer.id = `comment-edit-form-${commentId}`;
     editFormContainer.classList.add('comment-edit-form-container')
@@ -305,6 +340,11 @@ document.addEventListener('DOMContentLoaded', function () {
     let editingCommentElement = null; // 현재 수정 중인 댓글을 추적
 
     commentList.addEventListener('click', function (e) {
+        if(!checkAuthorizationCookie()) {
+            alert('로그인 후 이용해주세요');
+            return
+        }
+
         const target = e.target;
 
         // 수정 버튼 클릭 시

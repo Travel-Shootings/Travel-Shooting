@@ -16,6 +16,6 @@ public class AdminProfileRequestDto {
             message = "닉네임에 특수문자는 포함되면 안됩니다.")
     private String nickname;
 
-    @NotBlank
+
     private RoleEnum role;
 }
