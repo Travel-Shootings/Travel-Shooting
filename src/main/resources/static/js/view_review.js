@@ -165,13 +165,12 @@ async function deleteReviewPost() {
 
             if (response.ok) {
                 const data = await response.json();
-                if (data.status === 200) {
+                if (data.statusCode === 200) {
                     alert('게시글이 삭제되었습니다.');
+                    window.location.href = '/view/review-post';
                 } else {
                     alert(data.message);
                 }
-                window.location.href = '/view/review-post';
-
             } else {
                 console.error('Error deleting review post:', response.statusText);
             }
@@ -217,7 +216,7 @@ likeButton.addEventListener('click', async () => {
             } else {
                 console.error('Error canceling like:', cancelResponse.statusText);
             }
-        } else {
+        } else if (data.message === '아직 좋아요를 누르지 않은 상태입니다.') {
             // 아직 좋아요를 누르지 않은 상태이므로 좋아요 요청을 보냅니다.
             const likeResponse = await fetch(`/api/review-posts/like/${reviewPostId}`, {
                 method: 'POST',
@@ -237,6 +236,8 @@ likeButton.addEventListener('click', async () => {
             } else {
                 console.error('Error adding like:', likeResponse.statusText);
             }
+        } else {
+            alert(data.message);
         }
     } catch (error) {
         console.error('Error handling like:', error);
@@ -321,8 +322,36 @@ document.getElementById('comment-list').addEventListener('click', (e) => {
     }
 });
 
+function checkAuthorizationCookie() {
+    var cookies = document.cookie.split(";");
+
+    for (var i = 0; i < cookies.length; i++) {
+        var cookie = cookies[i].split('=');
+
+        // "Authorization" 쿠키가 존재하는 경우 true 반환
+        if (cookie[0] === "Authorization") {
+            return true;
+        }
+    }
+    // "Authorization" 쿠키가 존재하지 않는 경우 false 반환
+    return false;
+}
+
+window.onload = function() {
+    var comment_form = document.getElementById("comment-form");
+
+    if (!checkAuthorizationCookie()) {
+        comment_form.style.display = 'none';
+    }
+}
+
 // 수정 폼 열기 함수
 function openEditForm(commentId) {
+    if (!checkAuthorizationCookie()) {
+        alert('로그인 후 이용해주세요.');
+        return
+    }
+
     closeReplyForm();
     closeReplyEditForm();
     const commentEditForm = document.getElementById('comment-edit-form');
@@ -387,6 +416,11 @@ function closeEditForm() {
 
 // 댓글 삭제 함수
 async function deleteComment(commentId) {
+    if (!checkAuthorizationCookie()) {
+        alert('로그인 후 이용해주세요')
+        return
+    }
+
     const confirmation = confirm('댓글을 삭제하시겠습니까?');
 
     if (confirmation) {
@@ -415,6 +449,11 @@ async function deleteComment(commentId) {
 
 // 대댓글 폼 열기
 function openReplyForm(commentId) {
+    if (!checkAuthorizationCookie()) {
+        alert('로그인 후 이용해주세요');
+        return
+    }
+
     const replyFormContainer = document.getElementById('reply-form-container');
     const replyForm = document.getElementById('reply-form');
     const replyContent = document.getElementById('reply-content');

@@ -4,9 +4,8 @@ import com.sparta.travelshooting.S3Image.entity.Image;
 import com.sparta.travelshooting.S3Image.repository.ImageRepository;
 import com.sparta.travelshooting.S3Image.service.ImageService;
 import com.sparta.travelshooting.common.ApiResponseDto;
-import com.sparta.travelshooting.post.dto.PostListResponseDto;
-import com.sparta.travelshooting.post.entity.Post;
-import com.sparta.travelshooting.reviewPost.dto.HomeReviewResponseDto;
+import com.sparta.travelshooting.notification.entity.Notification;
+import com.sparta.travelshooting.notification.repository.NotificationRepository;
 import com.sparta.travelshooting.reviewPost.dto.ReviewPostListResponseDto;
 import com.sparta.travelshooting.reviewPost.dto.ReviewPostRequestDto;
 import com.sparta.travelshooting.reviewPost.dto.ReviewPostResponseDto;
@@ -38,6 +37,7 @@ public class ReviewPostServiceImpl implements ReviewPostService {
     private final ImageService imageService;
     private final ImageRepository imageRepository;
     private final ReviewPostLikeRepository reviewPostLikeRepository;
+    private final NotificationRepository notificationRepository;
 
 
     // 후기 게시글 생성
@@ -73,9 +73,8 @@ public class ReviewPostServiceImpl implements ReviewPostService {
                 image.setReviewPost(reviewPost);
             }
         }
-        return  new ApiResponseDto("게시글이 생성되었습니다.", HttpStatus.CREATED.value());
+        return new ApiResponseDto("게시글이 생성되었습니다.", HttpStatus.CREATED.value());
     }
-
 
 
     // 후기 게시글 수정
@@ -122,7 +121,6 @@ public class ReviewPostServiceImpl implements ReviewPostService {
 
         return new ApiResponseDto("게시글 수정 완료", HttpStatus.OK.value());
     }
-
 
 
     // 후기 게시글 삭제
@@ -211,6 +209,13 @@ public class ReviewPostServiceImpl implements ReviewPostService {
         if (reviewPost.getUser().getId().equals(user.getId())) {
             return new ApiResponseDto("자신의 글에는 좋아요를 할 수 없습니다.", 400);
         }
+
+        // 좋아요 알림 보내기
+        String message = "여행후기 게시글 : " + reviewPost.getTitle() + " 에 " +user.getNickname() + "님이 좋아요를 눌렀습니다.";
+        boolean read = false; // 알림 확인 여부
+        Notification notification = new Notification(reviewPost.getUser(), message, read, null, reviewPostId);
+        notificationRepository.save(notification);
+
         ReviewPostLike newReviewPostLike = new ReviewPostLike(user, reviewPost);
         reviewPostLikeRepository.save(newReviewPostLike);
 
@@ -243,6 +248,7 @@ public class ReviewPostServiceImpl implements ReviewPostService {
     public boolean hasLiked(Long reviewPostId, Long userId) {
         return reviewPostLikeRepository.findByReviewPostIdAndUserId(reviewPostId, userId).isPresent();
     }
+
     //작성자 확인
     @Override
     public boolean reviewPostCheckUser(UserDetailsImpl currentUser, Long reviewPostId) {
@@ -252,6 +258,3 @@ public class ReviewPostServiceImpl implements ReviewPostService {
     }
 
 }
-
-
-

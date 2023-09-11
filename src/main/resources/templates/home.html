@@ -24,6 +24,9 @@
 
     <!--JS Cookie-->
     <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js"></script>
+
+    <!--http->https redirect mixed content 에러 해결-->
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
 </head>
 <body>
 
@@ -40,27 +43,27 @@
                 <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
                 <ul class="right hide-on-med-and-down">
                     <li>
-                        <a href="/view/post">Plan</a>
+                        <a href="/view/post">여행 계획 게시판</a>
                     </li>
                     <li>
-                        <a href="/view/review-post">Reviews</a>
+                        <a href="/view/review-post">여행 후기 게시판</a>
                     </li>
                     <li>
                         <a type="btn" data-bs-toggle="offcanvas" href="#offcanvasChat"
                            aria-controls="offcanvasChat">
-                            Chat
+                            채팅방
                         </a>
                     </li>
                     <li id="login-btn">
-                        <a href="/view/user/login">Log In</a>
+                        <a href="/view/user/login">로그인</a>
                     </li>
                     <li id="signup-btn">
-                        <a href="/view/user/signup">Sign Up</a>
+                        <a href="/view/user/signup">회원가입</a>
                     </li>
                     <li id="mypage-btn" style="display: none">
                         <a type="btn" data-bs-toggle="offcanvas" href="#offcanvasUser"
                            aria-controls="offcanvasUser">
-                            My Profile
+                            마이페이지
                         </a>
                     </li>
                     <li>
@@ -103,12 +106,6 @@
             Chat
         </a>
     </li>
-    <li>
-        <a type="btn" data-bs-toggle="offcanvas" href="#offcanvasUser"
-           aria-controls="offcanvasUser">
-            My Profile
-        </a>
-    </li>
 </ul>
 
 <!--사용자 메뉴 오프캔버스-->
@@ -124,7 +121,7 @@
         <div class="circle-container">
             <div class="circle">
                 <img class="profile-img"
-                     src="https://t4.ftcdn.net/jpg/02/15/84/43/360_F_215844325_ttX9YiIIyeaR7Ne6EaLLjMAmy4GvPC69.jpg">
+                     src="https://t4.ftcdn.net/jpg/02/15/84/43/360_F_215844325_ttX9YiIIyeaR7Ne6EaLLjMAmy4GvPC69.jpg" alt="">
                 <div id="nickname-box">
                     <span th:text="${nickname}">Nickname</span>
                 </div>
@@ -272,7 +269,7 @@
         <div class="row">
             <h4 class="center">
                 <a href="/view/post">
-                    <span class="teal-text">Plan</span>
+                    <span class="teal-text">여행 계획 게시판</span>
                 </a>
             </h4>
             <div class="col s12 m4">
@@ -333,7 +330,7 @@
         <div class="row">
             <h4 class="center">
                 <a href="/view/review-posts">
-                    <span class="teal-text">Review</span>
+                    <span class="teal-text">여행 후기 게시판</span>
                 </a>
             </h4>
             <div class="col s12 m4 review-card">
