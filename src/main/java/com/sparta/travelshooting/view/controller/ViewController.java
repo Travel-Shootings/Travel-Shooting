@@ -128,7 +128,11 @@ public class ViewController {
 
     //후기게시판 생성
     @GetMapping("/review-post/create")
-    public String createReview() {
+    public String createReview(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+        if(userDetails == null) {
+            return "login";
+        }
+
         return "create_review";
     }
 
