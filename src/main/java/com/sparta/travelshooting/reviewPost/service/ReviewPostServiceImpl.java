@@ -251,6 +251,3 @@ public class ReviewPostServiceImpl implements ReviewPostService {
                 .orElse(false);
     }
 }
-
-
-
