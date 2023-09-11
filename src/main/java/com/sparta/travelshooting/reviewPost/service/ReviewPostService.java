@@ -1,6 +1,7 @@
 package com.sparta.travelshooting.reviewPost.service;
 
 import com.sparta.travelshooting.common.ApiResponseDto;
+import com.sparta.travelshooting.reviewPost.dto.HomeReviewResponseDto;
 import com.sparta.travelshooting.reviewPost.dto.ReviewPostListResponseDto;
 import com.sparta.travelshooting.reviewPost.dto.ReviewPostRequestDto;
 import com.sparta.travelshooting.reviewPost.dto.ReviewPostResponseDto;
@@ -24,6 +25,8 @@ public interface ReviewPostService {
 
     //후기 게시글 단건 조회
     ReviewPostResponseDto getReviewPost(Long reviewPostId);
+    //최근 6개 게시글 조회(Home화면)
+    List<HomeReviewResponseDto> getSixReview();
 
     //후기 게시글 전체 조회
     List<ReviewPostListResponseDto> getAllReviewPosts();
@@ -40,4 +43,6 @@ public interface ReviewPostService {
     boolean hasLiked(Long reviewPostId, Long userId);
     //작성자 확인
     boolean reviewPostCheckUser(UserDetailsImpl currentUser, Long reviewPostId);
+
+
 }

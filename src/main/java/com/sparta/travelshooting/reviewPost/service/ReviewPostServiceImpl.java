@@ -4,6 +4,9 @@ import com.sparta.travelshooting.S3Image.entity.Image;
 import com.sparta.travelshooting.S3Image.repository.ImageRepository;
 import com.sparta.travelshooting.S3Image.service.ImageService;
 import com.sparta.travelshooting.common.ApiResponseDto;
+import com.sparta.travelshooting.post.dto.PostListResponseDto;
+import com.sparta.travelshooting.post.entity.Post;
+import com.sparta.travelshooting.reviewPost.dto.HomeReviewResponseDto;
 import com.sparta.travelshooting.reviewPost.dto.ReviewPostListResponseDto;
 import com.sparta.travelshooting.reviewPost.dto.ReviewPostRequestDto;
 import com.sparta.travelshooting.reviewPost.dto.ReviewPostResponseDto;
@@ -161,6 +164,18 @@ public class ReviewPostServiceImpl implements ReviewPostService {
         return new ReviewPostResponseDto(reviewPost);
     }
 
+
+    //최근 6개 게시글 조회(Home화면)
+
+    @Override
+    public List<HomeReviewResponseDto> getSixReview() {
+        List<ReviewPost> reviewPostList = reviewPostRepository.findTop6ByOrderByCreatedAtDesc();
+
+        return reviewPostList.stream()
+                .map(HomeReviewResponseDto::new)
+                .collect(Collectors.toList());
+    }
+
     //게시글 전체 조회
     @Override
     public List<ReviewPostListResponseDto> getAllReviewPosts() {
@@ -170,7 +185,7 @@ public class ReviewPostServiceImpl implements ReviewPostService {
                 .collect(Collectors.toList());
     }
 
-
+    //게시물 페이지 조회
     @Override
     public Page<ReviewPostListResponseDto> getPageReviewPosts(Pageable pageable) {
         List<ReviewPost> reviewPosts = reviewPostRepository.findAllByOrderByCreatedAtDesc();
@@ -242,6 +257,7 @@ public class ReviewPostServiceImpl implements ReviewPostService {
         return optionalReviewPost.map(reviewPost -> reviewPost.getUser().getId().equals(currentUser.getUser().getId()))
                 .orElse(false);
     }
+
 }
 
 

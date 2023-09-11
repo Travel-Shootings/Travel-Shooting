@@ -1,13 +1,12 @@
 package com.sparta.travelshooting.reviewPost.controller;
 
 import com.sparta.travelshooting.common.ApiResponseDto;
+import com.sparta.travelshooting.reviewPost.dto.HomeReviewResponseDto;
 import com.sparta.travelshooting.reviewPost.dto.ReviewPostListResponseDto;
 import com.sparta.travelshooting.reviewPost.dto.ReviewPostRequestDto;
 import com.sparta.travelshooting.reviewPost.dto.ReviewPostResponseDto;
-import com.sparta.travelshooting.reviewPost.entity.ReviewPost;
 import com.sparta.travelshooting.reviewPost.service.ReviewPostService;
 import com.sparta.travelshooting.security.UserDetailsImpl;
-import com.sparta.travelshooting.user.entity.User;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -21,10 +20,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.Collections;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.RejectedExecutionException;
 
 @Controller
 @RequiredArgsConstructor
@@ -73,6 +69,13 @@ public class ReviewPostController {
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
 
+    // 6개 게시글 조회(Home 화면)
+    @GetMapping("/six")
+    public ResponseEntity<List<HomeReviewResponseDto>> getsixReview() {
+        List<HomeReviewResponseDto> reviewPostResponseDto = reviewPostService.getSixReview();
+        return new ResponseEntity<>(reviewPostResponseDto, HttpStatus.OK);
+    }
+
     // 후기 게시글 전체 조회
     @GetMapping
     public ResponseEntity<List<ReviewPostListResponseDto>> getAllReviewPosts() {
@@ -117,4 +120,7 @@ public class ReviewPostController {
     public ResponseEntity<Boolean> reviewPostCheckUser(@AuthenticationPrincipal UserDetailsImpl userDetails, @PathVariable Long reviewPostId) {
         boolean isAuthor = reviewPostService.reviewPostCheckUser(userDetails, reviewPostId);
         return ResponseEntity.ok(isAuthor);}
+
+
+
 }
