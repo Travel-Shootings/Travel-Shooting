@@ -3,9 +3,13 @@ let authCookie = Cookies.get("Authorization");
 
 const stompClient = new StompJs.Client({
     // local websocket
-    // brokerURL: 'ws://localhost:8080/travel-shooting-websocket',
+    // brokerURL: 'ws://localhost/travel-shooting-websocket',
+
     // 배포 websocket
-    brokerURL: 'ws://travel-shooting.site/travel-shooting-websocket',
+    // http://travel-shooting.site:8080
+    brokerURL: 'ws://travel-shooting.site:8080/travel-shooting-websocket',
+    // https://travel-shooting.site
+    // brokerURL: 'wss://travel-shooting.site/travel-shooting-websocket',
 });
 
 let chatRoomId = null;
