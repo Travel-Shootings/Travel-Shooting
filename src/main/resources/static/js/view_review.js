@@ -10,7 +10,10 @@ async function fetchPostData() {
     try {
         const response = await fetch(`/api/review-posts/${reviewPostId}`);
         const data = await response.json();
-
+        if (!response.ok) {
+            alert('해당 게시물은 존재하지 않습니다.');
+            window.location.href = "/view/review-post"
+        }
         return data;
     } catch (error) {
         console.error('Error fetching post data:', error);

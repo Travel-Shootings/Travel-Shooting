@@ -1,6 +1,7 @@
 package com.sparta.travelshooting.reviewPost.controller;
 
 import com.sparta.travelshooting.common.ApiResponseDto;
+import com.sparta.travelshooting.reviewPost.dto.HomeReviewResponseDto;
 import com.sparta.travelshooting.reviewPost.dto.ReviewPostListResponseDto;
 import com.sparta.travelshooting.reviewPost.dto.ReviewPostRequestDto;
 import com.sparta.travelshooting.reviewPost.dto.ReviewPostResponseDto;
@@ -22,7 +23,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.RejectedExecutionException;
@@ -78,6 +78,13 @@ public class ReviewPostController {
     public ResponseEntity<ReviewPostResponseDto> getReviewPost(@PathVariable Long reviewPostId) {
         ReviewPostResponseDto responseDto = reviewPostService.getReviewPost(reviewPostId);
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
+    }
+
+    // 6개 게시글 조회(Home 화면)
+    @GetMapping("/six")
+    public ResponseEntity<List<HomeReviewResponseDto>> getsixReview() {
+        List<HomeReviewResponseDto> reviewPostResponseDto = reviewPostService.getSixReview();
+        return new ResponseEntity<>(reviewPostResponseDto, HttpStatus.OK);
     }
 
     // 후기 게시글 전체 조회

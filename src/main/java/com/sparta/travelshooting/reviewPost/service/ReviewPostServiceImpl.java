@@ -6,6 +6,7 @@ import com.sparta.travelshooting.S3Image.service.ImageService;
 import com.sparta.travelshooting.common.ApiResponseDto;
 import com.sparta.travelshooting.notification.entity.Notification;
 import com.sparta.travelshooting.notification.repository.NotificationRepository;
+import com.sparta.travelshooting.reviewPost.dto.HomeReviewResponseDto;
 import com.sparta.travelshooting.reviewPost.dto.ReviewPostListResponseDto;
 import com.sparta.travelshooting.reviewPost.dto.ReviewPostRequestDto;
 import com.sparta.travelshooting.reviewPost.dto.ReviewPostResponseDto;
@@ -162,6 +163,18 @@ public class ReviewPostServiceImpl implements ReviewPostService {
         return new ReviewPostResponseDto(reviewPost);
     }
 
+
+    //최근 6개 게시글 조회(Home화면)
+
+    @Override
+    public List<HomeReviewResponseDto> getSixReview() {
+        List<ReviewPost> reviewPostList = reviewPostRepository.findTop6ByOrderByCreatedAtDesc();
+
+        return reviewPostList.stream()
+                .map(HomeReviewResponseDto::new)
+                .collect(Collectors.toList());
+    }
+
     //게시글 전체 조회
     @Override
     public List<ReviewPostListResponseDto> getAllReviewPosts() {
@@ -171,7 +184,7 @@ public class ReviewPostServiceImpl implements ReviewPostService {
                 .collect(Collectors.toList());
     }
 
-
+    //게시물 페이지 조회
     @Override
     public Page<ReviewPostListResponseDto> getPageReviewPosts(Pageable pageable) {
         List<ReviewPost> reviewPosts = reviewPostRepository.findAllByOrderByCreatedAtDesc();
@@ -196,8 +209,6 @@ public class ReviewPostServiceImpl implements ReviewPostService {
         Optional<ReviewPostLike> findReviewPostLike = reviewPostLikeRepository.findByReviewPostIdAndUserId(reviewPostId, user.getId());
         if (reviewPost.getUser().getId().equals(user.getId())) {
             return new ApiResponseDto("자신의 글에는 좋아요를 할 수 없습니다.", 400);
-        } else if (findReviewPostLike.isPresent()) {
-            return new ApiResponseDto("이미 좋아요를 한 상태입니다.", 400);
         }
 
         // 좋아요 알림 보내기
@@ -224,11 +235,7 @@ public class ReviewPostServiceImpl implements ReviewPostService {
             throw new IllegalArgumentException("해당 글은 존재하지 않습니다.");
         }
         ReviewPost reviewPost = optionalReviewPost.get();
-
         Optional<ReviewPostLike> findReviewPostLike = reviewPostLikeRepository.findByReviewPostIdAndUserId(reviewPostId, user.getId());
-        if (findReviewPostLike.isEmpty()) {
-            return new ApiResponseDto("해당 글에 좋아요를 하지 않은 상태입니다.", 400);
-        }
 
         reviewPostLikeRepository.delete(findReviewPostLike.get());
         reviewPost.setLikeCounts(reviewPost.getLikeCounts() - 1);
@@ -250,4 +257,5 @@ public class ReviewPostServiceImpl implements ReviewPostService {
         return optionalReviewPost.map(reviewPost -> reviewPost.getUser().getId().equals(currentUser.getUser().getId()))
                 .orElse(false);
     }
+
 }

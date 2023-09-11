@@ -150,3 +150,26 @@
 #notification {
     border-bottom: solid 1px #009688;
 }
+
+.card-panel{
+    cursor: pointer;
+}
+
+.card-panel2 {
+    width: 400px;
+    height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #e0e0e0;
+    overflow: hidden; /* 이미지가 넘치지 않도록 설정 */
+}
+
+.card-panel2 img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: cover; /* 이미지가 올바르게 조정되도록 설정 */
+    object-position: center; /* 이미지가 가운데 정렬되도록 설정 */
+    cursor: pointer; /* 마우스 포인터를 손모양으로 변경 */
+
+}
