@@ -49,7 +49,10 @@
             <name>
                 <mgn> 유저이름</mgn>
                 <div class="btns">
-                    <!--            <div class="clk"><i class="far fa-heart"></i></div>-->
+                    <div class="likeContainer">
+                        <div class="clk"><i class="far fa-heart" id="likePost" type="button"></i></div>
+                        <text class="likeCount" id="like-Post-Count"> 좋아요 수 </text>
+                    </div>
                     <!--            <div class="clk"><i class="far fa-comment"></i></div>-->
                     <div class="clk"><i class="far fa-edit" id="editPost" type="button"></i></div>
                     <div class="clk"><i class="far fa-trash-alt" id="deletePost" type="button"></i></div>
@@ -134,41 +137,41 @@
     </form>
     <ul id="comment-list">
         <li class="comment" id="comment">
-<!--            <div class="comment-author">작성자: 댓글 작성자</div>-->
-<!--            <div class="comment-content-wrapper">-->
-<!--                <div class="comment-content"> 댓글 내용</div>-->
-<!--                <button class="add-reply-button" data-comment-id="2" data-comment-content="댓글 내용">대댓글</button>-->
-<!--                <button class="edit-comment-button" data-comment-id="2" data-comment-content="댓글 내용">수정</button>-->
-<!--                <button class="delete-comment-button" data-comment-id="2"> 삭제</button>-->
-<!--            </div>-->
-<!--            <div id="comment-edit-form-{commentId}">-->
-<!--                <textarea id="edit-comment-content">댓글 수정 칸</textarea>-->
-<!--                <button id="save-comment-button">저장</button>-->
-<!--                <button id="cancel-comment-button">취소</button>-->
-<!--            </div>-->
-<!--            <div id="reply-form-container-{commentId}" class="reply-form-container" data-comment-id="2">-->
-<!--                <textarea class="reply-content-input" placeholder="대댓글을 작성하세요"></textarea>-->
-<!--                <button class="create-reply-button">대댓글 작성</button>-->
-<!--                <button class="cancel-reply-button">취소</button>-->
-<!--            </div>-->
-<!--            <ul class="reply-list-container" id="reply-list-container">-->
-<!--                <li class="reply-list">-->
-<!--                    <div class="reply-wrapper">-->
-<!--                        <div class="reply-author">작성자: 대댓글 작성자</div>-->
-<!--                        <div class="reply-content-wrapper">-->
-<!--                            <div>대댓글 예시입니다.</div>-->
-<!--                            <button class="edit-reply-button" data-comment-id="2" data-comment-content="대댓글 예시입니다.">수정-->
-<!--                            </button>-->
-<!--                            <button class="delete-reply-button" data-comment-id="2">삭제</button>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                    <div id="reply-edit-form-{replyId}">-->
-<!--                        <textarea id="edit-reply-content">대댓글 수정 칸입니다.</textarea>-->
-<!--                        <button class="save-reply-button" id="save-reply-button">저장</button>-->
-<!--                        <button class="cancel-reply-button" id="cancel-reply-button">취소</button>-->
-<!--                    </div>-->
-<!--                </li>-->
-<!--            </ul>-->
+            <!--            <div class="comment-author">작성자: 댓글 작성자</div>-->
+            <!--            <div class="comment-content-wrapper">-->
+            <!--                <div class="comment-content"> 댓글 내용</div>-->
+            <!--                <button class="add-reply-button" data-comment-id="2" data-comment-content="댓글 내용">대댓글</button>-->
+            <!--                <button class="edit-comment-button" data-comment-id="2" data-comment-content="댓글 내용">수정</button>-->
+            <!--                <button class="delete-comment-button" data-comment-id="2"> 삭제</button>-->
+            <!--            </div>-->
+            <!--            <div id="comment-edit-form-{commentId}">-->
+            <!--                <textarea id="edit-comment-content">댓글 수정 칸</textarea>-->
+            <!--                <button id="save-comment-button">저장</button>-->
+            <!--                <button id="cancel-comment-button">취소</button>-->
+            <!--            </div>-->
+            <!--            <div id="reply-form-container-{commentId}" class="reply-form-container" data-comment-id="2">-->
+            <!--                <textarea class="reply-content-input" placeholder="대댓글을 작성하세요"></textarea>-->
+            <!--                <button class="create-reply-button">대댓글 작성</button>-->
+            <!--                <button class="cancel-reply-button">취소</button>-->
+            <!--            </div>-->
+            <!--            <ul class="reply-list-container" id="reply-list-container">-->
+            <!--                <li class="reply-list">-->
+            <!--                    <div class="reply-wrapper">-->
+            <!--                        <div class="reply-author">작성자: 대댓글 작성자</div>-->
+            <!--                        <div class="reply-content-wrapper">-->
+            <!--                            <div>대댓글 예시입니다.</div>-->
+            <!--                            <button class="edit-reply-button" data-comment-id="2" data-comment-content="대댓글 예시입니다.">수정-->
+            <!--                            </button>-->
+            <!--                            <button class="delete-reply-button" data-comment-id="2">삭제</button>-->
+            <!--                        </div>-->
+            <!--                    </div>-->
+            <!--                    <div id="reply-edit-form-{replyId}">-->
+            <!--                        <textarea id="edit-reply-content">대댓글 수정 칸입니다.</textarea>-->
+            <!--                        <button class="save-reply-button" id="save-reply-button">저장</button>-->
+            <!--                        <button class="cancel-reply-button" id="cancel-reply-button">취소</button>-->
+            <!--                    </div>-->
+            <!--                </li>-->
+            <!--            </ul>-->
         </li>
     </ul>
 </div>

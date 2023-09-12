@@ -3,15 +3,17 @@ $(document).ready(function () {
     loadPostandJourneyList()
 });
 
-function loadPostandJourneyList () {
-    fetch('/api/posts/' + postId, {
+function loadPostandJourneyList() {
+    fetch('/api/posts/update/' + postId, {
         method: 'GET',
         headers: {'Content-Type': 'application/json'}
     })
         .then(response => {
             if (!response.ok) {
-                alert('해당 게시물은 존재하지 않습니다.');
-                window.location.href = "/view/post"
+                return response.json().then(errorResponse => {
+                    alert(errorResponse.message); // 예외 메세지를 표시
+                    window.location.href = "/view/post/" + postId;
+                });
             }
             return response.json();
         })
@@ -22,7 +24,8 @@ function loadPostandJourneyList () {
 
             // 이하 JourneyList 데이터를 업데이트
             data.journeyList.forEach(journey => {
-                const newRow = `<tr>
+                const newRow = `
+                <tr>
                     <td class="id" style="display:none;"></td>
                     <td class="place" style="text-align: center">${journey.locations}</td>
                     <td class="budget" style="text-align: center">${journey.budget}</td>
@@ -32,9 +35,11 @@ function loadPostandJourneyList () {
                     <td class="startJourney" style="display: none;">${journey.startJourney}</td>
                     <td class="endJourney" style="display: none;">${journey.endJourney}</td>
                     <td class="placeAddress" style="display: none;">${journey.placeAddress}</td>
-<!--                    <td class="edit">-->
-<!--                        <button class="edit-item-btn" type="button" style="font-size: 15px">수정</button>-->
-<!--                    </td>-->
+                    <!--
+                    <td class="edit">
+                        <button class="edit-item-btn" type="button" style="font-size: 15px">수정</button>
+                    </td>
+                    -->
                     <td class="remove">
                         <button class="remove-item-btn" type="button" style="font-size: 15px">삭제</button>
                     </td>
@@ -211,9 +216,6 @@ btnCloseModal.addEventListener('click', function (e) {
     const modal = document.querySelector('.first-modal');
     modal.style.display = 'none';
 });
-
-
-
 
 
 // 첫번째 모달 입력값 -> 게시글 작성의 JourneyList로 옮기는 매서드

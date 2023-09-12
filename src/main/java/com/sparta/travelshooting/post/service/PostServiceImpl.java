@@ -81,6 +81,18 @@ public class PostServiceImpl implements PostService {
         return new PostResponseDto(post.get());
     }
 
+    // 게시글 여행 일정 수정 페이지 조회
+    @Override
+    public PostResponseDto updatePost(Long postId, User user) {
+        Optional<Post> post = postRepository.findById(postId);
+        if (post.isEmpty()) {
+            throw new IllegalArgumentException("해당 글은 존재하지 않습니다.");
+        } else if (!post.get().getUser().getId().equals(user.getId())) {
+            throw new IllegalArgumentException("해당 글의 편집은 작성자만 가능합니다.");
+        }
+        return new PostResponseDto(post.get());
+    }
+
     //게시글과 여행 일정 수정
     @Transactional
     @Override
@@ -129,7 +141,7 @@ public class PostServiceImpl implements PostService {
         return new ApiResponseDto("게시글 삭제 성공", 200);
     }
 
-    //좋아요 기능
+    //좋아요 등록
     @Transactional
     @Override
     public ApiResponseDto addLike(Long postId, User user) {
@@ -138,9 +150,9 @@ public class PostServiceImpl implements PostService {
         if (post.isEmpty()) {
             throw new IllegalArgumentException("해당 글은 존재하지 않습니다.");
         } else if (post.get().getUser().getId().equals(user.getId())) {
-            return new ApiResponseDto("자신의 글에는 좋아요를 할 수 없습니다.", 400);
+            throw new IllegalArgumentException("자신의 글에는 좋아요를 할 수 없습니다.");
         } else if (findpostLike.isPresent()) {
-            return new ApiResponseDto("이미 좋아요를 한 상태입니다.", 400);
+            throw new IllegalArgumentException("이미 좋아요를 한 상태입니다.");
         }
         postLikeRepository.save(new PostLike(user, post.get()));
         post.get().setLikeCounts(post.get().getLikeCounts() + 1);
@@ -149,6 +161,7 @@ public class PostServiceImpl implements PostService {
     }
 
 
+    //좋아요 취소
     @Transactional
     @Override
     public ApiResponseDto deleteLike(Long postId, User user) {
@@ -157,7 +170,7 @@ public class PostServiceImpl implements PostService {
         if (post.isEmpty()) {
             throw new IllegalArgumentException("해당 글은 존재하지 않습니다.");
         } else if (findpostLike.isEmpty()) {
-            return new ApiResponseDto("해당 글에 좋아요를 하지 않은 상태입니다.", 400);
+            throw new IllegalArgumentException("해당 글에 좋아요를 하지 않은 상태입니다.");
         }
         postLikeRepository.delete(findpostLike.get());
         post.get().setLikeCounts(post.get().getLikeCounts() - 1);

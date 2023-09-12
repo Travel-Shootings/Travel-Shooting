@@ -22,6 +22,9 @@ public interface PostService {
      //게시글 단건 조회
      PostResponseDto getPost(Long postId);
 
+     //게시글 수정 페이지 조회
+     PostResponseDto updatePost(Long postId, User user);
+
      //게시글 수정
      PostResponseDto updatePostAndJourneyList(PostAndJourneyListDto postAndJourneyListDto, Long postId, User user);
 
