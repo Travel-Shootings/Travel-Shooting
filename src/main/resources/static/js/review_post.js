@@ -33,9 +33,9 @@ document.addEventListener('DOMContentLoaded', () => {
 // updateTotalPages 함수 내부를 수정
     async function updateTotalPages() {
         try {
-            const response = await fetch(`/api/review-posts`);
+            const response = await fetch(`/api/review-posts/page?page=0&size=6`); // 첫 페이지의 결과만 요청
             const data = await response.json();
-            totalPage = Math.ceil(data.length / 6);
+            totalPage = data.totalPages;
 
             // 페이지 숫자를 렌더링
             const paginationContainer = document.querySelector('.pagination');

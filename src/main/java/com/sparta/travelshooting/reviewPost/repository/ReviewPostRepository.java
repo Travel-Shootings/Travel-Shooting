@@ -9,10 +9,5 @@ public interface ReviewPostRepository extends JpaRepository<ReviewPost,Long> {
 
     //후기게시판 전체조회
     List<ReviewPost> findAll();
-
-
-
-    List<ReviewPost> findAllByOrderByCreatedAtDesc();
-
     List<ReviewPost> findTop6ByOrderByCreatedAtDesc();
 }
