@@ -1,3 +1,12 @@
+// Enter 키 이벤트 핸들러 추가
+$('#search-location').on('keydown', function (e) {
+    if (e.key === 'Enter') {
+        e.preventDefault();
+        $('#search-icon').click(); // 검색 아이콘을 클릭하도록 함
+    }
+});
+
+// 검색 아이콘 클릭 시 이벤트 핸들러
 $('#search-icon').on('click', function (e) {
     e.preventDefault();
     const location = $('#search-location').val();

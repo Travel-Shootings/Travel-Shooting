@@ -4,7 +4,6 @@ import com.sparta.travelshooting.common.ApiResponseDto;
 import com.sparta.travelshooting.journeylist.dto.JourneyListRequestDto;
 import com.sparta.travelshooting.journeylist.entity.JourneyList;
 import com.sparta.travelshooting.journeylist.repository.JourneyListRepository;
-import com.sparta.travelshooting.common.naver.NaverApiController;
 import com.sparta.travelshooting.post.dto.PostAndJourneyListDto;
 import com.sparta.travelshooting.post.dto.PostListResponseDto;
 import com.sparta.travelshooting.post.dto.PostResponseDto;
@@ -12,9 +11,12 @@ import com.sparta.travelshooting.post.entity.Post;
 import com.sparta.travelshooting.post.entity.PostLike;
 import com.sparta.travelshooting.post.repository.PostLikeRepository;
 import com.sparta.travelshooting.post.repository.PostRepository;
+import com.sparta.travelshooting.post.repository.PostRepositoryCustom;
 import com.sparta.travelshooting.user.entity.User;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -28,9 +30,9 @@ import java.util.stream.Collectors;
 public class PostServiceImpl implements PostService {
 
     private final PostRepository postRepository;
-    private final NaverApiController naverApiController;
     private final PostLikeRepository postLikeRepository;
     private final JourneyListRepository journeyListRepository;
+    private final PostRepositoryCustom postRepositoryCustom;
 
     // 게시글 생성
     @Transactional
@@ -176,5 +178,14 @@ public class PostServiceImpl implements PostService {
         post.get().setLikeCounts(post.get().getLikeCounts() - 1);
         postRepository.save(post.get());
         return new ApiResponseDto("좋아요 취소 성공", 200);
+    }
+
+    @Override
+    public List<PostListResponseDto> findPosts(Pageable pageable) {
+        List<Post> postList = postRepositoryCustom.getPostsByPage(pageable);
+
+        return postList.stream()
+                .map(PostListResponseDto::new)
+                .collect(Collectors.toList());
     }
 }

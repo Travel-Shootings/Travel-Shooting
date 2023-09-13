@@ -4,11 +4,14 @@ import com.sparta.travelshooting.common.ApiResponseDto;
 import com.sparta.travelshooting.post.dto.PostAndJourneyListDto;
 import com.sparta.travelshooting.post.dto.PostListResponseDto;
 import com.sparta.travelshooting.post.dto.PostResponseDto;
+import com.sparta.travelshooting.post.repository.PostRepository;
 import com.sparta.travelshooting.post.service.PostService;
 import com.sparta.travelshooting.security.UserDetailsImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -96,5 +99,16 @@ public class PostController {
     public ResponseEntity<ApiResponseDto> deleteLike(@PathVariable Long postId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         ApiResponseDto apiResponseDto = postService.deleteLike(postId, userDetails.getUser());
         return new ResponseEntity<>(apiResponseDto, HttpStatus.OK);
+    }
+
+    // 6개 게시글 조회(게시글 목록 화면)
+    @Operation(summary = "post 6개 조회")
+    @GetMapping("/six")
+    public ResponseEntity<List<PostListResponseDto>> findPosts(@RequestParam(name = "page", defaultValue = "1") int page,
+                                                               @RequestParam(name = "size", defaultValue = "6") int size) {
+        Pageable pageable = PageRequest.of(page - 1, size); // 페이지 번호를 0부터 시작하도록 변환
+
+        List<PostListResponseDto> postResponseDto = postService.findPosts(pageable);
+        return new ResponseEntity<>(postResponseDto, HttpStatus.OK);
     }
 }
