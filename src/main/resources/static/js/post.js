@@ -1,110 +1,146 @@
-$(document).ready(function () {
-    let currentPage = 1; // 초기 페이지 번호
-    const pageSize = 6; // 페이지당 아이템 수
+// post.js
+document.addEventListener('DOMContentLoaded', () => {
+    const prevPageButtonPagination = document.getElementById('prevPage');
+    const nextPageButtonPagination = document.getElementById('nextPage');
 
-    // 페이지 로딩 시 데이터 로드
-    loadPosts(currentPage, pageSize);
+    let currentPage = 0;
+    let totalPage = 0; // totalPage 변수를 추가
 
-    // 이전 페이지 버튼 클릭 시
-    $('#prevPage').click(function () {
-        if (currentPage > 1) {
+    async function init() {
+        await fetchDataAndRender(currentPage);
+        updateTotalPages(); // 추가된 부분
+    }
+    init();
+
+    // 이전 페이지 버튼 클릭 이벤트
+    prevPageButtonPagination.addEventListener('click', async () => {
+        if (currentPage > 0) {
             currentPage--;
-            loadPosts(currentPage, pageSize); // 페이지 번호와 페이지 크기를 전달
+            await fetchDataAndRender(currentPage);
+            updateTotalPages();
         }
     });
 
-// 다음 페이지 버튼 클릭 시
-    $('#nextPage').click(function () {
-        const totalPosts = parseInt($('#totalPosts').text());
-        const totalPages = Math.ceil(totalPosts / pageSize);
-        if (currentPage < totalPages) {
+// 다음 페이지 버튼 클릭 이벤트
+    nextPageButtonPagination.addEventListener('click', async () => {
+        if (currentPage < totalPage - 1) {
             currentPage++;
-            loadPosts(currentPage, pageSize); // 페이지 번호와 페이지 크기를 전달
+            await fetchDataAndRender(currentPage);
+            updateTotalPages();
         }
     });
+
+// updateTotalPages 함수 내부를 수정
+    async function updateTotalPages() {
+        try {
+            const response = await fetch(`/api/posts/page?page=0&size=6`); // 첫 페이지의 결과만 요청
+            const data = await response.json();
+            totalPage = data.totalPages;
+
+            // 페이지 숫자를 렌더링
+            const paginationContainer = document.querySelector('.pagination');
+            paginationContainer.innerHTML = '';
+
+            const startPage = Math.max(currentPage - 2, 0);
+            const endPage = Math.min(startPage + 4, totalPage - 1);
+
+            for (let i = startPage; i <= endPage; i++) {
+                const pageButton = document.createElement('button');
+                pageButton.textContent = i + 1;
+                pageButton.classList.add('page-number');
+
+                if (i === currentPage) {
+                    pageButton.classList.add('active'); // 현재 페이지 표시
+                }
+
+                pageButton.addEventListener('click', async () => {
+                    currentPage = i;
+                    await fetchDataAndRender(currentPage);
+                    updateTotalPages();
+                });
+
+                paginationContainer.appendChild(pageButton);
+            }
+
+        } catch (error) {
+            console.error('Error fetching total pages:', error);
+        }
+    }
+
+
+
+    async function fetchDataAndRender(page) {
+        try {
+            const response = await fetch(`/api/posts/page?page=${page}&size=6`);
+            const data = await response.json();
+            const reversedData = data.content; // 원본 데이터를 복사하고 역순으로 정렬
+            renderReviewPosts(reversedData);
+        } catch (error) {
+            console.error('Error fetching review posts:', error);
+        }
+    }
+
+    // 서버에서 게시글 좋아요 정보 조회
+    async function fetchPostLikes(postId) {
+        try {
+            const response = await fetch(`/api/posts/page?page=${postId}/likes`); // 수정된 API 엔드포인트를 사용하도록 수정
+            const data = await response.json();
+
+            return data;
+        } catch (error) {
+            console.error('Error fetching post likes:', error);
+            return null;
+        }
+    }
+
+    // 후기 게시글 목록을 UI에 렌더링
+    async function renderReviewPosts(reviewPosts) {
+        const tableBody = document.querySelector('.board-table tbody');
+
+        // 테이블 내용 초기화
+        tableBody.innerHTML = '';
+
+        for (const [index, post] of reviewPosts.entries()) {
+            const row = document.createElement('tr');
+
+            const numCell = document.createElement('td');
+            numCell.textContent = post.id;
+            row.appendChild(numCell);
+
+            const titleCell = document.createElement('th');
+            titleCell.classList.add('th-title');
+            const titleLink = document.createElement('a');
+            titleLink.href = `/view/post/${post.id}`;
+            titleLink.textContent = `${post.title}`;
+            titleCell.appendChild(titleLink);
+            row.appendChild(titleCell);
+
+            const nicknameCell = document.createElement('td');
+            nicknameCell.textContent = post.nickName;
+            row.appendChild(nicknameCell);
+
+            const likeCell = document.createElement('td');
+            likeCell.textContent = post.likeCounts;
+            row.appendChild(likeCell);
+
+            const dateCell = document.createElement('td');
+
+            // 날짜 정보가 유효한 경우에만 포맷팅 수행
+            const options = { year: 'numeric', month: 'numeric', day: 'numeric' };
+            if (new Date(post.createdAt).getTime()) {
+                const formattedDate = new Date(post.createdAt).toLocaleDateString('ko-KR', options).replace(/\./g, '.');
+                dateCell.textContent = formattedDate;
+            } else {
+                dateCell.textContent = 'Invalid Date';
+            }
+
+
+            row.appendChild(dateCell);
+
+            tableBody.appendChild(row);
+        }
+    }
 });
 
-function loadPosts(pageNumber, pageSize) {
-    fetch(`/api/posts/six?page=${pageNumber}&size=${pageSize}`, {
-        method: 'GET',
-        headers: { 'Content-Type': 'application/json' }
-    })
-        .then(response => response.json())
-        .then(data => {
-            updatePostList(data);
-            $('#currentPage').text(pageNumber);
-            $('#totalPages').text(data.totalPages); // 여기서 문제 발생
-            updatePageNumbers(pageNumber, data.totalPages); // 페이지 번호 목록 업데이트 -> 여기서 넘어갈때 2번째 파라미터 undefined
-        })
-        .catch(error => {
-            console.error('데이터를 불러오는 중 오류가 발생했습니다:', error);
-        });
-}
 
-function updatePostList(data) {
-    const tbody = $('.board-table tbody');
-    tbody.empty(); // 기존 목록 제거
-
-    data.forEach((post, index) => {
-        const row = $('<tr>');
-
-        // 번호 열을 추가합니다.
-        const numCell = $('<td>');
-        numCell.text(index + 1); // 순서대로 번호 부여
-        row.append(numCell);
-
-        // 제목 열을 추가합니다.
-        const titleCell = $('<th>');
-        titleCell.addClass('th-title');
-        const titleLink = $('<a>');
-        titleLink.attr('href', `/view/post/${post.id}`);
-        titleLink.text(post.title);
-        titleCell.append(titleLink);
-        row.append(titleCell);
-
-        // 닉네임 열을 추가합니다.
-        const nickNameCell = $('<td>');
-        nickNameCell.text(post.nickName);
-        row.append(nickNameCell);
-
-        // 좋아요 열을 추가합니다.
-        const likeCountsCell = $('<td>');
-        likeCountsCell.text(post.likeCounts);
-        row.append(likeCountsCell);
-
-        // 등록일 열을 추가합니다.
-        const createdAtCell = $('<td>');
-        const createdAt = new Date(post.createdAt);
-        createdAtCell.text(createdAt.toLocaleDateString()); // 날짜 형식으로 표시
-        row.append(createdAtCell);
-
-        // 테이블에 행을 추가합니다.
-        tbody.append(row);
-    });
-}
-
-// 페이지 번호 목록을 업데이트하는 함수
-function updatePageNumbers(currentPage, totalPages) {
-    const pageNumbersContainer = $('#pageNumbers');
-    pageNumbersContainer.empty(); // 이전 페이지 번호 목록 제거
-
-    const pageCountToShow = 5; // 표시할 페이지 번호 개수
-    const startPage = Math.max(currentPage - Math.floor(pageCountToShow / 2), 1);
-    const endPage = Math.min(startPage + pageCountToShow - 1, 20);
-
-    for (let i = startPage; i <= endPage; i++) {
-        const pageNumberButton = $('<button>');
-        pageNumberButton.text(i);
-        pageNumberButton.click(function () {
-            loadPosts(i, 6);
-        });
-
-        // 현재 페이지와 같은 페이지는 활성화 스타일을 적용
-        if (i === currentPage) {
-            pageNumberButton.addClass('active');
-        }
-
-        pageNumbersContainer.append(pageNumberButton);
-    }
-}
 

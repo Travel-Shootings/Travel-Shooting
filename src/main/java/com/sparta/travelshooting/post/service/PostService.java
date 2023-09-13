@@ -5,6 +5,7 @@ import com.sparta.travelshooting.post.dto.PostAndJourneyListDto;
 import com.sparta.travelshooting.post.dto.PostListResponseDto;
 import com.sparta.travelshooting.post.dto.PostResponseDto;
 import com.sparta.travelshooting.user.entity.User;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
@@ -38,7 +39,7 @@ public interface PostService {
      //좋아요 삭제
      ApiResponseDto deleteLike(Long postId, User user);
 
-     List<PostListResponseDto> findPosts(Pageable pageable);
+     Page<PostListResponseDto> findPosts(Pageable pageable);
 }
 
 

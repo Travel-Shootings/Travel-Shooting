@@ -1,35 +1,36 @@
 package com.sparta.travelshooting.post.repository;
 
-import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.sparta.travelshooting.post.dto.PostListResponseDto;
 import com.sparta.travelshooting.post.entity.Post;
 import com.sparta.travelshooting.post.entity.QPost;
-import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.annotation.Primary;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
-@Primary
 @Repository
 @RequiredArgsConstructor
 public class PostRepositoryCustomImpl implements PostRepositoryCustom {
 
     private final JPAQueryFactory jpaQueryFactory;
-    private final EntityManager entityManager;
 
     @Override
-    public List<Post> getPostsByPage(Pageable pageable) {
+    public Page<PostListResponseDto> getPostsByPage(Pageable pageable) {
         QPost post = QPost.post;
 
-        JPAQuery<Post> query = jpaQueryFactory.selectFrom(post)
-                .from(post);
+        List<Post> posts = jpaQueryFactory
+                .selectFrom(post)
+                .orderBy(post.createdAt.desc())
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetch();
 
-        query.offset(pageable.getOffset()); // Offset과 Limit을 직접 설정합니다.
-        query.limit(pageable.getPageSize());
-
-        return query.fetch();
+        long total = jpaQueryFactory.selectFrom(post).fetchCount();
+        return new PageImpl<>(posts.stream().map(PostListResponseDto::new).collect(Collectors.toList()), pageable, total);
     }
 }

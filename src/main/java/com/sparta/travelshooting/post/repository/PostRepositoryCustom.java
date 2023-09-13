@@ -1,12 +1,10 @@
 package com.sparta.travelshooting.post.repository;
 
-import com.sparta.travelshooting.post.entity.Post;
+import com.sparta.travelshooting.post.dto.PostListResponseDto;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Repository;
 
-import java.util.List;
 
-@Repository
 public interface PostRepositoryCustom {
-    List<Post> getPostsByPage(Pageable pageable);
+    Page<PostListResponseDto> getPostsByPage(Pageable pageable);
 }
