@@ -28,10 +28,8 @@ let idx = {
                     window.opener.location.reload(); // 부모 창 새로고침
                 }
             })
-            .fail(function (request, status, error, response) {
-                console.log(status)
-                console.log(error)
-                alert(response.responseJSON.message);
+            .fail(function (jqXHR) {
+                alert(JSON.stringify(jqXHR.responseJSON.message))
             });
     }
 }
