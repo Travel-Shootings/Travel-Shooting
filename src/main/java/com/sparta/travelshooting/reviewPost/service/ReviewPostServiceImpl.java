@@ -1,5 +1,6 @@
 package com.sparta.travelshooting.reviewPost.service;
 
+import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.sparta.travelshooting.S3Image.entity.Image;
 import com.sparta.travelshooting.S3Image.repository.ImageRepository;
 import com.sparta.travelshooting.S3Image.service.ImageService;
@@ -10,6 +11,7 @@ import com.sparta.travelshooting.reviewPost.dto.HomeReviewResponseDto;
 import com.sparta.travelshooting.reviewPost.dto.ReviewPostListResponseDto;
 import com.sparta.travelshooting.reviewPost.dto.ReviewPostRequestDto;
 import com.sparta.travelshooting.reviewPost.dto.ReviewPostResponseDto;
+import com.sparta.travelshooting.reviewPost.entity.QReviewPost;
 import com.sparta.travelshooting.reviewPost.entity.ReviewPost;
 import com.sparta.travelshooting.reviewPost.entity.ReviewPostLike;
 import com.sparta.travelshooting.reviewPost.repository.ReviewPostLikeRepository;
@@ -39,7 +41,7 @@ public class ReviewPostServiceImpl implements ReviewPostService {
     private final ImageRepository imageRepository;
     private final ReviewPostLikeRepository reviewPostLikeRepository;
     private final NotificationRepository notificationRepository;
-
+    private final JPAQueryFactory queryFactory;
 
     // 후기 게시글 생성
     @Override
@@ -187,13 +189,17 @@ public class ReviewPostServiceImpl implements ReviewPostService {
     //게시물 페이지 조회
     @Override
     public Page<ReviewPostListResponseDto> getPageReviewPosts(Pageable pageable) {
-        List<ReviewPost> reviewPosts = reviewPostRepository.findAllByOrderByCreatedAtDesc();
-        int start = (int) pageable.getOffset();
-        int end = Math.min((start + pageable.getPageSize()), reviewPosts.size());
+        QReviewPost reviewPost = QReviewPost.reviewPost;
 
-        Page<ReviewPost> pageReviewPosts = new PageImpl<>(reviewPosts.subList(start, end), pageable, reviewPosts.size());
+        List<ReviewPost> reviewPosts = queryFactory
+                .selectFrom(reviewPost)
+                .orderBy(reviewPost.createdAt.desc())
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetch();
 
-        return pageReviewPosts.map(ReviewPostListResponseDto::new);
+        long total = queryFactory.selectFrom(reviewPost).fetchCount();
+        return new PageImpl<>(reviewPosts.stream().map(ReviewPostListResponseDto::new).collect(Collectors.toList()), pageable, total);
     }
 
     //좋아요 기능
