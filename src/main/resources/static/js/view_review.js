@@ -172,7 +172,8 @@ async function deleteReviewPost() {
                     alert(data.message);
                 }
             } else {
-                console.error('Error deleting review post:', response.statusText);
+                const errorResponse = await response.json();
+                alert(`${errorResponse.message}`);
             }
         } catch (error) {
             console.error('Error deleting review post:', error);

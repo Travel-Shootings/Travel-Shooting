@@ -5,10 +5,8 @@ import com.sparta.travelshooting.reviewPost.dto.HomeReviewResponseDto;
 import com.sparta.travelshooting.reviewPost.dto.ReviewPostListResponseDto;
 import com.sparta.travelshooting.reviewPost.dto.ReviewPostRequestDto;
 import com.sparta.travelshooting.reviewPost.dto.ReviewPostResponseDto;
-import com.sparta.travelshooting.reviewPost.entity.ReviewPost;
 import com.sparta.travelshooting.reviewPost.service.ReviewPostService;
 import com.sparta.travelshooting.security.UserDetailsImpl;
-import com.sparta.travelshooting.user.entity.User;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -22,10 +20,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.RejectedExecutionException;
 
 @Controller
 @RequiredArgsConstructor
@@ -66,11 +61,10 @@ public class ReviewPostController {
     public ResponseEntity<ApiResponseDto> deleteReviewPost(@PathVariable Long reviewPostId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         // 로그인이 되어있지 않은 경우 처리
         if (userDetails == null) {
-            return new ResponseEntity<>(new ApiResponseDto("로그인이 필요합니다.", HttpStatus.UNAUTHORIZED.value()), HttpStatus.OK);
+            return new ResponseEntity<>(new ApiResponseDto("로그인이 필요합니다.", HttpStatus.UNAUTHORIZED.value()), HttpStatus.UNAUTHORIZED);
         }
-
         ApiResponseDto apiResponseDto = reviewPostService.deleteReviewPost(reviewPostId, userDetails.getUser());
-        return new ResponseEntity<>(apiResponseDto, HttpStatus.OK);
+        return new ResponseEntity<>(apiResponseDto, HttpStatus.valueOf(apiResponseDto.getStatusCode()));
     }
 
     // 후기 게시글 단건 조회
@@ -121,7 +115,7 @@ public class ReviewPostController {
     public ResponseEntity<ApiResponseDto> checkLikeStatus(@PathVariable Long reviewPostId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         // 로그인이 되어있지 않은 경우 처리
         if (userDetails == null) {
-            return new ResponseEntity<>(new ApiResponseDto("로그인이 필요합니다.", HttpStatus.UNAUTHORIZED.value()), HttpStatus.OK);
+            return new ResponseEntity<>(new ApiResponseDto("로그인이 필요합니다.", HttpStatus.UNAUTHORIZED.value()), HttpStatus.UNAUTHORIZED);
         }
 
         Long userId = userDetails.getUser().getId();
