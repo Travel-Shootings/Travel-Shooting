@@ -27,7 +27,7 @@
 
 ## 1. 프로젝트 소개
 
-프로젝트명 : 트래블 슈팅(Travel Shooting)
+**프로젝트명 : 트래블 슈팅(Travel Shooting)**
 - 여행을 뜻하는 단어인 'Travel'과 문제 해결을 뜻하는 'Trouble Shooting'을 합쳐서 만든 이름으로, 여행에 대한 고민 해결을 뜻함
   
 - 여행을 계획하면서 생기는 여러가지 고민이나 문제들을 여러 사람이 모여서 함께 고민하고 해결해보면 좋을 것 같다는 생각으로 프로젝트를 기획을 시작함
@@ -53,7 +53,7 @@ https://travel-shooting.site/view/home
 
 ![erd 수정 PNG](https://github.com/Travel-Shootings/Travel-Shooting/assets/131871197/78e20508-dd0f-47b7-9add-a10aa70926b8)
 
-https://www.erdcloud.com/d/syQQP4TuXNnECdBvA  
+**erdcloud url :** : https://www.erdcloud.com/d/syQQP4TuXNnECdBvA  
 
 ## 5. API  
 
