@@ -99,7 +99,7 @@ https://travel-shooting.site/view/home
 
 ## 7. 기술적 의사결정  
 
-![기술적 의사결정](https://github.com/Travel-Shootings/Travel-Shooting/assets/131871197/d0426c18-1eb1-44c4-a2a2-f2b7d56d3365)
+![기술](https://github.com/Travel-Shootings/Travel-Shooting/assets/131871197/d35718b2-ac29-4406-a8d4-92949af29e87)
 
 ## 8. 트러블 슈팅  
 
@@ -128,7 +128,17 @@ https://travel-shooting.site/view/home
 
 
 
-## 9. 사용자 피드백 및 추후 개발 계획
+## 9. 사용자 피드백 및 추후 개발 계획  
+
+  ![유저피드백1](https://github.com/Travel-Shootings/Travel-Shooting/assets/131871197/3b92817b-92a4-4f9d-9f7c-5e781f639778)
+
+
+  
+
+![유저피드백2](https://github.com/Travel-Shootings/Travel-Shooting/assets/131871197/27926764-30cf-46a0-993a-9c2db619f8a2)  
+
+      
+    
 
 ## 10. 팀원 소개
 
