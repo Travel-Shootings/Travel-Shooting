@@ -1,7 +1,7 @@
 # Travel-Shooting
 ![상단 이미지 후보2](https://github.com/Travel-Shootings/Travel-Shooting/assets/131871197/b063a562-d6c2-41dd-b778-11f89db73d9a)
 
-<h2>목차<h2>  
+목차
 
 [1. 프로젝트 소개](#1.-프로젝트-소개)  
 
