@@ -6,13 +6,20 @@
 [1. 프로젝트 소개](#1.-프로젝트-소개)  
 
 [2. 프로젝트 이용 방법](#2.-프로젝트-이용-방법)
-<h3> [3. 아키텍처] <h3>
-<h3> [4. ERD] <h3>
-<h3> [5. 주요기능] <h3>
-<h3> [6. 기술적 의사결정] <h3>
-<h3> [7. 트러블 슈팅] <h3>
-<h3> [8. 사용자 피드백 및 추후 개발 계획] <h3>
-<h3> [9. 팀원 소개] <h3>
+
+[3. 아키텍처](#3.-아키텍처)
+
+[4. ERD](#4.-erd)  
+
+[5. 주요기능](#5.-주요기능)  
+
+[6. 기술적 의사결정](#6.-기술적-의사결정)  
+
+[7. 트러블 슈팅](#7.-트러블-슈팅)  
+
+[8. 사용자 피드백 및 추후 개발 계획](#8.-사용자-피드백-및-추후-개발-계획)  
+
+[9. 팀원 소개](#9.-팀원-소개)
 
 
 ## 1. 프로젝트 소개
@@ -25,8 +32,7 @@
 - 지도 기능 있는 여행 계획 게시판, 여행 후기와 사진을 올릴 수 있는 후기 게시판, 여행지 별 채팅방 등의 기능을 구현하여 여행을 주제로 한 커뮤니티 활성화를 목표로 함
 
 
-
-<h2>2. 프로젝트 이용 방법</h2>
+## 2. 프로젝트 이용 방법
 https://travel-shooting.site/view/home
 
 - 해당 url로 접속하여 프로젝트를 이용해 볼 수 있습니다.
@@ -35,18 +41,18 @@ https://travel-shooting.site/view/home
   
 - 추가적인 기능들을 이용해보려면 로그인 후 이용하시길 추천드립니다.
 
-<h2>3. 아키텍처</h2>  
+## 3. 아키텍처 
 
 ![image](https://github.com/Travel-Shootings/Travel-Shooting/assets/131871197/1136e945-a80e-41bd-ada5-c2fe763a7eba)
 
 
-<h2>4. ERD</h2>  
+## 4. ERD 
 
 ![erd 수정 PNG](https://github.com/Travel-Shootings/Travel-Shooting/assets/131871197/78e20508-dd0f-47b7-9add-a10aa70926b8)
 
 https://www.erdcloud.com/d/syQQP4TuXNnECdBvA
 
-<h2>5. 주요기능</h2>
+## 5. 주요기능  
 
 - 로그인 및 회원가입
   
@@ -78,11 +84,12 @@ https://www.erdcloud.com/d/syQQP4TuXNnECdBvA
 
 - 알림 기능
 
-<h2>6. 기술적 의사결정 </h2>  
+## 6. 기술적 의사결정  
 
 ![기술적 의사결정](https://github.com/Travel-Shootings/Travel-Shooting/assets/131871197/d0426c18-1eb1-44c4-a2a2-f2b7d56d3365)
 
-<h2>7. 트러블 슈팅 </h2>
+## 7. 트러블 슈팅  
+
 <h3>- 네이버 지도 API </h3>
 
 **문제** 
@@ -143,9 +150,9 @@ https://www.erdcloud.com/d/syQQP4TuXNnECdBvA
 1. 위 설정 후 해결이 되었다. 다른 url, 혹은 API 요청은 정상 동작하고 리다이렉트 또한 제대로 되었었는데, 웹소켓 url에 대해서만 오류가 발생했고 이를 라우팅 설정에 따로 작성을 해 주어야 하는지 처음 알게 되었다.   
 이후 http, 8080 포트로의 서버 접근을 막기 위해 EC2 inbound 규칙을 수정함으로써 https 관련 이슈는 해결하고, 설정을 완료할 수 있었다.
 
-<h2>8. 사용자 피드백 및 추후 개발 계획 </h2>
+## 8. 사용자 피드백 및 추후 개발 계획
 
-<h2>9. 팀원 소개 </h2>  
+## 9. 팀원 소개
 
 ![역할](https://github.com/Travel-Shootings/Travel-Shooting/assets/131871197/e88fdfc5-07d6-400b-8515-e31dfd3395b2)
 
