@@ -10,17 +10,19 @@
 
 [3. 아키텍처](#3-아키텍처)
 
-[4. ERD](#4-erd)  
+[4. ERD](#4-erd) 
 
-[5. 주요기능](#5-주요기능)  
+[5. API](#5-api) 
 
-[6. 기술적 의사결정](#6-기술적-의사결정)  
+[6. 주요기능](#6-주요기능)  
 
-[7. 트러블 슈팅](#7-트러블-슈팅)  
+[7. 기술적 의사결정](#7-기술적-의사결정)  
 
-[8. 사용자 피드백 및 추후 개발 계획](#8-사용자-피드백-및-추후-개발-계획)  
+[8. 트러블 슈팅](#8-트러블-슈팅)  
 
-[9. 팀원 소개](#9-팀원-소개)</h3>
+[9. 사용자 피드백 및 추후 개발 계획](#9-사용자-피드백-및-추후-개발-계획)  
+
+[10. 팀원 소개](#10-팀원-소개)</h3>
 
 
 ## 1. 프로젝트 소개
@@ -51,9 +53,19 @@ https://travel-shooting.site/view/home
 
 ![erd 수정 PNG](https://github.com/Travel-Shootings/Travel-Shooting/assets/131871197/78e20508-dd0f-47b7-9add-a10aa70926b8)
 
-https://www.erdcloud.com/d/syQQP4TuXNnECdBvA
+https://www.erdcloud.com/d/syQQP4TuXNnECdBvA  
 
-## 5. 주요기능  
+## 5. API  
+
+
+  swagger를 활용하여 API를 작성했습니다.  
+  
+  **swagger document url :**  https://travel-shooting.site/swg  
+
+  **notion url :**  https://www.notion.so/Travel-Shooting-967bab501617465fb87bebe4ee33337f
+
+
+## 6. 주요기능  
 
 - 로그인 및 회원가입
   
@@ -85,11 +97,11 @@ https://www.erdcloud.com/d/syQQP4TuXNnECdBvA
 
 - 알림 기능
 
-## 6. 기술적 의사결정  
+## 7. 기술적 의사결정  
 
 ![기술적 의사결정](https://github.com/Travel-Shootings/Travel-Shooting/assets/131871197/d0426c18-1eb1-44c4-a2a2-f2b7d56d3365)
 
-## 7. 트러블 슈팅  
+## 8. 트러블 슈팅  
 
 <h3>네이버 지도 API </h3>
 
@@ -116,9 +128,9 @@ https://www.erdcloud.com/d/syQQP4TuXNnECdBvA
 
 
 
-## 8. 사용자 피드백 및 추후 개발 계획
+## 9. 사용자 피드백 및 추후 개발 계획
 
-## 9. 팀원 소개
+## 10. 팀원 소개
 
 ![역할](https://github.com/Travel-Shootings/Travel-Shooting/assets/131871197/e88fdfc5-07d6-400b-8515-e31dfd3395b2)
 
