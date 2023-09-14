@@ -1,5 +1,5 @@
 # Travel-Shooting
-
+![상단 이미지 후보2](https://github.com/Travel-Shootings/Travel-Shooting/assets/131871197/b063a562-d6c2-41dd-b778-11f89db73d9a)
 <h2>1.프로젝트 소개</h2>
 
 프로젝트명 : 트래블 슈팅(Travel Shooting)
@@ -21,9 +21,12 @@ https://travel-shooting.site/view/home
 - 추가적인 기능들을 이용해보려면 로그인 후 이용하시길 추천드립니다.
 
 <h2>3.아키텍처</h2>
+![image](https://github.com/Travel-Shootings/Travel-Shooting/assets/131871197/1136e945-a80e-41bd-ada5-c2fe763a7eba)
 
 
 <h2>4.ERD</h2>
+![erd 수정 PNG](https://github.com/Travel-Shootings/Travel-Shooting/assets/131871197/78e20508-dd0f-47b7-9add-a10aa70926b8)
+
 https://www.erdcloud.com/d/syQQP4TuXNnECdBvA
 
 <h2>5.주요기능</h2>
@@ -45,6 +48,7 @@ https://www.erdcloud.com/d/syQQP4TuXNnECdBvA
 - 백오피스(회원 관리, 게시글 및 댓글 관리)
 
 <h2>6. 기술적 의사결정 </h2>
+![기술적 의사결정](https://github.com/Travel-Shootings/Travel-Shooting/assets/131871197/d0426c18-1eb1-44c4-a2a2-f2b7d56d3365)
 
 <h2>7. 트러블 슈팅 </h2>
 - 네이버 지도 API  
