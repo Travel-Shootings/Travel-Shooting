@@ -46,12 +46,12 @@ https://travel-shooting.site/view/home
 
 ## 3. 아키텍처 
 
-![image](https://github.com/Travel-Shootings/Travel-Shooting/assets/131871197/1136e945-a80e-41bd-ada5-c2fe763a7eba)
+![서비스 아키텍처 (2)](https://github.com/Travel-Shootings/Travel-Shooting/assets/131871197/2b01d2cb-0261-4d90-8da5-2f77e569845e)
 
 
 ## 4. ERD 
 
-![erd 수정 PNG](https://github.com/Travel-Shootings/Travel-Shooting/assets/131871197/78e20508-dd0f-47b7-9add-a10aa70926b8)
+![8조 ERD (1)](https://github.com/Travel-Shootings/Travel-Shooting/assets/131871197/f0ed6756-fcd0-4953-9c3f-f51d28cd5e33)
 
 **erdcloud url :** : https://www.erdcloud.com/d/syQQP4TuXNnECdBvA  
 
@@ -136,6 +136,10 @@ https://travel-shooting.site/view/home
   
 
 ![유저피드백2](https://github.com/Travel-Shootings/Travel-Shooting/assets/131871197/27926764-30cf-46a0-993a-9c2db619f8a2)  
+
+
+  ![튜터 피드백](https://github.com/Travel-Shootings/Travel-Shooting/assets/131871197/1a2c5670-3d94-4df7-b9b2-b9b1d22f97c0)
+
 
       
     
