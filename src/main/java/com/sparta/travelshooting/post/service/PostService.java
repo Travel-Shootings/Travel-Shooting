@@ -20,10 +20,7 @@ public interface PostService {
      List<PostListResponseDto> getThreePosts();
 
      //전체 게시글 목록 조회 (6개씩 페이징)
-     Page<PostListResponseDto> findPosts(Pageable pageable);
-
-     //게시글 전체 조회
-     List<PostListResponseDto> getPosts();
+     Page<PostListResponseDto> getPosts(Pageable pageable);
 
      //게시글 단건 조회
      PostResponseDto getPost(Long postId);
