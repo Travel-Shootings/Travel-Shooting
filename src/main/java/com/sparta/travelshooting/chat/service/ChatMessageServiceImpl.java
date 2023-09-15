@@ -5,6 +5,7 @@ import com.sparta.travelshooting.chat.dto.ChatMessageResponseDto;
 import com.sparta.travelshooting.chat.entity.ChatMessage;
 import com.sparta.travelshooting.chat.entity.ChatRoom;
 import com.sparta.travelshooting.chat.repository.ChatMessageRepository;
+import com.sparta.travelshooting.user.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -16,16 +17,15 @@ public class ChatMessageServiceImpl implements ChatMessageService {
     private final ChatRoomService chatRoomService;
 
     @Override
-    public ChatMessageResponseDto sendChat(Long chatRoomId, ChatMessageRequestDto chatMessageRequestDto, String nickname, Long userId) {
+    public ChatMessageResponseDto sendChat(Long chatRoomId, ChatMessageRequestDto chatMessageRequestDto, User user) {
         String content = chatMessageRequestDto.getContent();
 
         ChatRoom chatRoom = chatRoomService.findChatRoom(chatRoomId);
 
         ChatMessage chatMessage = ChatMessage.builder()
-                .senderName(nickname)
                 .content(content)
                 .chatRoom(chatRoom)
-                .userId(userId)
+                .user(user)
                 .build();
 
         chatMessageRepository.save(chatMessage);

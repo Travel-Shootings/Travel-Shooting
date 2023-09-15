@@ -15,7 +15,7 @@ public class ChatMessageResponseDto {
 
     @Builder
     public ChatMessageResponseDto(ChatMessage chatMessage) {
-        this.senderName = chatMessage.getSenderName();
+        this.senderName = chatMessage.getUser().getNickname();
         this.content = chatMessage.getContent();
         this.simpleTime = SimpleLocalDateTime.dateTimeFormat(chatMessage.getTime());
         this.chatMessageId = chatMessage.getChatMessageId();

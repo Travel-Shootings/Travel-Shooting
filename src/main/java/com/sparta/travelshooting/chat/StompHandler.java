@@ -28,8 +28,7 @@ public class StompHandler implements ChannelInterceptor {
             User user = userDetails.getUser();
 
             // 세션이 유지되는 동안 재사용할 정보: 닉네임과 ID
-            headerAccessor.getSessionAttributes().put("nickname", user.getNickname());
-            headerAccessor.getSessionAttributes().put("userId", user.getId());
+            headerAccessor.getSessionAttributes().put("user", user);
         }
 
         return message;
