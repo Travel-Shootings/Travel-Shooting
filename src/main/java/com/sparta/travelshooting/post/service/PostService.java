@@ -16,7 +16,11 @@ public interface PostService {
      // 게시글 작성
      PostResponseDto createPostAndJourneyList(PostAndJourneyListDto postAndJourneyListDto, User user);
 
+     // 메인 화면 최근 3개 조회
      List<PostListResponseDto> getThreePosts();
+
+     //전체 게시글 목록 조회 (6개씩 페이징)
+     Page<PostListResponseDto> findPosts(Pageable pageable);
 
      //게시글 전체 조회
      List<PostListResponseDto> getPosts();
@@ -39,7 +43,6 @@ public interface PostService {
      //좋아요 삭제
      ApiResponseDto deleteLike(Long postId, User user);
 
-     Page<PostListResponseDto> findPosts(Pageable pageable);
 }
 
 

@@ -44,6 +44,14 @@ public class PostController {
         return new ResponseEntity<>(postResponseDto, HttpStatus.OK);
     }
 
+    // 게시글 전체 목록 조회(6개씩 페이징)
+    @Operation(summary = "post 6개 조회")
+    @GetMapping("/page")
+    public ResponseEntity<Page<PostListResponseDto>> findPosts(@PageableDefault(size = 6) Pageable pageable) {
+        Page<PostListResponseDto> postResponseDto = postService.findPosts(pageable);
+        return new ResponseEntity<>(postResponseDto, HttpStatus.OK);
+    }
+
     // 전체 게시글 조회
     @Operation(summary = "전체 게시글과 여행일정 조회")
     @GetMapping()
@@ -101,11 +109,5 @@ public class PostController {
         return new ResponseEntity<>(apiResponseDto, HttpStatus.OK);
     }
 
-    // 6개 게시글 조회(게시글 목록 화면)
-    @Operation(summary = "post 6개 조회")
-    @GetMapping("/page")
-    public ResponseEntity<Page<PostListResponseDto>> findPosts(@PageableDefault(size = 6) Pageable pageable) {
-        Page<PostListResponseDto> postResponseDto = postService.findPosts(pageable);
-        return new ResponseEntity<>(postResponseDto, HttpStatus.OK);
-    }
+
 }

@@ -65,6 +65,13 @@ public class PostServiceImpl implements PostService {
                 .collect(Collectors.toList());
     }
 
+    // 게시글 전체 조회 (6개씩 페이징
+    @Override
+    public Page<PostListResponseDto> findPosts(Pageable pageable) {
+        Page<PostListResponseDto> postList = postRepositoryCustom.getPostsByPage(pageable);
+
+        return postList;
+    }
 
     // 게시글과 여행일정 전체 조회
     @Override
@@ -181,12 +188,5 @@ public class PostServiceImpl implements PostService {
         post.get().setLikeCounts(post.get().getLikeCounts() - 1);
         postRepository.save(post.get());
         return new ApiResponseDto("좋아요 취소 성공", 200);
-    }
-
-    @Override
-    public Page<PostListResponseDto> findPosts(Pageable pageable) {
-        Page<PostListResponseDto> postList = postRepositoryCustom.getPostsByPage(pageable);
-
-        return postList;
     }
 }
