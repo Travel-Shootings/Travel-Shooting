@@ -31,7 +31,7 @@ public interface ReviewPostService {
     //후기 게시글 전체 조회
     List<ReviewPostListResponseDto> getAllReviewPosts();
 
-    //후기 게시글 페이징 조회
+    //게시물 페이징 조회
     Page<ReviewPostListResponseDto> getPageReviewPosts(Pageable pageable);
     //후기 게시글 좋아요
     ApiResponseDto addLike(Long reviewPostId, User user);

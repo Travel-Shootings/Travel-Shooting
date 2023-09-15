@@ -26,7 +26,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/api/review-posts")
 @Slf4j
-@Tag(name = "여행 계획 후기 게시글 API")
+@Tag(name = "여행 후기 게시글 API")
 public class ReviewPostController {
 
     private final ReviewPostService reviewPostService;
@@ -68,6 +68,7 @@ public class ReviewPostController {
     }
 
     // 후기 게시글 단건 조회
+    @Operation(summary = "후기 게시글 단건 조회")
     @GetMapping("/{reviewPostId}")
     public ResponseEntity<ReviewPostResponseDto> getReviewPost(@PathVariable Long reviewPostId) {
         ReviewPostResponseDto responseDto = reviewPostService.getReviewPost(reviewPostId);
@@ -75,6 +76,7 @@ public class ReviewPostController {
     }
 
     // 6개 게시글 조회(Home 화면)
+    @Operation(summary = "후기 게시글 home 화면 조회")
     @GetMapping("/six")
     public ResponseEntity<List<HomeReviewResponseDto>> getsixReview() {
         List<HomeReviewResponseDto> reviewPostResponseDto = reviewPostService.getSixReview();
@@ -82,6 +84,7 @@ public class ReviewPostController {
     }
 
     // 후기 게시글 전체 조회
+    @Operation(summary = "후기 게시글 전체 조회")
     @GetMapping
     public ResponseEntity<List<ReviewPostListResponseDto>> getAllReviewPosts() {
         List<ReviewPostListResponseDto> responseDto = reviewPostService.getAllReviewPosts();
@@ -89,6 +92,7 @@ public class ReviewPostController {
     }
 
     // 후기 게시글을 페이징하여 조회
+    @Operation(summary = "후기 게시글 페이징 조회")
     @GetMapping("/page")
     public ResponseEntity<Page<ReviewPostListResponseDto>> getPageReviewPosts(@PageableDefault(size = 6) Pageable pageable) {
         Page<ReviewPostListResponseDto> responseDto = reviewPostService.getPageReviewPosts(pageable);
@@ -97,6 +101,7 @@ public class ReviewPostController {
 
 
     //좋아요 기능
+    @Operation(summary = "후기 게시글 좋아요")
     @PostMapping("/like/{reviewPostId}")
     public ResponseEntity<ApiResponseDto> addLike(@PathVariable Long reviewPostId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         ApiResponseDto apiResponseDto = reviewPostService.addLike(reviewPostId, userDetails.getUser());
@@ -104,6 +109,7 @@ public class ReviewPostController {
     }
 
     //좋아요 취소 기능
+    @Operation(summary = "후기 게시글 좋아요 취소")
     @DeleteMapping("/like/{reviewPostId}")
     public ResponseEntity<ApiResponseDto> deleteLike(@PathVariable Long reviewPostId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         ApiResponseDto apiResponseDto = reviewPostService.deleteLike(reviewPostId, userDetails.getUser());
@@ -111,6 +117,7 @@ public class ReviewPostController {
     }
 
     //좋아요 여부 조회
+    @Operation(summary = "후기 게시글 좋아요 여부 조회")
     @GetMapping("/like/{reviewPostId}")
     public ResponseEntity<ApiResponseDto> checkLikeStatus(@PathVariable Long reviewPostId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         // 로그인이 되어있지 않은 경우 처리
@@ -129,6 +136,7 @@ public class ReviewPostController {
 
 
     //작성자 확인
+    @Operation(summary = "후기 게시글 작성자 확인")
     @GetMapping("/check-user/{reviewPostId}")
     public ResponseEntity<Boolean> reviewPostCheckUser(@AuthenticationPrincipal UserDetailsImpl userDetails, @PathVariable Long reviewPostId) {
         //로그인 되어있지 않은 경우 처리
