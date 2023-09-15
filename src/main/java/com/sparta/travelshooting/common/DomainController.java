@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class DomainController {
 
     @GetMapping("/")
-    public String root(){
+    public String root() {
         return "redirect:/view/home";
     }
 }

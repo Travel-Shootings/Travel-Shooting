@@ -54,10 +54,10 @@ public class WebSecurityConfig {
                         .requestMatchers("/api/user/**").permitAll()
                         .requestMatchers("/api/posts/**").permitAll()
                         .requestMatchers("/api/review-posts/**").permitAll()
-                        .requestMatchers(HttpMethod.GET,"/view/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/view/**").permitAll()
                         .requestMatchers("/api/admin").hasRole("ADMIN")
                         .requestMatchers("/swg", "/swagger-ui/**", "/api-docs/**").permitAll()
-                        .requestMatchers(HttpMethod.GET,"/").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/").permitAll()
                         .anyRequest().authenticated()
         );
 

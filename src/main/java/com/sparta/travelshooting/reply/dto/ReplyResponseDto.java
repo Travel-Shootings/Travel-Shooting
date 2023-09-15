@@ -6,7 +6,7 @@ import lombok.Getter;
 import java.time.LocalDateTime;
 
 @Getter
-public class ReplyResponseDto  {
+public class ReplyResponseDto {
     private Long id;
     private String nickName;
     private String content;

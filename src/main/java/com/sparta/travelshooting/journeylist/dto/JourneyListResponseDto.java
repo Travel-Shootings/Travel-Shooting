@@ -14,7 +14,7 @@ public class JourneyListResponseDto {
     private Integer members;
     private String placeAddress;
 
-    public JourneyListResponseDto (JourneyList journeyList) {
+    public JourneyListResponseDto(JourneyList journeyList) {
         this.locations = journeyList.getLocations();
         this.budget = journeyList.getBudget();
         this.startJourney = journeyList.getStartJourney();

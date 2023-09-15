@@ -22,15 +22,15 @@ public class JourneyListController {
     // 여행 일정 수정
     @Operation(summary = "여행 일정 수정")
     @PutMapping("/{postId}/journey-list/{journeyListId}")
-    public ResponseEntity<ApiResponseDto> updateJourney (@PathVariable Long postId, @PathVariable Long journeyListId, @RequestBody JourneyListRequestDto journeyListRequestDto) {
-        ApiResponseDto apiResponseDto = journeyListServiceImpl.updateJourney(postId,journeyListId, journeyListRequestDto);
+    public ResponseEntity<ApiResponseDto> updateJourney(@PathVariable Long postId, @PathVariable Long journeyListId, @RequestBody JourneyListRequestDto journeyListRequestDto) {
+        ApiResponseDto apiResponseDto = journeyListServiceImpl.updateJourney(postId, journeyListId, journeyListRequestDto);
         return new ResponseEntity<>(apiResponseDto, HttpStatus.OK);
     }
 
     // 여행 일정 삭제
     @Operation(summary = "여행 일정 삭제")
     @DeleteMapping("/{postId}/journey-list/{journeyListId}")
-    public ResponseEntity<ApiResponseDto> deleteJourney (@PathVariable Long postId, @PathVariable Long journeyListId) {
+    public ResponseEntity<ApiResponseDto> deleteJourney(@PathVariable Long postId, @PathVariable Long journeyListId) {
         ApiResponseDto apiResponseDto = journeyListServiceImpl.deleteJourney(postId, journeyListId);
         return new ResponseEntity<>(apiResponseDto, HttpStatus.OK);
     }

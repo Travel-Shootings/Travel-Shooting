@@ -31,7 +31,7 @@ public class ImageServiceImpl implements ImageService {
     public List<String> saveImages(ImageSaveDto saveDto) {
         List<String> resultList = new ArrayList<>();
 
-        for(MultipartFile multipartFile : saveDto.getImages()) {
+        for (MultipartFile multipartFile : saveDto.getImages()) {
             String value = saveImage(multipartFile);
             resultList.add(value);
         }
@@ -55,7 +55,7 @@ public class ImageServiceImpl implements ImageService {
 
             String accessUrl = amazonS3Client.getUrl(bucketName, filename).toString();
             image.setAccessUrl(accessUrl);
-        } catch(IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
             throw new RuntimeException("이미지 업로드 중 오류가 발생했습니다.");
         }

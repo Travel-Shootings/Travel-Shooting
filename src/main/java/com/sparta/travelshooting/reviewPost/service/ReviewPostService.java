@@ -25,6 +25,7 @@ public interface ReviewPostService {
 
     //후기 게시글 단건 조회
     ReviewPostResponseDto getReviewPost(Long reviewPostId);
+
     //최근 6개 게시글 조회(Home화면)
     List<HomeReviewResponseDto> getSixReview();
 
@@ -33,6 +34,7 @@ public interface ReviewPostService {
 
     //게시물 페이징 조회
     Page<ReviewPostListResponseDto> getPageReviewPosts(Pageable pageable);
+
     //후기 게시글 좋아요
     ApiResponseDto addLike(Long reviewPostId, User user);
 
@@ -41,6 +43,7 @@ public interface ReviewPostService {
 
     //좋아요 여부 조회
     boolean hasLiked(Long reviewPostId, Long userId);
+
     //작성자 확인
     boolean reviewPostCheckUser(UserDetailsImpl currentUser, Long reviewPostId);
 

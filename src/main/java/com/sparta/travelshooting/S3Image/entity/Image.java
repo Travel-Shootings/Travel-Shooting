@@ -41,12 +41,12 @@ public class Image {
         this.accessUrl = accessUrl;
     }
 
-    public void setOriginName(String originName){
+    public void setOriginName(String originName) {
         this.originName = originName;
         updateStoredName();
     }
 
-    public void setReviewPost(ReviewPost reviewPost){
+    public void setReviewPost(ReviewPost reviewPost) {
         this.reviewPost = reviewPost;
     }
 
@@ -54,6 +54,7 @@ public class Image {
     private void updateStoredName() {
         this.storedName = getFileName(originName);
     }
+
     // 이미지 파일의 확장자를 추출하는 메소드
     public String extractExtension(String originName) {
         int index = originName.lastIndexOf('.');

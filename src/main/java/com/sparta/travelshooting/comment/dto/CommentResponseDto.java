@@ -2,10 +2,8 @@ package com.sparta.travelshooting.comment.dto;
 
 import com.sparta.travelshooting.comment.entity.Comment;
 import com.sparta.travelshooting.reply.dto.ReplyResponseDto;
-import com.sparta.travelshooting.reply.entity.Reply;
 import lombok.Getter;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 

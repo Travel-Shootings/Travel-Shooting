@@ -63,7 +63,7 @@ public class PostController {
     // 단건 게시글 수정 페이지 조회 (게시글 수정 페이지 접속)
     @Operation(summary = "게시글 수정 페이지 조회")
     @GetMapping("/update/{postId}")
-    public ResponseEntity<PostResponseDto> updatePost (@PathVariable Long postId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+    public ResponseEntity<PostResponseDto> updatePost(@PathVariable Long postId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         PostResponseDto postResponseDto = postService.updatePost(postId, userDetails.getUser());
         return new ResponseEntity<>(postResponseDto, HttpStatus.OK);
     }
