@@ -16,9 +16,11 @@ import com.sparta.travelshooting.reviewPost.entity.ReviewPost;
 import com.sparta.travelshooting.reviewPost.entity.ReviewPostLike;
 import com.sparta.travelshooting.reviewPost.repository.ReviewPostLikeRepository;
 import com.sparta.travelshooting.reviewPost.repository.ReviewPostRepository;
+import com.sparta.travelshooting.reviewPost.repository.ReviewPostRepositoryQuery;
 import com.sparta.travelshooting.security.UserDetailsImpl;
 import com.sparta.travelshooting.user.entity.User;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -41,7 +43,7 @@ public class ReviewPostServiceImpl implements ReviewPostService {
     private final ImageRepository imageRepository;
     private final ReviewPostLikeRepository reviewPostLikeRepository;
     private final NotificationRepository notificationRepository;
-    private final JPAQueryFactory queryFactory;
+    private final ReviewPostRepositoryQuery reviewPostRepositoryQuery;
 
     // 후기 게시글 생성
     @Override
@@ -186,20 +188,10 @@ public class ReviewPostServiceImpl implements ReviewPostService {
                 .collect(Collectors.toList());
     }
 
-    //게시물 페이지 조회
+    //게시물 페이징 조회
     @Override
     public Page<ReviewPostListResponseDto> getPageReviewPosts(Pageable pageable) {
-        QReviewPost reviewPost = QReviewPost.reviewPost;
-
-        List<ReviewPost> reviewPosts = queryFactory
-                .selectFrom(reviewPost)
-                .orderBy(reviewPost.createdAt.desc())
-                .offset(pageable.getOffset())
-                .limit(pageable.getPageSize())
-                .fetch();
-
-        long total = queryFactory.selectFrom(reviewPost).fetchCount();
-        return new PageImpl<>(reviewPosts.stream().map(ReviewPostListResponseDto::new).collect(Collectors.toList()), pageable, total);
+        return reviewPostRepositoryQuery.getPageReviewPosts(pageable);
     }
 
     //좋아요 기능
