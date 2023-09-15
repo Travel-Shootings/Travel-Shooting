@@ -5,9 +5,6 @@ fetch('/api/admin/summary',  {
 }) // GET 요청으로 JSON 데이터 가져오기
     .then(response => response.json())
     .then(jsonData => {
-        console.log(jsonData.allUsersCount);
-        console.log(jsonData.allPostsCount);
-        console.log(jsonData.allCommentsCount);
 
         var user_count = document.getElementById("user-count");
         var post_count = document.getElementById("post-count");
@@ -65,7 +62,6 @@ fetch('/api/admin/users') // GET 요청으로 JSON 데이터 가져오기
     .then(response => response.json())
     .then(jsonData => {
         const listContainer = document.getElementById('user-box');
-        console.log(jsonData);
         jsonData.forEach(dataItem => {
             const listItem = document.createElement('div');
             listItem.className = 'user-item'; // CSS 클래스 추가
@@ -144,16 +140,12 @@ function deleteUser(userId) {
         dataType: "json"
     })
         .done(function (res) {
-            console.log(res)
-            console.log(res.statusCode)
             if (res.statusCode === 200) {
                 alert(res.message)
                 window.location.reload();
             }
         })
         .fail(function (request, status, error) {
-            console.log(status)
-            console.log(error)
             alert("유저 삭제에 실패했습니다.");
         });
 }
@@ -167,7 +159,6 @@ fetch('/api/admin/posts') // GET 요청으로 JSON 데이터 가져오기
     .then(jsonData => {
         const listContainer = document.getElementById('post-box');
 
-        console.log(jsonData);
         jsonData.forEach(dataItem => {
             const listItem = document.createElement('div');
             listItem.className = 'user-item'; // CSS 클래스 추가
@@ -228,16 +219,12 @@ function deletePost(postId) {
         dataType: "json"
     })
         .done(function (res) {
-            console.log(res)
-            console.log(res.statusCode)
             if (res.statusCode === 200) {
                 alert(res.message)
                 window.location.reload();
             }
         })
         .fail(function (request, status, error) {
-            console.log(status)
-            console.log(error)
             alert("게시글 삭제에 실패했습니다.");
         });
 }
@@ -248,7 +235,6 @@ fetch('/api/admin/review-posts') // GET 요청으로 JSON 데이터 가져오기
     .then(jsonData => {
         const listContainer = document.getElementById('review-post-box');
 
-        console.log(jsonData);
         jsonData.forEach(dataItem => {
             const listItem = document.createElement('div');
             listItem.className = 'user-item'; // CSS 클래스 추가
@@ -310,16 +296,12 @@ function deleteReviewPost(postId) {
         dataType: "json"
     })
         .done(function (res) {
-            console.log(res)
-            console.log(res.statusCode)
             if (res.statusCode === 200) {
                 alert(res.message)
                 window.location.reload();
             }
         })
         .fail(function (request, status, error) {
-            console.log(status)
-            console.log(error)
             alert("게시글 삭제에 실패했습니다.");
         });
 }

@@ -54,7 +54,7 @@ reviewForm.addEventListener('submit', async (event) => {
                 window.location.href = '/view/review-post';
             }
         } else {
-            console.log('게시글 작성에 실패했습니다.');
+            alert('게시글 작성에 실패했습니다.');
         }
     } catch (error) {
         console.error('Error creating review post:', error);
