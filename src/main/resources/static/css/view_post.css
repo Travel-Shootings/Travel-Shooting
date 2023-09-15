@@ -53,7 +53,7 @@ body {
     display: flex;
     justify-content: flex-end;
     padding: 5px 10px;
-    margin-left: 1100px;
+    margin-left: 1000px;
     gap: 25px;
 }
 
@@ -159,6 +159,30 @@ body {
 #post .btns-container {
     display: flex;
     margin-left: 30px;
+}
+
+.likeContainer {
+    display: flex; /* 가로로 배치 */
+    justify-content: space-between; /* 요소 간 간격 조절 */
+    align-items: center; /* 요소를 세로 가운데 정렬 (선택 사항) */
+    font-family: var(--sans);
+    font-weight: bold;
+    font-size: 15px;
+    gap: 5px;
+}
+
+.likeCount {
+    display: block;
+    width: auto;
+    margin-top: 1px;
+    background-color: #fafafa;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 5px 10px;
+    font-family: var(--sans);
+    font-size: 20px;
+    font-weight: bolder;
+    line-height: 100%;
 }
 
 #post .content {

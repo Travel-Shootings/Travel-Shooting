@@ -93,7 +93,6 @@
 <div class="first-modal">
     <form class="modal-body">
         <h2 class="form-heading">여행 정보</h2>
-
         <div class="modal-category">
             <label for="location" class="sr-only">장소 검색 </label>
             <div class="search-icon-wrapper">
@@ -102,7 +101,6 @@
                      class="search-button" alt="검색">
             </div>
         </div>
-
         <div class="modal-category">
             <label for="location" class="sr-only">여행 장소 </label>
             <input type="text" id="location" class="form-control" placeholder="여행 장소를 검색하세요." disabled>
@@ -131,12 +129,12 @@
 
         <div class="modal-category" style="display: none;">
             <label for="modaladdress" class="sr-only">주소지</label>
-            <input type="text" id="modaladdress" class="form-control" placeholder="주소지 숨기는 칸 입니다.">
+            <input type="text" id="modaladdress" class="form-control" placeholder="주소지 숨기는 칸 입니다." required>
         </div>
 
         <div class="submit-journey">
             <div class="col-sm-6">
-                <button class="btn btn-lg btn-primary btn-block green" id="post-journey" type="submit">일정등록</button>
+                <button class="btn btn-lg btn-primary btn-block green" id="post-journey" type="submit" disabled>일정등록</button>
             </div>
             <div class="col-sm-6">
                 <button class="btn btn-lg btn-cancel btn-block" id="cancel-journey" type="submit">돌아가기</button>

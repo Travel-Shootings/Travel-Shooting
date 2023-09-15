@@ -1,9 +1,8 @@
 // 글 데이터 가져오기
 const postId = window.location.pathname.split('/').pop();
-// const replyId = window.location.pathname.split(`${postId}` + '/').pop();
 
 $(document).ready(function () {
-    loadPostData()
+    loadPostData();
 });
 
 function loadPostData() {
@@ -13,26 +12,31 @@ function loadPostData() {
     })
         .then(response => {
             if (!response.ok) {
-                alert('해당 게시물은 존재하지 않습니다.');
-                window.location.href = "/view/post"
+                return response.json().then(errorResponse => {
+                    alert(errorResponse.message); // 예외 메세지를 표시
+                    window.location.href = "/view/post";
+                });
             }
             return response.json();
         })
-        .then(data => {
+        .then(async data => {
+            // 좋아요 버튼 초기화
             let nickName = data.nickName;
             let livingPlace = data.region;
+            let likeCounts = data.likeCounts;
             let createdAt = data.createdAt;
-            let title = data.title
-            let contents = data.contents
+            let title = data.title;
+            let contents = data.contents;
             let commentList = data.commentList;
             let journeyList = data.journeyList; // journeyList 데이터 가져오기
 
             // 가져온 데이터를 HTML에 추가
             $('.topper mgn').text("닉네임: " + nickName);
             $('.topper mgn2').text("지역: " + livingPlace);
+            $('.likeCount').text(`좋아요: ${likeCounts}`);
+            initializeLikeButton(postId, likeCounts);
             $('.title temp').text(title); // .title 요소 안의 temp 클래스를 가진 요소에 title 값을 설정합니다.
             $('.post temp').text(contents); // .post 요소 안의 temp 클래스를 가진 요소에 contents 값을 설정합니다.
-
 
             if (commentList && commentList.length > 0) {
                 // 댓글 데이터를 renderComments 함수로 전달하여 추가합니다.
@@ -42,7 +46,10 @@ function loadPostData() {
             // 프론트엔드에서 journeyList 데이터를 반복하며 표시
             if (journeyList && journeyList.length > 0) {
                 let journeyListHtml = '';
-                journeyList.forEach((item, index) => {
+                let journeyListCount = 1; // journeyListCount를 1로 초기화
+
+                // 배열의 forEach 대신 for...of 루프를 사용하여 비동기 작업 순서를 보장합니다.
+                for (const item of journeyList) {
                     // 각 항목에서 필요한 데이터 가져오기
                     const location = item.locations;
                     const budget = item.budget;
@@ -51,36 +58,36 @@ function loadPostData() {
                     const endJourney = new Date(item.endJourney);
                     const placeAddress = item.placeAddress;
 
-                    // DB에서 받아온 주소 값을 지도에 찍기
-                    $("#address").val(placeAddress);
-                    $("#submit").click();
+                    try {
+                        // DB에서 받아온 주소 값을 비동기로 지도에 찍기
+                        $("#address").val(placeAddress);
+                        await searchAddressToCoordinate($('#address').val());
 
-                    // 날짜를 YYYY년 MM월 DD일 HH시 MM분으로 표기하는 함수
-                    const startFormatted = startJourney.toLocaleString('ko-KR', {
-                        year: 'numeric',
-                        month: 'long',
-                        day: 'numeric',
-                        hour: 'numeric',
-                        minute: 'numeric',
-                    });
-                    const endFormatted = endJourney.toLocaleString('ko-KR', {
-                        year: 'numeric',
-                        month: 'long',
-                        day: 'numeric',
-                        hour: 'numeric',
-                        minute: 'numeric',
-                    });
+                        // 날짜를 YYYY년 MM월 DD일 HH시 MM분으로 표기하는 함수
+                        const startFormatted = startJourney.toLocaleString('ko-KR', {
+                            year: 'numeric',
+                            month: 'long',
+                            day: 'numeric',
+                            hour: 'numeric',
+                            minute: 'numeric',
+                        });
+                        const endFormatted = endJourney.toLocaleString('ko-KR', {
+                            year: 'numeric',
+                            month: 'long',
+                            day: 'numeric',
+                            hour: 'numeric',
+                            minute: 'numeric',
+                        });
 
-                    // LocalDateTime 형식의 createdAt을 "nov 18, 2023" 형태로 변환
-                    const months = ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"];
-                    const createdAtDate = new Date(createdAt); // LocalDateTime을 JavaScript Date 객체로 변환
-                    const monthName = months[createdAtDate.getMonth()]; // 월 이름 가져오기
-                    const formattedDate = `${monthName} ${createdAtDate.getDate()}, ${createdAtDate.getFullYear()}`;
-                    $('.perm').text("작성일: " + formattedDate);
+                        // LocalDateTime 형식의 createdAt을 "nov 18, 2023" 형태로 변환
+                        const months = ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"];
+                        const createdAtDate = new Date(data.createdAt); // LocalDateTime을 JavaScript Date 객체로 변환
+                        const monthName = months[createdAtDate.getMonth()]; // 월 이름 가져오기
+                        const formattedDate = `${monthName} ${createdAtDate.getDate()}, ${createdAtDate.getFullYear()}`;
+                        $('.perm').text("작성일: " + formattedDate);
 
-
-                    // HTML에 동적으로 추가
-                    journeyListHtml += `<box> ${index + 1 + "번째 여행지"}
+                        // HTML에 동적으로 추가
+                        journeyListHtml += `<box> ${`${journeyListCount} 번째 여행지`}
             
             <nm>장소명: ${location}</nm>
             <nm>예산: ${budget}원</nm>
@@ -88,17 +95,17 @@ function loadPostData() {
             <nm>일정: ${startFormatted} ~ ${endFormatted}</nm>
             <nm>주소: ${placeAddress}</nm>
         </box>`;
-                });
-                $('.journeyList').html(journeyListHtml); // .journeyList 요소 안에 journeyList 데이터 추가
+                        journeyListCount++;
+                    } catch (error) {
+                        console.error('Error processing address:', error);
+                    }
+                }
+
+                // 비동기 작업이 모두 완료된 후에 HTML을 업데이트합니다.
+                $('.journeyList').html(journeyListHtml);
             }
-        })
-        .catch(error => {
-            // 네트워크 오류나 서버 응답 오류 등을 처리
-            alert(error.message);
-            window.location.href = "/view/post"
         });
 }
-
 
 function checkAuthorizationCookie() {
     var cookies = document.cookie.split(";");
@@ -115,7 +122,7 @@ function checkAuthorizationCookie() {
     return false;
 }
 
-window.onload = function() {
+window.onload = function () {
     var comment_form = document.getElementById("comment-form");
 
     if (!checkAuthorizationCookie()) {
@@ -127,7 +134,7 @@ window.onload = function() {
 $(document).ready(function () {
     // id=editPost를 클릭했을 때의 동작을 정의합니다.
     $('#editPost').click(function () {
-        if(!checkAuthorizationCookie()) {
+        if (!checkAuthorizationCookie()) {
             alert('로그인이 필요합니다.');
             return
         }
@@ -142,37 +149,40 @@ const deletePostButton = document.getElementById("deletePost");
 deletePostButton.addEventListener("click", deletePost);
 
 function deletePost() {
-    if(!checkAuthorizationCookie()) {
-        alert('작성자만 게시글을 삭제할 수 있습니다.');
-        return
-    }
+    const confirmation = confirm('게시글을 삭제하시겠습니까?');
 
-    fetch('/api/posts/' + postId, {
-        method: 'DELETE',
-        headers: {'Content-Type': 'application/json'}
-    })
-        .then(response => {
-            if (response.status === 200) {
-                // 게시글 삭제 성공
-                alert("게시글 삭제 완료");
-                window.location.href = "/view/post"
-            } else if (response.status === 404) {
-                // 해당 글이 존재하지 않음
-                alert("해당 글은 존재하지 않습니다");
-                window.location.href = "/view/post/" + postId
-            } else {
-                // 기타 오류 처리
-                alert("기타 오류 발생");
-                window.location.href = "/view/post/" + postId
-            }
+    if (confirmation) {
+        if (!checkAuthorizationCookie()) {
+            alert('작성자만 게시글을 삭제할 수 있습니다.');
+            return
+        }
+
+        fetch('/api/posts/' + postId, {
+            method: 'DELETE',
+            headers: {'Content-Type': 'application/json'}
         })
-        .catch(error => {
-            // 네트워크 오류 등 예외 처리
-            alert(error.message);
-            window.location.href = "/view/post/" + postId
-        });
+            .then(response => {
+                if (response.status === 200) {
+                    // 게시글 삭제 성공
+                    alert("게시글 삭제 완료");
+                    window.location.href = "/view/post"
+                } else if (response.status === 404) {
+                    // 해당 글이 존재하지 않음
+                    alert("해당 글은 존재하지 않습니다");
+                    window.location.href = "/view/post/" + postId
+                } else {
+                    // 기타 오류 처리
+                    alert("작성자만 게시글을 삭제할 수 있습니다.");
+                    window.location.href = "/view/post/" + postId
+                }
+            })
+            .catch(error => {
+                // 네트워크 오류 등 예외 처리
+                alert(error.message);
+                window.location.href = "/view/post/" + postId
+            });
+    }
 }
-
 
 // 댓글 요소 생성 함수
 function createCommentElement(comment) {
@@ -181,7 +191,7 @@ function createCommentElement(comment) {
     commentElement.classList.add('comment');
 
     const authorElement = document.createElement('div');
-    authorElement.textContent = `작성자: ${comment.nickName}`;
+    authorElement.textContent = `${comment.nickName}`;
     authorElement.classList.add('comment-author');
     commentElement.appendChild(authorElement);
 
@@ -295,7 +305,7 @@ function createReplyFormElement(commentId) {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ content: replyContent }),
+            body: JSON.stringify({content: replyContent}),
         })
             .then(response => {
                 if (!response.ok) {
@@ -381,7 +391,7 @@ document.addEventListener('click', function (e) {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ content: editedContent }),
+                body: JSON.stringify({content: editedContent}),
             })
                 .then(response => response.json())
                 .then(data => {
@@ -477,7 +487,7 @@ function createReplyElement(reply) {
     replyElement.appendChild(replyWrapper);
 
     const authorElement = document.createElement('div');
-    authorElement.textContent = `작성자: ${reply.nickName}`;
+    authorElement.textContent = `${reply.nickName}`;
     authorElement.classList.add('reply-author');
     replyWrapper.appendChild(authorElement);
 
@@ -568,7 +578,7 @@ document.addEventListener('DOMContentLoaded', function () {
     let editingCommentElement = null; // 현재 수정 중인 댓글을 추적
 
     commentList.addEventListener('click', function (e) {
-        if(!checkAuthorizationCookie()) {
+        if (!checkAuthorizationCookie()) {
             alert('로그인 후 이용해주세요');
             return
         }
@@ -611,9 +621,17 @@ document.addEventListener('DOMContentLoaded', function () {
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({ content: editedContent }),
+                    body: JSON.stringify({content: editedContent}),
                 })
-                    .then(response => response.json())
+                    .then(response => {
+                        if (!response.ok) {
+                            return response.json().then(errorResponse => {
+                                alert(errorResponse.message);
+                                window.location.reload()
+                            });
+                        }
+                        return response.json();
+                    })
                     .then(data => {
                         // 댓글 수정이 성공한 경우, 화면에서 댓글 내용을 업데이트합니다.
                         contentElement.textContent = editedContent;
@@ -625,6 +643,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         editingCommentElement = null;
                     })
                     .catch(error => {
+                        alert(error.message)
                         console.error('댓글 수정 에러:', error);
                     });
             }
@@ -660,7 +679,15 @@ document.addEventListener('DOMContentLoaded', function () {
                 fetch(`/api/comments/` + commentId, {
                     method: 'DELETE',
                 })
-                    .then(response => response.json())
+                    .then(response => {
+                        if (!response.ok) {
+                            return response.json().then(errorResponse => {
+                                alert(errorResponse.message);
+                                window.location.reload()
+                            });
+                        }
+                        return response.json();
+                    })
                     .then(data => {
                         // 댓글 삭제가 성공한 경우, 화면에서 댓글을 제거합니다.
                         const commentElement = target.closest('.comment');
@@ -673,6 +700,55 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 });
+
+// 좋아요 버튼 기능
+function initializeLikeButton(postId, initialLikeCount) {
+    const likeButton = document.getElementById('likePost'); // 좋아요 버튼 요소 가져오기
+
+    // 좋아요 버튼 클릭 시
+    likeButton.addEventListener('click', async () => {
+        try {
+            const cancelResponse = await fetch(`/api/posts/${postId}/like`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+            if (cancelResponse.ok) {
+                alert('좋아요가 취소되었습니다.');
+                initialLikeCount--; // 좋아요 수를 1 감소
+                updateLikeCount(initialLikeCount); // 좋아요 수를 업데이트
+            } else if (!cancelResponse.ok) {
+                // 아직 좋아요를 누르지 않은 상태이므로 좋아요 요청을 보냅니다.
+                const likeResponse = await fetch(`/api/posts/${postId}/like`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                });
+                if (likeResponse.ok) {
+                    alert('좋아요가 등록되었습니다.');
+                    initialLikeCount++; // 좋아요 수를 1 증가
+                    updateLikeCount(initialLikeCount); // 좋아요 수를 업데이트
+                } else if (!likeResponse.ok) {
+                    alert('자신의 글에는 좋아요를 할 수 없습니다.')
+                    console.error('Error adding like:', likeResponse.statusText);
+                }
+            } else {
+                alert(cancelResponse.error)
+            }
+        } catch (error) {
+            alert(error.message)
+            console.error('Error handling like:', error);
+        }
+    });
+}
+
+// 좋아요 수 업데이트 함수
+function updateLikeCount(likeCounts) {
+    // 좋아요 수를 HTML 요소에 업데이트
+    document.querySelector('.likeCount').textContent = `좋아요: ${likeCounts}`;
+}
 
 
 // 주소 검색의 이벤트
@@ -697,7 +773,7 @@ var infoWindow = new naver.maps.InfoWindow({
 // 전역 변수로 지도를 초기화
 var map = new naver.maps.Map('map', {
     center: new naver.maps.LatLng(37.3595704, 127.105399),
-    zoom: 6
+    zoom: 8
 });
 
 // 전역 변수로 polyline 객체를 정의하고 초기화
@@ -708,52 +784,32 @@ var polyline = new naver.maps.Polyline({
     strokeWeight: 2
 });
 
-// #submit 버튼 클릭 이벤트 핸들러
-$('#submit').on('click', function (e) {
-    e.preventDefault();
-    searchAddressToCoordinate($('#address').val());
-});
-
 //검색한 주소의 정보를 insertAddress 함수로 넘겨준다.
 function searchAddressToCoordinate(address) {
-    naver.maps.Service.geocode({
-        query: address
-    }, function (status, response) {
-        if (status === naver.maps.Service.Status.ERROR) {
-            return alert('Something Wrong!');
-        }
-        if (response.v2.meta.totalCount === 0) {
-            return alert('올바른 주소를 입력해주세요.');
-        }
-        var htmlAddresses = [],
-            item = response.v2.addresses[0],
-            point = new naver.maps.Point(item.x, item.y);
-        if (item.roadAddress) {
-            htmlAddresses.push('[도로명 주소] ' + item.roadAddress);
-        }
-        if (item.jibunAddress) {
-            htmlAddresses.push('[지번 주소] ' + item.jibunAddress);
-        }
-        if (item.englishAddress) {
-            htmlAddresses.push('[영문명 주소] ' + item.englishAddress);
-        }
+    return new Promise((resolve, reject) => {
+        naver.maps.Service.geocode({
+            query: address
+        }, function (status, response) {
+            if (status === naver.maps.Service.Status.ERROR) {
+                reject('Something Wrong!');
+                return;
+            }
+            if (response.v2.meta.totalCount === 0) {
+                reject('올바른 주소를 입력해주세요.');
+                return;
+            }
 
-        // 정보 창을 열고 내용을 설정하여 지도에 표시
-        infoWindow.setContent([
-            '<div style="padding:10px;min-width:200px;line-height:150%;">',
-            '<h5 style="margin-top:5px;">검색 주소 : ' + address + '</h5><br />',
-            htmlAddresses.join('<br />'),
-            '</div>'
-        ].join('\n'));
+            var item = response.v2.addresses[0];
+            var latitude = item.x;
+            var longitude = item.y;
+            insertAddress(item.roadAddress, latitude, longitude);
 
-        // // 정보 창을 열 위치 설정
-        // infoWindow.open(map, point);
-
-        // 지도 중심 이동
-        map.setCenter(point);
-
-        // 주소 정보를 표시하고 지도에 추가
-        insertAddress(item.roadAddress, item.x, item.y);
+            resolve({
+                address: address,
+                latitude: latitude,
+                longitude: longitude
+            });
+        });
     });
 }
 

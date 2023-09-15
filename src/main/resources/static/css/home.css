@@ -153,6 +153,7 @@
 
 .card-panel{
     cursor: pointer;
+    height: 300px;
 }
 
 .card-panel2 {

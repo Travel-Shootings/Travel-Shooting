@@ -138,18 +138,18 @@ function loadThreePosts() {
             data.forEach((post, index) => {
                 const cardPanel = cardPanels[index];
                 const titleElement = document.querySelectorAll('.card-panel h4')[index];
-                const contentElement = document.querySelectorAll('.card-panel p')[index];
+                // const contentElement = document.querySelectorAll('.card-panel p')[index];
 
                 // title과 contents를 원하는 길이로 자릅니다.
-                const maxTitleLength = 8; // 원하는 title 최대 길이
-                const maxContentLength = 10; // 원하는 contents 최대 길이
+                const maxTitleLength = 30; // 원하는 title 최대 길이
+                // const maxContentLength = 10; // 원하는 contents 최대 길이
 
                 const truncatedTitle = post.title.substring(0, maxTitleLength);
-                const truncatedContent = post.contents.substring(0, maxContentLength);
+                // const truncatedContent = post.contents.substring(0, maxContentLength);
 
                 // titleElement와 contentElement에 데이터를 설정합니다.
                 titleElement.textContent = truncatedTitle;
-                contentElement.textContent = truncatedContent;
+                // contentElement.textContent = truncatedContent;
 
                 // card-panel을 클릭할 때 상세 페이지로 이동하도록 이벤트 리스너를 추가합니다.
                 cardPanel.addEventListener('click', function () {
