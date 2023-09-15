@@ -99,6 +99,4 @@ public class PostController {
         ApiResponseDto apiResponseDto = postService.deleteLike(postId, userDetails.getUser());
         return new ResponseEntity<>(apiResponseDto, HttpStatus.OK);
     }
-
-
 }
