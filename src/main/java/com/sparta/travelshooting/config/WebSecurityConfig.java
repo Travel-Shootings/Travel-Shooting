@@ -57,6 +57,7 @@ public class WebSecurityConfig {
                         .requestMatchers(HttpMethod.GET,"/view/**").permitAll()
                         .requestMatchers("/api/admin").hasRole("ADMIN")
                         .requestMatchers("/swg", "/swagger-ui/**", "/api-docs/**").permitAll()
+                        .requestMatchers(HttpMethod.GET,"/").permitAll()
                         .anyRequest().authenticated()
         );
 

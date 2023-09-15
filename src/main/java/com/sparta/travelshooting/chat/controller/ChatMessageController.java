@@ -3,6 +3,7 @@ package com.sparta.travelshooting.chat.controller;
 import com.sparta.travelshooting.chat.dto.ChatMessageRequestDto;
 import com.sparta.travelshooting.chat.dto.ChatMessageResponseDto;
 import com.sparta.travelshooting.chat.service.ChatMessageService;
+import com.sparta.travelshooting.user.entity.User;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -28,11 +29,10 @@ public class ChatMessageController {
                                                            ChatMessageRequestDto chatMessageRequestDto,
                                                            StompHeaderAccessor headerAccessor) {
 
-        // 세션 연결을 할 때 저장했던 nickname, userId를 불러옴
-        String nickname = (String) headerAccessor.getSessionAttributes().get("nickname");
-        Long userId = (Long) headerAccessor.getSessionAttributes().get("userId");
+        // 세션 연결을 할 때 저장했던 user를 불러옴
+        User user = (User) headerAccessor.getSessionAttributes().get("user");
 
-        ChatMessageResponseDto chatMessageResponseDto = chatMessageService.sendChat(chatRoomId, chatMessageRequestDto, nickname, userId);
+        ChatMessageResponseDto chatMessageResponseDto = chatMessageService.sendChat(chatRoomId, chatMessageRequestDto, user);
         return new ResponseEntity<>(chatMessageResponseDto, HttpStatus.OK);
     }
 }
