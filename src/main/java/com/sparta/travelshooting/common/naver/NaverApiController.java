@@ -33,4 +33,5 @@ public class NaverApiController {
         model.addAttribute("naverSearch", naverAddressDtoList);
         return new ResponseEntity<>(naverAddressDtoList, HttpStatus.OK);
     }
+    
 }
