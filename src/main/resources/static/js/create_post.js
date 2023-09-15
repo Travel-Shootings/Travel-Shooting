@@ -1,3 +1,12 @@
+// Enter 키 이벤트 핸들러 추가
+$('#search-location').on('keydown', function (e) {
+    if (e.key === 'Enter') {
+        e.preventDefault();
+        $('#search-icon').click(); // 검색 아이콘을 클릭하도록 함
+    }
+});
+
+// 검색 아이콘 클릭 시 이벤트 핸들러
 $('#search-icon').on('click', function (e) {
     e.preventDefault();
     const location = $('#search-location').val();
@@ -61,10 +70,118 @@ btnCloseModal.addEventListener('click', function (e) {
 
 // 첫번째 모달 입력값 -> 게시글 작성의 JourneyList로 옮기는 매서드
 $(document).ready(function () {
-    $("#post-journey").click(function (e) {
-        e.preventDefault(); // 폼의 기본 동작(페이지 새로고침)을 막음
+    // 총 일정 정보 초기화 함수
+    function resetTotalTravelInfo() {
+        $("#totalBudget").text("0원");
+        $("#totalDays").text("0일 0시간 0분");
+        $("#totalDays").data('days', 0);
+        $("#totalDays").data('hours', 0);
+        $("#totalDays").data('minutes', 0);
+    }
 
-        // 여행 정보 입력 폼에서 값을 가져옴
+    // 여행 정보 추가 함수
+    function addTravelInfo(location, budget, startJourney, endJourney, members, modaladdress) {
+        const startJourneyObj = formatDateToCustomFormat(startJourney);
+        const endJourneyObj = formatDateToCustomFormat(endJourney);
+
+        // 날짜 차이 계산
+        const startJourneyHandler = new Date(startJourney);
+        const endJourneyHandler = new Date(endJourney);
+        const timeDiff = Math.abs(endJourneyHandler - startJourneyHandler);
+        const daysHandler = Math.floor(timeDiff / (1000 * 60 * 60 * 24)); // 일자 계산
+        const hoursHandler = Math.floor((timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)); // 시간 계산
+        const minutesHandler = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60)); // 분 계산
+
+        // 기존 총 일정 정보를 가져옴
+        let totalBudget = parseInt($("#totalBudget").text().replace('원', '')) || 0;
+        let totalDays = parseInt($("#totalDays").data('days')) || 0;
+        let totalHours = parseInt($("#totalDays").data('hours')) || 0;
+        let totalMinutes = parseInt($("#totalDays").data('minutes')) || 0;
+
+        // 계산 결과를 업데이트
+        totalBudget += parseInt(budget) || 0;
+        totalDays += daysHandler;
+        totalHours += hoursHandler;
+        totalMinutes += minutesHandler;
+
+        // 업데이트된 결과를 HTML에 반영
+        $("#totalBudget").text(totalBudget + "원");
+        $("#totalDays").text(`${totalDays}일 ${totalHours}시간 ${totalMinutes}분`);
+
+        // 데이터 속성에 총 일자, 시간, 분 단위 저장
+        $("#totalDays").data('days', totalDays);
+        $("#totalDays").data('hours', totalHours);
+        $("#totalDays").data('minutes', totalMinutes);
+
+        // 새로운 일정 정보를 추가할 HTML 생성
+        const newRow = `<tr>
+        <td class="id" style="display:none;"></td>
+        <td class="place" style="text-align: center;">${location}</td>
+        <td class="budget" style="text-align: center;">${budget}</td>
+        <td class="formattedStartJourney">${startJourneyObj.year}년 ${startJourneyObj.month}월 ${startJourneyObj.day}일 ${startJourneyObj.hours}시 ${startJourneyObj.minutes}분</td>
+        <td class="formattedEndJourney">${endJourneyObj.year}년 ${endJourneyObj.month}월 ${endJourneyObj.day}일 ${endJourneyObj.hours}시 ${endJourneyObj.minutes}분</td>
+        <td class="members" style="text-align: center;">${members}</td>
+        <td class="startJourney" style="display: none;">${startJourney}</td>
+        <td class="endJourney" style="display: none;">${endJourney}</td>
+        <td class="placeAddress" style="display: none;">${modaladdress}</td>
+        <td class="remove">
+            <button class="remove-item-btn" type="button" style="font-size: 15px">삭제</button>
+        </td>
+    </tr>`;
+
+        // HTML을 목록에 추가
+        $(".list").append(newRow);
+
+        // 주소 값을 네이버 지도 검색에 주입
+        searchAddressToCoordinate(modaladdress);
+    }
+
+    // 여행 정보 삭제 함수
+    function removeTravelInfo(row) {
+        // 삭제할 항목의 정보를 가져옴
+        const startDateHandler = new Date(row.find(".startJourney").text());
+        const endDateHandler = new Date(row.find(".endJourney").text());
+        const timeDiff = Math.abs(endDateHandler - startDateHandler);
+
+        // 시간 차이를 일자로 계산
+        const daysHandler = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+
+        // 삭제한 항목의 정보를 업데이트
+        const budgetHandler = parseInt(row.find(".budget").text()) || 0;
+
+        // 기존 총 일정 정보를 가져옴
+        let totalBudget = parseInt($("#totalBudget").text().replace('원', '')) || 0;
+        let totalDays = parseInt($("#totalDays").data('days')) || 0;
+        let totalHours = parseInt($("#totalDays").data('hours')) || 0;
+        let totalMinutes = parseInt($("#totalDays").data('minutes')) || 0;
+
+        // 계산 결과를 업데이트 (음수를 방지하기 위해 각 항목 별로 계산 후 빼기)
+        totalBudget -= budgetHandler;
+        totalDays -= daysHandler;
+        totalHours -= Math.floor(timeDiff / (1000 * 60 * 60));
+        totalMinutes -= Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
+
+        // 음수 값을 0으로 변경 (시간, 분 단위 계산에 의해 발생할 수 있음)
+        totalDays = Math.max(totalDays, 0);
+        totalHours = Math.max(totalHours, 0);
+        totalMinutes = Math.max(totalMinutes, 0);
+
+        // 업데이트된 결과를 HTML에 반영
+        $("#totalBudget").text(totalBudget + "원");
+        $("#totalDays").text(`${totalDays}일 ${totalHours}시간 ${totalMinutes}분`);
+
+        // 데이터 속성에 총 일자, 시간, 분 단위 저장
+        $("#totalDays").data('days', totalDays);
+        $("#totalDays").data('hours', totalHours);
+        $("#totalDays").data('minutes', totalMinutes);
+
+        // 행을 삭제
+        row.remove();
+    }
+
+    // 여행 정보 추가 버튼 클릭 시
+    $("#post-journey").click(function (e) {
+        e.preventDefault();
         const location = $("#location").val();
         const budget = $("#budget").val();
         const startJourney = $("#journeyStartDate").val();
@@ -72,51 +189,7 @@ $(document).ready(function () {
         const members = $("#member").val();
         const modaladdress = $("#modaladdress").val();
 
-        const formattedStartJourney = formatDateToCustomFormat(startJourney);
-        const formattedEndJourney = formatDateToCustomFormat(endJourney);
-
-        // 날짜 차이 계산
-        const startJourneyHandler = new Date($("#journeyStartDate").val());
-        const endJourneyHandler = new Date($("#journeyEndDate").val());
-        const timeDiff = Math.abs(endJourneyHandler - startJourneyHandler);
-        const daysHandler = Math.floor(timeDiff / (1000 * 60 * 60 * 24)); // 일자 계산
-
-        const budgetHandler = parseInt($("#budget").val()) || 0;
-        const membersHandler = parseInt($("#member").val()) || 0;
-
-        // 기존 총 일정 정보를 가져옴
-        let totalBudget = parseInt($("#totalBudget").text().split('원')[0]) || 0;
-        let totalDays = parseInt($("#totalDays").text().split('일')[0]) || 0;
-
-        // 계산 결과를 업데이트
-        totalBudget += budgetHandler;
-        totalDays += daysHandler;
-
-        // 업데이트된 결과를 HTML에 반영
-        $("#totalBudget").text(totalBudget + "원");
-        $("#totalDays").text(totalDays + "일");
-
-        // 새로운 일정 정보를 추가할 HTML 생성
-        const newRow = `<tr>
-            <td class="id" style="display:none;"></td>
-            <td class="place" style="text-align: center;">${location}</td>
-            <td class="budget" style="text-align: center;">${budget}</td>
-            <td class="formattedStartJourney">${formattedStartJourney}</td>
-            <td class="formattedEndJourney">${formattedEndJourney}</td>
-            <td class="members" style="text-align: center;">${members}</td>
-            <td class="startJourney" style="display: none;">${startJourney}</td>
-            <td class="endJourney" style="display: none;">${endJourney}</td>
-            <td class="placeAddress" style="display: none;">${modaladdress}</td>
-<!--            <td class="edit">-->
-<!--                <button class="edit-item-btn" type="button" style="font-size: 15px">수정</button>-->
-<!--            </td>-->
-            <td class="remove">
-                <button class="remove-item-btn" type="button" style="font-size: 15px">삭제</button>
-            </td>
-        </tr>`;
-
-        // HTML을 목록에 추가
-        $(".list").append(newRow);
+        addTravelInfo(location, budget, startJourney, endJourney, members, modaladdress);
 
         // 입력 필드 초기화
         $("#search-location").val('');
@@ -127,17 +200,17 @@ $(document).ready(function () {
         $("#member").val('');
         $("#modaladdress").val('');
 
-        // "id='post-journey'" 버튼을 클릭하면 주소값 설정 및 검색 버튼(id='submit')을 클릭
-        $("#address").val(modaladdress);
-        $("#submit").click();
-
         const modal = document.querySelector('.first-modal');
         modal.style.display = 'none';
+        handleInputChange(); // 모달을 닫은 후에 입력값 변경 감시 함수 호출
     });
-});
 
-document.addEventListener('DOMContentLoaded', function () {
-    const postJourneyButton = document.getElementById('post-journey');
+    // 여행 리스트 추가 후 삭제 기능(프론트)
+    $(".list").on("click", ".remove-item-btn", function () {
+        // 삭제 버튼을 누른 행을 찾음
+        const row = $(this).closest("tr");
+        removeTravelInfo(row);
+    });
 
     // 입력 필드 값 변경 감시
     const modalCategoryWrapper = document.querySelector('.modal-category-wrapper');
@@ -153,40 +226,26 @@ document.addEventListener('DOMContentLoaded', function () {
         });
 
         // 모든 필드가 채워져 있으면 버튼 활성화
-        postJourneyButton.disabled = isEmpty;
+        $("#post-journey").prop("disabled", isEmpty);
     }
 
     modalCategoryWrapper.addEventListener('input', handleInputChange);
 
-    // 여행일정 추가 버튼 클릭 시
-    const addButton = document.getElementById('add-journey');
-    addButton.addEventListener('click', function () {
-        // 이벤트 리스너는 여기에서 다시 할당하지 않습니다.
-    });
-});
-
-// 여행 리스트 추가 후 삭제 기능(프론트)
-$(document).ready(function () {
-    // 삭제 버튼에 대한 클릭 이벤트 핸들러 설정
-    $(".list").on("click", ".remove-item-btn", function () {
-        // 클릭한 삭제 버튼이 속한 행을 찾아서 삭제
-        $(this).closest("tr").remove();
-    });
+    // 페이지 로드 시 총 일정 정보 초기화
+    resetTotalTravelInfo();
 });
 
 // 여행 시작일 & 여행 종료일 포멧 형식 변환 (YYYY년-MM월-DD일-HH시-MM분)
 function formatDateToCustomFormat(dateString) {
     const dateObj = new Date(dateString);
 
-    const year = dateObj.getFullYear();
+    const year = String(dateObj.getFullYear()).slice(-2); // 마지막 두 자리만 추출
     const month = String(dateObj.getMonth() + 1).padStart(2, '0'); // 월은 0부터 시작하므로 1을 더하고 두 자리로 포맷팅
     const day = String(dateObj.getDate()).padStart(2, '0'); // 일도 두 자리로 포맷팅
     const hours = String(dateObj.getHours()).padStart(2, '0');
     const minutes = String(dateObj.getMinutes()).padStart(2, '0');
 
-    const formattedDate = `${year}년 ${month}월 ${day}일 ${hours}시 ${minutes}분`;
-
-    return formattedDate;
+    return { year, month, day, hours, minutes };
 }
 
 
@@ -301,15 +360,6 @@ $(document).ready(function () {
     });
 });
 
-
-// 주소 검색의 이벤트
-$('#address').on('keydown', function (e) {
-    var keyCode = e.which;
-    if (keyCode === 13) { // Enter Key
-        searchAddressToCoordinate($('#address').val());
-    }
-});
-
 // 전역 변수로 infoWindow 객체를 정의하고 초기화
 var infoWindow = new naver.maps.InfoWindow({
     maxWidth: 300,
@@ -333,12 +383,6 @@ var polyline = new naver.maps.Polyline({
     path: [],
     strokeColor: '#5347AA',
     strokeWeight: 2
-});
-
-// #submit 버튼 클릭 이벤트 핸들러
-$('#submit').on('click', function (e) {
-    e.preventDefault();
-    searchAddressToCoordinate($('#address').val());
 });
 
 //검색한 주소의 정보를 insertAddress 함수로 넘겨준다.

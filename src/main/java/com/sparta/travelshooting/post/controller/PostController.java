@@ -9,6 +9,9 @@ import com.sparta.travelshooting.security.UserDetailsImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -41,11 +44,11 @@ public class PostController {
         return new ResponseEntity<>(postResponseDto, HttpStatus.OK);
     }
 
-    // 전체 게시글 조회
-    @Operation(summary = "전체 게시글과 여행일정 조회")
-    @GetMapping()
-    public ResponseEntity<List<PostListResponseDto>> getPosts() {
-        List<PostListResponseDto> postResponseDto = postService.getPosts();
+    // 게시글 전체 목록 조회(6개씩 페이징)
+    @Operation(summary = "게시글 전체 페이지(6개씩 페이징)")
+    @GetMapping("/page")
+    public ResponseEntity<Page<PostListResponseDto>> getPosts(@PageableDefault(size = 6) Pageable pageable) {
+        Page<PostListResponseDto> postResponseDto = postService.getPosts(pageable);
         return new ResponseEntity<>(postResponseDto, HttpStatus.OK);
     }
 
@@ -54,6 +57,14 @@ public class PostController {
     @GetMapping("/{postId}")
     public ResponseEntity<PostResponseDto> getPost(@PathVariable Long postId) {
         PostResponseDto postResponseDto = postService.getPost(postId);
+        return new ResponseEntity<>(postResponseDto, HttpStatus.OK);
+    }
+
+    // 단건 게시글 수정 페이지 조회 (게시글 수정 페이지 접속)
+    @Operation(summary = "게시글 수정 페이지 조회")
+    @GetMapping("/update/{postId}")
+    public ResponseEntity<PostResponseDto> updatePost (@PathVariable Long postId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        PostResponseDto postResponseDto = postService.updatePost(postId, userDetails.getUser());
         return new ResponseEntity<>(postResponseDto, HttpStatus.OK);
     }
 
@@ -74,7 +85,7 @@ public class PostController {
     }
 
     //좋아요 기능
-    @Operation(summary = "게시글 좋아요")
+    @Operation(summary = "게시글 좋아요 등록")
     @PostMapping("/{postId}/like")
     public ResponseEntity<ApiResponseDto> addLike(@PathVariable Long postId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         ApiResponseDto apiResponseDto = postService.addLike(postId, userDetails.getUser());
@@ -82,7 +93,7 @@ public class PostController {
     }
 
     //좋아요 취소 기능
-    @Operation(summary = "게시글 좋아요 취소")
+    @Operation(summary = "게시글 좋아요 등록 취소")
     @DeleteMapping("/{postId}/like")
     public ResponseEntity<ApiResponseDto> deleteLike(@PathVariable Long postId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         ApiResponseDto apiResponseDto = postService.deleteLike(postId, userDetails.getUser());

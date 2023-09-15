@@ -4,7 +4,6 @@ import com.sparta.travelshooting.common.ApiResponseDto;
 import com.sparta.travelshooting.journeylist.dto.JourneyListRequestDto;
 import com.sparta.travelshooting.journeylist.entity.JourneyList;
 import com.sparta.travelshooting.journeylist.repository.JourneyListRepository;
-import com.sparta.travelshooting.common.naver.NaverApiController;
 import com.sparta.travelshooting.post.dto.PostAndJourneyListDto;
 import com.sparta.travelshooting.post.dto.PostListResponseDto;
 import com.sparta.travelshooting.post.dto.PostResponseDto;
@@ -12,9 +11,15 @@ import com.sparta.travelshooting.post.entity.Post;
 import com.sparta.travelshooting.post.entity.PostLike;
 import com.sparta.travelshooting.post.repository.PostLikeRepository;
 import com.sparta.travelshooting.post.repository.PostRepository;
+import com.sparta.travelshooting.post.repository.PostRepositoryCustom;
+import com.sparta.travelshooting.reviewPost.dto.ReviewPostListResponseDto;
 import com.sparta.travelshooting.user.entity.User;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -28,9 +33,9 @@ import java.util.stream.Collectors;
 public class PostServiceImpl implements PostService {
 
     private final PostRepository postRepository;
-    private final NaverApiController naverApiController;
     private final PostLikeRepository postLikeRepository;
     private final JourneyListRepository journeyListRepository;
+    private final PostRepositoryCustom postRepositoryCustom;
 
     // 게시글 생성
     @Transactional
@@ -60,15 +65,12 @@ public class PostServiceImpl implements PostService {
                 .collect(Collectors.toList());
     }
 
-
-    // 게시글과 여행일정 전체 조회
+    // 게시글 전체 조회 (6개씩 페이징
     @Override
-    public List<PostListResponseDto> getPosts() {
-        List<Post> postList = postRepository.findAllByOrderByCreatedAtDesc();
+    public Page<PostListResponseDto> getPosts(Pageable pageable) {
+        Page<PostListResponseDto> postList = postRepositoryCustom.getPostsByPage(pageable);
 
-        return postList.stream()
-                .map(PostListResponseDto::new)
-                .collect(Collectors.toList());
+        return postList;
     }
 
     // 게시글과 여행일정 단건 조회
@@ -77,6 +79,18 @@ public class PostServiceImpl implements PostService {
         Optional<Post> post = postRepository.findById(postId);
         if (post.isEmpty()) {
             throw new IllegalArgumentException("해당 글은 존재하지 않습니다.");
+        }
+        return new PostResponseDto(post.get());
+    }
+
+    // 게시글 여행 일정 수정 페이지 조회
+    @Override
+    public PostResponseDto updatePost(Long postId, User user) {
+        Optional<Post> post = postRepository.findById(postId);
+        if (post.isEmpty()) {
+            throw new IllegalArgumentException("해당 글은 존재하지 않습니다.");
+        } else if (!post.get().getUser().getId().equals(user.getId())) {
+            throw new IllegalArgumentException("해당 글의 편집은 작성자만 가능합니다.");
         }
         return new PostResponseDto(post.get());
     }
@@ -129,7 +143,7 @@ public class PostServiceImpl implements PostService {
         return new ApiResponseDto("게시글 삭제 성공", 200);
     }
 
-    //좋아요 기능
+    //좋아요 등록
     @Transactional
     @Override
     public ApiResponseDto addLike(Long postId, User user) {
@@ -138,9 +152,9 @@ public class PostServiceImpl implements PostService {
         if (post.isEmpty()) {
             throw new IllegalArgumentException("해당 글은 존재하지 않습니다.");
         } else if (post.get().getUser().getId().equals(user.getId())) {
-            return new ApiResponseDto("자신의 글에는 좋아요를 할 수 없습니다.", 400);
+            throw new IllegalArgumentException("자신의 글에는 좋아요를 할 수 없습니다.");
         } else if (findpostLike.isPresent()) {
-            return new ApiResponseDto("이미 좋아요를 한 상태입니다.", 400);
+            throw new IllegalArgumentException("이미 좋아요를 한 상태입니다.");
         }
         postLikeRepository.save(new PostLike(user, post.get()));
         post.get().setLikeCounts(post.get().getLikeCounts() + 1);
@@ -149,6 +163,7 @@ public class PostServiceImpl implements PostService {
     }
 
 
+    //좋아요 취소
     @Transactional
     @Override
     public ApiResponseDto deleteLike(Long postId, User user) {
@@ -157,7 +172,7 @@ public class PostServiceImpl implements PostService {
         if (post.isEmpty()) {
             throw new IllegalArgumentException("해당 글은 존재하지 않습니다.");
         } else if (findpostLike.isEmpty()) {
-            return new ApiResponseDto("해당 글에 좋아요를 하지 않은 상태입니다.", 400);
+            throw new IllegalArgumentException("해당 글에 좋아요를 하지 않은 상태입니다.");
         }
         postLikeRepository.delete(findpostLike.get());
         post.get().setLikeCounts(post.get().getLikeCounts() - 1);
