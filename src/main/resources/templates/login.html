@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+    <meta charset="UTF-8">
+
+    <title>로그인</title>
+    <link rel="icon" href="data:,">
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css'>
+    <link rel='stylesheet' href='https://fonts.googleapis.com/icon?family=Material+Icons'>
+    <link rel="stylesheet" href="/css/login.css">
+    <link rel="stylesheet" href="/static/css/login.css">
+
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<div class="navbar-fixed">
+    <nav class="teal">
+        <div class="container">
+            <div class="nav-wrapper">
+                <a href="/view/home" class="brand-logo">Travel Shooting</a>
+                <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+                <ul class="right hide-on-med-and-down">
+                    <li>
+                        <a href="/view/home">Home</a>
+                    </li>
+                    <li>
+                        <a href="/view/user/signup">회원가입</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</div>
+
+<!-- Section: Contact -->
+<div id="wrapper">
+    <form class="form-horizontal container justify-content-end" style="width: 450px;">
+        <div class="form-group">
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="inputUsername" placeholder="이메일을 입력해주세요.">
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-10">
+                <input type="password" class="form-control" id="inputPassword" placeholder="비밀번호를 입력해주세요.">
+            </div>
+        </div>
+    </form>
+    <div id="login-button">
+        <button class="btn btn-dark" id="btn-login"><strong>로그인</strong></button>
+    </div>
+    <div id="signup-button">
+        <a href="/view/user/signup">
+            <button class="btn btn-dark" id="btn-signup"><strong>회원가입</strong></button>
+        </a>
+    </div>
+</div>
+
+
+<!-- Footer -->
+<footer class="section teal darken-2 white-text center">
+    <p class="flow-text">Travel Shooting</p>
+</footer>
+<!-- partial -->
+<script src='https://use.fontawesome.com/releases/v5.0.6/js/all.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js'></script>
+<script src="/js/login.js"></script>
+
+</body>
+</html>

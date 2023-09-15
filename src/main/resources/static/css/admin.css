@@ -1,0 +1,53 @@
+#info-box {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    gap: 25px;
+
+    margin-top: 30px;
+    text-align: center;
+
+}
+
+#btn-box {
+    margin-top: 10px;
+    display: grid;
+    grid-template-columns:1fr 1fr 1fr;
+    gap: 25px;
+
+    text-align: center;
+
+    padding-top: 10px;
+}
+
+
+.info-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 10px;
+}
+
+#user-count, #post-count, #comment-count {
+    font-size: 35px;
+    width: 100%;
+    padding-bottom: 20px;
+
+    border-bottom: solid #009688 3px;
+}
+
+#user-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.user-item {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    border-bottom: solid #009688 3px;
+
+    width: 80%;
+}

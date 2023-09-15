@@ -1,0 +1,640 @@
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:400italic,400,300,600);
+@import url(https://fonts.googleapis.com/css2?family=Merriweather:wght@300;700&family=Raleway:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&display=swap);
+
+body {
+    --grad100: linear-gradient(90deg, rgba(219, 105, 165, 1) 0%, rgba(223, 191, 101, 1) 25%, rgba(111, 173, 123, 1) 50%, rgba(92, 119, 187, 1) 75%, rgba(131, 101, 164, 1) 100%);
+    --grad75: linear-gradient(90deg, rgba(219, 105, 165, 0.75) 0%, rgba(223, 191, 101, 0.75) 25%, rgba(111, 173, 123, 0.75) 50%, rgba(92, 119, 187, 0.75) 75%, rgba(131, 101, 164, 0.75) 100%);
+    --grad50: linear-gradient(90deg, rgba(219, 105, 165, 0.5) 0%, rgba(223, 191, 101, 0.5) 25%, rgba(111, 173, 123, 0.5) 50%, rgba(92, 119, 187, 0.5) 75%, rgba(131, 101, 164, 0.5) 100%);
+    --grad25: linear-gradient(90deg, rgba(219, 105, 165, 0.25) 0%, rgba(223, 191, 101, 0.25) 25%, rgba(111, 173, 123, 0.25) 50%, rgba(92, 119, 187, 0.25) 75%, rgba(131, 101, 164, 0.25) 100%);
+
+    --vertgrad: linear-gradient(180deg, rgba(219, 105, 165, 0.15) 0%, rgba(223, 191, 101, 0.15) 25%, rgba(111, 173, 123, 0.15) 50%, rgba(92, 119, 187, 0.15) 75%, rgba(131, 101, 164, 0.15) 100%);
+    --vertgrad25: linear-gradient(180deg, rgba(219, 105, 165, 0.25) 0%, rgba(223, 191, 101, 0.25) 25%, rgba(111, 173, 123, 0.25) 50%, rgba(92, 119, 187, 0.25) 75%, rgba(131, 101, 164, 0.25) 100%);
+    font-family: "Open Sans", Helvetica, Arial, sans-serif;
+    --sans: raleway, sans-serif;
+    --serif: merriweather, serif;
+    background-color: #ddd;
+    color: #333;
+}
+
+::-webkit-scrollbar {
+    width: 11px;
+    height: 11px;
+    background-color: #efefef;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #ccc;
+}
+
+::-webkit-scrollbar,
+::-webkit-scrollbar-thumb {
+    border: 5px solid #fff;
+}
+
+#post {
+    margin: 100px 50px;
+    background-color: #eee;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+#post .topper {
+    font-family: "Open Sans", Helvetica, Arial, sans-serif;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 40px;
+    border-bottom: 1px solid #ccc;
+}
+
+#post .btns {
+    display: flex;
+    justify-content: flex-end;
+    padding: 5px 10px;
+    margin-left: 1000px;
+    gap: 25px;
+}
+
+#post .btns .clk {
+    display: block;
+    font-size: 30px;
+}
+
+#post .btns .clk:hover {
+    background: var(--grad75);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+#Post .topper name {
+
+}
+
+#post .topper ava {
+    display: block;
+    margin-right: 50px;
+    width: 120px;
+    height: 120px;
+    background-color: #fafafa;
+    border-radius: 50%;
+    border: 1px solid #ccc;
+}
+
+#post .topper ava img {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+#post .topper charinf {
+    display: block;
+    width: calc(100% - 165px);
+    text-align: left;
+}
+
+#post .topper charinf name {
+    display: flex;
+    width: 100%;
+    align-items: center;
+}
+
+#post .topper charinf name big {
+    display: block;
+    margin-right: 15px;
+    font-family: var(--sans);
+    font-size: 35px;
+    background: var(--grad100);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+#post .topper charinf name mgn {
+    display: block;
+    width: auto; /* 자동으로 너비 조정 */
+    margin-top: 1px;
+    background-color: #fafafa;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 5px 10px;
+    font-family: var(--sans);
+    font-size: 20px;
+    font-weight: bolder;
+    line-height: 100%;
+}
+
+
+#post .topper charinf detail {
+    display: flex;
+    align-items: flex-start;
+    margin-top: 15px;
+    gap: 25px;
+}
+
+#post .topper charinf detail mgn2 {
+    display: block;
+    margin-top: 1px;
+    background-color: #fafafa;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 5px 10px;
+    font-family: var(--sans);
+    font-size: 16px;
+    font-weight: bolder;
+    line-height: 100%;
+}
+
+#post .topper charinf detail smth {
+    display: block;
+    font-family: var(--sans);
+    font-size: 14px;
+}
+
+#post .topper charinf detail smth b {
+    font-weight: 900;
+}
+
+#post .btns-container {
+    display: flex;
+    margin-left: 30px;
+}
+
+.likeContainer {
+    display: flex; /* 가로로 배치 */
+    justify-content: space-between; /* 요소 간 간격 조절 */
+    align-items: center; /* 요소를 세로 가운데 정렬 (선택 사항) */
+    font-family: var(--sans);
+    font-weight: bold;
+    font-size: 15px;
+    gap: 5px;
+}
+
+.likeCount {
+    display: block;
+    width: auto;
+    margin-top: 1px;
+    background-color: #fafafa;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 5px 10px;
+    font-family: var(--sans);
+    font-size: 20px;
+    font-weight: bolder;
+    line-height: 100%;
+}
+
+#post .content {
+    min-height: 600px;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #ccc;
+}
+
+#post .content .main {
+    display: flex;
+    flex-direction: column;
+}
+
+#post .content .main .perm {
+    padding: 15px;
+    margin-top: 10px;
+    font-family: var(--sans);
+    font-size: 17px;
+    text-transform: lowercase;
+}
+
+#post .content .main .perm b {
+    background: var(--grad75);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-size: 14px;
+}
+
+#post .content .main .title {
+    padding: 25px 50px;
+    text-align: center;
+    font-family: var(--sans);
+    font-size: 28px;
+    font-weight: bold;
+    line-height: 160%;
+}
+
+#post .content .main .post {
+    width: 100%;
+    padding: 25px 50px;
+    text-align: justify;
+    font-family: var(--sans);
+    font-size: 24px;
+    line-height: 160%; /* 줄 높이를 정하는 속성 -> 윗줄 글과 아랫줄 글간의 간격 */
+}
+
+#post .content .main .comments-container {
+    min-height: 125px;
+    padding: 10px 50px;
+    border-radius: 50px;
+    text-align: justify;
+    font-family: var(--sans);
+    font-size: 15px;
+    line-height: 160%; /* 줄 높이를 정하는 속성 -> 윗줄 글과 아랫줄 글간의 간격 */
+}
+
+#post .content .mini {
+    width: 650px;
+    height: 600px;
+    background: var(--vertgrad);
+    border-left: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 150, 136, 0.7); /* 그림자 색상 및 크기 조절 */
+}
+
+#post .main temp {
+    display: block;
+    min-width: 1000px;
+    background-color: #fff;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    padding: 25px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+#post .content .main .post temp {
+    height: 450px;
+    max-height: 450px;
+}
+
+#post .content .main temp b, #title temp i {
+    background: var(--grad100);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-align: center;
+}
+
+#post .content .main temp b, #post temp i {
+    background: var(--grad100);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+#post .content .main temp b, #comment temp i {
+    display: flex;
+    background: var(--grad100);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-align: left;
+}
+
+#post .journeyList {
+    display: flex;
+    width: auto;
+    justify-content: space-evenly;
+    align-items: center;
+    padding: 25px 50px;
+}
+
+#post .journeyList box {
+    background-color: white;
+    text-align: center;
+    display: block;
+    font-family: var(--sans);
+    font-weight: bolder;
+    font-size: 12px;
+    box-shadow: 0 0 10px rgba(0, 150, 136, 0.2); /* 그림자 색상 및 크기 조절 */
+    border-radius: 10px;
+}
+
+#post .journeyList box ciro {
+    text-align: right;
+    display: block;
+    width: 50px;
+    height: 50px;
+    margin-left: 20px;
+    background-color: #fafafa;
+    border: 1px solid #ccc;
+    border-radius: 50%;
+}
+
+#post .journeyList box circ {
+    display: block;
+    width: 50px;
+    height: 50px;
+    background: var(--vertgrad25);
+    border-radius: 50%;
+}
+
+#post .journeyList box nm {
+    display: block;
+    margin: 10px 10px 10px 10px;
+    text-align: left;
+    font-family: var(--sans);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: lowercase;
+}
+
+#post .split {
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    padding: 10px;
+}
+
+#post .split .grad {
+    background: var(--grad75);
+    height: 10px;
+    border-radius: 10px;
+}
+
+/* 댓글 창 스타일링 */
+#comments-container {
+    margin-top: 20px;
+}
+
+#comment-form {
+    margin-bottom: 20px;
+}
+
+#comment-content {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    resize: none;
+}
+
+#comment-content:focus {
+    outline: none;
+    border-color: #3498db; /* 포커스 시 테두리 색상 변경 */
+}
+
+#comment-form button {
+    display: block;
+    margin-top: 10px;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#comment-form button:hover {
+    background-color: #2980b9;
+}
+
+
+#comment-list {
+    width: 95%;
+    margin: 30px auto;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #fff;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+}
+
+
+/*.comment {*/
+/*    border-bottom: 1px solid #ccc;*/
+/*    border-radius: 5px;*/
+/*}*/
+
+.comments-container {
+    padding: 10px;
+    background-color: #f0f0f0;
+    border-radius: 5px;
+}
+
+.comments-container p {
+    margin: 0;
+}
+
+.comment-author {
+    font-family: var(--sans);
+    font-weight: bold;
+}
+
+.reply-wrapper {
+    margin-left: 60px;
+    font-family: var(--sans);
+    justify-content: start;
+}
+
+.comment-content-wrapper {
+    font-family: var(--sans);
+    justify-content: start;
+    align-items: center; /* 내용과 버튼을 수직으로 가운데 정렬합니다. */
+    gap: 5px;
+}
+
+.comment-content-wrapper button {
+    background-color: #007bff;
+    color: #fff;
+    border: none; /* 기본값이므로 제거 */
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-right: 5px; /* 간격을 설정 */
+}
+
+.comment-content-wrapper button:hover {
+    background-color: #0056b3; /* 마우스 호버 시 버튼 배경색을 변경합니다. */
+}
+
+.replies-list {
+    margin-left: 50px;
+}
+
+/* 모달창 컨테이너 스타일 */
+#comment-edit-form {
+    position: fixed; /* 고정 위치로 설정 */
+    top: 50%; /* 화면 위 아래 중앙에 위치 */
+    left: 50%; /* 화면 좌우 중앙에 위치 */
+    transform: translate(-50%, -50%); /* 수평, 수직 정렬 */
+    background-color: #fff; /* 배경색 지정 */
+    border: 1px solid #ccc; /* 테두리 스타일 */
+    padding: 20px; /* 안쪽 여백 설정 */
+    width: 300px; /* 너비 설정 */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* 그림자 효과 추가 */
+    z-index: 5; /* 다른 요소 위에 나타나도록 z-index 설정 */
+    display: none; /* 처음에는 숨겨진 상태로 시작 */
+}
+
+/* 모달창 내부 컨텐츠 스타일 */
+#comment-edit-form textarea {
+    width: 100%; /* 전체 너비로 확장 */
+    padding: 10px; /* 안쪽 여백 설정 */
+    margin-bottom: 10px; /* 하단 여백 추가 */
+}
+
+/* 저장 및 취소 버튼 스타일 */
+#comment-edit-form button {
+    padding: 10px 20px; /* 안쪽 여백 설정 */
+    margin-right: 10px; /* 우측 여백 추가 */
+    cursor: pointer; /* 마우스 커서를 포인터로 변경 */
+}
+
+/* 취소 버튼에 더하기 버튼 스타일 */
+#comment-edit-form #cancel-comment-button {
+    background-color: #ccc; /* 배경색 설정 */
+    border: none; /* 테두리 없음 */
+    color: #fff; /* 글자색 설정 */
+}
+
+/* 저장 버튼에 저장 버튼 스타일 */
+#comment-edit-form #save-comment-button {
+    background-color: #007bff; /* 배경색 설정 */
+    border: none; /* 테두리 없음 */
+    color: #fff; /* 글자색 설정 */
+}
+
+/* 댓글 컨테이너 스타일 */
+#comments-container {
+    max-height: 300px; /* 원하는 높이로 설정 */
+    overflow-y: auto;
+    padding: 20px; /* 댓글 목록에 패딩을 추가하여 간격을 확보합니다. */
+}
+
+.comment-title {
+    margin-left: 45px;
+}
+
+/* 댓글 입력 창 스타일 */
+#comment-form {
+    width: 95%;
+    margin: 0 auto; /* 가로 중앙 정렬을 위한 속성 */
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.comment-edit-form-container {
+    width: 300px;
+    border-radius: 5px;
+    margin-top: 5px;
+    border: 1px black; /* 테두리 두께와 색상 설정 */
+}
+
+.comment-edit-form-content {
+    border-radius: 5px;
+}
+
+/* 대댓글 폼 스타일 */
+.reply-form-container {
+    width: 300px;
+    border-radius: 5px;
+    margin-top: 5px;
+    border: 1px black;
+}
+
+.reply-content-input {
+    width: 100%;
+    height: 80px;
+    padding: 5px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.create-reply-button,
+.cancel-reply-button {
+    padding: 5px 10px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.create-reply-button:hover,
+.cancel-reply-button:hover {
+    background-color: #0056b3;
+}
+
+
+/* 모달창 컨테이너 스타일 */
+#comment-edit-form {
+    position: fixed; /* 고정 위치로 설정 */
+    top: 50%; /* 화면 위 아래 중앙에 위치 */
+    left: 50%; /* 화면 좌우 중앙에 위치 */
+    transform: translate(-50%, -50%); /* 수평, 수직 정렬 */
+    background-color: #fff; /* 배경색 지정 */
+    border: 1px solid #ccc; /* 테두리 스타일 */
+    padding: 20px; /* 안쪽 여백 설정 */
+    width: 300px; /* 너비 설정 */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* 그림자 효과 추가 */
+    z-index: 5; /* 다른 요소 위에 나타나도록 z-index 설정 */
+    display: none; /* 처음에는 숨겨진 상태로 시작 */
+}
+
+/* 대댓글 수정 칸 스타일 */
+#reply-edit-form {
+    width: 95%; /* 댓글 수정 칸과 같은 너비로 설정 */
+    margin: 0 auto; /* 가로 중앙 정렬을 위한 속성 */
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.reply-author {
+    font-family: var(--sans);
+    font-weight: bold;
+}
+
+/* 대댓글 수정 칸의 textarea 스타일 */
+#reply-edit-form textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    resize: none;
+}
+
+/* 대댓글 수정 칸의 버튼 스타일 */
+#reply-edit-form button {
+    padding: 10px 20px;
+    margin-right: 10px;
+    cursor: pointer;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 5px;
+}
+
+#reply-edit-form button:hover {
+    background-color: #2980b9;
+}
+
+/* 취소 버튼에 더하기 버튼 스타일 */
+#save-reply-button #cancel-comment-button {
+    background-color: #ccc; /* 배경색 설정 */
+    border: none; /* 테두리 없음 */
+    color: #fff; /* 글자색 설정 */
+}
+
+.edit-reply-button,
+.delete-reply-button,
+.save-reply-button,
+.cancel-reply-button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-right: 5px;
+}
+
+.edit-reply-button:hover,
+.delete-reply-button:hover {
+    background-color: #0056b3;
+}
+
+footer {
+    height: 120px;
+    width: 100%;
+    position: relative;
+}

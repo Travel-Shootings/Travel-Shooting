@@ -1,0 +1,237 @@
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+section.notice {
+    padding: 80px 0;
+}
+
+#create-review-button {
+    position: fixed;
+    bottom: 200px;
+    right: 200px;
+    background-color: #3498db;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+}
+
+#create-review-button a {
+    color: white;
+    text-decoration: none;
+}
+
+#create-review-button:hover {
+    background-color: #2980b9;
+}
+
+
+.page-title {
+    margin-bottom: 60px;
+}
+
+.page-title h3 {
+    font-size: 28px;
+    color: #333333;
+    font-weight: 400;
+    text-align: center;
+}
+
+
+/* 스타일링된 게시판 테이블 */
+.board-table {
+    font-size: 13px;
+    width: 100%;
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+}
+
+/* 테이블 내용 스타일 */
+.board-table a {
+    color: #333;
+    display: inline-block;
+    line-height: 1.4;
+    word-break: break-all;
+    vertical-align: middle;
+}
+
+.board-table a:hover {
+    text-decoration: underline;
+}
+
+.board-table th {
+    text-align: center;
+}
+
+/* [여행 후기] 텍스트 스타일 조정 */
+.board-table th.th-title a::before {
+    content: "[여행 후기] "; /* 텍스트 앞에 추가될 내용 */
+    margin-right: 5px; /* 우측 여백 조정 */
+}
+
+/* 제목 셀 중앙 정렬 */
+.board-table th.th-title {
+    text-align: center;
+}
+
+.board-table .th-num {
+    width: 100px;
+    text-align: center;
+}
+
+.board-table .th-date {
+    width: 200px;
+}
+
+/* 테이블 셀 스타일 */
+.board-table td {
+    padding: 14px 0;
+    border-top: 1px solid #e7e7e7;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.board-table tbody th {
+    padding-left: 28px;
+    padding-right: 14px;
+    border-top: 1px solid #e7e7e7;
+    text-align: left;
+}
+
+.btn {
+    display: inline-block;
+    padding: 0 30px;
+    font-size: 15px;
+    font-weight: 400;
+    background: transparent;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    border: 1px solid transparent;
+    text-transform: uppercase;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
+    -webkit-transition: all 0.3s;
+    -moz-transition: all 0.3s;
+    -ms-transition: all 0.3s;
+    -o-transition: all 0.3s;
+    transition: all 0.3s;
+}
+
+.btn-dark {
+    background: #555;
+    color: #fff;
+}
+
+.btn-dark:hover, .btn-dark:focus {
+    background: #373737;
+    border-color: #373737;
+    color: #fff;
+}
+
+.btn-dark {
+    background: #555;
+    color: #fff;
+}
+
+.btn-dark:hover, .btn-dark:focus {
+    background: #373737;
+    border-color: #373737;
+    color: #fff;
+}
+
+/* reset */
+
+* {
+    list-style: none;
+    text-decoration: none;
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+.clearfix:after {
+    content: '';
+    display: block;
+    clear: both;
+}
+
+.container {
+    width: 1100px;
+    margin: 0 auto;
+}
+
+.blind {
+    position: absolute;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    margin: -1px;
+    width: 1px;
+    height: 1px;
+}
+
+footer {
+    height: 120px;
+    width: 100%;
+    /*position : relative;*/
+    /*transform : translateY(-100%);*/
+
+    position: absolute;
+    bottom: 0;
+}
+
+
+
+
+#pagination-container {
+    display: flex;
+    justify-content: center;
+    position: fixed;
+    bottom: 250px;
+    width: 100%;
+}
+
+#prevPage,
+#nextPage,
+.page-number {
+    font-size: 16px;
+    background-color: #555;
+    color: #fff;
+    border: none;
+    padding: 8px 12px;
+    margin: 0 3px;
+    cursor: pointer;
+    border-radius: 4px;
+    outline: none;
+}
+
+#prevPage:hover,
+#nextPage:hover,
+.page-number:hover {
+    background-color: #373737;
+}
+
+#prevPage {
+    order: 0;
+}
+
+.page-number {
+    order: 1;
+    flex-grow: 1;
+    text-align: center;
+    min-width: 40px; /* 필요에 따라 조절하세요 */
+}
+
+#nextPage {
+    order: 3;
+}

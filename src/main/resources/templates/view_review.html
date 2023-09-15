@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:,">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css'>
+    <link rel='stylesheet' href='https://fonts.googleapis.com/icon?family=Material+Icons'>
+    <title>여행 후기 게시판</title>
+    <link rel="stylesheet" href="/css/view_review.css">
+</head>
+<body>
+<div class="navbar-fixed">
+    <nav class="teal">
+        <div class="container">
+            <div class="nav-wrapper">
+                <a href="/view/home" class="brand-logo">Travel Shooting</a>
+                <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+                <ul class="right hide-on-med-and-down">
+                    <li>
+                        <a href="/view/home">Home</a>
+                    </li>
+                    <li>
+                        <a href="/view/post">여행 계획 게시판</a>
+                    </li>
+                    <li>
+                        <a href="/view/review-post">여행 후기 게시판</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</div>
+<h1>여행 후기 게시판</h1>
+<div id="post-container">
+    <div>
+        <h2 id="post-title"></h2>
+        <div id="like-info">
+            <span id="like-count">0</span> <span id="like-icon">❤️</span>
+        </div>
+    </div>
+
+    <div id="image-container">
+    </div> <!-- 이미지를 표시할 컨테이너 -->
+    <div id="post-content">
+    </div>
+    <div id="buttons-container">
+        <button id="like-button">좋아요</button>
+        <button id="edit-button">수정</button>
+        <button id="delete-button">삭제</button>
+    </div>
+</div>
+<div id="comments-container">
+    <h3>댓글</h3>
+    <form id="comment-form">
+        <textarea id="comment-content" placeholder="댓글을 입력하세요..." required></textarea>
+        <button type="submit">댓글 남기기</button>
+    </form>
+    <ul id="comment-list" class="collection">
+        <!-- 댓글 1 -->
+        <li class="collection-item comment">
+            <!-- 댓글 내용 -->
+            <div class="comment-content">
+            </div>
+            <!-- 대댓글 목록 -->
+            <ul class="collection reply-list">
+                <!-- 대댓글 1 -->
+                <li class="collection-item comment">
+                    <!-- 대댓글 내용 -->
+                    <div class="comment-content">
+                    </div>
+                </li>
+                <!-- 대댓글 2 -->
+                <li class="collection-item comment">
+                    <!-- 대댓글 내용 -->
+                    <div class="comment-content">
+                    </div>
+                </li>
+            </ul>
+        </li>
+        <!-- 댓글 2 -->
+        <li class="collection-item comment">
+            <!-- 댓글 내용 -->
+            <div class="comment-content">
+            </div>
+        </li>
+    </ul>
+</div>
+
+<!-- 대댓글 입력창 -->
+
+    <form id="reply-form" style="display: none;">
+        <textarea id="reply-content" placeholder="대댓글을 입력하세요"></textarea>
+        <button type="submit">대댓글 작성</button>
+        <button type="button" id="cancel-reply-button">취소</button> <!-- 취소 버튼 추가 -->
+    </form>
+
+<!-- 댓글 수정 폼 -->
+<div id="comment-edit-form" style="display: none;">
+    <textarea id="edit-comment-content"></textarea>
+    <button id="save-edit-button">저장</button>
+    <button id="cancel-edit-button">취소</button>
+</div>
+
+<!-- 대댓글 수정 폼 -->
+<div id="reply-edit-form" style="display: none;">
+    <textarea id="edit-reply-content"></textarea>
+    <button id="save-edit-reply-button">저장</button>
+    <button id="cancel-edit-reply-button">취소</button>
+</div>
+<!-- Footer -->
+<footer class="section teal darken-2 white-text center">
+    <p class="flow-text">Travel Shooting </p>
+</footer>
+
+<script src="/js/view_review.js"></script>
+</body>
+</html>

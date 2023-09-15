@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>프로필 수정</title>
+    <link rel="icon" href="data:,">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <link rel='stylesheet' href='https://fonts.googleapis.com/icon?family=Material+Icons'>
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css'>
+    <link rel="stylesheet" href="/css/edit_profile.css">
+</head>
+
+<body>
+<!--유저의 userId 확인-->
+<div id="user-id" th:data="${userId}"></div>
+
+
+<div style="width: 450px; margin: auto">
+    <div class="form-group">
+        <div>
+            <p>수정할 닉네임을 입력해주세요.</p>
+            <input type="text" class="form-control" id="inputNickname" value="nickname" >
+        </div>
+    </div>
+    <div class="form-group">
+        <p>수정할 등급을 선택해주세요.</p>
+        <select class="browser-default" id="select-box" >
+            <option value="" disabled selected>등급 선택</option>
+            <option value="USER">USER</option>
+            <option value="ADMIN">ADMIN</option>
+        </select>
+    </div>
+</div>
+
+<div>
+    <button class="btn btn-dark" id="edit-button"><strong>수정</strong></button>
+</div>
+
+<script src='https://use.fontawesome.com/releases/v5.0.6/js/all.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js'></script>
+<script src="/js/admin_user_edit_profile.js"></script>
+
+</body>
+
+</html>

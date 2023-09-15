@@ -1,0 +1,176 @@
+/*홈페이지 기본 상호작용 관련*/
+.slider .btn {
+    margin-top: 20px;
+}
+
+.section-search input {
+    padding: 5px !important;
+    font-size: 18px !important;
+    width: 90% !important;
+    border: #f4f4f4 3px solid !important;
+}
+
+.section-follow .fa-4x {
+    margin: 5px 10px;
+}
+
+.section-contact h5 {
+    margin-bottom: 30px;
+}
+
+/*오프캔버스 관련 공통*/
+.offcanvas-header {
+    padding: 15px 30px 15px 30px;
+}
+
+/*채팅 관련*/
+#offcanvasChat {
+    width: 500px;
+}
+
+#chat-main-content {
+    width: 100%;
+    margin: 0 0 0 0;
+}
+
+.message-sender {
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.message-time {
+    float: right;
+    text-align: right;
+    font-size: 8px;
+}
+
+.message-content {
+    margin: 5px;
+}
+
+#message {
+    flex: 1;
+    margin-right: 5px;
+}
+
+.button-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.get-more-chat-btn {
+    font-size: 8px;
+}
+
+.dropdown-menu {
+    max-height: 250px;
+    overflow-y: auto;
+}
+
+.dropdown-item {
+    margin-bottom: 0;
+}
+
+.dropdown-item:active {
+    background-color: #009688;
+}
+
+.chat-div {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+}
+
+#connect {
+    margin-top: 5px;
+    margin-right: 5px;
+}
+
+#disconnect {
+    margin-top: 5px;
+}
+
+#chat-room-list {
+    margin-top: 5px;
+    height: 36px;
+}
+
+.input-message {
+    display: flex;
+}
+
+/*사용자 메뉴 관련*/
+.user-menu-btn {
+    margin: 5px;
+}
+
+#nickname-box {
+    margin-top: 25px;
+    margin-bottom: 10px;
+    margin-left: 10px;
+    font-size: 25px;
+}
+
+
+.popup {
+    display: none;
+    position: absolute;
+    background-color: #faf5f5;
+    border: 1px solid #009688;
+    z-index: 1;
+    /* 원하는 스타일을 적용하세요 */
+    left : 100px;
+    width: 100%;
+}
+
+.popup ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.popup li {
+    padding: 10px;
+}
+
+.popup a {
+    text-decoration: none;
+    color: #333;
+}
+
+.popup a:hover {
+    background-color: #9ed7d0;
+}
+
+#notification-detail-btn {
+    float: right;
+}
+
+#notification {
+    border-bottom: solid 1px #009688;
+}
+
+.card-panel{
+    cursor: pointer;
+    height: 300px;
+}
+
+.card-panel2 {
+    width: 400px;
+    height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #e0e0e0;
+    overflow: hidden; /* 이미지가 넘치지 않도록 설정 */
+}
+
+.card-panel2 img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: cover; /* 이미지가 올바르게 조정되도록 설정 */
+    object-position: center; /* 이미지가 가운데 정렬되도록 설정 */
+    cursor: pointer; /* 마우스 포인터를 손모양으로 변경 */
+
+}

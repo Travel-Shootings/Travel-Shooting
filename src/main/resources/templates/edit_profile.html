@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>프로필 수정</title>
+    <link rel="icon" href="data:,">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <link rel='stylesheet' href='https://fonts.googleapis.com/icon?family=Material+Icons'>
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css'>
+    <link rel="stylesheet" href="/css/edit_profile.css">
+</head>
+
+<body>
+    <form class="form-horizontal container justify-content-end" style="width: 450px;">
+        <div class="form-group">
+            <div>
+                <p>수정할 닉네임을 입력해주세요.</p>
+                <input type="text" class="form-control" id="inputNickname" value="nickname" th:value="${nickname}" >
+            </div>
+        </div>
+        <div class="form-group">
+            <p>수정할 지역을 선택해주세요.</p>
+            <select class="browser-default" id="select-box" >
+                <option th:value="${region}" th:text="${region}" >거주하고 있는 지역 선택</option>
+                <option value="서울">서울</option>
+                <option value="인천">인천</option>
+                <option value="대구">대구</option>
+                <option value="대전">대전</option>
+                <option value="울산">울산</option>
+                <option value="광주">광주</option>
+                <option value="부산">부산</option>
+                <option value="강원">강원</option>
+                <option value="경기">경기</option>
+                <option value="충남">충남</option>
+                <option value="충북">충북</option>
+                <option value="경북">경북</option>
+                <option value="경남">경남</option>
+                <option value="전북">전북</option>
+                <option value="전남">전남</option>
+                <option value="제주">제주</option>
+            </select>
+        </div>
+    </form>
+
+    <div>
+        <button class="btn btn-dark" id="edit-button"><strong>수정</strong></button>
+    </div>
+
+    <script src='https://use.fontawesome.com/releases/v5.0.6/js/all.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js'></script>
+    <script src="/js/edit_profile.js"></script>
+
+</body>
+
+</html>

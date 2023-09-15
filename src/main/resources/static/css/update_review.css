@@ -1,0 +1,59 @@
+body {
+    font-family: Arial, sans-serif;
+}
+h1 {
+    color: #333;
+    text-align: center;
+}
+#reviewForm {
+    max-width: 800px;
+    margin: 80px auto 0; /* 위에서 100px 띄우기 */
+    padding: 40px;
+    background-color: #f0f8ea;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+label {
+    font-weight: bold;
+    color: #333;
+}
+input[type="text"],
+textarea,
+input[type="file"],
+button {
+    width: 100%;
+    padding: 12px; /* 세로 2배 크기로 조정 */
+    margin-bottom: 15px; /* 세로 2배 크기로 조정 */
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    font-size: 14px;
+    color: #333;
+    background-color: #fff;
+    margin-top: 15px;
+}
+textarea {
+    height: 150px; /* 세로 3배 크기로 조정 */
+}
+input[type="file"] {
+    background-color: #f0f8ea; /* 초록색 배경색 */
+}
+button {
+    cursor: pointer;
+    background-color: #6db865; /* 초록색 배경색 */
+    color: #fff;
+    border: none;
+}
+button:hover {
+    background-color: #4b8e4e; /* 더 진한 초록색 배경색 */
+}
+
+footer{
+    height: 120px;
+    width: 100%;
+    /*position : relative;*/
+    /*transform : translateY(-100%);*/
+
+    position : absolute;
+    bottom : 0;
+}

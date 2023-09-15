@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="">
+<head>
+    <title>여행 게시글 작성</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+    <script type="text/javascript"
+            src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=7u8454s6qg&submodules=geocoder"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/css/container.css">
+    <link rel="stylesheet" type="text/css" href="/css/map.css">
+    <link rel="stylesheet" type="text/css" href="/css/journey_list.css">
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css'>
+    <link rel='stylesheet' href='https://fonts.googleapis.com/icon?family=Material+Icons'>
+    <link rel="stylesheet" href="/css/home.css">
+</head>
+<link rel="icon" href="data:;base64,iVBORw0KGgo=">
+
+
+<!-- 여행 일정 추가 버튼 -->
+<body>
+<div class="main-container">
+    <div class="map-container">
+        <div class="search">
+            <a href="#" id="add-journey" type="button" class="btn create-journey">
+    <span style="display: flex; justify-content: center; align-items: center; height: 100%;">
+        여행 일정 추가 </span> </a>
+            <input id="address" type="hidden" placeholder="검색할 주소">
+            <input id="submit" type="hidden" value="주소검색">
+        </div>
+        <div id="map" style="width:800px;height:750px;"></div>
+    </div>
+
+    <!-- 여행 일정(JourneyList 내용 칸 -->
+    <div class="journey-container">
+        <form class="journey-info" id="contact" action="">
+            <h3>여행 일정</h3>
+            <h4>당신의 여행 일정을 작성하고 사람들과 공유하세요!</h4>
+            <fieldset>
+                <input placeholder="제목을 입력하세요." id="title" type="text" tabindex="1" autofocus>
+            </fieldset>
+            <fieldset>
+                <textarea placeholder="본문을 입력하세요" id="contents" tabindex="2"></textarea>
+            </fieldset>
+            <fieldset>
+                <div id="journey-info">
+                    <table>
+                        <thead>
+                        <tr>
+                            <th class="sort" data-sort="place">여행 장소</th>
+                            <th class="sort" data-sort="budget">예상 비용</th>
+                            <th class="sort" data-sort="formattedStartJourney">여행 시작일</th>
+                            <th class="sort" data-sort="formattedEndJourney">여행 종료일</th>
+                            <th class="sort" data-sort="startJourney" style="display: none">DB 반영 여행 시작일</th>
+                            <th class="sort" data-sort="endJourney" style="display: none">DB 반영 여행 종료일</th>
+                            <th class="sort" data-sort="members">참여 인원</th>
+                            <th class="sort" data-sort="placeAddress" style="display: none;">여행지 주소</th>
+                        </tr>
+                        </thead>
+                        <tbody class="list">
+
+                        </tbody>
+                    </table>
+                </div>
+            </fieldset>
+            <fieldset>
+                <table class="totalSummary">
+                    <thead>
+                    <tr>
+                        <th colspan="3" class="summaryTitle">총 일정 정보</th>
+                    </tr>
+                    </thead>
+                    <tbody class="total-list">
+                    <tr>
+                        <th scope="col">총 비용</th>
+                        <th scope="col">총 기간</th>
+                    </tr>
+                    </tbody>
+                    <tr>
+                        <td id="totalBudget" style="text-align: center;">원</td>
+                        <td id="totalDays" style="text-align: center;">일</td>
+                    </tr>
+                </table>
+            </fieldset>
+            <fieldset>
+                <button name="submit" type="button" id="addPost">등록</button>
+                <button name="submit" type="button" id="cancelPost">취소</button>
+            </fieldset>
+        </form>
+    </div>
+</div>
+
+<!-- 첫 번째 모달 창 (여행 일정 추가)-->
+<div class="first-modal">
+    <form class="modal-body">
+        <h2 class="form-heading">여행 정보</h2>
+        <div class="modal-category">
+            <label for="location" class="sr-only">장소 검색 </label>
+            <div class="search-icon-wrapper">
+                <input type="search" id="search-location" class="form-control" placeholder="검색할 장소를 입력하세요." autofocus>
+                <img src="https://i.postimg.cc/MT8tf3Qy/searchmagnifierinterfacesymbol-79894.png" id="search-icon"
+                     class="search-button" alt="검색">
+            </div>
+        </div>
+        <div class="modal-category-wrapper">
+        <div class="modal-category">
+            <label for="location" class="sr-only">여행 장소 </label>
+            <input type="text" id="location" class="form-control" placeholder="여행 장소를 검색하세요." disabled>
+        </div>
+        <div class="modal-category">
+            <label for="budget" class="sr-only">예상 금액</label>
+            <input type="text" id="budget" class="form-control" placeholder="예상 금액을 입력하세요." required>
+        </div>
+
+        <div class="modal-category">
+            <label for="journeyStartDate" class="sr-only">시작 일정</label>
+            <input type="datetime-local" id="journeyStartDate" class="form-control" placeholder="시작 일정을 입력하세요" required>
+        </div>
+
+        <div class="modal-category">
+            <label for="journeyEndDate" class="sr-only">종료 일정</label>
+            <input type="datetime-local" id="journeyEndDate" class="form-control" placeholder="종료 일정을 입력하세요" required>
+        </div>
+
+        <div class="modal-category">
+            <label for="member" class="sr-only">여행 인원</label>
+            <input type="text" id="member" class="form-control" placeholder="여행 인원을 설정하세요." min="1" required>
+        </div>
+        </div>
+        <div class="modal-category" style="display: none;">
+            <label for="modaladdress" class="sr-only">주소지</label>
+            <input type="text" id="modaladdress" class="form-control" placeholder="주소지 숨기는 칸 입니다." required>
+        </div>
+
+        <div class="submit-journey">
+            <div class="col-sm-6">
+                <button class="btn btn-lg btn-primary btn-block green" id="post-journey" type="submit" disabled>일정등록</button>
+            </div>
+            <div class="col-sm-6">
+                <button class="btn btn-lg btn-cancel btn-block" id="cancel-journey" type="submit">돌아가기</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<!-- 두번 째 모달 창 (네이버 검색 결과 값)-->
+<div class="search-modal" id="second-modal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-body">
+            <!-- 백엔드에서 받아온 장소 정보를 동적으로 렌더링 -->
+            <div id="search-results" class="user-list-item"></div>
+            <button type="button" class="close-second-modal" data-dismiss="modal">닫기</button>
+        </div>
+    </div>
+</div>
+
+<!--JS 파일 -->
+<script src="/js/create_post.js"></script>
+</body>
+
+<!--JS-->
+
+
+</html>

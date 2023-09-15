@@ -1,0 +1,299 @@
+body {
+
+    #background-color: #ffffff;
+}
+
+.container {
+    padding-top: 40px;
+    padding-bottom: 40px;
+    margin: 10px;
+    text-align: center;
+    color: white;
+    width: 700px;
+    height: 600px;
+}
+
+.container.tickets {
+    background-color: #47A6F6;
+    margin: auto;
+}
+
+.container.credit_card {
+    background-color: #34495e;
+}
+
+.container.coffee {
+    background-color: #C63D0F;
+}
+
+.form {
+    max-width: 330px;
+    padding: 15px;
+    margin: 0 auto;
+
+}
+
+.form .form-heading {
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.form .checkbox {
+    font-weight: normal;
+}
+
+.form .form-control {
+    position: relative;
+    height: auto;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    padding: 10px;
+    margin: 10px;
+    font-size: 16px;
+}
+
+.form .form-control:focus {
+    z-index: 2;
+}
+
+.form input[type="email"] {
+    margin-bottom: -1px;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+.btn {
+    margin: 10px;
+    border-radius: 30px;
+}
+
+.btn.create-journey {
+    text-align: center;
+    border-radius: 15px;
+    justify-content: center; /* 가로 중앙 정렬 */
+    align-items: center; /* 세로 중앙 정렬 */
+    max-width: 100%;
+    font-weight: bold;
+    font-size: 20px;
+    width: 800px;
+    height: 100px;
+}
+
+.btn.gold {
+    background-color: #D7971A;
+    border-color: #D7971A
+}
+
+.btn.green {
+    background-color: #2ecc71;
+    border-color: #2ecc71;
+}
+
+.btn.btn-cancel {
+    background-color: #ED5E68;
+    color: white;
+}
+
+.input-group label {
+    display: flex; /* 자식 요소들을 가로로 나란히 배치 */
+    justify-content: space-between; /* 각 요소 사이의 공간을 최대로 설정 */
+    align-items: flex-start;
+    max-width: 500px; /* 화면 너비에 맞추기 */
+    padding: 20px; /* 여백 설정 (원하는 여백 크기로 조절) */
+}
+
+.search-button {
+    width: 30px; /* 버튼의 너비를 설정하세요. */
+    height: 30px; /* 버튼의 높이를 설정하세요. */
+    cursor: pointer; /* 커서를 포인터로 변경하여 클릭 가능한 버튼으로 만듭니다. */
+}
+
+.first-modal, .search-modal {
+    position: relative;
+    display: none;
+
+    justify-content: center;
+    top: 50%;
+
+    width: 100%;
+    height: 100%;
+    min-height: 70%;
+
+    transform: translateY(-50%); /* 모듈창 열렸을 때 위치 설정 가운데로  */
+    background-color: rgba(0, 0, 0, 0.7); /* 반투명한 어두운 배경 색상 */
+}
+
+.modal-body {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    /* 나머지 스타일 속성들은 그대로 유지합니다. */
+    width: 900px;
+    padding: 40px;
+    text-align: left;
+    background-color: rgb(255, 255, 255);
+    border-radius: 10px;
+    box-shadow: 0 2px 3px 0 rgba(34, 36, 38, 0.15);
+    z-index: 3;
+}
+
+.modal-body .form-heading {
+    margin-bottom: 5px;
+    text-align: center;
+}
+
+.modal-body .checkbox {
+    font-weight: normal;
+}
+
+.modal-body .form-control {
+    position: relative;
+    height: auto;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    padding: 10px;
+    margin: 30px;
+    font-size: 25px;
+}
+
+.modal-body .form-control:focus {
+    z-index: 2;
+}
+
+.user-list-item {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 10px;
+    border: 1px solid #ccc;
+    margin-bottom: 5px; /* 간격을 줄임 */
+    width: 100%; /* 모달 내에서 가로로 꽉 차게 설정 */
+}
+
+.place-title::before {
+    content: "[장소명] "; /* 텍스트 앞에 추가될 내용 */
+    font-weight: bold;
+    font-size: 16px; /* 제목 크기 조절 */
+}
+
+
+.place-roadAddress::before {
+    content: "[도로명주소] "; /* 텍스트 앞에 추가될 내용 */
+    font-size: 12px; /* 주소 크기 조절 */
+    margin-top: 3px; /* 간격을 줄임 */
+}
+
+.place-address::before {
+    content: "[주소] "; /* 텍스트 앞에 추가될 내용 */
+    font-size: 12px; /* 주소 크기 조절 */
+    margin-top: 3px; /* 간격을 줄임 */
+}
+
+.select-place-button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    margin-top: 5px; /* 위쪽 간격을 작게 설정 */
+    cursor: pointer;
+    align-self: flex-start; /* 버튼을 왼쪽으로 정렬 */
+}
+
+.select-place-button:hover {
+    background-color: #0056b3;
+}
+
+.close-second-modal {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    margin-top: 10px; /* 위쪽 간격을 크게 설정 */
+    cursor: pointer;
+    align-self: center; /* 닫기 버튼을 중앙으로 정렬 */
+}
+
+.close-second-modal:hover {
+    background-color: #0056b3;
+}
+
+
+.submit-journey, .btn-open-modal {
+    width: 100%; /* 가로 폭을 100%로 설정하여 부모 요소에 맞춤 */
+    height: auto; /* 높이를 자동으로 설정하여 내용에 따라 조정 */
+    border-radius: 20px;
+    text-align: center;
+    font-size: 15px;
+    font-family: "Open Sans", Helvetica, Arial, sans-serif;
+    display: flex;
+    justify-content: center; /* 가로 중앙 정렬 */
+    align-items: center; /* 세로 중앙 정렬 */
+    max-width: 100%;
+    padding: 20px;
+}
+
+.show-details-button {
+    width: 50px;
+    height: 25px;
+    text-align: right;
+}
+
+.close-second-modal {
+    width: 100px;
+    height: 50px;
+    text-align: center;
+}
+
+.modal-category {
+    font-size: 15px;
+    font-family: "Open Sans", Helvetica, Arial, sans-serif;
+    font-weight: bold;
+}
+
+.search-icon-wrapper {
+    display: flex;
+}
+
+.form-control {
+    width: 90%;
+}
+
+/* 등록 버튼 */
+#addPost {
+    font-size: 15px;
+    font-family: "Open Sans", Helvetica, Arial, sans-serif;
+    background-color: #26a69a;
+    color: #fff;
+    border: none;
+    padding: 10px 50px;
+    border-radius: 10px; /* 둥글게 만듭니다. */
+    cursor: pointer;
+    margin-right: 10px; /* 버튼 간격 조절 */
+}
+
+#addPost:hover {
+    background-color: #499d8c;
+}
+
+/* 취소 버튼 */
+#cancelPost {
+    font-size: 15px;
+    font-family: "Open Sans", Helvetica, Arial, sans-serif;
+    background-color: #ccc;
+    color: #fff;
+    border: none;
+    padding: 10px 50px;
+    border-radius: 10px; /* 둥글게 만듭니다. */
+    cursor: pointer;
+}
+
+#cancelPost:hover {
+    background-color: #999;
+}
+
+table td, table th {
+    padding: 5px;
+}

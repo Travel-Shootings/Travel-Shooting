@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+
+  <title>Profile</title>
+  <link rel="icon" href="data:,">
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+  <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css'>
+  <link rel='stylesheet' href='https://fonts.googleapis.com/icon?family=Material+Icons'>
+  <link rel="stylesheet" href="/css/profile.css">
+
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<div class="navbar-fixed">
+  <nav class="teal">
+    <div class="container">
+      <div class="nav-wrapper">
+        <a href="/view/home" class="brand-logo">Travel Shooting</a>
+        <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+        <ul class="right hide-on-med-and-down">
+          <li>
+            <a href="/view/home">Home</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</div>
+
+<!-- Section: Contact -->
+<div class="offcanvas-body" style="margin-top: 50px">
+  <div class="circle-container">
+    <div class="circle browser-default">
+      <img class="profile-img"
+           src="https://t4.ftcdn.net/jpg/02/15/84/43/360_F_215844325_ttX9YiIIyeaR7Ne6EaLLjMAmy4GvPC69.jpg">
+      <div id="profile-box">
+        <div>이름 &emsp;&emsp;&emsp;: &emsp;<span th:text="${username}">Username</span></div>
+        <div>이메일 &emsp;&emsp;: &emsp;<span th:text="${email}">Email</span></div>
+        <div>닉네임 &emsp;&emsp;: &emsp;<span th:text="${nickname}">Nickname</span></div>
+        <div>지역 &emsp;&emsp;&emsp;: &emsp;<span th:text="${region}">Region</span></div>
+        <div>유저 등급&emsp;: &emsp;<span th:text="${role}">Role</span></div>
+      </div>
+    </div>
+  </div>
+  <div id="btn-box">
+    <button class="btn user-menu-btn" id="user-menu-profile">프로필 수정</button>
+    <button class="btn user-menu-btn" id="user-menu-password">비밀번호 수정</button>
+  </div>
+
+</div>
+
+
+<!-- Footer -->
+<footer class="section teal darken-2 white-text center">
+  <p class="flow-text">Travel Shooting </p>
+</footer>
+<!-- partial -->
+<script src='https://use.fontawesome.com/releases/v5.0.6/js/all.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js'></script>
+<script src="/js/profile.js"></script>
+
+</body>
+</html>
