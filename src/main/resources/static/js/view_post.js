@@ -770,9 +770,11 @@ var infoWindow = new naver.maps.InfoWindow({
     pixelOffset: new naver.maps.Point(20, -35)
 })
 
+var center = new naver.maps.LatLng(37.3595704, 127.105399);
+
 // 전역 변수로 지도를 초기화
 var map = new naver.maps.Map('map', {
-    center: new naver.maps.LatLng(37.3595704, 127.105399),
+    center: center,
     zoom: 8
 });
 
@@ -791,7 +793,7 @@ function searchAddressToCoordinate(address) {
             query: address
         }, function (status, response) {
             if (status === naver.maps.Service.Status.ERROR) {
-                reject('Something Wrong!');
+                reject('네이버 지도 연결 오류');
                 return;
             }
             if (response.v2.meta.totalCount === 0) {
@@ -825,6 +827,9 @@ function insertAddress(address, latitude, longitude) {
 
     var newPosition = new naver.maps.LatLng(longitude, latitude);
     polyline.getPath().push(newPosition);
+
+    center = new naver.maps.LatLng(longitude, latitude); // center 좌표를 업데이트
+    map.setCenter(center); // 지도의 중심 업데이트
 
     var point = new naver.maps.LatLng(longitude, latitude);
     new naver.maps.Marker({
