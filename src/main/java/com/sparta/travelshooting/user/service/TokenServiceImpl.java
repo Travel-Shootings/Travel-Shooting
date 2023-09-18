@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class TokenServiceImpl implements TokenService{
+public class TokenServiceImpl implements TokenService {
 
     private final UserRepository userRepository;
     private final RefreshTokenRepository refreshTokenRepository;
@@ -26,7 +26,7 @@ public class TokenServiceImpl implements TokenService{
      * 1. 전달받은 유저의 아이디로 유저가 존재하는지 확인
      * 2. RefreshToken이 유효한지 체크
      * 3. AccessToken을 발급한 뒤 쿠키에 추가
-    */
+     */
     @Override
     @Transactional
     public TokenResponseDto requestRefreshToken(HttpServletResponse res, HttpServletRequest req) {

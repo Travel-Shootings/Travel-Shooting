@@ -79,16 +79,12 @@ function logout() {
         dataType: "json"
     })
         .done(function (res) {
-            console.log(res)
-            console.log(res.statusCode)
             if (res.statusCode === 200) {
                 alert(res.message)
                 window.location.href = "/view/user/login";
             }
         })
         .fail(function (request, status, error) {
-            console.log(status)
-            console.log(error)
             alert("로그아웃에 실패했습니다.");
         });
 }

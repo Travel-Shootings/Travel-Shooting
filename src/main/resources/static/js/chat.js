@@ -16,7 +16,6 @@ let page = 0;
 
 stompClient.onConnect = (frame) => {
     setConnected(true);
-    console.log('Connected: ' + frame);
     stompClient.subscribe('/sub/chat/room/' + chatRoomId, (message) => {
         showMessage(JSON.parse(message.body).body);
     });
@@ -57,7 +56,6 @@ function connect() {
 function disconnect() {
     stompClient.deactivate();
     setConnected(false);
-    console.log("Disconnected");
 }
 
 function sendMessage() {
@@ -125,7 +123,7 @@ function getChatMessagesOnConnect(currentPage) {
             // page++;
         })
         .fail(function (response) {
-            console.log(response);
+            console.error(response);
             if (response.responseJSON.message === "조회할 데이터가 없습니다.") {
                 $(".button-wrapper").html('<p>마지막 채팅입니다.</p>');
             }
@@ -149,7 +147,7 @@ function getChatMessages() {
             })
         })
         .fail(function (response) {
-            console.log(response);
+            console.error(response);
             if (response.responseJSON.message === "조회할 데이터가 없습니다.") {
                 $(".button-wrapper").html('<p>마지막 채팅입니다.</p>');
             }
@@ -172,7 +170,7 @@ $($.ajax({
             })
         })
         .fail(function (response) {
-            console.log(response);
+            console.error(response);
             $(".button-wrapper").html('<p>로그인 후 채팅이 가능합니다.</p>');
             $("#connect").prop("disabled", true);
             $("#send").prop("disabled", true);

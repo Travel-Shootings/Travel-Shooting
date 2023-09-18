@@ -16,7 +16,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import java.nio.file.AccessDeniedException;
 import java.util.concurrent.RejectedExecutionException;
 
 @Service
@@ -80,7 +79,7 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public ApiResponseDto deleteComment(Long id, User user) {
         Comment comment = commentRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 댓글을 찾을 수 없습니다"));
-        if (!comment.getUser().getId().equals(user.getId())&& String.valueOf(user.getRole()).equals("USER")) {
+        if (!comment.getUser().getId().equals(user.getId()) && String.valueOf(user.getRole()).equals("USER")) {
             throw new RejectedExecutionException("댓글 삭제 권한이 없습니다");
         }
         commentRepository.delete(comment);

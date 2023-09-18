@@ -2,6 +2,7 @@ package com.sparta.travelshooting.reviewPost.dto;
 
 import com.sparta.travelshooting.reviewPost.entity.ReviewPost;
 import lombok.Getter;
+
 import java.time.LocalDateTime;
 
 @Getter
@@ -16,13 +17,11 @@ public class ReviewPostListResponseDto {
     private LocalDateTime createdAt;
 
 
-
-
-    public ReviewPostListResponseDto(ReviewPost reviewPost){
+    public ReviewPostListResponseDto(ReviewPost reviewPost) {
         this.id = reviewPost.getId();
         this.title = reviewPost.getTitle();
         this.content = reviewPost.getContent();
-        this.nickName= reviewPost.getUser().getNickname();
+        this.nickName = reviewPost.getUser().getNickname();
         this.likeCounts = reviewPost.getLikeCounts();
         this.createdAt = reviewPost.getCreatedAt();
     }

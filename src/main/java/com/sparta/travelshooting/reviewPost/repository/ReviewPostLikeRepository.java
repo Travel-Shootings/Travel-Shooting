@@ -5,7 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
 
-public interface ReviewPostLikeRepository  extends JpaRepository<ReviewPostLike, Long> {
+public interface ReviewPostLikeRepository extends JpaRepository<ReviewPostLike, Long> {
 
     Optional<ReviewPostLike> findByReviewPostIdAndUserId(Long reviewPostId, Long userId);
 

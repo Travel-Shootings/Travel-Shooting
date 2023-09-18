@@ -12,7 +12,6 @@ function loadUncheckNotificationData() {
         .then(response => response.json())
         .then(data => {
             $('#uncheck-notifications-list').empty()
-            console.log(data);
 
             for (let i = data.length - 1; i >= 0; i--) {
                 let notificationId = data[i].id;
@@ -47,7 +46,6 @@ function loadCheckNotificationData() {
         .then(response => response.json())
         .then(data => {
             $('#check-notifications-list').empty()
-            console.log(data);
 
             for (let i = data.length - 1; i >= 0; i--) {
                 let notificationId = data[i].id;
@@ -79,10 +77,6 @@ function confirmNotification(notificationId) {
         },
     })
         .then(response => response.json())
-        .then(res => {
-            console.log(res);
-            console.log(res.status);
-        })
 }
 
 function deleteNotification() {
@@ -93,15 +87,11 @@ function deleteNotification() {
             url:'/api/notifications/'+ userId + '/check/delete',
             dataType:"json"
         }).done(function(res){
-            console.log(res)
-            console.log(res.status)
             if (res.statusCode === 200) {
                 alert(res.message);
                 window.location.reload();
             }
         }).fail(function (request, status, error){
-            console.log(status)
-            console.log(error)
             alert("에러가 발생했습니다.");
         });
     }

@@ -76,7 +76,7 @@ public class UserAuthServiceImpl implements UserAuthService {
         );
 
         // 비밀번호 확인
-        if(!passwordEncoder.matches(requestDto.getPassword(), user.getPassword())) {
+        if (!passwordEncoder.matches(requestDto.getPassword(), user.getPassword())) {
             throw new IllegalArgumentException("비밀번호가 틀렸습니다.");
         }
 
@@ -133,10 +133,11 @@ public class UserAuthServiceImpl implements UserAuthService {
     private final JavaMailSender javaMailSender;
     private static final String senderMail = "TravelShooting";
     private static final Long expAuthNumber = 10 * 60 * 1000L; //10분
+
     @Override
     @Transactional(timeout = 15)
     public ApiResponseDto sendMail(String email) {
-        int authNumber = (int)(Math.random() * (90000)) + 10000; // (int) Math.random() * (최댓값-최소값+1) + 최소값
+        int authNumber = (int) (Math.random() * (90000)) + 10000; // (int) Math.random() * (최댓값-최소값+1) + 최소값
 
         // 메일 메세지
         MimeMessage message = javaMailSender.createMimeMessage();
@@ -149,7 +150,7 @@ public class UserAuthServiceImpl implements UserAuthService {
             body += "<h3>" + "요청하신 인증 번호입니다." + "</h3>";
             body += "<h1>" + authNumber + "</h1>";
             body += "<h3>" + "위의 인증 번호를 입력해주세요." + "</h3>";
-            message.setText(body,"UTF-8", "html");
+            message.setText(body, "UTF-8", "html");
             javaMailSender.send(message);
 
             log.info("메일 전송 후");

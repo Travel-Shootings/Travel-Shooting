@@ -90,14 +90,14 @@ public class ViewController {
 
     //게시글 단건 조회(상세보기) 이동
     @GetMapping("/post/{postId}")
-    public String showPost () {
+    public String showPost() {
         return "view_post";
     }
 
     //게시글 작성 페이지로 이동
     @GetMapping("/post/create")
-    public String createPost (@AuthenticationPrincipal UserDetailsImpl userDetails) {
-        if(userDetails == null) {
+    public String createPost(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+        if (userDetails == null) {
             return "login";
         }
 
@@ -106,8 +106,8 @@ public class ViewController {
 
     // 게시글 수정 페이지 이동
     @GetMapping("/post/edit/{postId}")
-    public String editPost (@AuthenticationPrincipal UserDetailsImpl userDetails) {
-        if(userDetails == null) {
+    public String editPost(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+        if (userDetails == null) {
             return "login";
         }
 
@@ -116,20 +116,20 @@ public class ViewController {
 
     //후기게시판 전체조회
     @GetMapping("/review-post")
-    public String viewAllReviewPost(){
+    public String viewAllReviewPost() {
         return "review_post";
     }
 
     //후기게시판 단건조회
     @GetMapping("/review-post/{reviewPostId}")
-    public String viewReviewPost(){
-            return "view_review";
+    public String viewReviewPost() {
+        return "view_review";
     }
 
     //후기게시판 생성
     @GetMapping("/review-post/create")
     public String createReview(@AuthenticationPrincipal UserDetailsImpl userDetails) {
-        if(userDetails == null) {
+        if (userDetails == null) {
             return "login";
         }
 
@@ -138,7 +138,7 @@ public class ViewController {
 
     //후기게시판 수정
     @GetMapping("/review-post/update/{reviewPostId}")
-    public String updateReview(){
+    public String updateReview() {
         return "update_review";
     }
 

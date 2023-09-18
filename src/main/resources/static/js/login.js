@@ -66,8 +66,6 @@ let idx = {
             dataType: "json"
         })
             .done(function (res) {
-                console.log(res)
-                console.log(res.statusCode)
                 if (res.statusCode === 200) {
                     alert(res.message)
                     window.location.href = '/view/home';

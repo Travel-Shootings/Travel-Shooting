@@ -28,7 +28,7 @@ public class Reply extends Timestamped {
     private String content;
 
 
-    public Reply(ReplyRequestDto replyRequestDto,Comment comment, User user){
+    public Reply(ReplyRequestDto replyRequestDto, Comment comment, User user) {
         this.user = user;
         this.comment = comment;
         this.content = replyRequestDto.getContent();
@@ -39,7 +39,7 @@ public class Reply extends Timestamped {
         this.content = content;
     }
 
-    public void updateByAdmin (ReplyRequestDto replyRequestDto) {
+    public void updateByAdmin(ReplyRequestDto replyRequestDto) {
         this.content = replyRequestDto.getContent();
     }
 }

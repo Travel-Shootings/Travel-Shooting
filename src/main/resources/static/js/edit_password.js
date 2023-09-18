@@ -7,8 +7,6 @@ function editPassword() {
             newPassword: $('#inputNewPassword').val()
         };
 
-        console.log(data.oldPassword);
-
         $.ajax({
             type: "PUT",
             url: "/api/my-page/edit/password",
@@ -17,8 +15,6 @@ function editPassword() {
             dataType: "json"
         })
             .done(function (res) {
-                console.log(res)
-                console.log(res.statusCode)
                 if (res.statusCode === 200) {
                     alert(res.message)
                     window.close(); // 팝업 창 닫기
@@ -26,12 +22,6 @@ function editPassword() {
                 }
             })
             .fail(function (jqXHR, textStatus, errorThrown) {
-                console.log("Request failed:");
-                console.log("Status: " + textStatus);
-                console.log("Error thrown: " + errorThrown);
-                if (jqXHR.responseJSON) {
-                    console.log("Response: " + JSON.stringify(jqXHR.responseJSON));
-                }
                 alert(JSON.stringify(jqXHR.responseJSON.message))
             });
     }

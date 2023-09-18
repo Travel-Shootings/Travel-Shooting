@@ -23,7 +23,7 @@ public class ReviewPostLike extends Timestamped {
     @JoinColumn(name = "review_post_id")
     private ReviewPost reviewPost;
 
-    public ReviewPostLike (User user, ReviewPost reviewPost) {
+    public ReviewPostLike(User user, ReviewPost reviewPost) {
         this.user = user;
         this.reviewPost = reviewPost;
     }

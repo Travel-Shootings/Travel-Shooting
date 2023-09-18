@@ -169,7 +169,7 @@ button:hover {
 
 .edit-comment-button,
 .delete-comment-button,
-.reply-comment-button{
+.reply-comment-button {
     position: absolute;
     top: 0;
     right: 0;
@@ -180,7 +180,7 @@ button:hover {
     right: 80px; /* Adjust the right position for the delete button to come after the edit button */
 }
 
-.reply-comment-button{
+.reply-comment-button {
     right: 160px; /* Adjust the right position for the delete button to come after the edit button */
 }
 
@@ -221,6 +221,7 @@ button:hover {
 .collection .reply-list {
     padding-left: 20px; /* 대댓글 리스트 들여쓰기 */
 }
+
 /* 대댓글 스타일링 */
 .collection .reply-comment {
     border: 1px solid #3498db; /* 대댓글 테두리 색상 변경 */
@@ -234,7 +235,7 @@ button:hover {
 }
 
 
-.edit-reply-button,.delete-reply-button{
+.edit-reply-button, .delete-reply-button {
     position: absolute;
     top: 0;
     right: 0;
@@ -248,10 +249,11 @@ button:hover {
     font-size: 12px; /* 글자 크기 조정 */
 
 }
-.edit-reply-button:hover,.delete-reply-button:hover{
+
+.edit-reply-button:hover, .delete-reply-button:hover {
     background-color: #2980b9;
 }
 
-.edit-reply-button{
+.edit-reply-button {
     right: 60px;
 }
