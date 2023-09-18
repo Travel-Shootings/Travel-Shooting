@@ -332,7 +332,6 @@ let idx = {
             },
             journeyListRequestDtos: journeyListRequestDtos
         };
-        console.log(data);
 
         $.ajax({
             type: "POST",
@@ -345,7 +344,6 @@ let idx = {
                 window.location.href = "/view/post";
             })
             .fail(function (response) {
-                console.log(response);
                 alert("글 작성 실패");
             })
     }

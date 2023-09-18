@@ -1,6 +1,5 @@
 package com.sparta.travelshooting.reviewPost.service;
 
-import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.sparta.travelshooting.S3Image.entity.Image;
 import com.sparta.travelshooting.S3Image.repository.ImageRepository;
 import com.sparta.travelshooting.S3Image.service.ImageService;
@@ -11,7 +10,6 @@ import com.sparta.travelshooting.reviewPost.dto.HomeReviewResponseDto;
 import com.sparta.travelshooting.reviewPost.dto.ReviewPostListResponseDto;
 import com.sparta.travelshooting.reviewPost.dto.ReviewPostRequestDto;
 import com.sparta.travelshooting.reviewPost.dto.ReviewPostResponseDto;
-import com.sparta.travelshooting.reviewPost.entity.QReviewPost;
 import com.sparta.travelshooting.reviewPost.entity.ReviewPost;
 import com.sparta.travelshooting.reviewPost.entity.ReviewPostLike;
 import com.sparta.travelshooting.reviewPost.repository.ReviewPostLikeRepository;
@@ -20,9 +18,7 @@ import com.sparta.travelshooting.reviewPost.repository.ReviewPostRepositoryQuery
 import com.sparta.travelshooting.security.UserDetailsImpl;
 import com.sparta.travelshooting.user.entity.User;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -210,7 +206,7 @@ public class ReviewPostServiceImpl implements ReviewPostService {
         }
 
         // 좋아요 알림 보내기
-        String message = "여행후기 게시글 : " + reviewPost.getTitle() + " 에 " +user.getNickname() + "님이 좋아요를 눌렀습니다.";
+        String message = "여행후기 게시글 : " + reviewPost.getTitle() + " 에 " + user.getNickname() + "님이 좋아요를 눌렀습니다.";
         boolean read = false; // 알림 확인 여부
         Notification notification = new Notification(reviewPost.getUser(), message, read, null, reviewPostId);
         notificationRepository.save(notification);

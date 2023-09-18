@@ -17,9 +17,6 @@ window.onload = function() {
         mypage_btn.style.display = "block";
         notification_btn.style.display = "block";
     }
-
-    console.log('User Role:', userRole);
-
     if (userRole === "ADMIN") {
         admin_box.style.display = "block";
     }
@@ -93,16 +90,12 @@ let idx = {
             dataType: "json"
         })
             .done(function (res) {
-                console.log(res)
-                console.log(res.statusCode)
                 if (res.statusCode === 200) {
                     alert(res.message)
                     window.location.href = "/view/home";
                 }
             })
             .fail(function (request, status, error) {
-                console.log(status)
-                console.log(error)
                 alert("로그아웃에 실패했습니다.");
             });
     }
@@ -243,7 +236,6 @@ function loadNotificationData() {
         .then(response => response.json())
         .then(data => {
             $('#notification-box').empty()
-            console.log(data);
 
             let length = data.length - 4;
 
@@ -277,8 +269,4 @@ function confirmNotification(notificationId) {
         },
     })
         .then(response => response.json())
-        .then(res => {
-            console.log(res);
-            console.log(res.status);
-        })
 }

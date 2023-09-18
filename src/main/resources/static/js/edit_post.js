@@ -506,7 +506,6 @@ let idx = {
             },
             journeyListRequestDtos: journeyListRequestDtos
         };
-        console.log(data);
 
         $.ajax({
             type: "PUT",
@@ -519,7 +518,6 @@ let idx = {
                 window.location.href = "/view/post";
             })
             .fail(function (response) {
-                console.log(response);
                 alert("여행 일정 수정 실패");
             })
     }

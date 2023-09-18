@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 
 @Repository
 @RequiredArgsConstructor
-public class ReviewPostRepositoryQueryImpl implements ReviewPostRepositoryQuery{
+public class ReviewPostRepositoryQueryImpl implements ReviewPostRepositoryQuery {
 
     private final JPAQueryFactory queryFactory;
 

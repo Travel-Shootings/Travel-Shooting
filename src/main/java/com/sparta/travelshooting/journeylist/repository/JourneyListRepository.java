@@ -7,6 +7,6 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface JourneyListRepository extends JpaRepository <JourneyList, Long> {
+public interface JourneyListRepository extends JpaRepository<JourneyList, Long> {
     List<JourneyList> findAllByPostId(Long PostId);
 }

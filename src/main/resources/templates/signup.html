@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" >
+<html lang="en">
 <head>
     <meta charset="UTF-8">
 
@@ -33,67 +33,66 @@
 </div>
 
 
-
 <!-- Section: Contact -->
-<div id="wrapper"  style="width: 450px;">
-        <div class="form-group">
-            <div class="col-sm-10">
-                <div class="text-name" id="email">이메일</div>
-                <input type="text" class="form-control" id="inputEmail" placeholder="이메일을 입력해주세요.">
-                <button class="btn" id="auth-btn" onclick="authEmail()">인 증</button>
-            </div>
-            <div style="display: none" id="auth-number-box">
-                <input type="text" class="form-control" id="inputAuthNumber" placeholder="인증 번호를 입력해주세요.">
-                <button class="btn" id="auth-confirm-btn" onclick="authConfirm()">확 인</button>
-            </div>
-            <div style="display: none" id="complete-box"> 이메일 인증 완료 ✓</div>
+<div id="wrapper" style="width: 450px;">
+    <div class="form-group">
+        <div class="col-sm-10">
+            <div class="text-name" id="email">이메일</div>
+            <input type="text" class="form-control" id="inputEmail" placeholder="이메일을 입력해주세요.">
+            <button class="btn" id="auth-btn" onclick="authEmail()">인 증</button>
         </div>
-        <div class="form-group">
-            <div class="col-sm-10">
-                <div class="text-name">비밀번호 (대소문자, 특수문자 포함 8자 이상)</div>
-                <input type="password" class="form-control" id="inputPassword" placeholder="대소문자, 특수문자 포함 8자 이상">
-            </div>
+        <div style="display: none" id="auth-number-box">
+            <input type="text" class="form-control" id="inputAuthNumber" placeholder="인증 번호를 입력해주세요.">
+            <button class="btn" id="auth-confirm-btn" onclick="authConfirm()">확 인</button>
         </div>
-        <div class="form-group">
-            <div class="col-sm-10">
-                <div class="text-name">비밀번호 확인</div>
-                <input type="password" class="form-control" id="inputPasswordConfirm" placeholder="비밀번호 확인">
-                <div id="passwordMatchIndicator">✓</div>
-            </div>
+        <div style="display: none" id="complete-box"> 이메일 인증 완료 ✓</div>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-10">
+            <div class="text-name">비밀번호 (대소문자, 특수문자 포함 8자 이상)</div>
+            <input type="password" class="form-control" id="inputPassword" placeholder="대소문자, 특수문자 포함 8자 이상">
         </div>
-        <div class="form-group">
-            <div class="col-sm-10">
-                <div class="text-name">사용자 이름</div>
-                <input type="text" class="form-control" id="inputName" placeholder="이름을 입력해주세요.">
-            </div>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-10">
+            <div class="text-name">비밀번호 확인</div>
+            <input type="password" class="form-control" id="inputPasswordConfirm" placeholder="비밀번호 확인">
+            <div id="passwordMatchIndicator">✓</div>
         </div>
-        <div class="form-group">
-            <div class="col-sm-10">
-                <div class="text-name">닉네임 (특수문자 제외)</div>
-                <input type="text" class="form-control" id="inputNickname" placeholder="특수문자 제외">
-            </div>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-10">
+            <div class="text-name">사용자 이름</div>
+            <input type="text" class="form-control" id="inputName" placeholder="이름을 입력해주세요.">
         </div>
-        <div class="form-group">
-            <select class="browser-default" id="select-box">
-                <option value="" disabled selected>거주하고 있는 지역 선택</option>
-                <option value="서울">서울</option>
-                <option value="인천">인천</option>
-                <option value="대구">대구</option>
-                <option value="대전">대전</option>
-                <option value="울산">울산</option>
-                <option value="광주">광주</option>
-                <option value="부산">부산</option>
-                <option value="강원">강원</option>
-                <option value="경기">경기</option>
-                <option value="충남">충남</option>
-                <option value="충북">충북</option>
-                <option value="경북">경북</option>
-                <option value="경남">경남</option>
-                <option value="전북">전북</option>
-                <option value="전남">전남</option>
-                <option value="제주">제주</option>
-            </select>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-10">
+            <div class="text-name">닉네임 (특수문자 제외)</div>
+            <input type="text" class="form-control" id="inputNickname" placeholder="특수문자 제외">
         </div>
+    </div>
+    <div class="form-group">
+        <select class="browser-default" id="select-box">
+            <option value="" disabled selected>거주하고 있는 지역 선택</option>
+            <option value="서울">서울</option>
+            <option value="인천">인천</option>
+            <option value="대구">대구</option>
+            <option value="대전">대전</option>
+            <option value="울산">울산</option>
+            <option value="광주">광주</option>
+            <option value="부산">부산</option>
+            <option value="강원">강원</option>
+            <option value="경기">경기</option>
+            <option value="충남">충남</option>
+            <option value="충북">충북</option>
+            <option value="경북">경북</option>
+            <option value="경남">경남</option>
+            <option value="전북">전북</option>
+            <option value="전남">전남</option>
+            <option value="제주">제주</option>
+        </select>
+    </div>
 
     <div id="signup-button">
         <button class="btn btn-dark" id="btn-signup"><strong>Submit</strong></button>

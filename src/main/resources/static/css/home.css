@@ -120,7 +120,7 @@
     border: 1px solid #009688;
     z-index: 1;
     /* 원하는 스타일을 적용하세요 */
-    left : 100px;
+    left: 100px;
     width: 100%;
 }
 
@@ -151,7 +151,7 @@
     border-bottom: solid 1px #009688;
 }
 
-.card-panel{
+.card-panel {
     cursor: pointer;
     height: 300px;
 }

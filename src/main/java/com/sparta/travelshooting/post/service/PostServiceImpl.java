@@ -12,13 +12,10 @@ import com.sparta.travelshooting.post.entity.PostLike;
 import com.sparta.travelshooting.post.repository.PostLikeRepository;
 import com.sparta.travelshooting.post.repository.PostRepository;
 import com.sparta.travelshooting.post.repository.PostRepositoryCustom;
-import com.sparta.travelshooting.reviewPost.dto.ReviewPostListResponseDto;
 import com.sparta.travelshooting.user.entity.User;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 

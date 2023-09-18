@@ -9,7 +9,7 @@ public class AdminSummaryResponseDto {
     private Long allPostsCount = 0L;
     private Long allCommentsCount = 0L;
 
-    public AdminSummaryResponseDto (Long allUsersCount, Long allPostsCount, Long allCommentsCount) {
+    public AdminSummaryResponseDto(Long allUsersCount, Long allPostsCount, Long allCommentsCount) {
         this.allUsersCount = allUsersCount;
         this.allPostsCount = allPostsCount;
         this.allCommentsCount = allCommentsCount;

@@ -103,16 +103,11 @@ let idx = {
             contentType: "application/json; charset=utf-8",
             dataType: "json"
         }).done(function (res) {
-            console.log(res)
-            console.log(res.statusCode)
             if (res.statusCode === 201) {
                 alert(res.message)
                 window.location.href = "/view/user/login"
             }
         }).fail(function (response, status, error) {
-            console.log(status)
-            console.log(error)
-            console.log(response)
             alert(response.responseJSON.message);
         });
     }
@@ -136,16 +131,11 @@ function authEmail() {
         dataType: "json"
     })
         .done(function (res) {
-            console.log(res)
-            console.log(res.statusCode)
             if (res.statusCode === 200) {
                 alert(res.message)
             }
         })
         .fail(function (response, status, error) {
-            console.log(status)
-            console.log(error)
-            console.log(response)
             alert("메일 전송 실패");
             window.location.reload();
         });
@@ -170,8 +160,6 @@ function authConfirm() {
         dataType: "json"
     })
         .done(function (res) {
-            console.log(res)
-            console.log(res.statusCode)
             if (res.statusCode === 200) {
                 alert(res.message)
 
@@ -182,9 +170,6 @@ function authConfirm() {
             }
         })
         .fail(function (response, status, error) {
-            console.log(status)
-            console.log(error)
-            console.log(response)
             alert("인증에 실패했습니다. 다시 시도해주세요.");
             window.location.reload();
         });

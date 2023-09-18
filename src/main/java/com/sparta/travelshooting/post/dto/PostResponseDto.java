@@ -25,7 +25,7 @@ public class PostResponseDto {
     private List<JourneyListResponseDto> journeyList;
 
 
-    public PostResponseDto (Post post) {
+    public PostResponseDto(Post post) {
         this.id = post.getId();
         this.nickName = post.getUser().getNickname();
         this.region = post.getUser().getRegion();

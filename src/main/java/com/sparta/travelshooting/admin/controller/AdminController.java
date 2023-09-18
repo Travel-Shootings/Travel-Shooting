@@ -131,7 +131,7 @@ public class AdminController {
     //여행 일정 수정 -> 구현 x
     @Operation(summary = "여행 일정 수정")
     @PutMapping("/journeyList/{journeyListId}")
-    public ResponseEntity<ApiResponseDto> updateJourneyList (@PathVariable Long journeyListId, @RequestBody JourneyListRequestDto requestDto) {
+    public ResponseEntity<ApiResponseDto> updateJourneyList(@PathVariable Long journeyListId, @RequestBody JourneyListRequestDto requestDto) {
         ApiResponseDto apiResponseDto = adminService.updateJourneyList(journeyListId, requestDto);
         return new ResponseEntity<>(apiResponseDto, HttpStatus.OK);
     }
@@ -149,7 +149,7 @@ public class AdminController {
     // 여행 일정 삭제
     @Operation(summary = "여행 일정 삭제")
     @DeleteMapping("/journeyList/{journeyListId}")
-    public ResponseEntity<ApiResponseDto> deleteJourneyList (@PathVariable Long journeyListId) {
+    public ResponseEntity<ApiResponseDto> deleteJourneyList(@PathVariable Long journeyListId) {
         ApiResponseDto apiResponseDto = adminService.deleteJourneyList(journeyListId);
         return new ResponseEntity<>(apiResponseDto, HttpStatus.OK);
     }

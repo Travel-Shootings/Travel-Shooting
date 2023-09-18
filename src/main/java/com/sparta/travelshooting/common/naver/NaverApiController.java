@@ -1,7 +1,7 @@
 package com.sparta.travelshooting.common.naver;
 
-import com.sparta.travelshooting.post.dto.NaverAddressDto;
 import com.sparta.travelshooting.common.service.NaverApiService;
+import com.sparta.travelshooting.post.dto.NaverAddressDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
-//@RestController
 @Controller
 @RequiredArgsConstructor
 @Slf4j

@@ -8,7 +8,7 @@ import com.sparta.travelshooting.user.entity.User;
 public interface ReplyService {
 
     //대댓글 생성
-    ReplyResponseDto createReply(Long commentId,ReplyRequestDto requestDto, User user);
+    ReplyResponseDto createReply(Long commentId, ReplyRequestDto requestDto, User user);
 
     //대댓글 수정
     ApiResponseDto updateReply(Long replyId, ReplyRequestDto replyRequestDto, User user);

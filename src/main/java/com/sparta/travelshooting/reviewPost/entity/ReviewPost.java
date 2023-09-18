@@ -8,7 +8,6 @@ import com.sparta.travelshooting.user.entity.User;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.util.ArrayList;
@@ -73,7 +72,6 @@ public class ReviewPost extends Timestamped {
     public void setLikeCounts(Integer likeCounts) {
         this.likeCounts = likeCounts;
     }
-
 
 
 }

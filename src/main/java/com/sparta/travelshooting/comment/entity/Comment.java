@@ -60,7 +60,6 @@ public class Comment extends Timestamped {
     }
 
 
-
     public void updateByAdmin(AdminCommentRequestDto commentRequestDto) {
         this.nickName = commentRequestDto.getNickname();
         this.content = commentRequestDto.getContents();

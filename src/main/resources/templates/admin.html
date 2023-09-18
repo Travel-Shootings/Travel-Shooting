@@ -10,63 +10,67 @@
     <link rel="stylesheet" href="/css/admin.css">
 </head>
 <body>
-    <div class="navbar-fixed">
-        <nav class="teal">
-            <div class="container">
-                <div class="nav-wrapper">
-                    <a href="/view/home" class="brand-logo">Travel Shooting</a>
-                    <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
-                    <ul class="right hide-on-med-and-down">
-                        <li>
-                            <a href="/view/home">Home</a>
-                        </li>
-                    </ul>
-                </div>
+<div class="navbar-fixed">
+    <nav class="teal">
+        <div class="container">
+            <div class="nav-wrapper">
+                <a href="/view/home" class="brand-logo">Travel Shooting</a>
+                <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+                <ul class="right hide-on-med-and-down">
+                    <li>
+                        <a href="/view/home">Home</a>
+                    </li>
+                </ul>
             </div>
-        </nav>
-    </div>
-
-    <div id="info-box">
-        <div></div>
-        <div class="info-section">
-            유저 수 <div id="user-count">user count</div>
         </div>
-        <div class="info-section">
-            게시글 수 <div id="post-count">post count</div>
-        </div >
-        <div class="info-section">
-            댓글 수 <div id="comment-count">comment count</div>
-        </div>
-        <div></div>
+    </nav>
+</div>
+
+<div id="info-box">
+    <div></div>
+    <div class="info-section">
+        유저 수
+        <div id="user-count">user count</div>
     </div>
-
-    <div id="btn-box">
-        <div></div>
-        <div>
-            <button class="btn btn-dark" id="user-button" onclick="openUserBox()"><strong>유저 정보 보기</strong></button>
-            <button class="btn btn-dark" id="post-button" onclick="openPostBox()"><strong>계획 게시판</strong></button>
-            <button class="btn btn-dark" id="review-post-button" onclick="openReviewPostBox()"><strong>후기 게시판</strong></button>
-        </div>
-        <div></div>
+    <div class="info-section">
+        게시글 수
+        <div id="post-count">post count</div>
     </div>
-
-    <div id="user-box" style="display: none">
-
+    <div class="info-section">
+        댓글 수
+        <div id="comment-count">comment count</div>
     </div>
+    <div></div>
+</div>
 
-    <div id="post-box" style="display: none">
-
+<div id="btn-box">
+    <div></div>
+    <div>
+        <button class="btn btn-dark" id="user-button" onclick="openUserBox()"><strong>유저 정보 보기</strong></button>
+        <button class="btn btn-dark" id="post-button" onclick="openPostBox()"><strong>계획 게시판</strong></button>
+        <button class="btn btn-dark" id="review-post-button" onclick="openReviewPostBox()"><strong>후기 게시판</strong>
+        </button>
     </div>
+    <div></div>
+</div>
 
-    <div id="review-post-box" style="display: none">
+<div id="user-box" style="display: none">
 
-    </div>
+</div>
+
+<div id="post-box" style="display: none">
+
+</div>
+
+<div id="review-post-box" style="display: none">
+
+</div>
 
 
-    <!-- partial -->
-    <script src='https://use.fontawesome.com/releases/v5.0.6/js/all.js'></script>
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js'></script>
-    <script src="/js/admin.js"></script>
+<!-- partial -->
+<script src='https://use.fontawesome.com/releases/v5.0.6/js/all.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js'></script>
+<script src="/js/admin.js"></script>
 </body>
 
 </html>
