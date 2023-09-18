@@ -35,8 +35,8 @@
     margin-top: 10px;
     margin-left: 85%;
 
-    position : absolute;
-    bottom : 130px;
+    position: absolute;
+    bottom: 130px;
 }
 
 .circle {
@@ -51,13 +51,13 @@
 }
 
 
-footer{
+footer {
     height: 120px;
     width: 100%;
     /*position : relative;*/
     /*transform : translateY(-100%);*/
 
-    position : absolute;
-    bottom : 0;
+    position: absolute;
+    bottom: 0;
 }
 
